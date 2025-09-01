@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend;
+namespace Amplify\System\Backend\Providers;
 
 use Amplify\System\Backend\Services\InstanceManagerService;
 use Amplify\System\Backend\Services\PunchOutApiService;

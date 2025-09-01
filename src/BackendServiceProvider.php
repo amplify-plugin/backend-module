@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend;
 
+use Amplify\System\Backend\Providers\SingletonServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider

@@ -11,7 +11,7 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
 
         $this->app->register(SingletonServiceProvider::class);
     }

@@ -1,0 +1,2 @@
+id,Category_code,Category_name,PIM_Category_ID,isTopNav,Level,created_at,updated_at,Parent_Category_code
+1,,Root 2,cat00000,0,0,NULL,NULL,

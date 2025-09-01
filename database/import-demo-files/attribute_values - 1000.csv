@@ -1,0 +1,1001 @@
+id,Product_id,Attribute_name,Attribute_value,created_at,updated_at
+1,1,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+2,1,Color Category,White,21/01/2020 15:28,21/01/2020 15:28
+3,1,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+4,1,Cord Length,394 feet,21/01/2020 15:28,21/01/2020 15:28
+5,1,Minimum Frequency Response,20 hertz,21/01/2020 15:28,21/01/2020 15:28
+6,1,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+7,1,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+8,1,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+9,1,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+10,1,Sensitivity,103 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+11,1,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+12,1,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+13,1,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+14,1,Model Number,HAEN10-W-K,21/01/2020 15:28,21/01/2020 15:28
+15,1,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+16,1,Additional Accessories Included,2 pairs of ear tips small medium,21/01/2020 15:28,21/01/2020 15:28
+17,1,Product Depth,725 inches,21/01/2020 15:28,21/01/2020 15:28
+18,1,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+19,1,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+20,1,Color,White,21/01/2020 15:28,21/01/2020 15:28
+21,1,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+22,1,Product Width,23 inches,21/01/2020 15:28,21/01/2020 15:28
+23,1,Product Name,Gumy Wired Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+24,1,Product Weight,015 pounds,21/01/2020 15:28,21/01/2020 15:28
+25,1,Ear Tip Sizes Included,Medium,21/01/2020 15:28,21/01/2020 15:28
+26,1,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+27,1,Product Height,12 inches,21/01/2020 15:28,21/01/2020 15:28
+28,1,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+29,1,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+30,2,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+31,2,Color Category,Red,21/01/2020 15:28,21/01/2020 15:28
+32,2,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+33,2,Cord Length,33 feet,21/01/2020 15:28,21/01/2020 15:28
+34,2,Minimum Frequency Response,10 hertz,21/01/2020 15:28,21/01/2020 15:28
+35,2,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+36,2,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+37,2,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+38,2,Ear Cushions,No,21/01/2020 15:28,21/01/2020 15:28
+39,2,Sensitivity,103 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+40,2,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+41,2,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+42,2,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+43,2,Model Number,HAFR6R,21/01/2020 15:28,21/01/2020 15:28
+44,2,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+45,2,Additional Accessories Included,3 pairs of silicone ear tips small medium large,21/01/2020 15:28,21/01/2020 15:28
+46,2,Product Depth,69 inches,21/01/2020 15:28,21/01/2020 15:28
+47,2,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+48,2,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+49,2,Color,Red,21/01/2020 15:28,21/01/2020 15:28
+50,2,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+51,2,Product Width,225 inches,21/01/2020 15:28,21/01/2020 15:28
+52,2,Product Name,Gumy Plus Wired Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+53,2,Product Weight,015 pounds,21/01/2020 15:28,21/01/2020 15:28
+54,2,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+55,2,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+56,2,Driver Size,11 millimeters,21/01/2020 15:28,21/01/2020 15:28
+57,2,Product Height,145 inches,21/01/2020 15:28,21/01/2020 15:28
+58,2,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+59,2,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+60,3,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+61,3,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+62,3,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+63,3,Cord Length,394 feet,21/01/2020 15:28,21/01/2020 15:28
+64,3,Minimum Frequency Response,20 hertz,21/01/2020 15:28,21/01/2020 15:28
+65,3,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+66,3,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+67,3,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+68,3,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+69,3,Sensitivity,103 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+70,3,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+71,3,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+72,3,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+73,3,Model Number,HAEN10-B-K,21/01/2020 15:28,21/01/2020 15:28
+74,3,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+75,3,Additional Accessories Included,2 pairs of ear tips small medium,21/01/2020 15:28,21/01/2020 15:28
+76,3,Product Depth,725 inches,21/01/2020 15:28,21/01/2020 15:28
+77,3,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+78,3,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+79,3,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+80,3,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+81,3,Product Width,23 inches,21/01/2020 15:28,21/01/2020 15:28
+82,3,Product Name,Gumy Wired Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+83,3,Product Weight,015 pounds,21/01/2020 15:28,21/01/2020 15:28
+84,3,Ear Tip Sizes Included,Medium,21/01/2020 15:28,21/01/2020 15:28
+85,3,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+86,3,Product Height,12 inches,21/01/2020 15:28,21/01/2020 15:28
+87,3,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+88,3,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+89,4,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+90,4,Color Category,Multi,21/01/2020 15:28,21/01/2020 15:28
+91,4,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+92,4,Cord Length,3 feet,21/01/2020 15:28,21/01/2020 15:28
+93,4,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+94,4,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+95,4,Manufacturers Warranty - Labor,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+96,4,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+97,4,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+98,4,Manufacturers Warranty - Parts,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+99,4,Model Number,HJBUDDIESRGRYBLU6,21/01/2020 15:28,21/01/2020 15:28
+100,4,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+101,4,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+102,4,Additional Accessories Included,3-D character stickers 8 pcs,21/01/2020 15:28,21/01/2020 15:28
+103,4,Product Depth,7 inches,21/01/2020 15:28,21/01/2020 15:28
+104,4,Volume Limiting Function,Yes,21/01/2020 15:28,21/01/2020 15:28
+105,4,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+106,4,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+107,4,Color,BlueGray,21/01/2020 15:28,21/01/2020 15:28
+108,4,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+109,4,Works With,Google Assistant,21/01/2020 15:28,21/01/2020 15:28
+110,4,Controls,Volume,21/01/2020 15:28,21/01/2020 15:28
+111,4,Product Width,47 inches,21/01/2020 15:28,21/01/2020 15:28
+112,4,Product Name,JBuddies Folding Wired On-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+113,4,Product Weight,05 pounds,21/01/2020 15:28,21/01/2020 15:28
+114,4,Brand,JLab Audio,21/01/2020 15:28,21/01/2020 15:28
+115,4,Product Height,21 inches,21/01/2020 15:28,21/01/2020 15:28
+116,4,Style,Kids,21/01/2020 15:28,21/01/2020 15:28
+117,5,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+118,5,Color Category,Multi,21/01/2020 15:28,21/01/2020 15:28
+119,5,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+120,5,Cord Length,3 feet,21/01/2020 15:28,21/01/2020 15:28
+121,5,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+122,5,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+123,5,Manufacturers Warranty - Labor,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+124,5,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+125,5,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+126,5,Manufacturers Warranty - Parts,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+127,5,Model Number,HJBUDDIESRBLKPNK6,21/01/2020 15:28,21/01/2020 15:28
+128,5,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+129,5,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+130,5,Additional Accessories Included,8theme 3D stickers,21/01/2020 15:28,21/01/2020 15:28
+131,5,Product Depth,7 inches,21/01/2020 15:28,21/01/2020 15:28
+132,5,Volume Limiting Function,Yes,21/01/2020 15:28,21/01/2020 15:28
+133,5,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+134,5,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+135,5,Color,BlackPink,21/01/2020 15:28,21/01/2020 15:28
+136,5,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+137,5,Works With,Google Assistant,21/01/2020 15:28,21/01/2020 15:28
+138,5,Controls,Volume,21/01/2020 15:28,21/01/2020 15:28
+139,5,Product Width,47 inches,21/01/2020 15:28,21/01/2020 15:28
+140,5,Product Name,JBuddies Folding Wired On-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+141,5,Product Weight,05 pounds,21/01/2020 15:28,21/01/2020 15:28
+142,5,Brand,JLab Audio,21/01/2020 15:28,21/01/2020 15:28
+143,5,Product Height,21 inches,21/01/2020 15:28,21/01/2020 15:28
+144,5,Style,Kids,21/01/2020 15:28,21/01/2020 15:28
+145,6,Product Weight,006 pounds,21/01/2020 15:28,21/01/2020 15:28
+146,6,Product Length,65 inches,21/01/2020 15:28,21/01/2020 15:28
+147,6,Color Category,Clear,21/01/2020 15:28,21/01/2020 15:28
+148,6,Product Name,ETY-Plugs High-Fidelity Wired Earplugs,21/01/2020 15:28,21/01/2020 15:28
+149,6,Color,Clear,21/01/2020 15:28,21/01/2020 15:28
+150,6,Brand,Etymotic,21/01/2020 15:28,21/01/2020 15:28
+151,6,Manufacturers Warranty - Labor,None,21/01/2020 15:28,21/01/2020 15:28
+152,6,Product Width,4 12 inches,21/01/2020 15:28,21/01/2020 15:28
+153,6,Manufacturers Warranty - Parts,None,21/01/2020 15:28,21/01/2020 15:28
+154,6,Product Height,6 12 inches,21/01/2020 15:28,21/01/2020 15:28
+155,6,Model Number,121860,21/01/2020 15:28,21/01/2020 15:28
+156,7,Maximum Talk Time,18 hours,21/01/2020 15:28,21/01/2020 15:28
+157,7,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+158,7,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+159,7,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+160,7,Battery Life,18 hours,21/01/2020 15:28,21/01/2020 15:28
+161,7,Minimum Frequency Response,17 hertz,21/01/2020 15:28,21/01/2020 15:28
+162,7,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+163,7,Wireless Connectivity,Radio Frequency RF,21/01/2020 15:28,21/01/2020 15:28
+164,7,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+165,7,Manufacturers Warranty - Labor,2 years,21/01/2020 15:28,21/01/2020 15:28
+166,7,Sensitivity,114 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+167,7,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+168,7,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+169,7,Manufacturers Warranty - Parts,2 years,21/01/2020 15:28,21/01/2020 15:28
+170,7,Rechargeable,Yes,21/01/2020 15:28,21/01/2020 15:28
+171,7,Model Number,RS 175,21/01/2020 15:28,21/01/2020 15:28
+172,7,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+173,7,Body Metrics Measured,Not Applicable,21/01/2020 15:28,21/01/2020 15:28
+174,7,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+175,7,Additional Accessories Included,Transmitter unit,21/01/2020 15:28,21/01/2020 15:28
+176,7,Total Harmonic Distortion,05 percent,21/01/2020 15:28,21/01/2020 15:28
+177,7,Product Depth,35 inches,21/01/2020 15:28,21/01/2020 15:28
+178,7,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+179,7,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+180,7,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+181,7,Maximum Frequency Response,22 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+182,7,Controls,Volume,21/01/2020 15:28,21/01/2020 15:28
+183,7,Product Width,67 inches,21/01/2020 15:28,21/01/2020 15:28
+184,7,Maximum Wireless Range,328 feet,21/01/2020 15:28,21/01/2020 15:28
+185,7,Product Name,RS 175 RF Wireless Over-The-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+186,7,Product Weight,0684 pounds,21/01/2020 15:28,21/01/2020 15:28
+187,7,Brand,Sennheiser,21/01/2020 15:28,21/01/2020 15:28
+188,7,Product Height,79 inches,21/01/2020 15:28,21/01/2020 15:28
+189,7,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+190,8,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+191,8,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+192,8,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+193,8,Color,YellowWhiteRedBlack,21/01/2020 15:28,21/01/2020 15:28
+194,8,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+195,8,Color Category,Multi,21/01/2020 15:28,21/01/2020 15:28
+196,8,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+197,8,Controls,Volume,21/01/2020 15:28,21/01/2020 15:28
+198,8,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+199,8,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+200,8,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+201,8,Product Name,Cars 3 Wired Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+202,8,Product Weight,04 pounds,21/01/2020 15:28,21/01/2020 15:28
+203,8,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+204,8,Brand,KIDdesigns,21/01/2020 15:28,21/01/2020 15:28
+205,8,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+206,8,Style,Kids,21/01/2020 15:28,21/01/2020 15:28
+207,8,Model Number,CR-140EXV7,21/01/2020 15:28,21/01/2020 15:28
+208,8,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+209,9,Product Weight,05 pounds,21/01/2020 15:28,21/01/2020 15:28
+210,9,Product Length,05 inches,21/01/2020 15:28,21/01/2020 15:28
+211,9,Color Category,Red,21/01/2020 15:28,21/01/2020 15:28
+212,9,Product Name,Faders Wired Earplugs,21/01/2020 15:28,21/01/2020 15:28
+213,9,Color,Rouge,21/01/2020 15:28,21/01/2020 15:28
+214,9,Brand,V-MODA,21/01/2020 15:28,21/01/2020 15:28
+215,9,Manufacturers Warranty - Labor,Not Available,21/01/2020 15:28,21/01/2020 15:28
+216,9,Product Width,2 inches,21/01/2020 15:28,21/01/2020 15:28
+217,9,Manufacturers Warranty - Parts,Not Available,21/01/2020 15:28,21/01/2020 15:28
+218,9,Product Height,25 inches,21/01/2020 15:28,21/01/2020 15:28
+219,9,Model Number,EA-VFD-ROUGE,21/01/2020 15:28,21/01/2020 15:28
+220,10,Tangle-Resistant Cord,No,21/01/2020 15:28,21/01/2020 15:28
+221,10,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+222,10,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+223,10,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+224,10,Cord Length,4 feet,21/01/2020 15:28,21/01/2020 15:28
+225,10,Minimum Frequency Response,5 hertz,21/01/2020 15:28,21/01/2020 15:28
+226,10,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+227,10,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+228,10,Manufacturers Warranty - Labor,2 Years,21/01/2020 15:28,21/01/2020 15:28
+229,10,Sensitivity,105 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+230,10,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+231,10,Headband Material,Faux leather,21/01/2020 15:28,21/01/2020 15:28
+232,10,Ear Cushion Material,Foam,21/01/2020 15:28,21/01/2020 15:28
+233,10,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+234,10,Manufacturers Warranty - Parts,2 Years,21/01/2020 15:28,21/01/2020 15:28
+235,10,Model Number,XFL2V-U-MBLACK,21/01/2020 15:28,21/01/2020 15:28
+236,10,Adjustable Headband,No,21/01/2020 15:28,21/01/2020 15:28
+237,10,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+238,10,Additional Accessories Included,Exoskeleton carrying case reinforced 1-button SpeakEasy microphone cable 14 in adapter Gunmetal shield kit carabiner clip V-MODA sticker,21/01/2020 15:28,21/01/2020 15:28
+239,10,Product Depth,45 inches,21/01/2020 15:28,21/01/2020 15:28
+240,10,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+241,10,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+242,10,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+243,10,Color,Matte Black,21/01/2020 15:28,21/01/2020 15:28
+244,10,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+245,10,Maximum Frequency Response,30 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+246,10,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+247,10,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+248,10,Product Width,71 inches,21/01/2020 15:28,21/01/2020 15:28
+249,10,Product Name,Crossfade LP2 Wired Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+250,10,Product Weight,057 pounds,21/01/2020 15:28,21/01/2020 15:28
+251,10,Brand,V-MODA,21/01/2020 15:28,21/01/2020 15:28
+252,10,Driver Size,50 millimeters,21/01/2020 15:28,21/01/2020 15:28
+253,10,Product Height,95 inches,21/01/2020 15:28,21/01/2020 15:28
+254,10,Impedance,32 ohms,21/01/2020 15:28,21/01/2020 15:28
+255,10,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+256,10,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+257,11,Manufacturers Warranty - Labor,1 Year,21/01/2020 15:28,21/01/2020 15:28
+258,11,Cables Included,35mm audio,21/01/2020 15:28,21/01/2020 15:28
+259,11,Mute Function,Yes,21/01/2020 15:28,21/01/2020 15:28
+260,11,Product Length,79 inches,21/01/2020 15:28,21/01/2020 15:28
+261,11,Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+262,11,Number Of Microphones Included,1,21/01/2020 15:28,21/01/2020 15:28
+263,11,Voice Assistant Built-in,No,21/01/2020 15:28,21/01/2020 15:28
+264,11,Product Weight,007 pounds,21/01/2020 15:28,21/01/2020 15:28
+265,11,Product Name,BoomPro Wired Microphone,21/01/2020 15:28,21/01/2020 15:28
+266,11,Brand,V-MODA,21/01/2020 15:28,21/01/2020 15:28
+267,11,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+268,11,Microphone Type,Headset microphones,21/01/2020 15:28,21/01/2020 15:28
+269,11,Model Number,C-BP-BLACK,21/01/2020 15:28,21/01/2020 15:28
+270,11,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+271,11,Polar Pattern,Omnidirectional,21/01/2020 15:28,21/01/2020 15:28
+272,11,Manufacturers Warranty - Parts,1 Year,21/01/2020 15:28,21/01/2020 15:28
+273,12,Maximum Talk Time,18 hours,21/01/2020 15:28,21/01/2020 15:28
+274,12,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+275,12,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+276,12,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+277,12,Battery Life,18 hours,21/01/2020 15:28,21/01/2020 15:28
+278,12,Minimum Frequency Response,17 hertz,21/01/2020 15:28,21/01/2020 15:28
+279,12,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+280,12,Wireless Connectivity,Radio Frequency RF,21/01/2020 15:28,21/01/2020 15:28
+281,12,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+282,12,Manufacturers Warranty - Labor,2 years,21/01/2020 15:28,21/01/2020 15:28
+283,12,Sensitivity,117 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+284,12,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+285,12,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+286,12,Manufacturers Warranty - Parts,2 years,21/01/2020 15:28,21/01/2020 15:28
+287,12,Rechargeable,Yes,21/01/2020 15:28,21/01/2020 15:28
+288,12,Model Number,RS 195,21/01/2020 15:28,21/01/2020 15:28
+289,12,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+290,12,Body Metrics Measured,Not Applicable,21/01/2020 15:28,21/01/2020 15:28
+291,12,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+292,12,Additional Accessories Included,Transmitter unit,21/01/2020 15:28,21/01/2020 15:28
+293,12,Total Harmonic Distortion,05 percent,21/01/2020 15:28,21/01/2020 15:28
+294,12,Product Depth,37 inches,21/01/2020 15:28,21/01/2020 15:28
+295,12,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+296,12,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+297,12,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+298,12,Maximum Frequency Response,22 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+299,12,Product Width,67 inches,21/01/2020 15:28,21/01/2020 15:28
+300,12,Maximum Wireless Range,328 feet,21/01/2020 15:28,21/01/2020 15:28
+301,12,Product Name,RS 195 RF Wireless Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+302,12,Product Weight,075 pounds,21/01/2020 15:28,21/01/2020 15:28
+303,12,Brand,Sennheiser,21/01/2020 15:28,21/01/2020 15:28
+304,12,Product Height,79 inches,21/01/2020 15:28,21/01/2020 15:28
+305,12,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+306,13,Tangle-Resistant Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+307,13,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+308,13,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+309,13,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+310,13,Cord Length,425 feet,21/01/2020 15:28,21/01/2020 15:28
+311,13,Minimum Frequency Response,20 hertz,21/01/2020 15:28,21/01/2020 15:28
+312,13,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+313,13,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+314,13,Manufacturers Warranty - Labor,1 Year,21/01/2020 15:28,21/01/2020 15:28
+315,13,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+316,13,Sensitivity,98 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+317,13,Manufacturers Warranty - Parts,1 Year,21/01/2020 15:28,21/01/2020 15:28
+318,13,Model Number,EARPHONE-M6-BK-MEE,21/01/2020 15:28,21/01/2020 15:28
+319,13,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+320,13,Additional Accessories Included,Zippered carrying case eartips 6 pairs and shirt clip,21/01/2020 15:28,21/01/2020 15:28
+321,13,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+322,13,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+323,13,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+324,13,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+325,13,Product Name,M6 Sports Wired In-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+326,13,Product Weight,004 pounds,21/01/2020 15:28,21/01/2020 15:28
+327,13,Ear Tip Sizes Included,Extra large,21/01/2020 15:28,21/01/2020 15:28
+328,13,Brand,MEE audio,21/01/2020 15:28,21/01/2020 15:28
+329,13,Driver Size,9 millimeters,21/01/2020 15:28,21/01/2020 15:28
+330,13,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+331,13,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+332,14,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+333,14,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+334,14,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+335,14,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+336,14,Minimum Frequency Response,16 hertz,21/01/2020 15:28,21/01/2020 15:28
+337,14,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+338,14,Wireless Connectivity,Bluetooth,21/01/2020 15:28,21/01/2020 15:28
+339,14,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+340,14,Manufacturers Warranty - Labor,2 years limited,21/01/2020 15:28,21/01/2020 15:28
+341,14,Headband Material,Leather,21/01/2020 15:28,21/01/2020 15:28
+342,14,Ear Cushion Material,Leather,21/01/2020 15:28,21/01/2020 15:28
+343,14,Manufacturers Warranty - Parts,2 years limited,21/01/2020 15:28,21/01/2020 15:28
+344,14,Model Number,M2 AEBT BLACK,21/01/2020 15:28,21/01/2020 15:28
+345,14,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+346,14,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+347,14,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+348,14,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+349,14,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+350,14,Maximum Frequency Response,22 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+351,14,Noise Canceling Active,Yes,21/01/2020 15:28,21/01/2020 15:28
+352,14,Product Name,Momentum M2 Wireless Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+353,14,Product Weight,19 pounds,21/01/2020 15:28,21/01/2020 15:28
+354,14,Brand,Sennheiser,21/01/2020 15:28,21/01/2020 15:28
+355,15,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+356,15,Color Category,White,21/01/2020 15:28,21/01/2020 15:28
+357,15,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+358,15,Cord Length,394 feet,21/01/2020 15:28,21/01/2020 15:28
+359,15,Minimum Frequency Response,10 hertz,21/01/2020 15:28,21/01/2020 15:28
+360,15,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+361,15,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+362,15,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+363,15,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+364,15,Sensitivity,102 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+365,15,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+366,15,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+367,15,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+368,15,Model Number,HAECX20W,21/01/2020 15:28,21/01/2020 15:28
+369,15,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+370,15,Additional Accessories Included,Small medium and large ear pieces,21/01/2020 15:28,21/01/2020 15:28
+371,15,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+372,15,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+373,15,Color,White,21/01/2020 15:28,21/01/2020 15:28
+374,15,Maximum Frequency Response,23 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+375,15,Detachable Cord,No,21/01/2020 15:28,21/01/2020 15:28
+376,15,Product Name,Wired Ear Clip-On Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+377,15,Product Weight,019 pounds,21/01/2020 15:28,21/01/2020 15:28
+378,15,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+379,15,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+380,15,Driver Size,11 millimeters,21/01/2020 15:28,21/01/2020 15:28
+381,15,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+382,15,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+383,15,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+384,16,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+385,16,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+386,16,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+387,16,Cord Length,394 feet,21/01/2020 15:28,21/01/2020 15:28
+388,16,Minimum Frequency Response,10 hertz,21/01/2020 15:28,21/01/2020 15:28
+389,16,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+390,16,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+391,16,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+392,16,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+393,16,Sensitivity,102 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+394,16,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+395,16,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+396,16,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+397,16,Model Number,HAECX20B,21/01/2020 15:28,21/01/2020 15:28
+398,16,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+399,16,Additional Accessories Included,Small medium and large ear pieces,21/01/2020 15:28,21/01/2020 15:28
+400,16,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+401,16,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+402,16,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+403,16,Maximum Frequency Response,23 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+404,16,Detachable Cord,No,21/01/2020 15:28,21/01/2020 15:28
+405,16,Product Name,Wired Ear Clip-On Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+406,16,Product Weight,019 pounds,21/01/2020 15:28,21/01/2020 15:28
+407,16,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+408,16,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+409,16,Driver Size,11 millimeters,21/01/2020 15:28,21/01/2020 15:28
+410,16,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+411,16,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+412,16,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+413,17,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+414,17,Color Category,Blue,21/01/2020 15:28,21/01/2020 15:28
+415,17,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+416,17,Cord Length,394 feet,21/01/2020 15:28,21/01/2020 15:28
+417,17,Minimum Frequency Response,10 hertz,21/01/2020 15:28,21/01/2020 15:28
+418,17,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+419,17,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+420,17,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+421,17,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+422,17,Sensitivity,102 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+423,17,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+424,17,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+425,17,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+426,17,Model Number,HAECX20A,21/01/2020 15:28,21/01/2020 15:28
+427,17,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+428,17,Additional Accessories Included,Small medium and large ear pieces,21/01/2020 15:28,21/01/2020 15:28
+429,17,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+430,17,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+431,17,Color,Blue,21/01/2020 15:28,21/01/2020 15:28
+432,17,Maximum Frequency Response,23 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+433,17,Detachable Cord,No,21/01/2020 15:28,21/01/2020 15:28
+434,17,Product Name,Wired Ear Clip-On Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+435,17,Product Weight,019 pounds,21/01/2020 15:28,21/01/2020 15:28
+436,17,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+437,17,Brand,JVC,21/01/2020 15:28,21/01/2020 15:28
+438,17,Driver Size,11 millimeters,21/01/2020 15:28,21/01/2020 15:28
+439,17,Impedance,16 ohms,21/01/2020 15:28,21/01/2020 15:28
+440,17,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+441,17,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+442,18,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+443,18,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+444,18,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+445,18,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+446,18,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+447,18,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+448,18,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+449,18,Model Number,718839-0010,21/01/2020 15:28,21/01/2020 15:28
+450,18,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+451,18,Additional Accessories Included,3 pairs StayHear tips S M L Clothing clip Rechargeable lithium-ion battery built-in USB charging cable Carrying case,21/01/2020 15:28,21/01/2020 15:28
+452,18,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+453,18,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+454,18,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+455,18,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+456,18,Noise Canceling Active,Yes,21/01/2020 15:28,21/01/2020 15:28
+457,18,Product Name,QuietComfort 20 Headphones iOS,21/01/2020 15:28,21/01/2020 15:28
+458,18,Product Weight,01 pounds,21/01/2020 15:28,21/01/2020 15:28
+459,18,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+460,18,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+461,18,Style,Travel,21/01/2020 15:28,21/01/2020 15:28
+462,19,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+463,19,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+464,19,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+465,19,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+466,19,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+467,19,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+468,19,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+469,19,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+470,19,Model Number,718840-0010,21/01/2020 15:28,21/01/2020 15:28
+471,19,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+472,19,Additional Accessories Included,3 pairs StayHear tips S M L Clothing clip Rechargeable lithium-ion battery built-in USB charging cable Carrying case,21/01/2020 15:28,21/01/2020 15:28
+473,19,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+474,19,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+475,19,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+476,19,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+477,19,Noise Canceling Active,Yes,21/01/2020 15:28,21/01/2020 15:28
+478,19,Product Name,QuietComfort 20 Headphones Android,21/01/2020 15:28,21/01/2020 15:28
+479,19,Product Weight,01 pounds,21/01/2020 15:28,21/01/2020 15:28
+480,19,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+481,19,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+482,19,Style,Travel,21/01/2020 15:28,21/01/2020 15:28
+483,20,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+484,20,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+485,20,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+486,20,Cord Length,43 feet,21/01/2020 15:28,21/01/2020 15:28
+487,20,Minimum Frequency Response,20 hertz,21/01/2020 15:28,21/01/2020 15:28
+488,20,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+489,20,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+490,20,Manufacturers Warranty - Labor,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+491,20,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+492,20,Ear Cushion Material,Foam,21/01/2020 15:28,21/01/2020 15:28
+493,20,Manufacturers Warranty - Parts,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+494,20,Model Number,S6HSGY-374,21/01/2020 15:28,21/01/2020 15:28
+495,20,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+496,20,Body Metrics Measured,Not Applicable,21/01/2020 15:28,21/01/2020 15:28
+497,20,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+498,20,Additional Accessories Included,Carrying caseOwners manual,21/01/2020 15:28,21/01/2020 15:28
+499,20,Product Depth,866 inches,21/01/2020 15:28,21/01/2020 15:28
+500,20,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+501,20,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+502,20,Color,BlackGunmetal,21/01/2020 15:28,21/01/2020 15:28
+503,20,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+504,20,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+505,20,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+506,20,Product Width,374 inches,21/01/2020 15:28,21/01/2020 15:28
+507,20,Product Name,Hesh 20 Wired Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+508,20,Product Weight,101 pounds,21/01/2020 15:28,21/01/2020 15:28
+509,20,Brand,Skullcandy,21/01/2020 15:28,21/01/2020 15:28
+510,20,Driver Size,50 millimeters,21/01/2020 15:28,21/01/2020 15:28
+511,20,Product Height,807 inches,21/01/2020 15:28,21/01/2020 15:28
+512,20,Impedance,35 ohms,21/01/2020 15:28,21/01/2020 15:28
+513,20,Style,Travel,21/01/2020 15:28,21/01/2020 15:28
+514,21,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+515,21,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+516,21,Color Category,White,21/01/2020 15:28,21/01/2020 15:28
+517,21,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+518,21,Battery Life,15 hours,21/01/2020 15:28,21/01/2020 15:28
+519,21,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+520,21,Wireless Connectivity,Bluetooth,21/01/2020 15:28,21/01/2020 15:28
+521,21,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+522,21,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+523,21,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+524,21,Series,Bose Headphones,21/01/2020 15:28,21/01/2020 15:28
+525,21,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+526,21,Rechargeable,Yes,21/01/2020 15:28,21/01/2020 15:28
+527,21,Model Number,741158-0020,21/01/2020 15:28,21/01/2020 15:28
+528,21,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+529,21,Battery Charge Time,3 hours,21/01/2020 15:28,21/01/2020 15:28
+530,21,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+531,21,Additional Accessories Included,USB charging cable Backup audio cable Carry case,21/01/2020 15:28,21/01/2020 15:28
+532,21,Product Depth,177 inches,21/01/2020 15:28,21/01/2020 15:28
+533,21,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+534,21,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+535,21,Color,White,21/01/2020 15:28,21/01/2020 15:28
+536,21,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+537,21,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+538,21,Product Width,65 inches,21/01/2020 15:28,21/01/2020 15:28
+539,21,Maximum Wireless Range,30 feet,21/01/2020 15:28,21/01/2020 15:28
+540,21,Product Name,SoundLink Wireless Around-Ear Headphones II,21/01/2020 15:28,21/01/2020 15:28
+541,21,Product Weight,043 pounds,21/01/2020 15:28,21/01/2020 15:28
+542,21,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+543,21,Product Height,787 inches,21/01/2020 15:28,21/01/2020 15:28
+544,21,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+545,22,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+546,22,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+547,22,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+548,22,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+549,22,Battery Life,15 hours,21/01/2020 15:28,21/01/2020 15:28
+550,22,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+551,22,Wireless Connectivity,Bluetooth,21/01/2020 15:28,21/01/2020 15:28
+552,22,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+553,22,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+554,22,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+555,22,Series,Bose Headphones,21/01/2020 15:28,21/01/2020 15:28
+556,22,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+557,22,Rechargeable,Yes,21/01/2020 15:28,21/01/2020 15:28
+558,22,Model Number,741158-0010,21/01/2020 15:28,21/01/2020 15:28
+559,22,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+560,22,Battery Charge Time,3 hours,21/01/2020 15:28,21/01/2020 15:28
+561,22,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+562,22,Additional Accessories Included,USB charging cable Backup audio cable Carry case,21/01/2020 15:28,21/01/2020 15:28
+563,22,Product Depth,177 inches,21/01/2020 15:28,21/01/2020 15:28
+564,22,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+565,22,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+566,22,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+567,22,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+568,22,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+569,22,Product Width,65 inches,21/01/2020 15:28,21/01/2020 15:28
+570,22,Maximum Wireless Range,30 feet,21/01/2020 15:28,21/01/2020 15:28
+571,22,Product Name,SoundLink Wireless Around-Ear Headphones II,21/01/2020 15:28,21/01/2020 15:28
+572,22,Product Weight,043 pounds,21/01/2020 15:28,21/01/2020 15:28
+573,22,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+574,22,Product Height,787 inches,21/01/2020 15:28,21/01/2020 15:28
+575,22,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+576,23,Tangle-Resistant Cord,No,21/01/2020 15:28,21/01/2020 15:28
+577,23,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+578,23,Product Depth,26 inches,21/01/2020 15:28,21/01/2020 15:28
+579,23,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+580,23,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+581,23,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+582,23,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+583,23,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+584,23,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+585,23,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+586,23,Cord Length,6 feet,21/01/2020 15:28,21/01/2020 15:28
+587,23,Detachable Cord,No,21/01/2020 15:28,21/01/2020 15:28
+588,23,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+589,23,Product Width,8 inches,21/01/2020 15:28,21/01/2020 15:28
+590,23,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+591,23,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+592,23,Product Name,Star Wars Episode VII Over-the-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+593,23,Product Weight,1 pounds,21/01/2020 15:28,21/01/2020 15:28
+594,23,Brand,KIDdesigns,21/01/2020 15:28,21/01/2020 15:28
+595,23,Driver Size,40 millimeters,21/01/2020 15:28,21/01/2020 15:28
+596,23,Product Height,1125 inches,21/01/2020 15:28,21/01/2020 15:28
+597,23,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+598,23,Model Number,92298925363,21/01/2020 15:28,21/01/2020 15:28
+599,23,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+600,24,Tangle-Resistant Cord,No,21/01/2020 15:28,21/01/2020 15:28
+601,24,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+602,24,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+603,24,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+604,24,Cord Length,42 feet,21/01/2020 15:28,21/01/2020 15:28
+605,24,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+606,24,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+607,24,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+608,24,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+609,24,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+610,24,Series,iOS,21/01/2020 15:28,21/01/2020 15:28
+611,24,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+612,24,Model Number,741776-0010,21/01/2020 15:28,21/01/2020 15:28
+613,24,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+614,24,Additional Accessories Included,3 sizes of StayHear Sport tips Carrying case,21/01/2020 15:28,21/01/2020 15:28
+615,24,Product Depth,075 inches,21/01/2020 15:28,21/01/2020 15:28
+616,24,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+617,24,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+618,24,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+619,24,Color,Charcoal,21/01/2020 15:28,21/01/2020 15:28
+620,24,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+621,24,Product Width,1 inches,21/01/2020 15:28,21/01/2020 15:28
+622,24,Product Name,SoundSport In-Ear Headphones iOS,21/01/2020 15:28,21/01/2020 15:28
+623,24,Product Weight,004 pounds,21/01/2020 15:28,21/01/2020 15:28
+624,24,Ear Tip Sizes Included,Large,21/01/2020 15:28,21/01/2020 15:28
+625,24,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+626,24,Product Height,42 inches,21/01/2020 15:28,21/01/2020 15:28
+627,24,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+628,25,True Wireless,No,21/01/2020 15:28,21/01/2020 15:28
+629,25,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+630,25,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+631,25,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+632,25,Battery Life,7 hours,21/01/2020 15:28,21/01/2020 15:28
+633,25,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+634,25,Wireless Connectivity,Bluetooth,21/01/2020 15:28,21/01/2020 15:28
+635,25,Connection Type,Wireless,21/01/2020 15:28,21/01/2020 15:28
+636,25,Manufacturers Warranty - Labor,1 year limited,21/01/2020 15:28,21/01/2020 15:28
+637,25,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+638,25,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+639,25,Series,Smokin Buds 2,21/01/2020 15:28,21/01/2020 15:28
+640,25,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+641,25,Rechargeable,Yes,21/01/2020 15:28,21/01/2020 15:28
+642,25,Model Number,S2PGHW-174,21/01/2020 15:28,21/01/2020 15:28
+643,25,Body Metrics Measured,Not Applicable,21/01/2020 15:28,21/01/2020 15:28
+644,25,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+645,25,Additional Accessories Included,Replacement buds flex collar micro USB charging cable cable management S-clip,21/01/2020 15:28,21/01/2020 15:28
+646,25,Product Depth,76 inches,21/01/2020 15:28,21/01/2020 15:28
+647,25,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+648,25,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+649,25,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+650,25,Product Width,14 inches,21/01/2020 15:28,21/01/2020 15:28
+651,25,Maximum Wireless Range,328 feet,21/01/2020 15:28,21/01/2020 15:28
+652,25,Product Name,Smokin Buds 2 Wireless In-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+653,25,Product Weight,006 pounds,21/01/2020 15:28,21/01/2020 15:28
+654,25,Ear Tip Sizes Included,Medium,21/01/2020 15:28,21/01/2020 15:28
+655,25,Brand,Skullcandy,21/01/2020 15:28,21/01/2020 15:28
+656,25,Driver Size,9 millimeters,21/01/2020 15:28,21/01/2020 15:28
+657,25,Product Height,52 inches,21/01/2020 15:28,21/01/2020 15:28
+658,25,Impedance,17 ohms,21/01/2020 15:28,21/01/2020 15:28
+659,25,Style,Travel,21/01/2020 15:28,21/01/2020 15:28
+660,26,Tangle-Resistant Cord,No,21/01/2020 15:28,21/01/2020 15:28
+661,26,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+662,26,Color Category,Green,21/01/2020 15:28,21/01/2020 15:28
+663,26,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+664,26,Cord Length,42 feet,21/01/2020 15:28,21/01/2020 15:28
+665,26,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+666,26,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+667,26,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+668,26,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+669,26,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+670,26,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+671,26,Model Number,SOUNDSPORT IE IOS GREEN,21/01/2020 15:28,21/01/2020 15:28
+672,26,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+673,26,Additional Accessories Included,3 sizes of StayHear Sport tips Carrying case,21/01/2020 15:28,21/01/2020 15:28
+674,26,Product Depth,075 inches,21/01/2020 15:28,21/01/2020 15:28
+675,26,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+676,26,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+677,26,Color,Energy Green,21/01/2020 15:28,21/01/2020 15:28
+678,26,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+679,26,Product Width,1 inches,21/01/2020 15:28,21/01/2020 15:28
+680,26,Product Name,SoundSport Wired In-Ear Headphones iOS,21/01/2020 15:28,21/01/2020 15:28
+681,26,Product Weight,004 pounds,21/01/2020 15:28,21/01/2020 15:28
+682,26,Brand,Bose,21/01/2020 15:28,21/01/2020 15:28
+683,26,Product Height,42 inches,21/01/2020 15:28,21/01/2020 15:28
+684,26,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+685,27,Compatibility,Most MP3 players tablets and other devices with an auxiliary jack,21/01/2020 15:28,21/01/2020 15:28
+686,27,Gender End 1,Male,21/01/2020 15:28,21/01/2020 15:28
+687,27,Gender End 2,Female,21/01/2020 15:28,21/01/2020 15:28
+688,27,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+689,27,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+690,27,Product Type,Splitter,21/01/2020 15:28,21/01/2020 15:28
+691,27,Manufacturers Warranty - Labor,1 year limited,21/01/2020 15:28,21/01/2020 15:28
+692,27,Product Name,35mm Stereo Splitter Cable,21/01/2020 15:28,21/01/2020 15:28
+693,27,Brand,Insignia,21/01/2020 15:28,21/01/2020 15:28
+694,27,Connector Type End 1,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+695,27,Connector Type End 2,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+696,27,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+697,27,Cable Type,Analog audio,21/01/2020 15:28,21/01/2020 15:28
+698,27,Model Number,NS-M35SPT,21/01/2020 15:28,21/01/2020 15:28
+699,28,Compatibility,Most devices with a 35mm mini connector,21/01/2020 15:28,21/01/2020 15:28
+700,28,Gender End 1,Female,21/01/2020 15:28,21/01/2020 15:28
+701,28,Gender End 2,Male,21/01/2020 15:28,21/01/2020 15:28
+702,28,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+703,28,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+704,28,Product Type,Splitter,21/01/2020 15:28,21/01/2020 15:28
+705,28,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+706,28,Product Name,Dual 35mm Mini Headphone Jack Splitter,21/01/2020 15:28,21/01/2020 15:28
+707,28,Connector Finish,Other,21/01/2020 15:28,21/01/2020 15:28
+708,28,Brand,Insignia,21/01/2020 15:28,21/01/2020 15:28
+709,28,Connector Type End 1,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+710,28,Connector Type End 2,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+711,28,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+712,28,Cable Type,Analog audio,21/01/2020 15:28,21/01/2020 15:28
+713,28,Quantity,1,21/01/2020 15:28,21/01/2020 15:28
+714,28,Model Number,NS-HZ305,21/01/2020 15:28,21/01/2020 15:28
+715,29,Compatibility,Most stereo headphones,21/01/2020 15:28,21/01/2020 15:28
+716,29,Cable Length,20 feet,21/01/2020 15:28,21/01/2020 15:28
+717,29,In-Wall Rated,No,21/01/2020 15:28,21/01/2020 15:28
+718,29,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+719,29,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+720,29,Product Type,Adapter,21/01/2020 15:28,21/01/2020 15:28
+721,29,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+722,29,Product Name,20 Headphone Extension Cable and Adapter Kit,21/01/2020 15:28,21/01/2020 15:28
+723,29,Brand,Insignia,21/01/2020 15:28,21/01/2020 15:28
+724,29,Connector Type End 1,635mm mono phone,21/01/2020 15:28,21/01/2020 15:28
+725,29,Connector Type End 2,635mm mono phone,21/01/2020 15:28,21/01/2020 15:28
+726,29,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+727,29,Cable Type,Analog audio,21/01/2020 15:28,21/01/2020 15:28
+728,29,Quantity,1,21/01/2020 15:28,21/01/2020 15:28
+729,29,Model Number,NS-HZ306,21/01/2020 15:28,21/01/2020 15:28
+730,30,Cable Length,0 feet,21/01/2020 15:28,21/01/2020 15:28
+731,30,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+732,30,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+733,30,Product Type,Adapter,21/01/2020 15:28,21/01/2020 15:28
+734,30,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+735,30,Product Name,14-to-35mm Mini Headphone Jack Adapter,21/01/2020 15:28,21/01/2020 15:28
+736,30,Brand,Insignia,21/01/2020 15:28,21/01/2020 15:28
+737,30,Connector Type End 1,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+738,30,Connector Type End 2,35mm stereo mini-phone,21/01/2020 15:28,21/01/2020 15:28
+739,30,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+740,30,Cable Type,Analog audio,21/01/2020 15:28,21/01/2020 15:28
+741,30,Model Number,NS-HZ307,21/01/2020 15:28,21/01/2020 15:28
+742,31,Tangle-Resistant Cord,No,21/01/2020 15:28,21/01/2020 15:28
+743,31,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+744,31,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+745,31,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+746,31,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+747,31,Minimum Frequency Response,15 hertz,21/01/2020 15:28,21/01/2020 15:28
+748,31,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+749,31,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+750,31,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+751,31,Sensitivity,96 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+752,31,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+753,31,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+754,31,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+755,31,Model Number,AUD ATHM20X,21/01/2020 15:28,21/01/2020 15:28
+756,31,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+757,31,Headphone Fit,On-Ear,21/01/2020 15:28,21/01/2020 15:28
+758,31,Additional Accessories Included,63mm 14 snap-on adapter,21/01/2020 15:28,21/01/2020 15:28
+759,31,Product Depth,4 inches,21/01/2020 15:28,21/01/2020 15:28
+760,31,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+761,31,Carrying Case,No,21/01/2020 15:28,21/01/2020 15:28
+762,31,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+763,31,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+764,31,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+765,31,Maximum Frequency Response,20 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+766,31,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+767,31,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+768,31,Product Name,ATH-M20x Monitor Headphones,21/01/2020 15:28,21/01/2020 15:28
+769,31,Product Weight,175 pounds,21/01/2020 15:28,21/01/2020 15:28
+770,31,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+771,31,Driver Size,40 millimeters,21/01/2020 15:28,21/01/2020 15:28
+772,31,Product Height,11 inches,21/01/2020 15:28,21/01/2020 15:28
+773,31,Impedance,47 ohms,21/01/2020 15:28,21/01/2020 15:28
+774,31,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+775,31,Style,Pro,21/01/2020 15:28,21/01/2020 15:28
+776,32,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+777,32,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+778,32,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+779,32,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+780,32,Minimum Frequency Response,15 hertz,21/01/2020 15:28,21/01/2020 15:28
+781,32,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+782,32,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+783,32,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+784,32,Sensitivity,96 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+785,32,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+786,32,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+787,32,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+788,32,Model Number,AUD ATHM30X,21/01/2020 15:28,21/01/2020 15:28
+789,32,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+790,32,Headphone Fit,On-Ear,21/01/2020 15:28,21/01/2020 15:28
+791,32,Additional Accessories Included,Protective carrying pouch 63mm 14 screw-on adapter,21/01/2020 15:28,21/01/2020 15:28
+792,32,Product Depth,4 inches,21/01/2020 15:28,21/01/2020 15:28
+793,32,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+794,32,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+795,32,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+796,32,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+797,32,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+798,32,Maximum Frequency Response,22 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+799,32,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+800,32,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+801,32,Product Name,ATH-M30x On-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+802,32,Product Weight,175 pounds,21/01/2020 15:28,21/01/2020 15:28
+803,32,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+804,32,Driver Size,40 millimeters,21/01/2020 15:28,21/01/2020 15:28
+805,32,Product Height,12 inches,21/01/2020 15:28,21/01/2020 15:28
+806,32,Impedance,47 ohms,21/01/2020 15:28,21/01/2020 15:28
+807,32,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+808,32,Style,Pro,21/01/2020 15:28,21/01/2020 15:28
+809,33,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+810,33,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+811,33,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+812,33,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+813,33,Minimum Frequency Response,15 hertz,21/01/2020 15:28,21/01/2020 15:28
+814,33,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+815,33,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+816,33,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+817,33,Sensitivity,96 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+818,33,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+819,33,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+820,33,Model Number,AUD ATHM40X,21/01/2020 15:28,21/01/2020 15:28
+821,33,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+822,33,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+823,33,Additional Accessories Included,Protective carrying pouch 63mm 14 screw-on adapter 39 - 98 coiled cable 98 straight cable,21/01/2020 15:28,21/01/2020 15:28
+824,33,Product Depth,4 inches,21/01/2020 15:28,21/01/2020 15:28
+825,33,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+826,33,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+827,33,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+828,33,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+829,33,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+830,33,Maximum Frequency Response,24 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+831,33,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+832,33,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+833,33,Product Name,ATH-M40x Monitor Headphones,21/01/2020 15:28,21/01/2020 15:28
+834,33,Product Weight,2 pounds,21/01/2020 15:28,21/01/2020 15:28
+835,33,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+836,33,Driver Size,40 millimeters,21/01/2020 15:28,21/01/2020 15:28
+837,33,Product Height,11 inches,21/01/2020 15:28,21/01/2020 15:28
+838,33,Impedance,35 ohms,21/01/2020 15:28,21/01/2020 15:28
+839,33,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+840,33,Style,Pro,21/01/2020 15:28,21/01/2020 15:28
+841,34,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+842,34,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+843,34,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+844,34,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+845,34,Minimum Frequency Response,5 hertz,21/01/2020 15:28,21/01/2020 15:28
+846,34,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+847,34,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+848,34,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+849,34,Sensitivity,99 decibels adjusted,21/01/2020 15:28,21/01/2020 15:28
+850,34,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+851,34,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+852,34,Model Number,AUD ATHR70X,21/01/2020 15:28,21/01/2020 15:28
+853,34,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+854,34,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+855,34,Additional Accessories Included,Protective carrying pouch,21/01/2020 15:28,21/01/2020 15:28
+856,34,Product Depth,5 inches,21/01/2020 15:28,21/01/2020 15:28
+857,34,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+858,34,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+859,34,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+860,34,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+861,34,Foldable Design,No,21/01/2020 15:28,21/01/2020 15:28
+862,34,Maximum Frequency Response,40 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+863,34,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+864,34,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+865,34,Product Name,ATH-R70x Wired Open-Back Reference Headphones,21/01/2020 15:28,21/01/2020 15:28
+866,34,Product Weight,175 pounds,21/01/2020 15:28,21/01/2020 15:28
+867,34,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+868,34,Driver Size,45 millimeters,21/01/2020 15:28,21/01/2020 15:28
+869,34,Product Height,12 inches,21/01/2020 15:28,21/01/2020 15:28
+870,34,Impedance,470 ohms,21/01/2020 15:28,21/01/2020 15:28
+871,34,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+872,34,Style,Studio,21/01/2020 15:28,21/01/2020 15:28
+873,35,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+874,35,Color Category,White,21/01/2020 15:28,21/01/2020 15:28
+875,35,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+876,35,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+877,35,Minimum Frequency Response,15 hertz,21/01/2020 15:28,21/01/2020 15:28
+878,35,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+879,35,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+880,35,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+881,35,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+882,35,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+883,35,Model Number,AUD ATHM50XWH,21/01/2020 15:28,21/01/2020 15:28
+884,35,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+885,35,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+886,35,Additional Accessories Included,Protective carrying pouch 63mm 14 screw-on adapter 39 - 98 coiled cable 98 straight cable and 39 straight cable,21/01/2020 15:28,21/01/2020 15:28
+887,35,Product Depth,4 inches,21/01/2020 15:28,21/01/2020 15:28
+888,35,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+889,35,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+890,35,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+891,35,Color,White,21/01/2020 15:28,21/01/2020 15:28
+892,35,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+893,35,Maximum Frequency Response,28 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+894,35,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+895,35,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+896,35,Product Name,ATH-M50x Monitor Headphones,21/01/2020 15:28,21/01/2020 15:28
+897,35,Product Weight,225 pounds,21/01/2020 15:28,21/01/2020 15:28
+898,35,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+899,35,Driver Size,45 millimeters,21/01/2020 15:28,21/01/2020 15:28
+900,35,Product Height,11 inches,21/01/2020 15:28,21/01/2020 15:28
+901,35,Impedance,38 ohms,21/01/2020 15:28,21/01/2020 15:28
+902,35,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+903,35,Style,Pro,21/01/2020 15:28,21/01/2020 15:28
+904,36,Sound Isolating,Yes,21/01/2020 15:28,21/01/2020 15:28
+905,36,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+906,36,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+907,36,Cord Length,98 feet,21/01/2020 15:28,21/01/2020 15:28
+908,36,Minimum Frequency Response,15 hertz,21/01/2020 15:28,21/01/2020 15:28
+909,36,Water Resistant,No,21/01/2020 15:28,21/01/2020 15:28
+910,36,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+911,36,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+912,36,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+913,36,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+914,36,Model Number,AUD ATHM50X,21/01/2020 15:28,21/01/2020 15:28
+915,36,Adjustable Headband,Yes,21/01/2020 15:28,21/01/2020 15:28
+916,36,Headphone Fit,Over-the-Ear,21/01/2020 15:28,21/01/2020 15:28
+917,36,Additional Accessories Included,Protective carrying pouch 63mm 14 screw-on adapter 39 - 98 coiled cable 98 straight cable and 39 straight cable,21/01/2020 15:28,21/01/2020 15:28
+918,36,Product Depth,4 inches,21/01/2020 15:28,21/01/2020 15:28
+919,36,Volume Limiting Function,No,21/01/2020 15:28,21/01/2020 15:28
+920,36,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+921,36,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+922,36,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+923,36,Foldable Design,Yes,21/01/2020 15:28,21/01/2020 15:28
+924,36,Maximum Frequency Response,28 kilohertz,21/01/2020 15:28,21/01/2020 15:28
+925,36,Detachable Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+926,36,Product Width,10 inches,21/01/2020 15:28,21/01/2020 15:28
+927,36,Product Name,ATH-M50x Monitor Headphones,21/01/2020 15:28,21/01/2020 15:28
+928,36,Product Weight,225 pounds,21/01/2020 15:28,21/01/2020 15:28
+929,36,Brand,Audio-Technica,21/01/2020 15:28,21/01/2020 15:28
+930,36,Driver Size,45 millimeters,21/01/2020 15:28,21/01/2020 15:28
+931,36,Product Height,11 inches,21/01/2020 15:28,21/01/2020 15:28
+932,36,Impedance,38 ohms,21/01/2020 15:28,21/01/2020 15:28
+933,36,Integrated Amplifier,No,21/01/2020 15:28,21/01/2020 15:28
+934,36,Style,Pro,21/01/2020 15:28,21/01/2020 15:28
+935,37,Tangle-Resistant Cord,Yes,21/01/2020 15:28,21/01/2020 15:28
+936,37,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+937,37,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+938,37,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+939,37,Cord Length,43 feet,21/01/2020 15:28,21/01/2020 15:28
+940,37,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+941,37,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+942,37,Manufacturers Warranty - Labor,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+943,37,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+944,37,Sound Mode,Stereo,21/01/2020 15:28,21/01/2020 15:28
+945,37,Manufacturers Warranty - Parts,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+946,37,Model Number,S2PGFY-003,21/01/2020 15:28,21/01/2020 15:28
+947,37,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+948,37,Additional Accessories Included,Ear tips kit travel bag,21/01/2020 15:28,21/01/2020 15:28
+949,37,Product Depth,25 inches,21/01/2020 15:28,21/01/2020 15:28
+950,37,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+951,37,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+952,37,Color,BlackBlack,21/01/2020 15:28,21/01/2020 15:28
+953,37,Controls,Call,21/01/2020 15:28,21/01/2020 15:28
+954,37,Product Width,075 inches,21/01/2020 15:28,21/01/2020 15:28
+955,37,Product Name,Smokin Buds 2 Wired In-Ear Headphones,21/01/2020 15:28,21/01/2020 15:28
+956,37,Product Weight,007 pounds,21/01/2020 15:28,21/01/2020 15:28
+957,37,Brand,Skullcandy,21/01/2020 15:28,21/01/2020 15:28
+958,37,Product Height,53 inches,21/01/2020 15:28,21/01/2020 15:28
+959,37,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+960,38,Sound Isolating,No,21/01/2020 15:28,21/01/2020 15:28
+961,38,Color Category,Multi,21/01/2020 15:28,21/01/2020 15:28
+962,38,Built-In Microphone,Yes,21/01/2020 15:28,21/01/2020 15:28
+963,38,Water Resistant,Yes,21/01/2020 15:28,21/01/2020 15:28
+964,38,Connection Type,Wired,21/01/2020 15:28,21/01/2020 15:28
+965,38,Manufacturers Warranty - Labor,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+966,38,Ear Cushions,Yes,21/01/2020 15:28,21/01/2020 15:28
+967,38,Bone Conducting Technology,No,21/01/2020 15:28,21/01/2020 15:28
+968,38,Series,Smokin Buds 2,21/01/2020 15:28,21/01/2020 15:28
+969,38,Manufacturers Warranty - Parts,Lifetime limited,21/01/2020 15:28,21/01/2020 15:28
+970,38,Model Number,S2PGGY-392,21/01/2020 15:28,21/01/2020 15:28
+971,38,Body Metrics Measured,Not Applicable,21/01/2020 15:28,21/01/2020 15:28
+972,38,Headphone Fit,In-Ear,21/01/2020 15:28,21/01/2020 15:28
+973,38,Product Depth,25 inches,21/01/2020 15:28,21/01/2020 15:28
+974,38,Carrying Case,Yes,21/01/2020 15:28,21/01/2020 15:28
+975,38,Connector Size,18 in 35mm,21/01/2020 15:28,21/01/2020 15:28
+976,38,Color,BlackRedOrange,21/01/2020 15:28,21/01/2020 15:28
+977,38,Product Width,075 inches,21/01/2020 15:28,21/01/2020 15:28
+978,38,Product Name,Smokin Buds 2 Wired Earbud Headphones,21/01/2020 15:28,21/01/2020 15:28
+979,38,Product Weight,007 pounds,21/01/2020 15:28,21/01/2020 15:28
+980,38,Ear Tip Sizes Included,Medium,21/01/2020 15:28,21/01/2020 15:28
+981,38,Brand,Skullcandy,21/01/2020 15:28,21/01/2020 15:28
+982,38,Driver Size,9 millimeters,21/01/2020 15:28,21/01/2020 15:28
+983,38,Product Height,53 inches,21/01/2020 15:28,21/01/2020 15:28
+984,38,Impedance,32 ohms,21/01/2020 15:28,21/01/2020 15:28
+985,38,Style,Sports and Exercise,21/01/2020 15:28,21/01/2020 15:28
+986,39,Number Of Pairs Included,1,21/01/2020 15:28,21/01/2020 15:28
+987,39,Brand Compatibility,V-MODA,21/01/2020 15:28,21/01/2020 15:28
+988,39,Color Category,Black,21/01/2020 15:28,21/01/2020 15:28
+989,39,Manufacturers Warranty - Labor,1 year,21/01/2020 15:28,21/01/2020 15:28
+990,39,Manufacturers Warranty - Parts,1 year,21/01/2020 15:28,21/01/2020 15:28
+991,39,Model Number,XL-BLACK,21/01/2020 15:28,21/01/2020 15:28
+992,39,Product Depth,094 inches,21/01/2020 15:28,21/01/2020 15:28
+993,39,Color,Black,21/01/2020 15:28,21/01/2020 15:28
+994,39,Model Compatibility,Crossfade 2 Wireless Crossfade Wireless Crossfade M-100 Crossfade LP2 Crossfade LP,21/01/2020 15:28,21/01/2020 15:28
+995,39,Product Width,325 inches,21/01/2020 15:28,21/01/2020 15:28
+996,39,Material,Foam,21/01/2020 15:28,21/01/2020 15:28
+997,39,Accessory Type,Cushions,21/01/2020 15:28,21/01/2020 15:28
+998,39,Product Name,XL Cushions,21/01/2020 15:28,21/01/2020 15:28
+999,39,Product Weight,05 pounds,21/01/2020 15:28,21/01/2020 15:28
+1000,39,Brand,V-MODA,21/01/2020 15:28,21/01/2020 15:28

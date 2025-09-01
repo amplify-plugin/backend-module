@@ -1,0 +1,37 @@
+{
+    "name": "amplify/backend",
+    "description": "This is a Backend module for amplify",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Hafijul Islam",
+            "email": "hafijul.islam@easyask.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Amplify\\System\\Backend\\": "./src/"
+        },
+        "files": [
+            "./src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers" : [
+                "Amplify\\System\\Backend\\BackendServiceProvider"
+            ],
+            "aliases": {
+                "CenPos": "Amplify\\System\\Backend\\Facades\\CenPos"
+            }
+        }
+    }
+}

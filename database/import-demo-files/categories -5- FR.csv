@@ -1,0 +1,6 @@
+id,Category_code,Category_name,PIM_Category_ID,isTopNav,Parent_ID,Level,created_at,updated_at
+42,Root,FR Root,cat00000,0,,0,NULL,NULL
+43,abcat0100000,FR TV & Home Theater,abcat0100000,0,42,1,24/09/2018 15:32,24/09/2018 15:32
+44,abcat0200000,FR Audio,abcat0200000,0,42,1,24/09/2018 15:32,24/09/2018 15:32
+45,abcat0300000,FR Car Electronics & GPS,abcat0300000,0,42,1,24/09/2018 15:32,24/09/2018 15:32
+46,abcat0400000,FR Cameras & Camcorders,abcat0400000,0,42,1,24/09/2018 15:32,24/09/2018 15:32

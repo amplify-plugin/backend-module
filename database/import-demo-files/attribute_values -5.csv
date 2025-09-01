@@ -1,0 +1,6 @@
+id,Product_id,Attribute_name,Attribute_value,created_at,updated_at
+11,31,Color,Black/White,21/01/2020 15:28,21/01/2020 15:28
+12,31,Power Backup,Yes/No,21/01/2020 15:28,21/01/2020 15:28
+22,31,Built-In Microphone,No,21/01/2020 15:28,21/01/2020 15:28
+23,31,Test Attribute,394 feet,21/01/2020 15:28,21/01/2020 15:28
+24,31,Minimum Frequency Response,20 hertz,21/01/2020 15:28,21/01/2020 15:28

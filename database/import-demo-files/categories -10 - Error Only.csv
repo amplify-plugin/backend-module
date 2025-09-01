@@ -1,0 +1,11 @@
+id,Category_code,Category_name,PIM_Category_ID,isTopNav,Level,created_at,updated_at,Parent_Category_code
+1,,Root 2,cat00000,0,0,NULL,NULL,
+2,,TV & Home Theater,abcat0100000,0,1,24/09/2018 15:32,24/09/2018 15:32,Root
+3,,Audio,abcat0200000,0,1,24/09/2018 15:32,24/09/2018 15:32,Root
+4,,Car Electronics & GPS,abcat0300000,0,1,24/09/2018 15:32,24/09/2018 15:32,pcmcat312300050015
+5,,Cameras & Camcorders,abcat0400000,0,1,24/09/2018 15:32,24/09/2018 15:32,abcat0200000
+6,,Computers & Tablets,abcat0500000,0,1,24/09/2018 15:32,24/09/2018 15:32,Root
+10,,Cell Phones,abcat0800000,0,1,24/09/2018 15:32,24/09/2018 15:32,abcat0500000
+11,,"Home, Garage & Office",pcmcat312300050015,0,1,24/09/2018 15:32,24/09/2018 15:32,Root
+12,,Appliances - 2,abcat0900000,0,1,24/09/2018 15:32,24/09/2018 15:32,abcat0500000
+13,,"Health, Fitness & Beauty",pcmcat242800050021,0,1,24/09/2018 15:32,24/09/2018 15:32,abcat0100000

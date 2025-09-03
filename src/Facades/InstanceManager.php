@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * InstanceManager Facade
  *
- * @see \Amplify\System\Backend\Services\InstanceManagerService
+ * @see \Amplify\System\Services\InstanceManagerService
  *
  * @method static mixed get($key, $setter = "__optional__")
  * @method static mixed set ($key, $setter, $force = false)

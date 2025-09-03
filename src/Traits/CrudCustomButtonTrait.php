@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Traits;
 
-use Amplify\System\Backend\Services\CrudCustomButton;
+use Amplify\System\Services\CrudCustomButton;
 
 trait CrudCustomButtonTrait
 {

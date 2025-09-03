@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Providers;
 
-use Amplify\System\Backend\Services\InstanceManagerService;
-use Amplify\System\Backend\Services\PunchOutApiService;
+use Amplify\System\Services\InstanceManagerService;
+use Amplify\System\Services\PunchOutApiService;
 use Amplify\System\Message\Messenger;
 use Amplify\System\Payment\PayApiService;
 use Amplify\System\Payment\Services\CenPosPaymentGateway;

@@ -2,13 +2,13 @@
 
 namespace Amplify\System\Backend\Facades;
 
-use Amplify\System\Backend\Services\PunchOutApiService;
+use Amplify\System\Services\PunchOutApiService;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * Payment service Facade
  *
- * @see \Amplify\System\Backend\Services\PunchOutApiService
+ * @see \Amplify\System\Services\PunchOutApiService
  */
 class PunchOutApi extends Facade
 {

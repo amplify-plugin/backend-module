@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\src\factories;
+namespace Amplify\System\Backend\Factories;
 
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;

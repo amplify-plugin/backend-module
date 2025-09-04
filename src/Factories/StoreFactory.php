@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\src\factories;
+namespace Amplify\System\Backend\Factories;
 
 use App\Models\Store;
 use App\Models\Warehouse;

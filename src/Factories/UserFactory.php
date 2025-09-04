@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\src\factories;
+namespace Amplify\System\Backend\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;

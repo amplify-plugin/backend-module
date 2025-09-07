@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend;
 
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
@@ -15,6 +16,21 @@ class BackendServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
 
         $this->app->register(SingletonServiceProvider::class);
+
+        $this->app->register(SingletonServiceProvider::class);
+
+        $this->app->booting(function () {
+            $backpackStyles = Config::get('backpack.base.styles');
+            $color = Config::get('amplify.basic.color_scheme');
+            $stylePath = "css/color-schemes/{$color}-bundle.css";
+
+            $backpackStyles[] = $stylePath;
+
+            Config::set([
+                'backpack.base.styles' => $backpackStyles,
+                'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.cms.logo_path', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
+            ]);
+        });
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Backend\Traits;
 
+use Amplify\System\Backend\Http\Requests\ProductRequest;
 use Amplify\System\Backend\Http\Resources\ProductItemsResources;
 use App\Http\Controllers\Admin\ProductCrudController;
-use App\Http\Requests\ProductRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\CategoryProduct;

@@ -1,0 +1,54 @@
+<?php
+
+namespace Amplify\System\Backend\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class WarehouseRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        // only allow updates if the user is logged in
+        return backpack_auth()->check();
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     */
+    public function rules(): array
+    {
+        return [
+            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'code' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+            'zip_code' => 'required|min:4|max:10|',
+            'pickup_location' => 'boolean',
+            'enabled' => 'boolean',
+        ];
+    }
+
+    /**
+     * Get the validation attributes that apply to the request.
+     */
+    public function attributes(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Get the validation messages that apply to the request.
+     */
+    public function messages(): array
+    {
+        return [
+            //
+        ];
+    }
+}

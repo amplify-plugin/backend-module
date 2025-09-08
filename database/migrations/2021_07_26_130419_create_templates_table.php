@@ -12,7 +12,7 @@ class CreateTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('templates', function (Blueprint $table) {
+        Schema::create('themes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('slug')->unique();
@@ -34,6 +34,6 @@ class CreateTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('themes');
     }
 }

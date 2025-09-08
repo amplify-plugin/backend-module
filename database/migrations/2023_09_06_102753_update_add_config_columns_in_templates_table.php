@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('templates', function (Blueprint $table) {
+        Schema::table('themes', function (Blueprint $table) {
             $table->string('author')->after('name')->nullable();
             $table->text('description')->after('asset_folder')->nullable();
             $table->string('screenshot')->after('description')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('templates', function (Blueprint $table) {
+        Schema::table('themes', function (Blueprint $table) {
             $table->dropColumn('description');
             $table->dropColumn('screenshot');
             $table->dropColumn('readme');

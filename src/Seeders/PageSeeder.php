@@ -22,7 +22,7 @@ class PageSeeder extends Seeder
         DB::table('pages')->truncate();
         DB::table('navigations')->truncate();
         DB::table('footers')->truncate();
-        DB::table('templates')->truncate();
+        DB::table('themes')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $templates = [

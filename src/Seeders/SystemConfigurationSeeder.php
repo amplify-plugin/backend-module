@@ -666,76 +666,76 @@ class SystemConfigurationSeeder extends Seeder
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-1.logo',
+                    'option' => 'themes.template-1.logo',
                     'value' => null,
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-1.email',
+                    'option' => 'themes.template-1.email',
                     'value' => 'http://internal.mwd1.com/api',
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-1.phone',
+                    'option' => 'themes.template-1.phone',
                     'value' => null,
                 ],
 
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-2.email',
+                    'option' => 'themes.template-2.email',
                     'value' => 'SequoiaDEV',
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-2.logo',
+                    'option' => 'themes.template-2.logo',
                     'value' => 'http://internal.mwd1.com/api',
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-2.phone',
+                    'option' => 'themes.template-2.phone',
                     'value' => 'mwd1$SQ',
                 ],
 
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-3.email',
+                    'option' => 'themes.template-3.email',
                     'value' => null,
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-3.phone',
+                    'option' => 'themes.template-3.phone',
                     'value' => 'http://internal.mwd1.com/api',
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-3.logo',
+                    'option' => 'themes.template-3.logo',
                     'value' => null,
                 ],
 
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-4.email',
+                    'option' => 'themes.template-4.email',
                     'value' => null,
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-4.phone',
+                    'option' => 'themes.template-4.phone',
                     'value' => 'http://internal.mwd1.com/api',
                 ],
                 [
                     'name' => 'cms',
                     'type' => 'string',
-                    'option' => 'templates.template-4.logo',
+                    'option' => 'themes.template-4.logo',
                     'value' => null,
                 ],
 

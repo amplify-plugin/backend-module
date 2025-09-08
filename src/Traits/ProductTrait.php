@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Traits;
 
+use Amplify\System\Backend\Http\Controllers\Admin\ProductCrudController;
 use Amplify\System\Backend\Http\Requests\ProductRequest;
 use Amplify\System\Backend\Http\Resources\ProductItemsResources;
 use Amplify\System\Backend\Models\Attribute;
@@ -11,7 +12,6 @@ use Amplify\System\Backend\Models\Option;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\ProductClassification;
 use Amplify\System\Backend\Models\SkuProduct;
-use App\Http\Controllers\Admin\ProductCrudController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;

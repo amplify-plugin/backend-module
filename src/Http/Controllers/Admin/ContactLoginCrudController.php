@@ -1,0 +1,90 @@
+<?php
+
+namespace Amplify\System\Backend\Http\Controllers\Admin;
+
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
+/**
+ * Class ContactLoginCrudController
+ *
+ * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ */
+class ContactLoginCrudController extends BackpackCustomCrudController
+{
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     *
+     * @return void
+     */
+    public function setup()
+    {
+        CRUD::setModel(\Amplify\System\Backend\Models\ContactLogin::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/contact-login');
+        CRUD::setEntityNameStrings('contact login', 'contact logins');
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        CRUD::column('contact_id');
+        CRUD::column('customer_id');
+        CRUD::column('warehouse_id');
+        CRUD::column('customer_address_id');
+        CRUD::column('ship_to_name');
+        CRUD::column('last_logged_in');
+        CRUD::column('last_logged_out');
+        CRUD::column('created_at');
+        CRUD::column('updated_at');
+    }
+
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
+     * @return void
+     */
+    protected function setupCreateOperation()
+    {
+        CRUD::addField([
+            'name' => 'contact_id',
+            'options' => (fn ($query) => $query->orderBy('name')->get()),
+        ]);
+        CRUD::addField([
+            'name' => 'customer_id',
+        ]);
+        CRUD::addField([
+            'name' => 'warehouse_id',
+            'options' => (fn ($query) => $query->orderBy('name')->get()),
+        ]);
+        CRUD::field('customer_address_id');
+        CRUD::field('ship_to_name');
+        CRUD::field('last_logged_in');
+        CRUD::field('last_logged_out');
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
+}

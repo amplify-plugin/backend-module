@@ -1,0 +1,186 @@
+<?php
+
+namespace Amplify\System\Backend\Http\Controllers\Admin;
+
+use Amplify\ErpApi\ProductSyncService;
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\ProductSyncRequest;
+use Amplify\System\Backend\Models\ProductSync;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use InvalidArgumentException;
+
+/**
+ * Class ProductSyncCrudController
+ *
+ * @property-read CrudPanel $crud
+ */
+class ProductSyncCrudController extends BackpackCustomCrudController
+{
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function setup()
+    {
+        CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
+        CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        CRUD::addFilter([
+            'name' => 'update_action',
+            'label' => 'Action',
+            'type' => 'dropdown',
+        ],
+            [
+                'create' => 'New Entry',
+                'update' => 'Data Updated',
+                'delete' => 'Item Deleted',
+            ],
+            function ($value) {
+                if ($value == 'create') {
+                    $this->crud->addClause('where', 'update_action', ProductSyncService::ACTION_NEW);
+                } elseif ($value == 'update') {
+                    $this->crud->addClause('whereIn', 'update_action', [ProductSyncService::ACTION_UPDATE, ProductSyncService::ACTION_CHANGE]);
+                } elseif ($value == 'delete') {
+                    $this->crud->addClause('where', 'update_action', ProductSyncService::ACTION_DELETE);
+                }
+            });
+
+        CRUD::addFilter([
+            'name' => 'is_processed',
+            'label' => 'Processed',
+            'type' => 'dropdown',
+        ],
+            [
+                1 => 'Yes',
+                0 => 'No',
+
+            ],
+            function ($value) {
+                $this->crud->addClause('where', 'is_processed', '=', $value);
+            });
+
+        $this->crud->enableBulkActions();
+
+        $this->crud->addButtonFromView('top', 'bulk_process', 'bulk_sync_process', 'beginning');
+
+        $this->crud->removeButton('update');
+
+        $this->crud->addButtonFromView('line', 'process', 'sync_process', 'beginning');
+
+        CRUD::addColumn([
+            'name' => 'id',
+            'label' => 'ID',
+            'type' => 'custom_html',
+            'value' => function ($productSync) {
+                return "<span>{$productSync->id} "
+                    .(($productSync->is_processed == 1) ? "<sup class='badge text-success px-0 font-weight-bold'>Processed</sup>" : '')
+                    .'</span>';
+            },
+
+        ]);
+        CRUD::column('item_number');
+        CRUD::column('update_action');
+        CRUD::column('description_1');
+        CRUD::column('list_price')->type('text');
+        CRUD::column('primary_vendor');
+        CRUD::column('created_at');
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        CRUD::setValidation(ProductSyncRequest::class);
+
+        CRUD::field('description_1');
+        CRUD::field('description_2');
+        CRUD::field('item_class');
+        CRUD::field('item_number');
+        CRUD::field('list_price');
+        CRUD::field('manufacturer');
+        CRUD::field('price_class');
+        CRUD::field('pricing_unit_of_measure');
+        CRUD::field('primary_vendor');
+        CRUD::field('unit_of_measure');
+        CRUD::field('update_action');
+        CRUD::field('is_processed')->type('boolean');
+    }
+
+    /**
+     * @return void
+     */
+    public function process($id)
+    {
+        $user_id = backpack_user()->id;
+
+        \ErpApi::dispatchProductSyncJob($id, $user_id);
+
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function bulkProcess(Request $request)
+    {
+        $response = [];
+        try {
+            if ($request->has('selection') && $request->input('selection') == 'selected') {
+                $productSyncList = $request->entries;
+            } elseif ($request->has('selection') && $request->input('selection') == 'all') {
+                $productSyncList = ProductSync::where('is_processed', '=', false)
+                    ->get()
+                    ->pluck('id')
+                    ->toArray();
+            }
+
+            $user_id = backpack_user()->id;
+
+            if (! empty($productSyncList)) {
+                foreach ($productSyncList as $id) {
+                    \ErpApi::dispatchProductSyncJob($id, $user_id);
+                }
+
+                $response = [
+                    'type' => 'success',
+                    'message' => 'Total '.count($productSyncList).' item(s) has been added to catalog sync process.'];
+            } else {
+                throw new InvalidArgumentException('No Entries available to process');
+            }
+        } catch (Exception $exception) {
+            $response = [
+                'type' => 'error',
+                'message' => $exception->getMessage(),
+            ];
+        } finally {
+            return response()->json($response);
+        }
+    }
+}

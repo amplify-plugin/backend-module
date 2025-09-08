@@ -1,0 +1,131 @@
+<?php
+
+namespace Amplify\System\Backend\Http\Controllers\Admin;
+
+use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\ProductRelationRequest;
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Backend\Models\ProductRelationshipType;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+
+/**
+ * Class ProductRelationCrudController
+ *
+ * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ */
+class ProductRelationCrudController extends BackpackCustomCrudController
+{
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+
+    /**
+     * Configure the CrudPanel object. Apply settings to all operations.
+     *
+     * @return void
+     */
+    public function setup()
+    {
+        CRUD::setModel(\Amplify\System\Backend\Models\ProductRelation::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-relation');
+        CRUD::setEntityNameStrings('product relation', 'product relations');
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     *
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        CRUD::column('id');
+        CRUD::addColumns([
+            [
+                'name' => 'product_id',
+                'label' => 'Product',
+                'type' => 'relationship',
+                'entity' => 'product',
+                'attribute' => 'product_name',
+                'model' => Product::class,
+            ],
+            [
+                'name' => 'product_relationship_type_id',
+                'label' => 'Relation',
+                'type' => 'relationship',
+                'entity' => 'productRelationType',
+                'attribute' => 'name',
+                'model' => ProductRelationshipType::class,
+            ],
+            [
+                'name' => 'related_product_id',
+                'label' => 'Related Product',
+                'type' => 'relationship',
+                'entity' => 'relatedProduct',
+                'attribute' => 'product_name',
+                'model' => Product::class,
+            ],
+        ]);
+        CRUD::column('updated_at')->type('datetime')->label('Updated');
+    }
+
+    /**
+     * Define what happens when the Create operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
+     * @return void
+     */
+    protected function setupCreateOperation()
+    {
+        CRUD::setValidation(ProductRelationRequest::class);
+
+        CRUD::addFields([
+            [
+                'label' => 'Product',
+                'type' => 'easyask_product_search',
+                'name' => 'product_id',
+                'attribute' => 'display_name',
+                'placeholder' => 'Select Product',
+                'delay' => 200,
+                'ajax' => true,
+                'entity' => 'product',
+                'default' => old('product_id', $this->crud->entry->product_id ?? null),
+            ],
+            [
+                'name' => 'product_relationship_type_id',
+                'label' => 'Relation',
+                'type' => 'relationship',
+                'entity' => 'productRelationType',
+                'attribute' => 'name',
+                'model' => ProductRelationshipType::class,
+            ],
+            [
+                'label' => 'Related Product',
+                'type' => 'easyask_product_search',
+                'name' => 'related_product_id',
+                'attribute' => 'display_name',
+                'placeholder' => 'Select Product',
+                'delay' => 200,
+                'ajax' => true,
+                'entity' => 'relatedProduct',
+                'default' => old('product_id', $this->crud->entry->product_id ?? null),
+            ],
+        ]);
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
+    }
+}

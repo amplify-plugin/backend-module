@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Manufacturer;
+use Amplify\System\Backend\Models\Manufacturer;
 use Illuminate\Database\Seeder;
 
 class ManufacturerSeeder extends Seeder

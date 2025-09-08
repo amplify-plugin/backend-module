@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\DocumentType;
+use Amplify\System\Backend\Models\DocumentType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

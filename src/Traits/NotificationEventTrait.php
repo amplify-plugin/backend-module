@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Backend\Traits;
 
+use Amplify\System\Backend\Models\Event;
 use Amplify\System\Services\EmailService;
 use Amplify\System\Services\MessageService;
-use App\Models\Event;
 
 trait NotificationEventTrait
 {
@@ -21,7 +21,7 @@ trait NotificationEventTrait
     private $messageService;
 
     /**
-     * @var Event
+     * @var \Amplify\System\Backend\Models\Event
      */
     private $eventInfo;
 

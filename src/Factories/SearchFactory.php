@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Factories;
 
-use App\Models\Search;
+use Amplify\System\Backend\Models\Search;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SearchFactory extends Factory

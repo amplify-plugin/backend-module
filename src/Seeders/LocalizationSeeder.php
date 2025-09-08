@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Localization;
+use Amplify\System\Backend\Models\Localization;
 use Illuminate\Database\Seeder;
 
 class LocalizationSeeder extends Seeder

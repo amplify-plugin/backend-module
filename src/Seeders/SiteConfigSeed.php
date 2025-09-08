@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\SiteConfig;
+use Amplify\System\Backend\Models\SiteConfig;
 use Illuminate\Database\Seeder;
 
 class SiteConfigSeed extends Seeder

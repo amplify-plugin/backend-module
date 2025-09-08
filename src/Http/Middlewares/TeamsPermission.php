@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Middlewares;
 
-use App\Models\User;
+use Amplify\System\Backend\Models\User;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

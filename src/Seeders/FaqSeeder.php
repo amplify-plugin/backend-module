@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Faq;
+use Amplify\System\Backend\Models\Faq;
 use Illuminate\Database\Seeder;
 
 class FaqSeeder extends Seeder

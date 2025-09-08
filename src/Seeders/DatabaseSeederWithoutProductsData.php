@@ -2,16 +2,16 @@
 
 namespace Amplify\System\Backend\Seeders;
 
+use Amplify\System\Backend\Models\Contact;
+use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Models\Search;
+use Amplify\System\Backend\Models\Site;
+use Amplify\System\Backend\Models\Store;
+use Amplify\System\Backend\Models\User;
+use Amplify\System\Backend\Models\Warehouse;
 use Amplify\System\Marketing\Seeders\MerchandisingSeeder;
 use Amplify\System\Utility\Seeders\DataTransformationSeeder;
 use Amplify\System\Utility\Seeders\ImportSeeder;
-use App\Models\Contact;
-use App\Models\Customer;
-use App\Models\Search;
-use App\Models\Site;
-use App\Models\Store;
-use App\Models\User;
-use App\Models\Warehouse;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeederWithoutProductsData extends Seeder

@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Traits;
 
-use App\Models\Product;
+use Amplify\System\Backend\Models\Product;
 
 trait ProductClassificationTrait
 {

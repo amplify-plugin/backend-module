@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Middlewares;
 
-use App\Models\Contact;
+use Amplify\System\Backend\Models\Contact;
 use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

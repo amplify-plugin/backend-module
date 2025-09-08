@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Language;
+use Amplify\System\Backend\Models\Language;
 use Illuminate\Database\Seeder;
 
 class LanguageSeeder extends Seeder

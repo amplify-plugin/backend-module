@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Factories;
 
-use App\Models\SitePricing;
+use Amplify\System\Backend\Models\SitePricing;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SitePricingFactory extends Factory

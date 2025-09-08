@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
+use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Helpers\SecurityHelper;
-use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerRequest extends FormRequest

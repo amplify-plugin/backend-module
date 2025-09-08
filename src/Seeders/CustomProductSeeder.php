@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\CustomProduct;
+use Amplify\System\Backend\Models\CustomProduct;
 use Illuminate\Database\Seeder;
 
 class CustomProductSeeder extends Seeder

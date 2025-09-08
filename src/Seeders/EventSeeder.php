@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Event;
-use App\Models\EventRecipent;
-use App\Models\EventVariable;
+use Amplify\System\Backend\Models\Event;
+use Amplify\System\Backend\Models\EventRecipent;
+use Amplify\System\Backend\Models\EventVariable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 

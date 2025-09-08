@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Factories;
 
-use App\Models\Contact;
+use Amplify\System\Backend\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 

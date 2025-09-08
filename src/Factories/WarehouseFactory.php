@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Factories;
 
-use App\Models\Warehouse;
+use Amplify\System\Backend\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WarehouseFactory extends Factory

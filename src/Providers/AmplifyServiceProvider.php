@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Backend\Providers;
 
+use Amplify\System\Backend\Models\Language;
+use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Helpers\UtilityHelper;
-use App\Models\Language;
-use App\Models\SystemConfiguration;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 

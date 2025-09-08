@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
-use App\Models\SavedDynamicReport;
+use Amplify\System\Backend\Models\SavedDynamicReport;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SavedDynamicReportRequest extends FormRequest

@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\FaqCategory;
+use Amplify\System\Backend\Models\FaqCategory;
 use DB;
 use Illuminate\Database\Seeder;
 

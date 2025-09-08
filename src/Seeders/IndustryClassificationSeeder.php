@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\IndustryClassification;
+use Amplify\System\Backend\Models\IndustryClassification;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 

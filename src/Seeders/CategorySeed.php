@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use App\Models\Category;
+use Amplify\System\Backend\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeed extends Seeder

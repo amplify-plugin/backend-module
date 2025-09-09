@@ -1,0 +1,32 @@
+export default {
+    depth:0,
+    height:0,
+    curtainArea:'',
+    stripWidth:"",
+    product:'',
+    productPrice:'',
+    is_mounting_bar:'',
+    quantity:0,
+    heightRange:{low:60,height:108},
+    fourInchWidth:{
+        low:24,
+        heigh:84,
+        type:4
+    },
+    sixInchWidth :{
+        low:26,
+        heigh:138,
+        type:6
+    },
+    eightInchWidth:{
+        low:24,
+        heigh:138,
+        type:8
+    },
+    twelveInchWidth:{
+        low:24,
+        heigh:138,
+        type:12
+    },
+    errorMsgBox:false
+}

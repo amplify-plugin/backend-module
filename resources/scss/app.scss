@@ -1,0 +1,477 @@
+@import '~@digitallyhappy/backstrap/src/scss/variables';
+
+.sidebar {
+    .sidebar-nav {
+        width: 225px !important;
+    }
+
+    .sidebar-scroll {
+        width: 225px !important;
+    }
+
+    .nav {
+        width: 225px !important;
+    }
+}
+
+.app-body {
+    .sidebar.sidebar-pills {
+        width: 250px;
+    }
+}
+
+html {
+    &:not([dir='rtl']) {
+        .sidebar {
+            margin-left: -250px;
+        }
+    }
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.no-box-shadow {
+    box-shadow: none !important;
+}
+
+.v-middle {
+    vertical-align: middle !important;
+}
+
+.product-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.cross {
+    font-size: 10px;
+}
+
+.padding-0 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.img-style {
+    margin-left: -11px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    max-width: 104% !important;
+}
+
+.m-t-20 {
+    margin-top: 20px;
+}
+
+.bbb_background {
+    background-color: $white !important;
+}
+
+.ribbon {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: absolute;
+
+    span {
+        position: absolute;
+        display: block;
+        width: 34px;
+        border-radius: 50%;
+        padding: 8px 0;
+        background-color: $primary;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        color: $white;
+        font: 100 18px/1 'Lato',
+        sans-serif;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        text-transform: uppercase;
+        text-align: center;
+    }
+}
+
+.ribbon-top-right {
+    top: -10px;
+    right: -10px;
+
+    &::before {
+        border-top-color: transparent;
+        border-right-color: transparent;
+        top: 0;
+        left: 17px;
+    }
+
+    &::after {
+        border-top-color: transparent;
+        border-right-color: transparent;
+        bottom: 17px;
+        right: 0;
+    }
+
+    span {
+        right: 17px;
+        top: 17px;
+    }
+}
+
+.sold_stars {
+    i {
+        color: $warning;
+    }
+}
+
+div {
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.cke_notifications_area {
+    display: none;
+}
+
+.bbb_deals_featured {
+    width: 100%;
+}
+
+.bbb_deals {
+    width: 100%;
+    margin-right: 7%;
+    padding: 80px 25px 34px 25px;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 0;
+}
+
+.bbb_deals_title {
+    position: absolute;
+    top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: $black;
+
+    > input {
+        cursor: pointer;
+    }
+}
+
+.bbb_deals_slider_container {
+    width: 100%;
+}
+
+.bbb_deals_item {
+    width: 100% !important;
+}
+
+.bbb_deals_image {
+    width: 100%;
+
+    img {
+        width: 100%;
+    }
+}
+
+.bbb_deals_content {
+    margin-top: 33px;
+}
+
+.bbb_deals_item_category {
+    a {
+        font-size: 14px;
+        font-weight: 400;
+        color: $black;
+        opacity: 0.5;
+    }
+}
+
+.bbb_deals_item_price_a {
+    font-size: 14px;
+    font-weight: 400;
+    color: $black;
+    opacity: 0.6;
+
+    strike {
+        color: $danger;
+    }
+}
+
+.bbb_deals_item_name {
+    font-size: 18px;
+    font-weight: 400;
+    color: $black;
+}
+
+.bbb_deals_item_price {
+    font-size: 24px;
+    font-weight: 500;
+    color: $gray-500;
+}
+
+.available {
+    margin-top: 19px;
+}
+
+.available_title {
+    font-size: 16px;
+    color: $black;
+    opacity: 0.5;
+    font-weight: 400;
+
+    span {
+        font-weight: 700;
+    }
+}
+
+.swal2-styled {
+    padding: 7px 20px !important;
+}
+
+.height-list-product {
+    height: 85px;
+}
+
+.header-fixed {
+    width: 100%;
+
+    > thead {
+        display: block;
+
+        > tr {
+            display: block;
+
+            > th {
+                display: block;
+                width: 25%;
+                float: left;
+            }
+
+            &:after {
+                content: ' ';
+                display: block;
+                visibility: hidden;
+                clear: both;
+            }
+        }
+    }
+
+    > tbody {
+        display: block;
+        overflow-y: auto;
+        height: 262px;
+
+        > tr {
+            display: block;
+
+            > td {
+                display: block;
+                width: 25%;
+                float: left;
+            }
+
+            &:after {
+                content: ' ';
+                display: block;
+                visibility: hidden;
+                clear: both;
+            }
+        }
+    }
+}
+
+.custom-loader {
+    width: 100%;
+    height: 318px;
+    align-items: center;
+    bottom: 1.8rem;
+}
+
+.myDiv {
+    form {
+        .card-body {
+            .form-group {
+                &:has(input[type='text']) {
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                    margin-bottom: 25px !important;
+                }
+            }
+        }
+    }
+}
+
+.fm-navbar {
+    button[title='About'] {
+        display: none;
+    }
+}
+
+.modal-title {
+    line-height: 0.5 !important;
+}
+
+.modal.modal-fullscreen {
+    .modal-dialog {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+    }
+
+    .modal-content {
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+    }
+}
+
+li.nav-item {
+    > a.nav-link {
+        > img.img-avatar {
+            width: 35px !important;
+            object-fit: cover;
+        }
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .bbb_deals {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .bbb_deals {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .bbb_deals_title {
+        font-size: 16px;
+    }
+
+    .bbb_deals_slider_nav_container {
+        right: 5px;
+    }
+
+    .bbb_deals_item_name {
+        font-size: 20px;
+    }
+
+    .bbb_deals_item_price {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .myDiv {
+        form {
+            .card-body {
+                .form-group {
+                    flex: 0 0 100% !important;
+                    max-width: 1000% !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .myDiv {
+        form {
+            .card-body {
+                .form-group {
+                    flex: 0 0 50% !important;
+                    max-width: 50% !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1250px) {
+    .myDiv {
+        form {
+            .card-body {
+                .form-group {
+                    flex: 0 0 33.33% !important;
+                    max-width: 33.33% !important;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .sidebar-pills {
+        top: 55px;
+        transition: all 0.5s;
+    }
+
+    .sidebar-pills.top {
+        top: 0;
+        height: 100vh;
+    }
+}
+
+.app-header {
+    .navbar-brand {
+        width: 225px !important;
+        opacity: 1 !important;
+
+        @media (max-width: 991.98px) {
+            left: calc(50% - 125px);
+            margin-left: 0;
+            padding: 0 !important;
+        }
+
+        @media (max-width: 768px) {
+            margin-left: 0 !important;
+            left: 80px !important;
+        }
+
+        @media (max-width: 425px) {
+            left: 80px !important;
+            width: 190px !important;
+        }
+
+        img {
+            @media (max-width: 425px) {
+                width: auto;
+                height: 36px !important;
+                padding: 0 0 !important;
+            }
+        }
+    }
+}
+
+.custom-sidebar-ar {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+@import 'message';
+
+.vs__search::placeholder {
+    color: rgba(0, 40, 100, 0.12) !important;
+    font-size: 15px;
+}
+
+.vs__dropdown-toggle {
+    border: 1px solid rgba(0, 40, 100, 0.12) !important;
+}

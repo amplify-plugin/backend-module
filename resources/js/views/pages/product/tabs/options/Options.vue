@@ -1,0 +1,90 @@
+<template>
+    <div role="tabpanel" class="tab-pane active"
+         id="tab_options">
+
+        <div class="row">
+            <!-- load the view from type and view_namespace option if set -->
+
+            <!-- hidden input -->
+            <div class="hidden">
+                <input type="hidden" name="options" value="" class="form-control">
+            </div>
+            <div class="col-12 d-none">
+                <div class="mb-2 text-right">
+                    <div class="btn-group">
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                class="btn btn-sm btn-primary dropdown-toggle">
+                            Language: English <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" style="">
+                            <a href="http://127.0.0.1:8000/admin/product-classification/11/edit?locale=en"
+                               class="dropdown-item">
+                                English
+                            </a>
+                            <a href="http://127.0.0.1:8000/admin/product-classification/11/edit?locale=fr"
+                               class="dropdown-item">
+                                French
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="btn-group border-light rounded d-flex">
+                    <span class="btn btn-link text-decoration-none bg-light cursor-pointer"
+                        :class="{'active' : optionType === 'required'}"
+                        @click="optionType='required'">Required
+                    </span>
+                    <span style="height: auto; width: 3px; background: rgb(224 229 236);"></span>
+                    <span class="btn btn-link text-decoration-none bg-light cursor-pointer"
+                        :class="{'active' : optionType === 'optional'}"
+                        @click="optionType='optional'">Optional
+                    </span>
+                </div>
+                <component :is="optionType"></component>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+import Required from "./Required";
+import Optional from "./Optional";
+
+export default {
+    name: "Options",
+
+    components: {
+        Required, Optional
+    },
+
+    data() {
+        return {
+            optionType: 'required',
+        }
+    },
+
+    mounted() {
+        this.$parent.checkIfProductClassification();
+    },
+    methods: {
+        getErrorMessage(type, index, field) {
+            if (this.$parent.validationErrors[`pivot.${type}.${index}.${field}`]) {
+                return this.$parent.validationErrors[`pivot.${type}.${index}.${field}`][0];
+            }
+        },
+    }
+}
+</script>
+
+<style scoped>
+.btn.active {
+    font-weight: bold;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+</style>

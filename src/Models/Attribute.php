@@ -105,7 +105,7 @@ class Attribute extends Model implements ContractsAuditable
     /**
      * @throws \JsonException
      */
-    private function getDataOfAvailableLocale($original_field_name): string
+    private function getDataOfAvailableLocale($original_field_name)
     {
         $locale = $_GET['locale'] ?? app()->getLocale();
         $data = $this->getTranslation($original_field_name, $locale);

@@ -39,7 +39,7 @@ class WebinarController extends Controller
             });
         }
 
-        return view('template::template-1.components.webinar.index', [
+        return view('theme::template-1.components.webinar.index', [
             'webinars' => $webinars->with('webinarType')->orderBy('start_date_time', 'ASC')->paginate(12),
         ]);
     }

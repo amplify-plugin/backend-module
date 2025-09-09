@@ -140,7 +140,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     });
     Route::get('report/{id}/viewreport', 'ReportCrudController@viewReport')->name('admin.report.viewreport');
 
-    Route::get('page-builder', [\Amplify\System\Cms\Http\Controllers\PageBuilder\PageBuilderController::class, 'index']);
     Route::crud('country', 'CountryCrudController');
     Route::crud('state', 'StateCrudController');
 

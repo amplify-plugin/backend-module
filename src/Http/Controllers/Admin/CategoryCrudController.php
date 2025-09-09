@@ -202,7 +202,7 @@ class CategoryCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(CategoryRequest::class);
 
-        $this->crud->setCreateView('crud::pages.category.create');
+        $this->crud->setCreateView('backend::pages.category.create');
 
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['category'] = $this->crud->model->with('products.productImage')->find(request()->id);
@@ -284,7 +284,7 @@ class CategoryCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->setUpdateView('crud::pages.category.create');
+        $this->crud->setUpdateView('backend::pages.category.create');
 
         $this->setupCreateOperation();
     }

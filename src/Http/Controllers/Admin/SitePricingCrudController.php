@@ -46,7 +46,7 @@ class SitePricingCrudController extends BackpackCustomCrudController
             header('Location: '.substr($_SERVER['HTTP_REFERER'], 0, -4).'show');
             exit();
         }
-        $this->crud->setListView('crud::pages.nothing-to-show');
+        $this->crud->setListView('backend::pages.nothing-to-show');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

@@ -88,7 +88,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
 
         $this->data['events'] = Event::get()->toArray();
 
-        $this->crud->setCreateView('crud::pages.event-template.create');
+        $this->crud->setCreateView('backend::pages.event-template.create');
 
         CRUD::field('name');
         CRUD::field('event_id')->label('trigger');
@@ -122,7 +122,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $this->data['email_data'] = $this->crud->getCurrentEntry();
-        $this->crud->setUpdateView('crud::pages.event-template.create');
+        $this->crud->setUpdateView('backend::pages.event-template.create');
 
         $this->setupCreateOperation();
     }

@@ -106,7 +106,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(CustomerGroupRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        $this->crud->setCreateView('crud::pages.customer_groups.create');
+        $this->crud->setCreateView('backend::pages.customer_groups.create');
 
         CRUD::addField([
             'name' => 'group_code',
@@ -152,7 +152,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
             )
             ->find(request()->id);
         $this->crud->setEditContentClass('col-md-12');
-        $this->crud->setUpdateView('crud::pages.customer_groups.create');
+        $this->crud->setUpdateView('backend::pages.customer_groups.create');
         $this->setupCreateOperation();
     }
 

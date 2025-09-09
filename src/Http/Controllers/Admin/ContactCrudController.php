@@ -784,7 +784,7 @@ class ContactCrudController extends BackpackCustomCrudController
             'class' => 'card',
             'content' => [
                 'header' => '<h5 class="card-title mb-0">Contact Login History</h5>', // optional
-                'body' => view('crud::partials.contact-login-history', ['contact' => $this->crud->getModel()->findOrFail($this->crud->getCurrentEntryId())]),
+                'body' => view('backend::partials.contact-login-history', ['contact' => $this->crud->getModel()->findOrFail($this->crud->getCurrentEntryId())]),
             ],
         ])->to('after_content');
 

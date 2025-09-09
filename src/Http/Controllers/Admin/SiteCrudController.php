@@ -187,7 +187,7 @@ class SiteCrudController extends BackpackCustomCrudController
             'label' => 'EasyAsk Dictionary',
         ]);
 
-        $this->crud->setCreateView('crud::pages.sites.create');
+        $this->crud->setCreateView('backend::pages.sites.create');
     }
 
     public function store(SiteRequest $request)
@@ -308,7 +308,7 @@ class SiteCrudController extends BackpackCustomCrudController
     {
         $this->data['sitesData'] = $this->crud->getCurrentEntry();
 
-        $this->crud->setUpdateView('crud::pages.sites.create');
+        $this->crud->setUpdateView('backend::pages.sites.create');
 
         $this->setupCreateOperation();
     }

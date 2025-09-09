@@ -41,7 +41,7 @@ class OptionCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        //        $this->crud->setListView('crud::pages.under-construction');
+        //        $this->crud->setListView('backend::pages.under-construction');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'option_name',
@@ -75,7 +75,7 @@ class OptionCrudController extends BackpackCustomCrudController
         CRUD::setValidation(OptionRequest::class);
 
         $this->data['option'] = $this->crud->model->find(request()->id);
-        $this->crud->setCreateView('crud::pages.options.create');
+        $this->crud->setCreateView('backend::pages.options.create');
 
         CRUD::addField([
             'name' => 'option_name',
@@ -177,7 +177,7 @@ class OptionCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->setUpdateView('crud::pages.options.create');
+        $this->crud->setUpdateView('backend::pages.options.create');
         $this->setupCreateOperation();
     }
 

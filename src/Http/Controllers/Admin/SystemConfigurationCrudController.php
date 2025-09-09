@@ -204,7 +204,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             $this->data['date_formats'][$date] = date($date, strtotime('2023-12-27 15:45:10'));
         }
 
-        return view('crud::pages.configurations.create', array_merge(['crud' => $this->crud], $this->data));
+        return view('backend::pages.configurations.create', array_merge(['crud' => $this->crud], $this->data));
     }
 
     /**

@@ -124,7 +124,7 @@ class EventActionCrudController extends BackpackCustomCrudController
         CRUD::setValidation(EventActionRequest::class);
         $this->crud->setRequiredFields(EventActionRequest::class);
         $this->data['events'] = Event::get()->toArray();
-        $this->crud->setCreateView('crud::pages.events.action');
+        $this->crud->setCreateView('backend::pages.events.action');
 
         CRUD::field('name');
         CRUD::field('event_id');
@@ -160,7 +160,7 @@ class EventActionCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $this->data['event_action_data'] = $this->crud->getCurrentEntry();
-        $this->crud->setUpdateView('crud::pages.events.action');
+        $this->crud->setUpdateView('backend::pages.events.action');
         $this->setupCreateOperation();
 
         CRUD::addField([

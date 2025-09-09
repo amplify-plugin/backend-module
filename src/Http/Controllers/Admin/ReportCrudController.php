@@ -190,7 +190,7 @@ class ReportCrudController extends BackpackCustomCrudController
     {
         // CRUD::setValidation(ReportRequest::class);
 
-        CRUD::setCreateView('crud::pages.report.create');
+        CRUD::setCreateView('backend::pages.report.create');
 
         // Widget::add()->type('script')->content(asset('assets/js/admin/forms/report.js'));
     }
@@ -206,7 +206,7 @@ class ReportCrudController extends BackpackCustomCrudController
     {
         $this->crud->getCurrentEntry()->reportConditions;
 
-        CRUD::setUpdateView('crud::pages.report.create');
+        CRUD::setUpdateView('backend::pages.report.create');
         $this->setupCreateOperation();
     }
 
@@ -265,6 +265,6 @@ class ReportCrudController extends BackpackCustomCrudController
         }
 
         // dd('koi jas');
-        return view('crud::pages.report.viewreport', compact('report', 'data', 'sql'));
+        return view('backend::pages.report.viewreport', compact('report', 'data', 'sql'));
     }
 }

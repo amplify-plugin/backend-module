@@ -137,7 +137,7 @@ class ProductClassificationCrudController extends BackpackCustomCrudController
         $this->data['easyAsk_default_product_categories'] = eaDefaultCategories('categories');
         $this->data['all_single_product_pages'] = Page::getPages('single_product');
 
-        $this->crud->setCreateView('crud::pages.product-classification.create');
+        $this->crud->setCreateView('backend::pages.product-classification.create');
 
         CRUD::addField([
             'name' => 'title',
@@ -191,7 +191,7 @@ class ProductClassificationCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $productClassificationData = $this->crud->getCurrentEntry();
-        $this->crud->setUpdateView('crud::pages.product-classification.create');
+        $this->crud->setUpdateView('backend::pages.product-classification.create');
         $this->setupCreateOperation();
     }
 
@@ -278,7 +278,7 @@ class ProductClassificationCrudController extends BackpackCustomCrudController
 
         $this->getReorderData();
 
-        return view('crud::pages.product-classification.reorder', $this->data);
+        return view('backend::pages.product-classification.reorder', $this->data);
     }
 
     protected function setupShowOperation()

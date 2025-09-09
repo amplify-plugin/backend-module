@@ -65,7 +65,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
         $this->data['prompts'] = AdhocPromptSuggestion::whereStatus(1)->select('id', 'report_category_id', 'prompt')->get();
         $this->data['prompt'] = request()->filled('prompt') ? request()->prompt : null;
         $this->data['saved_report'] = request()->filled('report') ? SavedDynamicReport::find(request('report')) : null;
-        $this->crud->setListView('crud::pages.report.adhoc-report');
+        $this->crud->setListView('backend::pages.report.adhoc-report');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

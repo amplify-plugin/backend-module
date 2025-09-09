@@ -36,6 +36,6 @@ trait ReorderTrait
         $this->data['crud'] = $this->crud;
         $this->data['title'] = $this->crud->getTitle()
                                            ?? trans('backpack::crud.reorder').' '.$this->crud->entity_name;
-        // return view('crud::pages.product-classification.reorder'', $this->data);
+        // return view('backend::pages.product-classification.reorder'', $this->data);
     }
 }

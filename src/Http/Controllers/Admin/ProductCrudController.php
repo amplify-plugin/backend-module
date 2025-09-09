@@ -614,7 +614,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->data['show_order_quantity_config_tab'] = config('amplify.pim.use_minimum_order_quantity') && ! $this->crud->entry?->has_sku;
 
         // dd($this->data, $this->data['productClassification'], $this->data['product']);
-        $this->crud->setCreateView('crud::pages.product.create');
+        $this->crud->setCreateView('backend::pages.product.create');
 
         // "Attributes" "Pricing" "Media" "Documents" "SEO" "Icecat"
         CRUD::field('product_type')->tab('BasicInfo');
@@ -774,7 +774,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 return $item;
             });
 
-        $this->crud->setUpdateView('crud::pages.product.create');
+        $this->crud->setUpdateView('backend::pages.product.create');
         $this->setupCreateOperation();
     }
 

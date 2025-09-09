@@ -256,7 +256,7 @@ class AttributeCrudController extends BackpackCustomCrudController
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['attribute'] = $this->crud->model->find(request()->id);
 
-        $this->crud->setCreateView('crud::pages.attribute.create');
+        $this->crud->setCreateView('backend::pages.attribute.create');
 
         CRUD::addField([
             'name' => 'hide',
@@ -381,7 +381,7 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->setUpdateView('crud::pages.attribute.create');
+        $this->crud->setUpdateView('backend::pages.attribute.create');
         $this->setupCreateOperation();
     }
 }

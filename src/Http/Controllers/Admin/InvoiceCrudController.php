@@ -37,7 +37,7 @@ class InvoiceCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         $this->data['customers'] = Customer::all();
-        //        $this->crud->setListView('crud::pages.invoice.index');
+        //        $this->crud->setListView('backend::pages.invoice.index');
 
         CRUD::addColumn([
             'name' => 'id',
@@ -80,20 +80,20 @@ class InvoiceCrudController extends BackpackCustomCrudController
         $customer = \ErpApi::getCustomerDetail(['customer_number' => $customerCode]);
         $invoiceSummary = \ErpApi::getInvoiceList(['customer_number' => $customerCode]);
 
-        return view('crud::pages.invoice.invoice_summary',
+        return view('backend::pages.invoice.invoice_summary',
             ['invoiceSummary' => $invoiceSummary,
                 'customer' => $customer,
                 'accountSummary' => $accountSummary,
                 'customerCode' => $customerCode]);
 
-        // $this->crud->setShowView('crud::pages.invoice.index');
+        // $this->crud->setShowView('backend::pages.invoice.index');
     }
 
     public function invoiceDetails($invoiceNumber, $customerCode)
     {
         $invoice = \ErpApi::getInvoiceDetail(['invoice_number' => $invoiceNumber, 'customer_number' => $customerCode]);
 
-        return view('crud::pages.invoice.invoice_details',
+        return view('backend::pages.invoice.invoice_details',
             ['invoice' => $invoice, 'customerCode' => $customerCode]);
     }
 }

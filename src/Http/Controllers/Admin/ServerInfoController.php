@@ -46,7 +46,7 @@ class ServerInfoController extends Controller
             ['Webserver Access Log', $this->fileSize('/var/log/apache2')],
         ];
 
-        return view('crud::pages.server-info.index', compact('statistics'));
+        return view('backend::pages.server-info.index', compact('statistics'));
     }
 
     private function fileSize(string $path): string

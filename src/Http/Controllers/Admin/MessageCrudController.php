@@ -32,7 +32,7 @@ class MessageCrudController extends BackpackCustomCrudController
     {
         $this->data['threads'] = backpack_user()->threads;
         $this->data['currentThread'] = null;
-        $this->crud->setListView('crud::pages.messages.index');
+        $this->crud->setListView('backend::pages.messages.index');
     }
 
     public function setupShowOperation()
@@ -42,7 +42,7 @@ class MessageCrudController extends BackpackCustomCrudController
 
         backpack_user()->markThreadAsRead($this->data['currentThread']->id);
 
-        $this->crud->setShowView('crud::pages.messages.index');
+        $this->crud->setShowView('backend::pages.messages.index');
     }
 
     /**

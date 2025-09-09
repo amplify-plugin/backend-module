@@ -9,7 +9,7 @@ class AlexusmaiFileManagerController extends Controller
 {
     public function index()
     {
-        return view('crud::pages.filemanager.filemanager');
+        return view('backend::pages.filemanager.filemanager');
     }
 
     public function popup($input_id, Request $request)
@@ -19,6 +19,6 @@ class AlexusmaiFileManagerController extends Controller
             $is_multiple = 1;
         }
 
-        return view('crud::pages.filemanager.filemanager-popup', ['inputId' => $input_id, 'isMultiple' => $is_multiple]);
+        return view('backend::pages.filemanager.filemanager-popup', ['inputId' => $input_id, 'isMultiple' => $is_multiple]);
     }
 }

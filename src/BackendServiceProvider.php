@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend;
 
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
+use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +21,19 @@ class BackendServiceProvider extends ServiceProvider
 
         $this->app->register(AmplifyServiceProvider::class);
 
-        $this->app->booting(function () {
+        $this->app->register(RouteServiceProvider::class);
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
+
+        $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');
             $stylePath = "assets/css/color-schemes/{$color}-bundle.css";
@@ -32,16 +45,5 @@ class BackendServiceProvider extends ServiceProvider
                 'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.cms.logo_path', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
             ]);
         });
-    }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadRoutesFrom(__DIR__.'/../routes/backend.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        $this->loadRoutesFrom(__DIR__.'/../routes/develop.php');
     }
 }

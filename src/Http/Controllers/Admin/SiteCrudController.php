@@ -226,7 +226,7 @@ class SiteCrudController extends BackpackCustomCrudController
             'label' => 'Template',
             'type' => 'custom_html',
             'value' => function ($model) {
-                $template = template($model->template_id);
+                $template = theme($model->template_id);
                 if (! empty($template)) {
                     return $template->label;
                 } else {

@@ -40,7 +40,7 @@
         class_name="{{'col-lg-12' }}"
         method="{{$crud->getCurrentOperation() === 'update' ? 'put'  : ($crud->getCurrentOperation() === 'show' ? 'get' : 'post')}}"
         query_string="{{ json_encode($query_string) }}"
-        active_template="{{ json_encode(template()) }}"
+        active_template="{{ json_encode(theme()) }}"
         page_types_array="{{ json_encode(config('amplify.cms.page_types')) }}"
         middleware_list="{{ json_encode(array_values(config('amplify.cms.middleware.middlewares'))) }}"
         save_action="{{ json_encode($saveAction) }}"

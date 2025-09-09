@@ -22,7 +22,7 @@ class Language extends Model implements Auditable
         $attribute_name = 'flag';
         $disk = 'uploads';
         $destination_path = 'images/flags';
-        $oldImage = Str::replaceFirst($disk.'/', '', $this->{$attribute_name});
+        $oldImage = Str::replaceFirst($disk . '/', '', $this->{$attribute_name});
 
         // if the image was erased
         if ($value == null) {
@@ -41,7 +41,7 @@ class Language extends Model implements Auditable
             $image = \Image::make($value)->encode('png', 90);
 
             // 1. Generate a filename.
-            $destination_path = $destination_path.'/'.md5($value.time()).'.png';
+            $destination_path = $destination_path . '/' . md5($value . time()) . '.png';
 
             // 2. Store the image on disk.
             Storage::disk($disk)->put($destination_path, $image->stream());
@@ -52,7 +52,19 @@ class Language extends Model implements Auditable
             }
 
             // 4. Save the path to the database
-            $this->attributes[$attribute_name] = $disk.'/'.$destination_path;
+            $this->attributes[$attribute_name] = $disk . '/' . $destination_path;
         }
     }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::saved(function (self $model) {
+            $languages = static::select('name', 'code')->get()->pluck('name', 'code')->toArray();
+            @file_put_contents(public_path('locale-lang.js'), json_encode($languages, JSON_UNESCAPED_UNICODE, JSON_PRETTY_PRINT));
+        });
+    }
+
 }

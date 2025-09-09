@@ -54,7 +54,7 @@ class Site extends Model implements Auditable
     public static function getSiteOptions()
     {
         return Cache::remember('site-setting', now()->addHours(1), function () {
-            return \App\Models\Site::orderBy('site_name', 'asc')->with('search', 'sitePricing')->get();
+            return Site::orderBy('site_name', 'asc')->with('search', 'sitePricing')->get();
         });
     }
 }

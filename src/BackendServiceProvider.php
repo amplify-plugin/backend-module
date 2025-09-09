@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend;
 
+use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +18,7 @@ class BackendServiceProvider extends ServiceProvider
 
         $this->app->register(SingletonServiceProvider::class);
 
-        $this->app->register(SingletonServiceProvider::class);
+        $this->app->register(AmplifyServiceProvider::class);
 
         $this->app->booting(function () {
             $backpackStyles = Config::get('backpack.base.styles');

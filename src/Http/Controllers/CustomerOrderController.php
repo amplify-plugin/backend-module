@@ -36,7 +36,7 @@ class CustomerOrderController extends Controller
     public function quickOrderFileUpload(QuickOrderFileRequest $request): JsonResponse
     {
         $file = request()->file('file');
-        $fileName = time() . '_' . $file->getClientOriginalName();
+        $fileName = time().'_'.$file->getClientOriginalName();
         $filePath = $file->storeAs('public/quick_order/', $fileName);
 
         $fileExtension = strtoupper($file->getClientOriginalExtension());
@@ -48,7 +48,7 @@ class CustomerOrderController extends Controller
             default => null
         };
 
-        $fileData = Excel::toArray((object)[], $filePath, 'local', $readerType);
+        $fileData = Excel::toArray((object) [], $filePath, 'local', $readerType);
 
         $firstSheet = array_shift($fileData);
 
@@ -56,18 +56,19 @@ class CustomerOrderController extends Controller
             throw ValidationException::withMessages(['file' => 'The file is empty or only have headers.']);
         }
 
-        //Remove Header
+        // Remove Header
         if (isset($firstSheet[0][0])) {
             unset($firstSheet[0]);
         }
 
-        //Merge Quantity for Duplicate Product
+        // Merge Quantity for Duplicate Product
         $products = [];
 
         foreach ($firstSheet as $row) {
             $code = strval($row[0]);
-            if (!isset($products[$code])) {
+            if (! isset($products[$code])) {
                 $products[$code] = ['code' => $code, 'qty' => floatval($row[1])];
+
                 continue;
             }
             $products[$code]['qty'] += floatval($row[1]);
@@ -79,10 +80,10 @@ class CustomerOrderController extends Controller
             throw ValidationException::withMessages(['file' => 'The file has more than 100 items.']);
         }
 
-        if (!empty($products)) {
+        if (! empty($products)) {
             Storage::delete($filePath);
 
-            $all_products = array_map(fn($item) => [$item['code'], $item['qty']], $products);
+            $all_products = array_map(fn ($item) => [$item['code'], $item['qty']], $products);
 
             $data = $this->validateAndGetProducts($all_products, $fileExtension);
 
@@ -107,7 +108,6 @@ class CustomerOrderController extends Controller
         }
     }
 
-
     private function validateAndGetProducts($all_products, $fileExtension = null): array
     {
         $products = [];
@@ -119,7 +119,6 @@ class CustomerOrderController extends Controller
             $product_code = array_map(function ($item) {
                 return ['item' => $item[0], 'qty' => $item[1]];
             }, $all_products);
-
 
             $getProductPriceAvailability = \ErpApi::getProductPriceAvailability([
                 'items' => [...$product_code],
@@ -137,7 +136,7 @@ class CustomerOrderController extends Controller
                 $product_exist = Product::where('product_code', $product_code)->first();
                 $new_structure = [];
 
-                if (!$product_exist) {
+                if (! $product_exist) {
                     $new_structure['product_code'] = $product_code;
                     $new_structure['product_name'] = 'N/A';
                     $new_structure['qty'] = $product[1];
@@ -157,7 +156,7 @@ class CustomerOrderController extends Controller
                             $product_already_exist_in_products = true;
                         }
                     }
-                    if (!$product_already_exist_in_products) {
+                    if (! $product_already_exist_in_products) {
                         $new_structure['product_code'] = $product_code;
                         $new_structure['product_id'] = $product_exist->id;
                         $new_structure['product_back_order'] = $product_exist->allow_back_order ? 'Y' : 'N';
@@ -180,7 +179,7 @@ class CustomerOrderController extends Controller
                 'success' => true,
                 'products' => $products,
                 'message' => count($error_products) > 0
-                    ? 'Product not found for: ' . implode(', ', $error_products)
+                    ? 'Product not found for: '.implode(', ', $error_products)
                     : '',
             ];
         } catch (\Exception $e) {
@@ -188,7 +187,7 @@ class CustomerOrderController extends Controller
 
             return [
                 'success' => false,
-                'message' => 'Invalid ' . $fileExtension . ' file',
+                'message' => 'Invalid '.$fileExtension.' file',
             ];
         }
     }
@@ -218,15 +217,15 @@ class CustomerOrderController extends Controller
             if ($product_exist) {
                 if (\ErpApi::enabled()) {
                     if (((
-                        !$ERPInfo || !$product['qty'] ||
-                        !$ERPInfo[0]->QuantityAvailable ||
-                        !($ERPInfo[0]->QuantityAvailable >= $product['qty'])))
+                        ! $ERPInfo || ! $product['qty'] ||
+                        ! $ERPInfo[0]->QuantityAvailable ||
+                        ! ($ERPInfo[0]->QuantityAvailable >= $product['qty'])))
                     ) {
-                        if (((!empty($product['customer_back_order_code'])
+                        if (((! empty($product['customer_back_order_code'])
                                     && $product['customer_back_order_code'] !== 'Y')
-                                || (!empty($product['product_back_order'])
+                                || (! empty($product['product_back_order'])
                                     && $product['product_back_order'] !== 'Y'))
-                            || !($product['qty'] > 0)) {
+                            || ! ($product['qty'] > 0)) {
                             continue;
                         }
                     }
@@ -240,14 +239,14 @@ class CustomerOrderController extends Controller
                         $product_already_exist_in_products = true;
                     }
                 }
-                if (!$product_already_exist_in_products) {
+                if (! $product_already_exist_in_products) {
                     $new_structure['product_code'] = $product_code;
                     $new_structure['product_id'] = $product_id ?? $product_exist->id;
                     $new_structure['url'] = frontendSingleProductURL($product_exist->id);
                     $new_structure['product_name'] = $product_exist->product_name;
                     $new_structure['qty'] = $product['qty'];
                     $new_structure['product_warehouse_code'] = $warehouse_code;
-                    $new_structure['product_back_order'] = (!empty($product['product_back_order'])) ? $product['product_back_order'] : 'N';
+                    $new_structure['product_back_order'] = (! empty($product['product_back_order'])) ? $product['product_back_order'] : 'N';
                     $new_structure['product_image'] = $product_exist->productImage->main ?? null;
                     $new_structure['address_id'] = $address_id;
                     if (ErpApi::enabled()) {
@@ -301,7 +300,7 @@ class CustomerOrderController extends Controller
         if ($product_exist) {
             $warehouses = \ErpApi::getWarehouses();
             $ERP = $this->getERPInfo($product_code, $warehouses->reduce(function ($pre, $curr) {
-                return $pre . $curr->WarehouseNumber;
+                return $pre.$curr->WarehouseNumber;
             }));
 
             foreach ($ERP as $productPriceAvailability) {
@@ -351,8 +350,8 @@ class CustomerOrderController extends Controller
                     'product_id' => $product->product_id,
                     'product_code' => $product->product_code,
                     'warehouse_id' => $product->warehouse_id ?? null,
-                    'qty' => (int)$product->quantity,
-                    'customer_price' => (float)$product->unitprice,
+                    'qty' => (int) $product->quantity,
+                    'customer_price' => (float) $product->unitprice,
                     'ship_to_address_id' => $product->address_id,
                     'source_type' => $product->source_type ?? null,
                     'source' => $product->source ?? null,
@@ -411,7 +410,7 @@ class CustomerOrderController extends Controller
 
                 $jsonResponse['success'] = true;
 
-                $nxt_available_web_order_number = (int)config('amplify.basic.nxt_available_web_order_number');
+                $nxt_available_web_order_number = (int) config('amplify.basic.nxt_available_web_order_number');
 
                 SystemConfiguration::setValue('basic', 'nxt_available_web_order_number', str_pad(
                     ++$nxt_available_web_order_number, 7, '0', STR_PAD_LEFT
@@ -442,7 +441,7 @@ class CustomerOrderController extends Controller
                         $erp_order_data['order_type'] = 'O';
                         $apiResponse = $order->createOrderOrQuoteERP($erp_order_data);
 
-                        if (!$apiResponse['success']) {
+                        if (! $apiResponse['success']) {
                             throw new \ErrorException('Order submission failed');
                         }
 
@@ -455,7 +454,7 @@ class CustomerOrderController extends Controller
                         $order_data['order_type'] = 'T';
                         $apiResponse = $order->createOrderOrQuoteERP($order_data);
 
-                        if (!$apiResponse['success']) {
+                        if (! $apiResponse['success']) {
                             throw new \ErrorException('Quotation submission failed');
                         }
 
@@ -499,7 +498,7 @@ class CustomerOrderController extends Controller
         } catch (\Exception $exception) {
             $class = basename(get_class($exception));
 
-            Log::error("Create Order {$class} : " . $exception->getMessage());
+            Log::error("Create Order {$class} : ".$exception->getMessage());
 
             $jsonResponse['success'] = false;
             $jsonResponse['message'] = $exception->getMessage();
@@ -520,12 +519,12 @@ class CustomerOrderController extends Controller
             ->findOrFail($order_id);
 
         $apiResponse = $customerOrder->createOrderOrQuoteERP([
-                'order_type' => 'O',
-                'customer_email' => $customerOrder->contact->email,
-                'customer_phone' => $customerDetails->CustomerPhone,
-                'card_token' => $request->input('card_token', null),
-                'shipping_number' => $customerOrder->shipping_number,
-            ] + (array)$customerOrder->temp_address);
+            'order_type' => 'O',
+            'customer_email' => $customerOrder->contact->email,
+            'customer_phone' => $customerDetails->CustomerPhone,
+            'card_token' => $request->input('card_token', null),
+            'shipping_number' => $customerOrder->shipping_number,
+        ] + (array) $customerOrder->temp_address);
 
         if ($apiResponse['success']) {
             $customerOrder->update([
@@ -558,7 +557,7 @@ class CustomerOrderController extends Controller
     /**
      * customerCartUpdate
      *
-     * @param mixed $cart
+     * @param  mixed  $cart
      */
     public function customerCartUpdate(Cart $cart): void
     {
@@ -591,7 +590,7 @@ class CustomerOrderController extends Controller
         }
 
         // get the prefix of the customer set in the admin panel then concat with it the available web_order_number
-        return $web_order_prefix . config('amplify.basic.nxt_available_web_order_number');
+        return $web_order_prefix.config('amplify.basic.nxt_available_web_order_number');
     }
 
     /**
@@ -610,12 +609,12 @@ class CustomerOrderController extends Controller
                 $orderList = OrderList::firstOrCreate([
                     'id' => $request->list_id,
                 ], [
-                        'name' => $request->list_name,
-                        'list_type' => $request->list_type,
-                        'description' => $request->list_desc,
-                        'contact_id' => customer(true)->id,
-                        'customer_id' => customer()->id,
-                    ]
+                    'name' => $request->list_name,
+                    'list_type' => $request->list_type,
+                    'description' => $request->list_desc,
+                    'contact_id' => customer(true)->id,
+                    'customer_id' => customer()->id,
+                ]
                 );
                 $orderListItems = $this->getOrderListItemsArray($request, $orderList);
 
@@ -666,7 +665,7 @@ class CustomerOrderController extends Controller
         $orderList = OrderList::where('name', 'like', $list_name)
             ->where('contact_id', customer(true)->id)->first();
 
-        if (!is_null($orderList)) {
+        if (! is_null($orderList)) {
             $splitNumberFromName = explode('-', $list_name);
             $list_name = $this->getProperListName($splitNumberFromName);
 
@@ -686,11 +685,11 @@ class CustomerOrderController extends Controller
     public function getProperListName($splitNumberFromName)
     {
         if (count($splitNumberFromName) < 2) {
-            return $splitNumberFromName[0] . '-1';
+            return $splitNumberFromName[0].'-1';
         }
 
         $listNumber = ++$splitNumberFromName[count($splitNumberFromName) - 1];
-        $list_name = "{$splitNumberFromName[0]}" . "-{$listNumber}";
+        $list_name = "{$splitNumberFromName[0]}"."-{$listNumber}";
 
         return $list_name;
     }
@@ -825,7 +824,7 @@ class CustomerOrderController extends Controller
             $order->contact_id = $contact->id;
             $order->customer_order_number = $request->customer_order_reference;
             $order->user_id = rand(1, 99999);
-            $order->total_amount = (float)$this->getTotalPriceForSavedList(optional($list)->orderListItems); // Get the total price of the items saved in the list
+            $order->total_amount = (float) $this->getTotalPriceForSavedList(optional($list)->orderListItems); // Get the total price of the items saved in the list
             $order->order_status = $this->checkCustomerOrderLimit($order->total_amount) // Check if the logged in contact reached his/her order daily, monthly limits or not
                 ? 'Approved'
                 : 'Pending';
@@ -837,8 +836,8 @@ class CustomerOrderController extends Controller
                 $order_lines[] = [
                     'customer_order_id' => $order->id,
                     'product_code' => optional($item->product)->product_code,
-                    'qty' => (int)$item->qty,
-                    'customer_price' => (float)optional($item->product)->selling_price,
+                    'qty' => (int) $item->qty,
+                    'customer_price' => (float) optional($item->product)->selling_price,
                     'ship_to_address_id' => $customer->default_address_id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -879,15 +878,15 @@ class CustomerOrderController extends Controller
             foreach ($list->orderListItems as $item) {
                 $product_code = optional($item->product)->product_code;
                 $existingProduct = CustomerOrderLine::where('customer_order_id', $order->id) // this code finds out if the saved list item is already existing in the order
-                ->where('product_code', $product_code)->first();
+                    ->where('product_code', $product_code)->first();
 
                 if (is_null($existingProduct)) {
                     // if the saved list item is not existing in the order then adds it as an order item
                     $order_lines[] = [
                         'customer_order_id' => $order->id,
                         'product_code' => optional($item->product)->product_code,
-                        'qty' => (int)$item->qty,
-                        'customer_price' => (float)optional($item->product)->selling_price,
+                        'qty' => (int) $item->qty,
+                        'customer_price' => (float) optional($item->product)->selling_price,
                         'ship_to_address_id' => $customer->default_address_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
@@ -944,8 +943,8 @@ class CustomerOrderController extends Controller
                 $order_lines = [
                     'customer_order_id' => $order->id,
                     'product_code' => optional($item->product)->product_code,
-                    'qty' => (int)$item->qty,
-                    'customer_price' => (float)optional($item->product)->selling_price,
+                    'qty' => (int) $item->qty,
+                    'customer_price' => (float) optional($item->product)->selling_price,
                     'ship_to_address_id' => $customer->default_address_id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
@@ -1041,7 +1040,7 @@ class CustomerOrderController extends Controller
             } else {
                 $order = CustomerOrder::where('erp_order_id', $request->input('orderNumber'))->first();
 
-                if (!$order) {
+                if (! $order) {
                     return response()->json([
                         'message' => 'Order not found!',
                     ], 404);
@@ -1074,7 +1073,7 @@ class CustomerOrderController extends Controller
 
         $order = CustomerOrder::find($request->input('orderNumber'));
 
-        if (!$order) {
+        if (! $order) {
             return response()->json([
                 'message' => 'Order not found!',
             ], 404);
@@ -1091,7 +1090,7 @@ class CustomerOrderController extends Controller
         ]);
 
         return response()->json([
-            'redirect_to' => url('/draft-order-details/' . $request->input('orderNumber')),
+            'redirect_to' => url('/draft-order-details/'.$request->input('orderNumber')),
             'message' => 'You have successfully updated the order note for this order!',
         ], 200);
     }
@@ -1131,12 +1130,12 @@ class CustomerOrderController extends Controller
                 $orderList = OrderList::firstOrCreate([
                     'id' => $request->list_id,
                 ], [
-                        'name' => $request->list_name,
-                        'list_type' => $request->list_type,
-                        'description' => $request->list_desc,
-                        'contact_id' => customer(true)->id,
-                        'customer_id' => customer()->id,
-                    ]
+                    'name' => $request->list_name,
+                    'list_type' => $request->list_type,
+                    'description' => $request->list_desc,
+                    'contact_id' => customer(true)->id,
+                    'customer_id' => customer()->id,
+                ]
                 );
 
                 OrderListItem::firstOrCreate([

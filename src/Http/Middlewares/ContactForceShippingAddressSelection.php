@@ -22,7 +22,7 @@ class ContactForceShippingAddressSelection
             'frontend.ship-to-address.store',
             'frontend.force-reset-password',
             'frontend.force-reset-password-attempt',
-            'frontend.logout'
+            'frontend.logout',
         ];
         if (in_array($request->route()->getName(), $ignoreRouteNames)) {
             return $next($request);

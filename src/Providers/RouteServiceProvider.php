@@ -31,12 +31,12 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
-                ->group(__DIR__ . '/../../routes/api.php');
+                ->group(__DIR__.'/../../routes/api.php');
 
             Route::middleware(array_merge(config('backpack.base.web_middleware', ['web']),
-                (array)config('backpack.base.middleware_key', 'admin'), ['admin_password_reset_required']))
+                (array) config('backpack.base.middleware_key', 'admin'), ['admin_password_reset_required']))
                 ->prefix(config('backpack.base.route_prefix', 'backpack'))
-                ->group(__DIR__ . '/../../routes/web.php');
+                ->group(__DIR__.'/../../routes/web.php');
         });
     }
 }

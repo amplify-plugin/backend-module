@@ -22,7 +22,7 @@ class QuickOrderFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'mimetypes:text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'max:2048'], //max 2MB
+            'file' => ['required', 'file', 'mimetypes:text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'max:2048'], // max 2MB
         ];
     }
 }

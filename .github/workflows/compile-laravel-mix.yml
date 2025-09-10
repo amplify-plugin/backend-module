@@ -22,10 +22,6 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: Remove public/js/*.js files matching digits
-        run: |
-            find public/js/backend -type f -regex 'public/js/backend/[0-9]\+\.js' -delete || true
-
       - name: Install dependencies
         run: npm install --force
 

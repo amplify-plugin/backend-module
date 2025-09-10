@@ -19,7 +19,7 @@
             ></file-manager-popup>
         </div>
 
-        <script src="{{asset("assets/js/app.js")}}"></script>
+        <script src="{{asset("vendor/backend/js/backend.js")}}"></script>
     </body>
 </html>
 

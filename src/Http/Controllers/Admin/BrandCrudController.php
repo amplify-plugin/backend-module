@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
-
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\BrandRequest;
 use Amplify\System\Backend\Models\Brand;

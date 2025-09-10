@@ -1,13 +1,11 @@
 <?php
 
-
 // --------------------------
 // Custom Backpack Routes
 // --------------------------
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
 
-use Amplify\System\Utility\Http\Controllers\FailedJobCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ContactCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\CustomerGroupCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventActionCrudController;
@@ -21,6 +19,7 @@ use Amplify\System\Backend\Http\Controllers\Admin\SystemConfigurationCrudControl
 use Amplify\System\Backend\Http\Controllers\AlexusmaiFileManagerController;
 use Amplify\System\Cms\Http\Controllers\PageCrudController;
 use Amplify\System\Marketing\Http\Controllers\CampaignCrudController;
+use Amplify\System\Utility\Http\Controllers\FailedJobCrudController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;

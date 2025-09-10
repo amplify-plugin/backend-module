@@ -53,5 +53,5 @@
         }
     </script>
     @include('cms::inc.full-page-loader')
-    <script src="{{ asset("assets/js/app.js") }}"></script>
+    <script src="{{ asset("vendor/backend/js/backend.js") }}"></script>
 @endsection

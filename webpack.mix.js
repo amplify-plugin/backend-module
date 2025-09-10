@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const webpack = require('webpack');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,15 +12,40 @@ const mix = require('laravel-mix');
  */
 
 
-mix.setResourceRoot('resources')
+mix.options({
+    processCssUrls: false,
+    notifications: {
+        onSuccess: false,
+    },
+    clearConsole: true,
+    terser: {
+        extractComments: false,
+        terserOptions: {
+            format: {
+                comments: false,
+            },
+        },
+    },
+})
+    .setResourceRoot('resources')
     .setPublicPath('public')
-    .sourceMaps(true, 'source-map')
+    .sourceMaps(false, 'source-map')
     .sass('resources/scss/backend.scss', 'public/css/backend.css')
+    .copyDirectory('resources/js', 'public/js/')
+    .copyDirectory('resources/css', 'public/css/')
+    .js('resources/vue/app.js', 'public/js/backend.js')
+    .vue()
     .copy('resources/js/crud.js', 'public/js/crud.js')
-    // .styles([
-    //     'resources/css/autocomplete.css',
-    //     'resources/css/sayt.css',
-    //     'resources/css/jquery-ui.css',
-    // ], 'public/css/sayt.css')
-    // .copyDirectory('resources/js', 'public/js')
+    .webpackConfig({
+    resolve: {
+        fallback: {
+            buffer: require.resolve('buffer/'), // Polyfill for buffer
+        },
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
+        }),
+    ],
+})
     .version();

@@ -15,7 +15,7 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
 
         $this->app->register(SingletonServiceProvider::class);
 
@@ -34,19 +34,19 @@ class BackendServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/backend'),
+            __DIR__.'/../public' => public_path('vendor/backend'),
         ], 'backend-asset');
 
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');
-            $stylePath = "assets/css/color-schemes/{$color}-bundle.css";
+            $stylePath = "vendor/backend/css/color-schemes/{$color}-bundle.css";
 
             $backpackStyles[] = $stylePath;
 
             Config::set([
                 'backpack.base.styles' => $backpackStyles,
-                'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.cms.logo_path', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
+                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.cms.logo_path', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
             ]);
         });
     }

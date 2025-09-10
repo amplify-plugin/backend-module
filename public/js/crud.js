@@ -15,7 +15,6 @@ jQuery(function ($) {
         $(this).val(formatting);
     });
 
-    /* CMS configuration */
     if ($("#value_type").val() == 'string') {
         $("#value_string").parent().show();
         $("#value_image").parent().parent().parent().hide();

@@ -2,16 +2,15 @@
 
 namespace Amplify\System\Backend\Providers;
 
-use Amplify\System\Services\InstanceManagerService;
-use Amplify\System\Services\PunchOutApiService;
 use Amplify\System\Message\Messenger;
 use Amplify\System\Payment\PayApiService;
 use Amplify\System\Payment\Services\CenPosPaymentGateway;
+use Amplify\System\Services\InstanceManagerService;
+use Amplify\System\Services\PunchOutApiService;
 use Illuminate\Support\ServiceProvider;
 
 class SingletonServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap services.
      */

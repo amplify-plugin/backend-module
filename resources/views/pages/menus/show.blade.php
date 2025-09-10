@@ -101,6 +101,6 @@
 @section('after_scripts')
 	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
-    <script src="{{ asset("assets/js/app.js") }}"></script>
+    <script src="{{ asset("vendor/backend/js/backend.js") }}"></script>
     <script src="{{ asset('js/import-job.js') }}"></script>
 @endsection

@@ -50,5 +50,5 @@ parse_str(request()->getQueryString(), $query_string);
 @endsection
 
 @section('after_scripts')
-<script src="{{  asset("assets/js/app.js") }}"></script>
+<script src="{{  asset("vendor/backend/js/backend.js") }}"></script>
 @endsection

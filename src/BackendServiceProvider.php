@@ -40,7 +40,7 @@ class BackendServiceProvider extends ServiceProvider
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');
-            $stylePath = "assets/css/color-schemes/{$color}-bundle.css";
+            $stylePath = "vendor/backend/css/color-schemes/{$color}-bundle.css";
 
             $backpackStyles[] = $stylePath;
 

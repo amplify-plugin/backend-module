@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkbackend=self.webpackChunkbackend||[]).push([[9199],{59199:(n,e,s)=>{s.r(e),s.d(e,{default:()=>u});const t={mounted:function(){console.log("hi")}};const u=(0,s(14486).A)(t,(function(){this._self._c;return this._m(0)}),[function(){var n=this._self._c;return n("div",[n("p",[this._v("This is edit page.")])])}],!1,null,null,null).exports}}]);

@@ -9,7 +9,7 @@
                 </p>
                 <div id="CenposPlugin" style="min-height: 428px;">
                     <div class="w-100 h-100 justify-content-center align-items-center" style="padding-top: 214px;">
-                        <img src="/img/loading.gif" style="margin-left: 47%;"/>
+                        <img src="/assets/img/loading.gif" style="margin-left: 47%;"/>
                     </div>
                 </div>
 

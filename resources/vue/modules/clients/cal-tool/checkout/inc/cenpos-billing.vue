@@ -55,7 +55,7 @@
                             <div id="CenposPlugin">
                                 <div class="w-100 h-100 justify-content-center align-items-center"
                                     style="padding-top: 214px">
-                                    <!-- <img src="/img/loading.gif" style="margin-left: 47%" alt="" /> -->
+                                    <!-- <img src="/assets/img/loading.gif" style="margin-left: 47%" alt="" /> -->
                                 </div>
                             </div>
 

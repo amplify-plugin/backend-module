@@ -26,10 +26,7 @@ mix.options({
             },
         },
     },
-})
-    .setResourceRoot('resources')
-    .setPublicPath('public')
-    .sourceMaps(false, 'source-map')
+}).setPublicPath('public')
     .sass('resources/scss/backend.scss', 'public/css/backend.css')
     .copyDirectory('resources/js', 'public/js/')
     .copyDirectory('resources/css', 'public/css/')
@@ -37,15 +34,14 @@ mix.options({
     .vue()
     .copy('resources/js/crud.js', 'public/js/crud.js')
     .webpackConfig({
-    resolve: {
-        fallback: {
-            buffer: require.resolve('buffer/'), // Polyfill for buffer
+        resolve: {
+            fallback: {
+                buffer: require.resolve('buffer/'), // Polyfill for buffer
+            },
         },
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
-        }),
-    ],
-})
-    .version();
+        plugins: [
+            new webpack.ProvidePlugin({
+                Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
+            }),
+        ],
+    }).version();

@@ -10,7 +10,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AmplifyServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap services.
      */
@@ -32,7 +31,6 @@ class AmplifyServiceProvider extends ServiceProvider
 
         return $this;
     }
-
 
     private function overwriteBackpackLocale(): self
     {

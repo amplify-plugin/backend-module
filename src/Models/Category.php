@@ -43,8 +43,8 @@ class Category extends Model implements ContractsAuditable
 
     public function showCloneCategoryBtn(): string
     {
-        return '<a class="btn btn-sm btn-link" href="' . route('category.clone', $this->id)
-            . '" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-copy"></i> Create Classifcation</a>';
+        return '<a class="btn btn-sm btn-link" href="'.route('category.clone', $this->id)
+            .'" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-copy"></i> Create Classifcation</a>';
     }
 
     /*
@@ -84,7 +84,7 @@ class Category extends Model implements ContractsAuditable
         $locale = $_GET['locale'] ?? app()->getLocale();
         $data = $this->getTranslation($original_field_name, $locale);
 
-        if (empty($data) && !empty($this->$this->attributes[$original_field_name])) {
+        if (empty($data) && ! empty($this->$this->attributes[$original_field_name])) {
             $original_data = json_decode($this->attributes[$original_field_name] ?? '',
                 false,
                 512,
@@ -122,7 +122,7 @@ class Category extends Model implements ContractsAuditable
 
     public function productsLink()
     {
-        return route('frontend.shop.index') . '/Products/Products/' . ($this->category_name ?? '');
+        return route('frontend.shop.index').'/Products/Products/'.($this->category_name ?? '');
     }
 
     /**

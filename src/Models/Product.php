@@ -99,6 +99,7 @@ class Product extends Model implements ContractsAuditable
     const TAB_DOCUMENT = 'document';
 
     const TAB_SKU = 'sku';
+
     const TAB_RELATED_ITEM = 'related_item';
 
     /*

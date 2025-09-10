@@ -20,7 +20,7 @@
 
 @section('after_scripts')
  <!-- File manager -->
- <script src="{{asset("vendor/backend/js/backend.js")}}"></script>
+ <script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
 @endsection
 
 

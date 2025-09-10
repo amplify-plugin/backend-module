@@ -50,5 +50,5 @@
 @endsection
 
 @section('after_scripts')
-    <script src="{{  asset("vendor/backend/js/backend.js") }}"></script>
+    <script src="{{  mix("js/backend.js", "vendor/backend") }}"></script>
 @endsection

@@ -2,8 +2,6 @@
 
 namespace Amplify\System\Backend\Models;
 
-use Amplify\System\Backend\Models\Mutators\ImageMutator;
-use Amplify\System\Backend\Models\Mutators\SlugMutator;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Brand extends Model implements Auditable
 {
-    use CrudTrait, ImageMutator, SlugMutator, SoftDeletes;
+    use CrudTrait, SoftDeletes;
     use \OwenIt\Auditing\Auditable;
 
     /*

@@ -33,6 +33,10 @@ class BackendServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
 
+        $this->publishes([
+            __DIR__ . '/../public' => public_path('vendor/backend'),
+        ], 'backend-asset');
+
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');

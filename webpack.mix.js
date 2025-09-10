@@ -44,4 +44,8 @@ mix.options({
                 Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
             }),
         ],
+        output: {
+            chunkFilename: 'js/[name].js',
+            publicPath: '/vendor/backend/',
+        }
     }).version();

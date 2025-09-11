@@ -171,7 +171,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['documentTypes'] = DocumentType::select('name', 'id', 'media_type')->orderBy('name')->get();
         $this->data['availableLocales'] = [];
 
-        if (config('amplify.basic.client_code') == 'ACT') {
+        if (config('amplify.client_code') == 'ACT') {
             $dds_import_path = config('amplify.icu.uploads_directory').'/files';
             $dds_filename_prefix = config('amplify.icu.filename_prefix');
             $dds_files = glob("$dds_import_path/$dds_filename_prefix*.json");

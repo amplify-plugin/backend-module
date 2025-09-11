@@ -17,7 +17,7 @@ class CenposController extends Controller
         ]);
 
         try {
-            if (config('amplify.basic.client_code') == 'ACP') {
+            if (config('amplify.client_code') == 'ACP') {
                 $cardList = $this->getCreditCards($request->customer_code);
             } else {
                 $cardList = (new PaymentService)->getCards($request->customer_code, $request->customer_email);
@@ -51,7 +51,7 @@ class CenposController extends Controller
         $payload['expiry'] = str_replace(' / ', '', $payload['expiry']);
 
         try {
-            if (config('amplify.basic.client_code') == 'ACP') {
+            if (config('amplify.client_code') == 'ACP') {
                 $res = $this->addCreditCard($payload);
             } else {
                 $res = (new PaymentService)->addCard($payload);

@@ -197,7 +197,7 @@ class CustomerOrder extends Model implements Auditable
             ];
         });
 
-        if (! empty($data['shipping_option']) && config('amplify.basic.client_code') === 'RHS') {
+        if (! empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {
             $products->push([
                 'ItemNumber' => $data['shipping_option'],
                 'WarehouseID' => $CustomerDetails->DefaultWarehouse,
@@ -263,7 +263,7 @@ class CustomerOrder extends Model implements Auditable
 
                     $contactId = $order_infos['contact_id'];
 
-                    if (in_array(config('amplify.basic.client_code'), ['DKL', 'NUX']) && customer_check()) {
+                    if (in_array(config('amplify.client_code'), ['DKL', 'NUX']) && customer_check()) {
                         $contactId = customer(true)->id;
                     }
 

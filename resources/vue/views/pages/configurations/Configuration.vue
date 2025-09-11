@@ -179,8 +179,8 @@ import Order from './tabs/Order';
 import Prop65 from './tabs/Prop65';
 import DDS from './tabs/DDS';
 import Security from "./tabs/Security";
-import AlertMessage from './tabs/AlertMessage.vue';
-import Developer from './tabs/Developer.vue';
+import AlertMessage from './tabs/AlertMessage';
+import Developer from './tabs/Developer';
 
 export default {
     name: 'Configuration',

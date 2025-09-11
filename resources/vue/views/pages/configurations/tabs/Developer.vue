@@ -107,27 +107,29 @@
                         <th>
                             <button
                                 type="button"
+
                                 role="button"
-                                @click.prevent="() => coreConfigurationData.bug_recipient.push([]);"
+                                @click.prevent="() => coreConfigurationData.bug_recipient.push('')"
                                 class="btn btn-sm btn-primary">
                                 <b>+</b>
                             </button>
                         </th>
                     </tr>
-                    <tr v-for="(email, index) of coreConfigurationData.bug_recipient" :key="index">
+                    <tr v-for="(email, index) in coreConfigurationData.bug_recipient" :key="index">
                         <td>
                             <input class="form-control form-control-sm"
                                    type="email"
                                    required
                                    min="5"
                                    max="255"
-                                   v-model="coreConfigurationData.bug_recipient[index]">
+                                   v-model="coreConfigurationData.bug_recipient[index]"
+                            >
                         </td>
                         <td>
                             <button
                                 type="button"
                                 role="button"
-                                @click.prevent="() => coreConfigurationData.bug_recipient.splice(index,1);"
+                                @click.prevent="() => coreConfigurationData.bug_recipient.splice(index,1)"
                                 class="btn btn-sm btn-danger">
                                 <b>-</b>
                             </button>
@@ -149,11 +151,10 @@
         </div>
     </div>
 </template>
-
 <script>
 
 export default {
-    name: "Order",
+    name: "Developer",
     data() {
         return {
             coreConfigurationData: {
@@ -162,9 +163,9 @@ export default {
                 log_payment: this.$parent.coreConfigurationData.log_payment ?? false,
                 log_erp_api: this.$parent.coreConfigurationData.log_erp_api ?? false,
                 log_email: this.$parent.coreConfigurationData.log_email ?? false,
-                bug_recipient: this.$parent.coreConfigurationData.bug_recipient ?? []
+                bug_recipient: this.$parent.coreConfigurationData.bug_recipient ?? [],
             }
         }
-    },
+    }
 }
 </script>

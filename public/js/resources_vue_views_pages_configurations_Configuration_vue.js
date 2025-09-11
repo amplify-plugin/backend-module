@@ -5034,24 +5034,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tabs_Payment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./tabs/Payment */ "./resources/vue/views/pages/configurations/tabs/Payment.vue");
 /* harmony import */ var _tabs_ERP__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tabs/ERP */ "./resources/vue/views/pages/configurations/tabs/ERP.vue");
 /* harmony import */ var _tabs_Invoice__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./tabs/Invoice */ "./resources/vue/views/pages/configurations/tabs/Invoice.vue");
-/* harmony import */ var _tabs_Email__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./tabs/Email */ "./resources/vue/views/pages/configurations/tabs/Email.vue");
-/* harmony import */ var _tabs_CMS__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./tabs/CMS */ "./resources/vue/views/pages/configurations/tabs/CMS.vue");
-/* harmony import */ var _tabs_Schedule__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./tabs/Schedule */ "./resources/vue/views/pages/configurations/tabs/Schedule.vue");
-/* harmony import */ var _tabs_Marketing__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./tabs/Marketing */ "./resources/vue/views/pages/configurations/tabs/Marketing.vue");
-/* harmony import */ var _tabs_API_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./tabs/API.vue */ "./resources/vue/views/pages/configurations/tabs/API.vue");
-/* harmony import */ var _tabs_Order__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./tabs/Order */ "./resources/vue/views/pages/configurations/tabs/Order.vue");
-/* harmony import */ var _tabs_Prop65__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./tabs/Prop65 */ "./resources/vue/views/pages/configurations/tabs/Prop65.vue");
-/* harmony import */ var _tabs_DDS__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./tabs/DDS */ "./resources/vue/views/pages/configurations/tabs/DDS.vue");
-/* harmony import */ var _tabs_Security__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./tabs/Security */ "./resources/vue/views/pages/configurations/tabs/Security.vue");
-/* harmony import */ var _tabs_AlertMessage_vue__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./tabs/AlertMessage.vue */ "./resources/vue/views/pages/configurations/tabs/AlertMessage.vue");
-/* harmony import */ var _tabs_Developer_vue__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./tabs/Developer.vue */ "./resources/vue/views/pages/configurations/tabs/Developer.vue");
+/* harmony import */ var _tabs_CMS__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./tabs/CMS */ "./resources/vue/views/pages/configurations/tabs/CMS.vue");
+/* harmony import */ var _tabs_Schedule__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./tabs/Schedule */ "./resources/vue/views/pages/configurations/tabs/Schedule.vue");
+/* harmony import */ var _tabs_Marketing__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./tabs/Marketing */ "./resources/vue/views/pages/configurations/tabs/Marketing.vue");
+/* harmony import */ var _tabs_API_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./tabs/API.vue */ "./resources/vue/views/pages/configurations/tabs/API.vue");
+/* harmony import */ var _tabs_Order__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./tabs/Order */ "./resources/vue/views/pages/configurations/tabs/Order.vue");
+/* harmony import */ var _tabs_Prop65__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./tabs/Prop65 */ "./resources/vue/views/pages/configurations/tabs/Prop65.vue");
+/* harmony import */ var _tabs_DDS__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./tabs/DDS */ "./resources/vue/views/pages/configurations/tabs/DDS.vue");
+/* harmony import */ var _tabs_Security__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./tabs/Security */ "./resources/vue/views/pages/configurations/tabs/Security.vue");
+/* harmony import */ var _tabs_AlertMessage__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./tabs/AlertMessage */ "./resources/vue/views/pages/configurations/tabs/AlertMessage.vue");
+/* harmony import */ var _tabs_Developer__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./tabs/Developer */ "./resources/vue/views/pages/configurations/tabs/Developer.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
 
 
 
@@ -5092,18 +5090,16 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     Payment: _tabs_Payment__WEBPACK_IMPORTED_MODULE_11__["default"],
     ERP: _tabs_ERP__WEBPACK_IMPORTED_MODULE_12__["default"],
     Invoice: _tabs_Invoice__WEBPACK_IMPORTED_MODULE_13__["default"],
-    Email: _tabs_Email__WEBPACK_IMPORTED_MODULE_14__["default"],
-    Schedule: _tabs_Schedule__WEBPACK_IMPORTED_MODULE_16__["default"],
-    CMS: _tabs_CMS__WEBPACK_IMPORTED_MODULE_15__["default"],
-    Storage: Storage,
-    Marketing: _tabs_Marketing__WEBPACK_IMPORTED_MODULE_17__["default"],
-    API: _tabs_API_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
-    Order: _tabs_Order__WEBPACK_IMPORTED_MODULE_19__["default"],
-    Prop65: _tabs_Prop65__WEBPACK_IMPORTED_MODULE_20__["default"],
-    DDS: _tabs_DDS__WEBPACK_IMPORTED_MODULE_21__["default"],
-    Security: _tabs_Security__WEBPACK_IMPORTED_MODULE_22__["default"],
-    AlertMessage: _tabs_AlertMessage_vue__WEBPACK_IMPORTED_MODULE_23__["default"],
-    Developer: _tabs_Developer_vue__WEBPACK_IMPORTED_MODULE_24__["default"]
+    Schedule: _tabs_Schedule__WEBPACK_IMPORTED_MODULE_15__["default"],
+    CMS: _tabs_CMS__WEBPACK_IMPORTED_MODULE_14__["default"],
+    Marketing: _tabs_Marketing__WEBPACK_IMPORTED_MODULE_16__["default"],
+    API: _tabs_API_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
+    Order: _tabs_Order__WEBPACK_IMPORTED_MODULE_18__["default"],
+    Prop65: _tabs_Prop65__WEBPACK_IMPORTED_MODULE_19__["default"],
+    DDS: _tabs_DDS__WEBPACK_IMPORTED_MODULE_20__["default"],
+    Security: _tabs_Security__WEBPACK_IMPORTED_MODULE_21__["default"],
+    AlertMessage: _tabs_AlertMessage__WEBPACK_IMPORTED_MODULE_22__["default"],
+    Developer: _tabs_Developer__WEBPACK_IMPORTED_MODULE_23__["default"]
   },
   data: function data() {
     return {
@@ -5155,10 +5151,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         Invoice: {
           title: 'Invoice',
           hash: 'invoice'
-        },
-        Email: {
-          title: 'Email',
-          hash: 'email'
         },
         Schedule: {
           title: 'Schedule',
@@ -5781,15 +5773,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Order",
+  name: "Developer",
   data: function data() {
-    var _this$$parent$coreCon, _this$$parent$coreCon2, _this$$parent$coreCon3;
+    var _this$$parent$coreCon, _this$$parent$coreCon2, _this$$parent$coreCon3, _this$$parent$coreCon4, _this$$parent$coreCon5;
     return {
       coreConfigurationData: {
-        tab: "order",
-        order_rule_check: (_this$$parent$coreCon = this.$parent.coreConfigurationData.order.order_rule_check) !== null && _this$$parent$coreCon !== void 0 ? _this$$parent$coreCon : false,
-        send_email_to_create_order_from_quote: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.order.send_email_to_create_order_from_quote) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
-        use_pickup_enable_warehouses_as_shipping_methods: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.order.use_pickup_enable_warehouses_as_shipping_methods) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false
+        tab: "developer",
+        log_search: (_this$$parent$coreCon = this.$parent.coreConfigurationData.log_search) !== null && _this$$parent$coreCon !== void 0 ? _this$$parent$coreCon : false,
+        log_payment: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.log_payment) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
+        log_erp_api: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.log_erp_api) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false,
+        log_email: (_this$$parent$coreCon4 = this.$parent.coreConfigurationData.log_email) !== null && _this$$parent$coreCon4 !== void 0 ? _this$$parent$coreCon4 : false,
+        bug_recipient: (_this$$parent$coreCon5 = this.$parent.coreConfigurationData.bug_recipient) !== null && _this$$parent$coreCon5 !== void 0 ? _this$$parent$coreCon5 : []
       }
     };
   }
@@ -5823,7 +5817,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
     Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
-    var _this$$parent$coreCon, _this$$parent$coreCon2, _this$$parent$coreCon3, _this$$parent$coreCon4, _this$$parent$coreCon5, _this$$parent$coreCon6, _this$$parent$coreCon7;
+    var _this$$parent$coreCon, _this$$parent$coreCon2, _this$$parent$coreCon3, _this$$parent$coreCon4, _this$$parent$coreCon5, _this$$parent$coreCon6;
     return {
       erps: [],
       customerERPAuthFields: [{
@@ -5839,7 +5833,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
       erpConfigurationData: {
         tab: 'erp',
         default_erp: (_this$$parent$coreCon = this.$parent.coreConfigurationData.erp["default"]) !== null && _this$$parent$coreCon !== void 0 ? _this$$parent$coreCon : 'default',
-        logger_enabled: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.erp.logger_enabled) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
         enabled: false,
         url: '',
         delivery_options: [],
@@ -5850,11 +5843,11 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
         company_number: '1',
         operator_init: 'sys',
         use_single_warehouse_cart: false,
-        auto_create_cash_customer: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.erp.auto_create_cash_customer) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false,
-        auto_create_contact: (_this$$parent$coreCon4 = this.$parent.coreConfigurationData.erp.auto_create_contact) !== null && _this$$parent$coreCon4 !== void 0 ? _this$$parent$coreCon4 : false,
-        auto_create_ship_to: (_this$$parent$coreCon5 = this.$parent.coreConfigurationData.erp.auto_create_ship_to) !== null && _this$$parent$coreCon5 !== void 0 ? _this$$parent$coreCon5 : false,
-        use_amplify_shipping: (_this$$parent$coreCon6 = this.$parent.coreConfigurationData.erp.use_amplify_shipping) !== null && _this$$parent$coreCon6 !== void 0 ? _this$$parent$coreCon6 : false,
-        add_ship_will_call_option: (_this$$parent$coreCon7 = this.$parent.coreConfigurationData.erp.add_ship_will_call_option) !== null && _this$$parent$coreCon7 !== void 0 ? _this$$parent$coreCon7 : false,
+        auto_create_cash_customer: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.erp.auto_create_cash_customer) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
+        auto_create_contact: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.erp.auto_create_contact) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false,
+        auto_create_ship_to: (_this$$parent$coreCon4 = this.$parent.coreConfigurationData.erp.auto_create_ship_to) !== null && _this$$parent$coreCon4 !== void 0 ? _this$$parent$coreCon4 : false,
+        use_amplify_shipping: (_this$$parent$coreCon5 = this.$parent.coreConfigurationData.erp.use_amplify_shipping) !== null && _this$$parent$coreCon5 !== void 0 ? _this$$parent$coreCon5 : false,
+        add_ship_will_call_option: (_this$$parent$coreCon6 = this.$parent.coreConfigurationData.erp.add_ship_will_call_option) !== null && _this$$parent$coreCon6 !== void 0 ? _this$$parent$coreCon6 : false,
         display_contact: false
       },
       showPassword: false,
@@ -5910,102 +5903,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
     },
     removeItem: function removeItem(index) {
       this.erpConfigurationData.delivery_options.splice(index, 1);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js":
-/*!**********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js ***!
-  \**********************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
-/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @riophae/vue-treeselect */ "./node_modules/@riophae/vue-treeselect/dist/vue-treeselect.cjs.js");
-/* harmony import */ var _riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _riophae_vue_treeselect_dist_vue_treeselect_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @riophae/vue-treeselect/dist/vue-treeselect.css */ "./node_modules/@riophae/vue-treeselect/dist/vue-treeselect.css");
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Email",
-  components: {
-    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default()),
-    Treeselect: (_riophae_vue_treeselect__WEBPACK_IMPORTED_MODULE_1___default())
-  },
-  data: function data() {
-    var _this$$parent$mailCon, _this$$parent$mailCon2, _this$$parent$mailCon3;
-    return {
-      emailConfigurationData: {
-        tab: 'email',
-        transport: (_this$$parent$mailCon = this.$parent.mailConfigurationData["default"]) !== null && _this$$parent$mailCon !== void 0 ? _this$$parent$mailCon : 'smtp',
-        logger_enabled: (_this$$parent$mailCon2 = this.$parent.mailConfigurationData.logger_enabled) !== null && _this$$parent$mailCon2 !== void 0 ? _this$$parent$mailCon2 : false,
-        host: '',
-        port: '',
-        username: '',
-        password: '',
-        encryption: '',
-        admin_email: '',
-        error_notify_email: '',
-        sender_name: '',
-        sender_email: ''
-      },
-      drivers: (_this$$parent$mailCon3 = this.$parent.mailConfigurationData.labels) !== null && _this$$parent$mailCon3 !== void 0 ? _this$$parent$mailCon3 : [],
-      encryptions: [{
-        name: 'SSL',
-        code: 'ssl'
-      }, {
-        name: 'TLS',
-        code: 'tls'
-      }],
-      showPassword: false,
-      passwordFieldType: "password"
-    };
-  },
-  mounted: function mounted() {
-    var _this$$parent$mailCon4, _this$$parent$mailCon5, _this$$parent$mailCon6, _this$$parent$mailCon7;
-    this.emailConfigurationData.error_notify_email = (_this$$parent$mailCon4 = this.$parent.mailConfigurationData.error_notify_email) !== null && _this$$parent$mailCon4 !== void 0 ? _this$$parent$mailCon4 : null;
-    this.emailConfigurationData.admin_email = (_this$$parent$mailCon5 = this.$parent.mailConfigurationData.admin_email) !== null && _this$$parent$mailCon5 !== void 0 ? _this$$parent$mailCon5 : null;
-    this.emailConfigurationData.sender_name = (_this$$parent$mailCon6 = this.$parent.mailConfigurationData.from.name) !== null && _this$$parent$mailCon6 !== void 0 ? _this$$parent$mailCon6 : null;
-    this.emailConfigurationData.sender_email = (_this$$parent$mailCon7 = this.$parent.mailConfigurationData.from.address) !== null && _this$$parent$mailCon7 !== void 0 ? _this$$parent$mailCon7 : null;
-    this.setValue(this.$parent.mailConfigurationData["default"], this.$parent.mailConfigurationData.mailers);
-  },
-  methods: {
-    updateEmailInfo: function updateEmailInfo(event) {
-      this.setValue(event.target.value, this.$parent.mailConfigurationData.mailers);
-    },
-    setValue: function setValue(email, configurations) {
-      for (var _i = 0, _Object$entries = Object.entries(configurations); _i < _Object$entries.length; _i++) {
-        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          key = _Object$entries$_i[0],
-          value = _Object$entries$_i[1];
-        if (key === email) {
-          var _value$host, _value$username, _value$password, _value$port, _value$encryption;
-          this.emailConfigurationData.host = (_value$host = value.host) !== null && _value$host !== void 0 ? _value$host : "";
-          this.emailConfigurationData.username = (_value$username = value.username) !== null && _value$username !== void 0 ? _value$username : "";
-          this.emailConfigurationData.password = (_value$password = value.password) !== null && _value$password !== void 0 ? _value$password : "";
-          this.emailConfigurationData.port = (_value$port = value.port) !== null && _value$port !== void 0 ? _value$port : false;
-          this.emailConfigurationData.encryption = (_value$encryption = value.encryption) !== null && _value$encryption !== void 0 ? _value$encryption : false;
-        }
-      }
-    },
-    toggleShow: function toggleShow() {
-      this.showPassword = !this.showPassword;
-      this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
     }
   }
 });
@@ -6623,8 +6520,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
         secret_key: "",
         allow_credit_payments: this.$parent.coreConfigurationData.payment.allow_credit_payments,
         allow_payments: this.$parent.coreConfigurationData.payment.allow_payments,
-        allow_bulk_invoice_payments: this.$parent.coreConfigurationData.payment.allow_bulk_invoice_payments,
-        logger_enabled: this.$parent.coreConfigurationData.payment.logger_enabled
+        allow_bulk_invoice_payments: this.$parent.coreConfigurationData.payment.allow_bulk_invoice_payments
       }
     };
   },
@@ -6657,7 +6553,6 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
     }
   },
   mounted: function mounted() {
-    this.paymentConfigurationData.logger_enabled = this.$parent.coreConfigurationData.payment.logger_enabled;
     this.setValue(this.$parent.coreConfigurationData.payment["default"], this.$parent.coreConfigurationData.payment.gateways);
   }
 });
@@ -6807,8 +6702,7 @@ __webpack_require__.r(__webpack_exports__);
         protocol: this.$parent.coreConfigurationData.report.protocol,
         host: this.$parent.coreConfigurationData.report.host,
         port: this.$parent.coreConfigurationData.report.port,
-        business_query_dictionary: this.$parent.coreConfigurationData.report.business_query_dictionary,
-        logger_enabled: this.$parent.coreConfigurationData.report.logger_enabled
+        business_query_dictionary: this.$parent.coreConfigurationData.report.business_query_dictionary
       }
     };
   }
@@ -7066,7 +6960,6 @@ __webpack_require__.r(__webpack_exports__);
         easyask_host: this.$parent.coreConfigurationData.search.easyask_host,
         easyask_port: this.$parent.coreConfigurationData.search.easyask_port,
         easyask_dictionary: this.$parent.coreConfigurationData.search.easyask_dictionary,
-        logger_enabled: this.$parent.coreConfigurationData.search.logger_enabled,
         use_product_restriction: this.$parent.coreConfigurationData.search.use_product_restriction,
         search_box_placeholder: this.$parent.coreConfigurationData.search.search_box_placeholder,
         default_catalog: this.$parent.coreConfigurationData.search.default_catalog
@@ -9503,137 +9396,232 @@ var render = function render() {
     }
   })])])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
+  }, [_c("div", {
+    staticClass: "form-check"
   }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.coreConfigurationData.order_rule_check,
-      expression: "coreConfigurationData.order_rule_check"
+      value: _vm.coreConfigurationData.log_search,
+      expression: "coreConfigurationData.log_search"
     }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.order_rule_check
-    },
+    staticClass: "form-check-input",
     attrs: {
       type: "checkbox",
-      name: "order_rule_check",
-      id: "order_rule_check"
+      id: "log_search"
     },
     domProps: {
-      checked: Array.isArray(_vm.coreConfigurationData.order_rule_check) ? _vm._i(_vm.coreConfigurationData.order_rule_check, null) > -1 : _vm.coreConfigurationData.order_rule_check
+      checked: Array.isArray(_vm.coreConfigurationData.log_search) ? _vm._i(_vm.coreConfigurationData.log_search, null) > -1 : _vm.coreConfigurationData.log_search
     },
     on: {
       change: function change($event) {
-        var $$a = _vm.coreConfigurationData.order_rule_check,
+        var $$a = _vm.coreConfigurationData.log_search,
           $$el = $event.target,
           $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "order_rule_check", $$a.concat([$$v]));
+            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "log_search", $$a.concat([$$v]));
           } else {
-            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "order_rule_check", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "log_search", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
           }
         } else {
-          _vm.$set(_vm.coreConfigurationData, "order_rule_check", $$c);
+          _vm.$set(_vm.coreConfigurationData, "log_search", $$c);
         }
       }
     }
   }), _vm._v(" "), _c("label", {
+    staticClass: "form-check-label",
     attrs: {
-      "for": "order_rule_check"
+      "for": "log_search"
     }
-  }, [_vm._v("Enable Order Rule Check")]), _vm._v(" "), _vm.$parent.validationErrors.order_rule_check ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.order_rule_check[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                    Enable Api Log of EasyAsk Search Calls\n                ")])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
+  }, [_c("div", {
+    staticClass: "form-check"
   }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.coreConfigurationData.send_email_to_create_order_from_quote,
-      expression: "coreConfigurationData.send_email_to_create_order_from_quote"
+      value: _vm.coreConfigurationData.log_payment,
+      expression: "coreConfigurationData.log_payment"
     }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.send_email_to_create_order_from_quote
-    },
+    staticClass: "form-check-input",
     attrs: {
       type: "checkbox",
-      name: "send_email_to_create_order_from_quote",
-      id: "send_email_to_create_order_from_quote"
+      id: "log_payment"
     },
     domProps: {
-      checked: Array.isArray(_vm.coreConfigurationData.send_email_to_create_order_from_quote) ? _vm._i(_vm.coreConfigurationData.send_email_to_create_order_from_quote, null) > -1 : _vm.coreConfigurationData.send_email_to_create_order_from_quote
+      checked: Array.isArray(_vm.coreConfigurationData.log_payment) ? _vm._i(_vm.coreConfigurationData.log_payment, null) > -1 : _vm.coreConfigurationData.log_payment
     },
     on: {
       change: function change($event) {
-        var $$a = _vm.coreConfigurationData.send_email_to_create_order_from_quote,
+        var $$a = _vm.coreConfigurationData.log_payment,
           $$el = $event.target,
           $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "send_email_to_create_order_from_quote", $$a.concat([$$v]));
+            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "log_payment", $$a.concat([$$v]));
           } else {
-            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "send_email_to_create_order_from_quote", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "log_payment", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
           }
         } else {
-          _vm.$set(_vm.coreConfigurationData, "send_email_to_create_order_from_quote", $$c);
+          _vm.$set(_vm.coreConfigurationData, "log_payment", $$c);
         }
       }
     }
   }), _vm._v(" "), _c("label", {
+    staticClass: "form-check-label",
     attrs: {
-      "for": "send_email_to_create_order_from_quote"
+      "for": "log_payment"
     }
-  }, [_vm._v("Send Email to Create Order from Quote")]), _vm._v(" "), _vm.$parent.validationErrors.send_email_to_create_order_from_quote ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.send_email_to_create_order_from_quote[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                    Enable Api Log of Payment Gateway/ERP Calls\n                ")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
+  }, [_c("div", {
+    staticClass: "form-check"
   }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods,
-      expression: "coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods"
+      value: _vm.coreConfigurationData.log_erp_api,
+      expression: "coreConfigurationData.log_erp_api"
     }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods
-    },
+    staticClass: "form-check-input",
     attrs: {
       type: "checkbox",
-      name: "use_pickup_enable_warehouses_as_shipping_methods",
-      id: "use_pickup_enable_warehouses_as_shipping_methods"
+      id: "log_erp_api"
     },
     domProps: {
-      checked: Array.isArray(_vm.coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods) ? _vm._i(_vm.coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods, null) > -1 : _vm.coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods
+      checked: Array.isArray(_vm.coreConfigurationData.log_erp_api) ? _vm._i(_vm.coreConfigurationData.log_erp_api, null) > -1 : _vm.coreConfigurationData.log_erp_api
     },
     on: {
       change: function change($event) {
-        var $$a = _vm.coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods,
+        var $$a = _vm.coreConfigurationData.log_erp_api,
           $$el = $event.target,
           $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
             $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "use_pickup_enable_warehouses_as_shipping_methods", $$a.concat([$$v]));
+            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "log_erp_api", $$a.concat([$$v]));
           } else {
-            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "use_pickup_enable_warehouses_as_shipping_methods", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "log_erp_api", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
           }
         } else {
-          _vm.$set(_vm.coreConfigurationData, "use_pickup_enable_warehouses_as_shipping_methods", $$c);
+          _vm.$set(_vm.coreConfigurationData, "log_erp_api", $$c);
         }
       }
     }
   }), _vm._v(" "), _c("label", {
+    staticClass: "form-check-label",
     attrs: {
-      "for": "use_pickup_enable_warehouses_as_shipping_methods"
+      "for": "log_erp_api"
     }
-  }, [_vm._v("Use Pickup Enable Warehouses as Shipping Methods")]), _vm._v(" "), _vm.$parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                    Enable API logs with ERP communication\n                ")])]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("div", {
+    staticClass: "form-check"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.coreConfigurationData.log_email,
+      expression: "coreConfigurationData.log_email"
+    }],
+    staticClass: "form-check-input",
+    attrs: {
+      type: "checkbox",
+      id: "log_email"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.coreConfigurationData.log_email) ? _vm._i(_vm.coreConfigurationData.log_email, null) > -1 : _vm.coreConfigurationData.log_email
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.coreConfigurationData.log_email,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "log_email", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "log_email", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.coreConfigurationData, "log_email", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "form-check-label",
+    attrs: {
+      "for": "log_email"
+    }
+  }, [_vm._v("\n                    Enabled log of email notification.\n                ")])]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("System Error Notification Report")]), _vm._v(" "), _c("table", {
+    staticClass: "table table-striped table-hover table-sm"
+  }, [_c("tr", [_c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_c("button", {
+    staticClass: "btn btn-sm btn-primary",
+    attrs: {
+      type: "button",
+      role: "button"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return function () {
+          return _vm.coreConfigurationData.bug_recipient.push("");
+        }.apply(null, arguments);
+      }
+    }
+  }, [_c("b", [_vm._v("+")])])])]), _vm._v(" "), _vm._l(_vm.coreConfigurationData.bug_recipient, function (email, index) {
+    return _c("tr", {
+      key: index
+    }, [_c("td", [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.coreConfigurationData.bug_recipient[index],
+        expression: "coreConfigurationData.bug_recipient[index]"
+      }],
+      staticClass: "form-control form-control-sm",
+      attrs: {
+        type: "email",
+        required: "",
+        min: "5",
+        max: "255"
+      },
+      domProps: {
+        value: _vm.coreConfigurationData.bug_recipient[index]
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(_vm.coreConfigurationData.bug_recipient, index, $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c("td", [_c("button", {
+      staticClass: "btn btn-sm btn-danger",
+      attrs: {
+        type: "button",
+        role: "button"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return function () {
+            return _vm.coreConfigurationData.bug_recipient.splice(index, 1);
+          }.apply(null, arguments);
+        }
+      }
+    }, [_c("b", [_vm._v("-")])])])]);
+  })], 2)])]), _vm._v(" "), _c("div", {
     staticClass: "form-group",
     attrs: {
       id: "saveActions"
@@ -9676,8 +9664,52 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("legend", [_c("i", {
-    staticClass: "la la-hand-holding-usd mr-2"
-  }), _vm._v("\n                Order Configuration\n            ")]);
+    staticClass: "la la-code mr-2"
+  }), _vm._v("\n                Developer Options\n            ")]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("small", {
+    staticClass: "text-muted mt-2 d-block"
+  }, [_vm._v("\n                If enabled the system will log all the search call going to EasyAsk search.\n                "), _c("br"), _vm._v(" "), _c("a", {
+    attrs: {
+      href: "/admin/api-log",
+      target: "_blank"
+    }
+  }, [_vm._v("See Current Logs")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("small", {
+    staticClass: "text-muted mt-2 d-block"
+  }, [_vm._v("\n                If enabled system will log all the payment gateways related api calls.\n                "), _c("br"), _vm._v(" "), _c("a", {
+    attrs: {
+      href: "/admin/api-log",
+      target: "_blank"
+    }
+  }, [_vm._v("See Current Logs")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("small", {
+    staticClass: "text-muted mt-2 d-block"
+  }, [_vm._v("\n                If enabled system will log all the API calls goes to ERP for customer,\n                shipping and product related information.\n                "), _c("br"), _vm._v(" "), _c("a", {
+    attrs: {
+      href: "/admin/api-log",
+      target: "_blank"
+    }
+  }, [_vm._v("See Current Logs")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("small", {
+    staticClass: "text-muted mt-2 d-block"
+  }, [_vm._v("\n                If enabled system will log email notification and status when it was sent.\n                "), _c("br"), _vm._v(" "), _c("a", {
+    attrs: {
+      href: "/admin/mail-log",
+      target: "_blank"
+    }
+  }, [_vm._v("See Current Logs")])]);
 }];
 render._withStripped = true;
 
@@ -10220,50 +10252,6 @@ var render = function render() {
     staticClass: "text-danger mt-3"
   }, [_vm._v(_vm._s(_vm.$parent.validationErrors.customer_id_field[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.erpConfigurationData.logger_enabled,
-      expression: "erpConfigurationData.logger_enabled"
-    }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.logger_enabled
-    },
-    attrs: {
-      type: "checkbox",
-      name: "logger_enabled",
-      id: "erp_logger_enabled"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.erpConfigurationData.logger_enabled) ? _vm._i(_vm.erpConfigurationData.logger_enabled, null) > -1 : _vm.erpConfigurationData.logger_enabled
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.erpConfigurationData.logger_enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.erpConfigurationData, "logger_enabled", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.erpConfigurationData, "logger_enabled", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.erpConfigurationData, "logger_enabled", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "erp_logger_enabled"
-    }
-  }, [_vm._v("Enable ERP API Log")]), _vm._v(" "), _vm.$parent.validationErrors.logger_enabled ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.logger_enabled[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
   }, [_c("div", [_c("input", {
     directives: [{
       name: "model",
@@ -10663,556 +10651,6 @@ var staticRenderFns = [function () {
   return _c("small", {
     staticClass: "text-muted mt-2 d-block"
   }, [_vm._v("\n                If enabled system will append the default "), _c("b", [_vm._v("*WILL CALL*")]), _vm._v(" options to all configured ship options.\n            ")]);
-}];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040 ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render),
-/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "tab-pane active",
-    attrs: {
-      role: "tabpanel",
-      id: "tab_basic-info"
-    }
-  }, [_c("fieldset", [_c("div", {
-    staticClass: "d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "d-md-none custom-sidebar-ar",
-    on: {
-      click: function click($event) {
-        return _vm.$parent.toggleSidebar();
-      }
-    }
-  }, [_c("div", {
-    staticClass: "menu-icon-ar"
-  }, [_c("svg", {
-    staticClass: "feather feather-menu",
-    attrs: {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "24",
-      height: "24",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "#1b2a4e",
-      "stroke-width": "2",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }
-  }, [_c("line", {
-    attrs: {
-      x1: "3",
-      y1: "12",
-      x2: "21",
-      y2: "12"
-    }
-  }), _vm._v(" "), _c("line", {
-    attrs: {
-      x1: "3",
-      y1: "6",
-      x2: "21",
-      y2: "6"
-    }
-  }), _vm._v(" "), _c("line", {
-    attrs: {
-      x1: "3",
-      y1: "18",
-      x2: "21",
-      y2: "18"
-    }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "close-icon-ar"
-  }, [_c("svg", {
-    staticClass: "feather feather-x",
-    attrs: {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "24",
-      height: "24",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "red",
-      "stroke-width": "2",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }
-  }, [_c("line", {
-    attrs: {
-      x1: "18",
-      y1: "6",
-      x2: "6",
-      y2: "18"
-    }
-  }), _vm._v(" "), _c("line", {
-    attrs: {
-      x1: "6",
-      y1: "6",
-      x2: "18",
-      y2: "18"
-    }
-  })])])])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Admin Notification Email")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.admin_email,
-      expression: "emailConfigurationData.admin_email"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "admin_email",
-      placeholder: "Enter admin notification email"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.admin_email
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "admin_email", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("small", {
-    staticClass: "help"
-  }, [_vm._v("Email address that will be notified when admin level event occur.")])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("System Sender Name")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.sender_name,
-      expression: "emailConfigurationData.sender_name"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "sender_name",
-      placeholder: "Enter system sender name"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.sender_name
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "sender_name", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("small", {
-    staticClass: "help"
-  }, [_vm._v("Sender name that will be used when send notification email.")])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("System Email Address")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.sender_email,
-      expression: "emailConfigurationData.sender_email"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "sender_email",
-      placeholder: "Enter system email address"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.sender_email
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "sender_email", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("small", {
-    staticClass: "help"
-  }, [_vm._v("Sender email address that will be used send notification email.")])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Driver")]), _vm._v(" "), _c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.transport,
-      expression: "emailConfigurationData.transport"
-    }],
-    staticClass: "form-control custom-select",
-    attrs: {
-      name: "payment_gateway"
-    },
-    on: {
-      change: [function ($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.$set(_vm.emailConfigurationData, "transport", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
-      }, _vm.updateEmailInfo]
-    }
-  }, _vm._l(_vm.drivers, function (label, index) {
-    return _c("option", {
-      key: index,
-      domProps: {
-        value: index,
-        selected: index === _vm.emailConfigurationData.transport ? true : false
-      }
-    }, [_vm._v("\n                    " + _vm._s(label) + "\n                ")]);
-  }), 0)]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Host")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.host,
-      expression: "emailConfigurationData.host"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.host
-    },
-    attrs: {
-      type: "text",
-      name: "host",
-      placeholder: "Enter Host"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.host
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "host", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm.$parent.validationErrors.host ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.host[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Port")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.port,
-      expression: "emailConfigurationData.port"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.port
-    },
-    attrs: {
-      type: "text",
-      name: "port",
-      placeholder: "Enter Port"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.port
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "port", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm.$parent.validationErrors.port ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.port[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("User name")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.username,
-      expression: "emailConfigurationData.username"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.username
-    },
-    attrs: {
-      type: "text",
-      name: "username",
-      placeholder: "Enter Username"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.username
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "username", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm.$parent.validationErrors.username ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.username[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("div", [_c("label", [_vm._v("Password")]), _vm._v(" "), _vm.passwordFieldType === "checkbox" ? _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.password,
-      expression: "emailConfigurationData.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.password
-    },
-    attrs: {
-      name: "password",
-      placeholder: "Enter Password",
-      type: "checkbox"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.emailConfigurationData.password) ? _vm._i(_vm.emailConfigurationData.password, null) > -1 : _vm.emailConfigurationData.password
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.emailConfigurationData.password,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.emailConfigurationData, "password", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.emailConfigurationData, "password", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.emailConfigurationData, "password", $$c);
-        }
-      }
-    }
-  }) : _vm.passwordFieldType === "radio" ? _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.password,
-      expression: "emailConfigurationData.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.password
-    },
-    attrs: {
-      name: "password",
-      placeholder: "Enter Password",
-      type: "radio"
-    },
-    domProps: {
-      checked: _vm._q(_vm.emailConfigurationData.password, null)
-    },
-    on: {
-      change: function change($event) {
-        return _vm.$set(_vm.emailConfigurationData, "password", null);
-      }
-    }
-  }) : _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.password,
-      expression: "emailConfigurationData.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.password
-    },
-    attrs: {
-      name: "password",
-      placeholder: "Enter Password",
-      type: _vm.passwordFieldType
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.password
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "password", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("i", {
-    "class": {
-      "eye-position fas fa-eye-slash": _vm.showPassword,
-      "eye-position fas fa-eye": !_vm.showPassword
-    },
-    on: {
-      click: _vm.toggleShow
-    }
-  }), _vm._v(" "), _vm.$parent.validationErrors.password ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.password[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Encryption")]), _vm._v(" "), _c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.encryption,
-      expression: "emailConfigurationData.encryption"
-    }],
-    staticClass: "form-control custom-select",
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.encryption
-    },
-    attrs: {
-      name: "payment_gateway"
-    },
-    on: {
-      change: function change($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.$set(_vm.emailConfigurationData, "encryption", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
-      }
-    }
-  }, _vm._l(_vm.encryptions, function (pg, index) {
-    return _c("option", {
-      key: index,
-      domProps: {
-        value: pg.code,
-        selected: pg.code == _vm.emailConfigurationData.encryption ? true : false
-      }
-    }, [_vm._v("\n                    " + _vm._s(pg.name) + "\n                ")]);
-  }), 0), _vm._v(" "), _vm.$parent.validationErrors.encryption ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.encryption[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", [_vm._v("Error Notification Emails")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.error_notify_email,
-      expression: "emailConfigurationData.error_notify_email"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "error_notify_email",
-      placeholder: "Enter comma separated mails"
-    },
-    domProps: {
-      value: _vm.emailConfigurationData.error_notify_email
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.emailConfigurationData, "error_notify_email", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm.$parent.validationErrors.error_notify_email ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v("\n                " + _vm._s(_vm.$parent.validationErrors.error_notify_email[0]))]) : _vm._e(), _vm._v(" "), _c("small", {
-    staticClass: "help"
-  }, [_vm._v("Email address that will be notified when exception occurred in system.")])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.emailConfigurationData.logger_enabled,
-      expression: "emailConfigurationData.logger_enabled"
-    }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.logger_enabled
-    },
-    attrs: {
-      type: "checkbox",
-      name: "logger_enabled",
-      id: "email_logger_enabled"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.emailConfigurationData.logger_enabled) ? _vm._i(_vm.emailConfigurationData.logger_enabled, null) > -1 : _vm.emailConfigurationData.logger_enabled
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.emailConfigurationData.logger_enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.emailConfigurationData, "logger_enabled", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.emailConfigurationData, "logger_enabled", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.emailConfigurationData, "logger_enabled", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "email_logger_enabled"
-    }
-  }, [_vm._v("Enable Email API Log")]), _vm._v(" "), _vm.$parent.validationErrors.logger_enabled ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.logger_enabled[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group",
-    attrs: {
-      id: "saveActions"
-    }
-  }, [_c("button", {
-    staticClass: "btn btn-success",
-    attrs: {
-      type: "button"
-    },
-    on: {
-      click: function click($event) {
-        return _vm.$parent.saveCoreConfigInfo(_vm.emailConfigurationData);
-      }
-    }
-  }, [_c("span", {
-    staticClass: "la la-save",
-    attrs: {
-      role: "presentation",
-      "aria-hidden": "true"
-    }
-  }), _vm._v("  \n            "), _c("span", {
-    attrs: {
-      "data-value": "save_and_edit"
-    }
-  }, [_vm._v(" Save")])]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-default",
-    attrs: {
-      type: "button"
-    },
-    on: {
-      click: function click($event) {
-        return _vm.$parent.saveAndAction();
-      }
-    }
-  }, [_c("span", {
-    staticClass: "la la-ban"
-  }), _vm._v(" Cancel\n        ")])])]);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("legend", [_c("i", {
-    staticClass: "la la-envelope mr-2"
-  }), _vm._v("\n                Email Configuration\n            ")]);
 }];
 render._withStripped = true;
 
@@ -14876,50 +14314,6 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.paymentConfigurationData.logger_enabled,
-      expression: "paymentConfigurationData.logger_enabled"
-    }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.logger_enabled
-    },
-    attrs: {
-      type: "checkbox",
-      name: "logger_enabled",
-      id: "payment_logger_enabled"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.paymentConfigurationData.logger_enabled) ? _vm._i(_vm.paymentConfigurationData.logger_enabled, null) > -1 : _vm.paymentConfigurationData.logger_enabled
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.paymentConfigurationData.logger_enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.paymentConfigurationData, "logger_enabled", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.paymentConfigurationData, "logger_enabled", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.paymentConfigurationData, "logger_enabled", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "payment_logger_enabled"
-    }
-  }, [_vm._v("Enable Payment API Log")]), _vm._v(" "), _vm.$parent.validationErrors.logger_enabled ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.logger_enabled[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
       value: _vm.paymentConfigurationData.allow_payments,
       expression: "paymentConfigurationData.allow_payments"
     }],
@@ -15629,51 +15023,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.business_query_dictionary ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.business_query_dictionary[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.coreConfigurationData.logger_enabled,
-      expression: "coreConfigurationData.logger_enabled"
-    }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.logger_enabled
-    },
-    attrs: {
-      type: "checkbox",
-      name: "logger_enabled",
-      id: "payment_logger"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.coreConfigurationData.logger_enabled) ? _vm._i(_vm.coreConfigurationData.logger_enabled, null) > -1 : _vm.coreConfigurationData.logger_enabled
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.coreConfigurationData.logger_enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "payment_logger"
-    }
-  }, [_vm._v("Enable Search API Log")]), _vm._v(" "), _vm.$parent.validationErrors.logger_enabled ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.logger_enabled[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.business_query_dictionary[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "form-group",
     attrs: {
       id: "saveActions"
@@ -17069,51 +16419,7 @@ var render = function render() {
     }
   }, [_vm._v("Use Product Restriction Control")]), _vm._v(" "), _vm.$parent.validationErrors.use_product_restriction ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.use_product_restriction[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.coreConfigurationData.logger_enabled,
-      expression: "coreConfigurationData.logger_enabled"
-    }],
-    "class": {
-      "is-invalid": _vm.$parent.validationErrors.logger_enabled
-    },
-    attrs: {
-      type: "checkbox",
-      name: "logger_enabled",
-      id: "payment_logger"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.coreConfigurationData.logger_enabled) ? _vm._i(_vm.coreConfigurationData.logger_enabled, null) > -1 : _vm.coreConfigurationData.logger_enabled
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.coreConfigurationData.logger_enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.coreConfigurationData, "logger_enabled", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "payment_logger"
-    }
-  }, [_vm._v("Enable Search API Log")]), _vm._v(" "), _vm.$parent.validationErrors.logger_enabled ? _c("small", {
-    staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.logger_enabled[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.use_product_restriction[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "form-group",
     attrs: {
       id: "saveActions"
@@ -21785,45 +21091,6 @@ component.options.__file = "resources/vue/views/pages/configurations/tabs/ERP.vu
 
 /***/ }),
 
-/***/ "./resources/vue/views/pages/configurations/tabs/Email.vue":
-/*!*****************************************************************!*\
-  !*** ./resources/vue/views/pages/configurations/tabs/Email.vue ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Email.vue?vue&type=template&id=0ff6b040 */ "./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040");
-/* harmony import */ var _Email_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Email.vue?vue&type=script&lang=js */ "./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Email_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__.render,
-  _Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/vue/views/pages/configurations/tabs/Email.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/vue/views/pages/configurations/tabs/Frontend.vue":
 /*!********************************************************************!*\
   !*** ./resources/vue/views/pages/configurations/tabs/Frontend.vue ***!
@@ -22557,22 +21824,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js":
-/*!*****************************************************************************************!*\
-  !*** ./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js ***!
-  \*****************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Email_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Email.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Email_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/vue/views/pages/configurations/tabs/Frontend.vue?vue&type=script&lang=js":
 /*!********************************************************************************************!*\
   !*** ./resources/vue/views/pages/configurations/tabs/Frontend.vue?vue&type=script&lang=js ***!
@@ -22962,23 +22213,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ERP_vue_vue_type_template_id_78764187__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ERP_vue_vue_type_template_id_78764187__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ERP.vue?vue&type=template&id=78764187 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/ERP.vue?vue&type=template&id=78764187");
-
-
-/***/ }),
-
-/***/ "./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040":
-/*!***********************************************************************************************!*\
-  !*** ./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040 ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Email_vue_vue_type_template_id_0ff6b040__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Email.vue?vue&type=template&id=0ff6b040 */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vue/views/pages/configurations/tabs/Email.vue?vue&type=template&id=0ff6b040");
 
 
 /***/ }),

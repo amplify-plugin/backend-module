@@ -15,21 +15,14 @@ class AmplifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->overwriteBackpackLocale()
-            ->loadSystemConfiguration();
-    }
+        $this->app->booted(function () {
+            // Load All Configs to Config system from DB
+            foreach (SystemConfiguration::all() as $systemConfig) {
+                Config::set("amplify.{$systemConfig->name}.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type));
+            }
 
-    private function loadSystemConfiguration(): self
-    {
-        // Load All Configs to Config system from DB
-        foreach (SystemConfiguration::all() as $systemConfig) {
-            match ($systemConfig->name) {
-                SystemConfiguration::EMAIL_TAB => Config::set("mail.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type)),
-                default => Config::set("amplify.{$systemConfig->name}.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type))
-            };
-        }
-
-        return $this;
+            $this->overwriteBackpackLocale();
+        });
     }
 
     private function overwriteBackpackLocale(): self

@@ -358,7 +358,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'easyask_port' => $request->input('easyask_port', null),
             'easyask_dictionary' => $request->input('easyask_dictionary', 'amplify-demo'),
             'protocol' => $request->input('protocol', 'http'),
-            'logger_enabled' => $request->boolean('logger_enabled', true),
             'use_product_restriction' => $request->boolean('use_product_restriction', true),
             'search_box_placeholder' => $request->input('search_box_placeholder', 'Search Product all'),
             'default_catalog' => $request->input('default_catalog'),

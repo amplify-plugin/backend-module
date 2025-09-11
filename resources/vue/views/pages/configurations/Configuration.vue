@@ -174,7 +174,6 @@ import Invoice from './tabs/Invoice';
 import Email from './tabs/Email';
 import CMS from './tabs/CMS';
 import Schedule from './tabs/Schedule';
-import Storage from './tabs/Storage';
 import Marketing from './tabs/Marketing';
 import API from './tabs/API.vue';
 import Order from './tabs/Order';
@@ -182,6 +181,7 @@ import Prop65 from './tabs/Prop65';
 import DDS from './tabs/DDS';
 import Security from "./tabs/Security";
 import AlertMessage from './tabs/AlertMessage.vue';
+import Developer from './tabs/Developer.vue';
 
 export default {
     name: 'Configuration',
@@ -230,7 +230,6 @@ export default {
         Search,
         Report,
         Sayt,
-        Icecat,
         Google,
         Frontend,
         Payment,
@@ -239,14 +238,14 @@ export default {
         Email,
         Schedule,
         CMS,
-        Storage,
         Marketing,
         API,
         Order,
         Prop65,
         DDS,
         Security,
-        AlertMessage
+        AlertMessage,
+        Developer
     },
     data() {
         return {
@@ -264,9 +263,9 @@ export default {
                 Basic: { title: 'Basic', hash: 'basic' },
                 PIM: { title: 'PIM', hash: 'pim' },
                 Search: { title: 'Search', hash: 'search' },
-                Report: { title: 'Report', hash: 'report' },
+                // Report: { title: 'Report', hash: 'report' },
                 Sayt: { title: 'SAYT', hash: 'sayt' },
-                Icecat: { title: 'Icecat', hash: 'icecat' },
+                // Icecat: { title: 'Icecat', hash: 'icecat' },
                 Google: { title: 'Google', hash: 'google' },
                 Frontend: { title: 'Frontend', hash: 'frontend' },
                 Payment: { title: 'Payment', hash: 'payment' },
@@ -275,7 +274,6 @@ export default {
                 Email: { title: 'Email', hash: 'email' },
                 Schedule: { title: 'Schedule', hash: 'schedule' },
                 CMS: { title: 'CMS', hash: 'cms' },
-                Storage: { title: 'Storage', hash: 'storage' },
                 Marketing: { title: 'Marketing', hash: 'marketing' },
                 API: { title: 'Amplify API', hash: 'api' },
                 Order: { title: 'Order', hash: 'order' },
@@ -283,6 +281,7 @@ export default {
                 // DDS: { title: 'DDS', hash: 'dds' },
                 Security: { title: 'Security', hash: 'security' },
                 AlertMessage: { title: 'Alert Message', hash: 'message' },
+                Developer: { title: 'Developer Options', hash: 'developer' },
             },
             coreConfigurationData: {
                 ...JSON.parse(this.core_configuration_data),

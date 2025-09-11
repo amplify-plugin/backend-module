@@ -163,20 +163,6 @@
                         $parent.validationErrors.use_product_restriction[0]
                     }}</small>
             </div>
-
-            <div class="form-group">
-                <input
-                    type="checkbox"
-                    name="logger_enabled"
-                    id="payment_logger"
-                    v-model="coreConfigurationData.logger_enabled"
-                    :class="{ 'is-invalid': $parent.validationErrors.logger_enabled }"
-                />
-                <label for="payment_logger">Enable Search API Log</label>
-                <small v-if="$parent.validationErrors.logger_enabled" class="text-danger mt-3">{{
-                    $parent.validationErrors.logger_enabled[0]
-                }}</small>
-            </div>
         </fieldset>
         <div id="saveActions" class="form-group">
             <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
@@ -204,7 +190,6 @@ export default {
                 easyask_host: this.$parent.coreConfigurationData.search.easyask_host,
                 easyask_port: this.$parent.coreConfigurationData.search.easyask_port,
                 easyask_dictionary: this.$parent.coreConfigurationData.search.easyask_dictionary,
-                logger_enabled: this.$parent.coreConfigurationData.search.logger_enabled,
                 use_product_restriction: this.$parent.coreConfigurationData.search.use_product_restriction,
                 search_box_placeholder: this.$parent.coreConfigurationData.search.search_box_placeholder,
                 default_catalog: this.$parent.coreConfigurationData.search.default_catalog,

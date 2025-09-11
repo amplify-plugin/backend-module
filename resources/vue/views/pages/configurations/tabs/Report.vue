@@ -65,17 +65,6 @@
                         $parent.validationErrors.business_query_dictionary[0]
                     }}</small>
             </div>
-
-            <div class="form-group">
-                <input type="checkbox" name="logger_enabled"
-                       id="payment_logger"
-                       v-model="coreConfigurationData.logger_enabled"
-                       :class="{ 'is-invalid': $parent.validationErrors.logger_enabled }">
-                <label for="payment_logger">Enable Search API Log</label>
-                <small v-if="$parent.validationErrors.logger_enabled" class="text-danger mt-3">{{
-                        $parent.validationErrors.logger_enabled[0]
-                    }}</small>
-            </div>
         </fieldset>
         <div id="saveActions" class="form-group">
 
@@ -108,8 +97,7 @@ export default {
                 host: this.$parent.coreConfigurationData.report.host,
                 port: this.$parent.coreConfigurationData.report.port,
                 business_query_dictionary: this.$parent.coreConfigurationData.report.business_query_dictionary,
-                logger_enabled: this.$parent.coreConfigurationData.report.logger_enabled,
-            }
+             }
         }
     },
 }

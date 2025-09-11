@@ -40,13 +40,9 @@ class SystemConfiguration extends Model implements Auditable
 
     const INVOICE_TAB = 'invoice';
 
-    const EMAIL_TAB = 'email';
-
     const SCHEDULE_TAB = 'schedule';
 
     const CMS_TAB = 'cms';
-
-    const STORAGE_TAB = 'storage';
 
     const MARKETING_TAB = 'marketing';
 

@@ -171,7 +171,6 @@ import Frontend from './tabs/Frontend';
 import Payment from './tabs/Payment';
 import ERP from './tabs/ERP';
 import Invoice from './tabs/Invoice';
-import Email from './tabs/Email';
 import CMS from './tabs/CMS';
 import Schedule from './tabs/Schedule';
 import Marketing from './tabs/Marketing';
@@ -235,7 +234,6 @@ export default {
         Payment,
         ERP,
         Invoice,
-        Email,
         Schedule,
         CMS,
         Marketing,
@@ -271,7 +269,6 @@ export default {
                 Payment: { title: 'Payment', hash: 'payment' },
                 ERP: { title: 'ERP', hash: 'erp' },
                 Invoice: { title: 'Invoice', hash: 'invoice' },
-                Email: { title: 'Email', hash: 'email' },
                 Schedule: { title: 'Schedule', hash: 'schedule' },
                 CMS: { title: 'CMS', hash: 'cms' },
                 Marketing: { title: 'Marketing', hash: 'marketing' },

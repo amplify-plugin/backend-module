@@ -3,8 +3,8 @@
         <fieldset>
             <div class="d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
                 <legend>
-                    <i class="la la-hand-holding-usd mr-2"></i>
-                    Order Configuration
+                    <i class="la la-code mr-2"></i>
+                    Developer Options
                 </legend>
                 <div class="d-md-none custom-sidebar-ar" @click="$parent.toggleSidebar()">
                     <div class="menu-icon-ar">
@@ -27,34 +27,113 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="checkbox" name="order_rule_check"
-                       id="order_rule_check"
-                       v-model="coreConfigurationData.order_rule_check"
-                       :class="{ 'is-invalid': $parent.validationErrors.order_rule_check }">
-                <label for="order_rule_check">Enable Order Rule Check</label>
-                <small v-if="$parent.validationErrors.order_rule_check" class="text-danger mt-3">{{
-                        $parent.validationErrors.order_rule_check[0]
-                    }}</small>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="coreConfigurationData.log_search"
+                        id="log_search"
+                    />
+                    <label class="form-check-label" for="log_search">
+                        Enable Api Log of EasyAsk Search Calls
+                    </label>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    If enabled the system will log all the search call going to EasyAsk search.
+                    <br>
+                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                </small>
             </div>
             <div class="form-group">
-                <input type="checkbox" name="send_email_to_create_order_from_quote"
-                       id="send_email_to_create_order_from_quote"
-                       v-model="coreConfigurationData.send_email_to_create_order_from_quote"
-                       :class="{ 'is-invalid': $parent.validationErrors.send_email_to_create_order_from_quote }">
-                <label for="send_email_to_create_order_from_quote">Send Email to Create Order from Quote</label>
-                <small v-if="$parent.validationErrors.send_email_to_create_order_from_quote" class="text-danger mt-3">{{
-                        $parent.validationErrors.send_email_to_create_order_from_quote[0]
-                    }}</small>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="coreConfigurationData.log_payment"
+                        id="log_payment"
+                    />
+                    <label class="form-check-label" for="log_payment">
+                        Enable Api Log of Payment Gateway/ERP Calls
+                    </label>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    If enabled system will log all the payment gateways related api calls.
+                    <br>
+                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                </small>
             </div>
             <div class="form-group">
-                <input type="checkbox" name="use_pickup_enable_warehouses_as_shipping_methods"
-                       id="use_pickup_enable_warehouses_as_shipping_methods"
-                       v-model="coreConfigurationData.use_pickup_enable_warehouses_as_shipping_methods"
-                       :class="{ 'is-invalid': $parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods }">
-                <label for="use_pickup_enable_warehouses_as_shipping_methods">Use Pickup Enable Warehouses as Shipping Methods</label>
-                <small v-if="$parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods" class="text-danger mt-3">{{
-                        $parent.validationErrors.use_pickup_enable_warehouses_as_shipping_methods[0]
-                    }}</small>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="coreConfigurationData.log_erp_api"
+                        id="log_erp_api"
+                    />
+                    <label class="form-check-label" for="log_erp_api">
+                        Enable API logs with ERP communication
+                    </label>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    If enabled system will log all the API calls goes to ERP for customer,
+                    shipping and product related information.
+                    <br>
+                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="coreConfigurationData.log_email"
+                        id="log_email"
+                    />
+                    <label class="form-check-label" for="log_email">
+                        Enabled log of email notification.
+                    </label>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    If enabled system will log email notification and status when it was sent.
+                    <br>
+                    <a href="/admin/mail-log" target="_blank">See Current Logs</a>
+                </small>
+            </div>
+            <div class="form-group">
+                <label>System Error Notification Report</label>
+                <table class="table table-striped table-hover table-sm">
+                    <tr>
+                        <th>Email</th>
+                        <th>
+                            <button
+                                type="button"
+                                role="button"
+                                @click.prevent="() => coreConfigurationData.bug_recipient.push([]);"
+                                class="btn btn-sm btn-primary">
+                                <b>+</b>
+                            </button>
+                        </th>
+                    </tr>
+                    <tr v-for="(email, index) of coreConfigurationData.bug_recipient" :key="index">
+                        <td>
+                            <input class="form-control form-control-sm"
+                                   type="email"
+                                   required
+                                   min="5"
+                                   max="255"
+                                   v-model="coreConfigurationData.bug_recipient[index]">
+                        </td>
+                        <td>
+                            <button
+                                type="button"
+                                role="button"
+                                @click.prevent="() => coreConfigurationData.bug_recipient.splice(index,1);"
+                                class="btn btn-sm btn-danger">
+                                <b>-</b>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </fieldset>
 
@@ -78,10 +157,12 @@ export default {
     data() {
         return {
             coreConfigurationData: {
-                tab: "order",
-                order_rule_check: this.$parent.coreConfigurationData.order.order_rule_check ?? false,
-                send_email_to_create_order_from_quote: this.$parent.coreConfigurationData.order.send_email_to_create_order_from_quote ?? false,
-                use_pickup_enable_warehouses_as_shipping_methods: this.$parent.coreConfigurationData.order.use_pickup_enable_warehouses_as_shipping_methods ?? false
+                tab: "developer",
+                log_search: this.$parent.coreConfigurationData.log_search ?? false,
+                log_payment: this.$parent.coreConfigurationData.log_payment ?? false,
+                log_erp_api: this.$parent.coreConfigurationData.log_erp_api ?? false,
+                log_email: this.$parent.coreConfigurationData.log_email ?? false,
+                bug_recipient: this.$parent.coreConfigurationData.bug_recipient ?? []
             }
         }
     },

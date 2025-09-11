@@ -94,16 +94,6 @@
                     }}</small>
             </div>
             <div class="form-group">
-                <input type="checkbox" name="logger_enabled"
-                       id="payment_logger_enabled"
-                       v-model="paymentConfigurationData.logger_enabled"
-                       :class="{ 'is-invalid': $parent.validationErrors.logger_enabled }">
-                <label for="payment_logger_enabled">Enable Payment API Log</label>
-                <small v-if="$parent.validationErrors.logger_enabled" class="text-danger mt-3">{{
-                        $parent.validationErrors.logger_enabled[0]
-                    }}</small>
-            </div>
-            <div class="form-group">
                 <input type="checkbox" name="allow_payments" id="payment_allow_payments"
                        v-model="paymentConfigurationData.allow_payments"
                        :class="{ 'is-invalid': $parent.validationErrors.allow_payments }">
@@ -170,7 +160,6 @@ export default {
                 allow_credit_payments: this.$parent.coreConfigurationData.payment.allow_credit_payments,
                 allow_payments: this.$parent.coreConfigurationData.payment.allow_payments,
                 allow_bulk_invoice_payments: this.$parent.coreConfigurationData.payment.allow_bulk_invoice_payments,
-                logger_enabled: this.$parent.coreConfigurationData.payment.logger_enabled
 
             }
         }
@@ -202,7 +191,6 @@ export default {
     },
 
     mounted() {
-        this.paymentConfigurationData.logger_enabled = this.$parent.coreConfigurationData.payment.logger_enabled;
         this.setValue(this.$parent.coreConfigurationData.payment.default, this.$parent.coreConfigurationData.payment.gateways);
     }
 }

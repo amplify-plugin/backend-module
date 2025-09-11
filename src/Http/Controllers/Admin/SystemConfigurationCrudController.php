@@ -236,14 +236,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 $data = $this->erpTabFormat($request);
             } elseif ($tab == SystemConfiguration::INVOICE_TAB) {
                 $data = $this->invoiceTabFormat($request);
-            } elseif ($tab == SystemConfiguration::EMAIL_TAB) {
-                $data = $this->emailTabFormat($request);
             } elseif ($tab == SystemConfiguration::SCHEDULE_TAB) {
                 $data = $this->scheduleTabFormat($request);
             } elseif ($tab == SystemConfiguration::CMS_TAB) {
                 $data = $this->cmsTabFormat($request);
-            } elseif ($tab == SystemConfiguration::STORAGE_TAB) {
-                $data = $this->storageTabFormat($request);
             } elseif ($tab == SystemConfiguration::MARKETING_TAB) {
                 $data = $this->marketingTabFormat($request);
             } elseif ($tab == SystemConfiguration::AMPLIFY_API_TAB) {
@@ -371,7 +367,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'host' => $request->input('host', 'demov16.easyaskondemand1.com/EasyAsk/apps/TranslateToResults.jsp'),
             'port' => $request->input('port', null),
             'business_query_dictionary' => $request->input('business_query_dictionary', 'query-amplify'),
-            'logger_enabled' => $request->boolean('logger_enabled', true),
         ];
     }
 
@@ -427,7 +422,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $payment_config['allow_credit_payments'] = $request->boolean('allow_credit_payments');
         $payment_config['allow_payments'] = $request->boolean('allow_payments');
         $payment_config['allow_bulk_invoice_payments'] = $request->boolean('allow_bulk_invoice_payments');
-        $payment_config['logger_enabled'] = $request->boolean('logger_enabled');
 
         $payment_config['gateways.'.$payment_config['default'].'.merchant_id'] = $request->input('merchant_id', null);
         $payment_config['gateways.'.$payment_config['default'].'.payment_url'] = $request->input('payment_url', null);
@@ -442,7 +436,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     private function erpTabFormat($request): array
     {
         $erp_config['default'] = $request->input('default_erp', config('amplify.erp.default'));
-        $erp_config['logger_enabled'] = $request->boolean('logger_enabled', false);
         $erp_config['auto_create_cash_customer'] = $request->boolean('auto_create_cash_customer', false);
         $erp_config['auto_create_contact'] = $request->boolean('auto_create_contact', false);
         $erp_config['use_amplify_shipping'] = $request->boolean('use_amplify_shipping', false);
@@ -488,24 +481,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
-    private function emailTabFormat($request): array
-    {
-        $email_config['default'] = $request->input('transport', 'smtp');
-        $email_config['admin_email'] = $request->input('admin_email', null);
-        $email_config['error_notify_email'] = $request->input('error_notify_email', '');
-        $email_config['from.name'] = $request->input('sender_name', null);
-        $email_config['from.address'] = $request->input('sender_email', null);
-        $email_config['logger_enabled'] = $request->boolean('logger_enabled', false);
-
-        $email_config['mailers.'.$email_config['default'].'.host'] = $request->input('host', null);
-        $email_config['mailers.'.$email_config['default'].'.username'] = $request->input('username', null);
-        $email_config['mailers.'.$email_config['default'].'.password'] = $request->input('password', null);
-        $email_config['mailers.'.$email_config['default'].'.encryption'] = $request->input('encryption', true);
-        $email_config['mailers.'.$email_config['default'].'.port'] = $request->input('port', null);
-
-        return $email_config;
-    }
-
     private function scheduleTabFormat($request): array
     {
         $schedule_config['timezone'] = $request->input('timezone', 'UTC');
@@ -534,37 +509,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             false);
 
         return $schedule_config;
-    }
-
-    private function storageTabFormat($request): array
-    {
-        $storage_config['file_manager_disks'] = $request->input('file_manager_disks',
-            config('amplify.storage.file_manager_disks'));
-
-        $uploads_config = $request->input('uploads', config('amplify.storage.uploads'));
-
-        if ($uploads_config['driver'] == 'local') {
-            $uploads_config['root'] = storage_path('app/uploads');
-            $uploads_config['url'] = config('app.url').'/uploads';
-        } else {
-            $uploads_config['root'] = null;
-            $uploads_config['url'] = $request->input('uploads.url', config('filesystems.disks.s3.url'));
-        }
-
-        $storage_config['uploads'] = $uploads_config;
-
-        $backups_config = $request->input('backups', config('amplify.storage.backups'));
-
-        if ($backups_config['driver'] == 'local') {
-            $backups_config['root'] = storage_path('app/backups');
-            $backups_config['url'] = config('app.url').'/backups';
-        } else {
-            $backups_config['root'] = config('backup.backup.name', 'amplify-db-backup');
-        }
-
-        $storage_config['backups'] = $backups_config;
-
-        return $storage_config;
     }
 
     private function marketingTabFormat($request): array

@@ -226,19 +226,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <input
-                    type="checkbox"
-                    name="logger_enabled"
-                    v-model="erpConfigurationData.logger_enabled"
-                    id="erp_logger_enabled"
-                    :class="{ 'is-invalid': $parent.validationErrors.logger_enabled }"
-                />
-                <label for="erp_logger_enabled">Enable ERP API Log</label>
-                <small v-if="$parent.validationErrors.logger_enabled" class="text-danger mt-3">{{
-                    $parent.validationErrors.logger_enabled[0]
-                }}</small>
-            </div>
-            <div class="form-group">
                 <div>
                     <input
                         type="checkbox"
@@ -396,7 +383,6 @@ export default {
             erpConfigurationData: {
                 tab: 'erp',
                 default_erp: this.$parent.coreConfigurationData.erp.default ?? 'default',
-                logger_enabled: this.$parent.coreConfigurationData.erp.logger_enabled ?? false,
                 enabled: false,
                 url: '',
                 delivery_options: [],

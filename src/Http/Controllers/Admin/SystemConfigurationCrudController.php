@@ -319,7 +319,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'countries' => $request->input('countries', []),
             'web_order_prefix' => $request->input('web_order_prefix', null),
             'nxt_available_web_order_number' => $request->input('nxt_available_web_order_number', null),
-            'project_mode' => $request->input('project_mode', 'developer'),
             'date_time_format' => $request->input('date_time_format', config('amplify.basic.date_time_format')),
             'date_format' => $request->input('date_format', config('amplify.basic.date_format')),
             'default_reorder_limit' => $request->input('default_reorder_limit', 10),

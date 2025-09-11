@@ -113,8 +113,8 @@
                         </template>
                     </multiselect>
                     <small v-if="$parent.validationErrors.sku_default_attributes" class="text-danger mt-3">{{
-                        $parent.validationErrors.sku_default_attributes[0]
-                    }}</small>
+                            $parent.validationErrors.sku_default_attributes[0]
+                        }}</small>
                 </div>
             </div>
 
@@ -129,8 +129,8 @@
                     :class="{ 'is-invalid': $parent.validationErrors.web_order_prefix }"
                 />
                 <small v-if="$parent.validationErrors.web_order_prefix" class="text-danger mt-3">{{
-                    $parent.validationErrors.web_order_prefix[0]
-                }}</small>
+                        $parent.validationErrors.web_order_prefix[0]
+                    }}</small>
             </div>
 
             <div class="form-group">
@@ -144,8 +144,8 @@
                     :class="{ 'is-invalid': $parent.validationErrors.nxt_available_web_order_number }"
                 />
                 <small v-if="$parent.validationErrors.nxt_available_web_order_number" class="text-danger mt-3">{{
-                    $parent.validationErrors.nxt_available_web_order_number[0]
-                }}</small>
+                        $parent.validationErrors.nxt_available_web_order_number[0]
+                    }}</small>
             </div>
 
             <div class="form-group">
@@ -167,44 +167,9 @@
                     }"
                 ></i>
                 <small v-if="$parent.validationErrors.contact_import_default_password" class="text-danger mt-3">{{
-                    $parent.validationErrors.contact_import_default_password[0]
-                }}</small>
+                        $parent.validationErrors.contact_import_default_password[0]
+                    }}</small>
             </div>
-
-            <div class="form-group">
-                <label>Project Mode</label>
-                <select
-                    name="erps"
-                    class="form-control custom-select"
-                    :class="{ 'is-invalid': $parent.validationErrors.erps }"
-                    v-model="coreConfigurationData.project_mode"
-                >
-                    <option
-                        v-for="(project, index) in projectModes"
-                        :value="project.code"
-                        :key="index"
-                        :selected="project.code == coreConfigurationData.project_mode ? true : false"
-                    >
-                        {{ project.name }}
-                    </option>
-                </select>
-                <small v-if="$parent.validationErrors.project_mode" class="text-danger mt-3">
-                    {{ $parent.validationErrors.project_mode[0] ?? '' }}</small
-                >
-            </div>
-            <!-- Deprecated -->
-            <!--            <div class="form-group">-->
-            <!--                <div class="form-check">-->
-            <!--                    <input type="checkbox" name="is_elfinder_drag_and_drop"-->
-            <!--                           v-model="coreConfigurationData.is_elfinder_drag_and_drop"-->
-            <!--                           :class="{ 'is-invalid': $parent.validationErrors.is_elfinder_drag_and_drop, 'form-check-input': true }">-->
-            <!--                    <label> Is File Manager Drag&Drop</label>-->
-            <!--                    <small v-if="$parent.validationErrors.is_elfinder_drag_and_drop"-->
-            <!--                           class="text-danger mt-3">{{-->
-            <!--                            $parent.validationErrors.is_elfinder_drag_and_drop[0]-->
-            <!--                        }}</small>-->
-            <!--                </div>-->
-            <!--            </div>-->
 
             <div class="form-group">
                 <label>Date Time Format</label>
@@ -253,31 +218,30 @@
                     :class="{ 'is-invalid': $parent.validationErrors.default_reorder_limit }"
                 />
                 <small v-if="$parent.validationErrors.default_reorder_limit" class="text-danger mt-3">{{
-                    $parent.validationErrors.default_reorder_limit[0]
-                }}</small>
+                        $parent.validationErrors.default_reorder_limit[0]
+                    }}</small>
             </div>
+            <div class="form-group required" style="">
+                <label>Navbar Brand</label>
+                <div class="controls">
+                    <div class="input-group">
+                        <input type="text" name="navbar_image_path" v-model="coreConfigurationData.navbar_brand"
+                               id="navbar_image_path" class="form-control"
+                               @keypress="coreConfigurationData.errors.clear('navbar_image_path')" readonly>
 
-            <!-- Disabled these fields are static content -->
-            <!--            <div class="form-group required" style="">-->
-            <!--                <label>Navbar Brand</label>-->
-            <!--                <div class="controls">-->
-            <!--                    <div class="input-group">-->
-            <!--                        <input type="text" name="navbar_image_path" v-model="coreConfigurationData.navbar_brand"-->
-            <!--                               id="navbar_image_path" class="form-control"-->
-            <!--                               @keypress="coreConfigurationData.errors.clear('navbar_image_path')" readonly>-->
-
-            <!--                        <span class="input-group-append">-->
-            <!--                        <button type="button" class="btn btn-light btn-sm popup_selector" data-toggle="modal"-->
-            <!--                                data-target="#widget-attributes-modal"-->
-            <!--                                @click="prepareModal('navbar'); processImagesByType(); canMultiple = false;">-->
-            <!--                            <i class="la la-cloud-upload"></i> Browse-->
-            <!--                        </button>-->
-            <!--                        <button type="button" class="btn btn-light btn-sm clear_elfinder_picker"-->
-            <!--                                @click="deleteImage('navbar')"><i class="la la-eraser"></i> Clear</button>-->
-            <!--                    </span>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
+                        <span class="input-group-append">
+                                    <button type="button" class="btn btn-light btn-sm popup_selector"
+                                            data-toggle="modal"
+                                            data-target="#widget-attributes-modal"
+                                            @click="prepareModal('navbar'); processImagesByType(); canMultiple = false;">
+                                        <i class="la la-cloud-upload"></i> Browse
+                                    </button>
+                                    <button type="button" class="btn btn-light btn-sm clear_elfinder_picker"
+                                            @click="deleteImage('navbar')"><i class="la la-eraser"></i> Clear</button>
+                                </span>
+                    </div>
+                </div>
+            </div>
 
             <!--            <div class="form-group required" style="">-->
             <!--                <label>Footer Image</label>-->
@@ -311,8 +275,8 @@
                     :class="{ 'is-invalid': $parent.validationErrors.length_options }"
                 />
                 <small v-if="$parent.validationErrors.length_options" class="text-danger mt-3">{{
-                    $parent.validationErrors.length_options[0]
-                }}</small>
+                        $parent.validationErrors.length_options[0]
+                    }}</small>
             </div>
 
             <!-- Backend Theme -->
@@ -340,12 +304,12 @@
                     </template>
                 </multiselect>
                 <small v-if="$parent.validationErrors.color_scheme" class="text-danger mt-3">{{
-                    $parent.validationErrors.color_scheme[0]
-                }}</small>
+                        $parent.validationErrors.color_scheme[0]
+                    }}</small>
             </div>
 
             <div class="form-group">
-                <label>Use Recaptcha</label><br />
+                <label>Use Recaptcha</label><br/>
                 <input
                     type="radio"
                     name="recaptcha_status"
@@ -363,13 +327,13 @@
                 />
                 <span class="mr-2">Yes</span>
                 <small v-if="$parent.validationErrors.recaptcha_status" class="text-danger mt-3">{{
-                    $parent.validationErrors.recaptcha_status[0]
-                }}</small>
+                        $parent.validationErrors.recaptcha_status[0]
+                    }}</small>
             </div>
 
             <div class="form-group" v-if="coreConfigurationData.recaptcha_status">
                 <div>
-                    <label>Recaptcha Type</label><br />
+                    <label>Recaptcha Type</label><br/>
 
                     <select
                         name="erps"
@@ -388,8 +352,8 @@
                     </select>
 
                     <small v-if="$parent.validationErrors.recaptcha_type" class="text-danger mt-3">{{
-                        $parent.validationErrors.recaptcha_type[0]
-                    }}</small>
+                            $parent.validationErrors.recaptcha_type[0]
+                        }}</small>
                 </div>
                 <div class="mt-3" v-if="recaptchaImage">
                     <label> Preview: </label>&nbsp;
@@ -411,11 +375,11 @@
                     />
                     <label for="force_password_reset_enabled"> Enable Force Password Reset</label>
                     <small v-if="$parent.validationErrors.force_password_reset_enabled" class="text-danger mt-3">{{
-                        $parent.validationErrors.force_password_reset_enabled[0]
-                    }}</small>
+                            $parent.validationErrors.force_password_reset_enabled[0]
+                        }}</small>
                 </div>
                 <small class="text-muted d-block"
-                    >If enabled system will ask user to reset password, if changed by admin.</small
+                >If enabled system will ask user to reset password, if changed by admin.</small
                 >
             </div>
 
@@ -430,11 +394,11 @@
                     />
                     <label for="enable_quick_list">Allow quick list option in favorites.</label>
                     <small v-if="$parent.validationErrors.enable_quick_list" class="text-danger mt-3">{{
-                        $parent.validationErrors.enable_quick_list[0]
-                    }}</small>
+                            $parent.validationErrors.enable_quick_list[0]
+                        }}</small>
                 </div>
                 <small class="text-muted d-block"
-                    >If enabled the on favourites a new option will appear named "Quick List"</small
+                >If enabled the on favourites a new option will appear named "Quick List"</small
                 >
             </div>
 
@@ -452,11 +416,11 @@
                     />
                     <label for="enable_multi_customer_manage">Allow contacts to manage multiple Customer(s).</label>
                     <small v-if="$parent.validationErrors.enable_multi_customer_manage" class="text-danger mt-3">{{
-                        $parent.validationErrors.enable_multi_customer_manage[0]
-                    }}</small>
+                            $parent.validationErrors.enable_multi_customer_manage[0]
+                        }}</small>
                 </div>
                 <small class="text-muted d-block"
-                    >If enabled then contacts will be able to swap their designated customer(s)</small
+                >If enabled then contacts will be able to swap their designated customer(s)</small
                 >
             </div>
 
@@ -474,16 +438,16 @@
                     />
                     <label for="enable_guest_pricing">Allow Guest Customer Pricing.</label>
                     <small v-if="$parent.validationErrors.enable_guest_pricing" class="text-danger mt-3">{{
-                        $parent.validationErrors.enable_guest_pricing[0]
-                    }}</small>
+                            $parent.validationErrors.enable_guest_pricing[0]
+                        }}</small>
                 </div>
                 <small class="text-muted d-block"
-                    >If enabled then users will be able to see product price and availability.</small
+                >If enabled then users will be able to see product price and availability.</small
                 >
             </div>
 
             <div id="saveActions" class="form-group">
-                <input type="hidden" name="save_action" v-model="$parent.actionType" />
+                <input type="hidden" name="save_action" v-model="$parent.actionType"/>
 
                 <button
                     @click="
@@ -569,7 +533,7 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 export default {
     name: 'Basic',
     mixins: [allDisksMixin],
-    components: { Multiselect, Treeselect },
+    components: {Multiselect, Treeselect},
 
     data() {
         return {
@@ -627,7 +591,6 @@ export default {
                 hierarchies: this.$parent.coreConfigurationData.basic.hierarchies,
                 web_order_prefix: this.$parent.coreConfigurationData.basic.web_order_prefix,
                 nxt_available_web_order_number: this.$parent.coreConfigurationData.basic.nxt_available_web_order_number,
-                project_mode: this.$parent.coreConfigurationData.basic.project_mode,
                 date_time_format: this.$parent.coreConfigurationData.basic.date_time_format,
                 date_format: this.$parent.coreConfigurationData.basic.date_format,
                 default_reorder_limit: this.$parent.coreConfigurationData.basic.default_reorder_limit,
@@ -644,7 +607,7 @@ export default {
                 enable_erp_customer_create: this.$parent.coreConfigurationData.basic.enable_erp_customer_create,
                 enable_erp_contact_create: this.$parent.coreConfigurationData.basic.enable_erp_contact_create,
                 contact_import_default_password:
-                    this.$parent.coreConfigurationData.basic.contact_import_default_password,
+                this.$parent.coreConfigurationData.basic.contact_import_default_password,
             },
             showPassword: false,
             passwordType: 'password',

@@ -7,6 +7,27 @@
                     Security Configuration
                 </legend>
             </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input
+                        type="checkbox"
+                        name="force_password_reset_enabled"
+                        id="force_password_reset_enabled"
+                        v-model="coreConfigurationData.force_password_reset_enabled"
+                        :class="{
+                            'is-invalid': $parent.validationErrors.force_password_reset_enabled,
+                            'form-check-input': true,
+                        }"
+                    />
+                    <label for="force_password_reset_enabled"> Enable Force Password Reset</label>
+                    <small v-if="$parent.validationErrors.force_password_reset_enabled" class="text-danger mt-3">{{
+                            $parent.validationErrors.force_password_reset_enabled[0]
+                        }}</small>
+                </div>
+                <small class="text-muted d-block"
+                >If enabled system will ask user to reset password, if changed by admin.</small
+                >
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-check">
@@ -98,6 +119,7 @@ export default {
                 cookie_title: this.$parent.coreConfigurationData.security.cookie_title,
                 cookie_content: this.$parent.coreConfigurationData.security.cookie_content,
                 skip_contact_approval: this.$parent.coreConfigurationData.security.skip_contact_approval,
+                force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
             },
         };
     },

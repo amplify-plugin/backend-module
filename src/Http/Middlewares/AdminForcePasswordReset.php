@@ -17,7 +17,7 @@ class AdminForcePasswordReset
      */
     public function handle(Request $request, Closure $next)
     {
-        if (config('amplify.basic.force_password_reset_enabled')) {
+        if (config('amplify.security.force_password_reset_enabled')) {
             if (backpack_user()->password_reset_required == 1) {
                 return redirect()->route('admin.force-password.reset', backpack_user()->id);
             }

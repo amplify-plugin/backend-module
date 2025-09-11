@@ -365,28 +365,6 @@
                 <div class="form-check">
                     <input
                         type="checkbox"
-                        name="force_password_reset_enabled"
-                        id="force_password_reset_enabled"
-                        v-model="coreConfigurationData.force_password_reset_enabled"
-                        :class="{
-                            'is-invalid': $parent.validationErrors.force_password_reset_enabled,
-                            'form-check-input': true,
-                        }"
-                    />
-                    <label for="force_password_reset_enabled"> Enable Force Password Reset</label>
-                    <small v-if="$parent.validationErrors.force_password_reset_enabled" class="text-danger mt-3">{{
-                            $parent.validationErrors.force_password_reset_enabled[0]
-                        }}</small>
-                </div>
-                <small class="text-muted d-block"
-                >If enabled system will ask user to reset password, if changed by admin.</small
-                >
-            </div>
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
                         name="enable_quick_list"
                         id="enable_quick_list"
                         v-model="coreConfigurationData.enable_quick_list"
@@ -573,16 +551,6 @@ export default {
                 },
             ],
             currentTheme: {},
-            projectModes: [
-                {
-                    code: 'developer',
-                    name: 'Developer',
-                },
-                {
-                    code: 'production',
-                    name: 'Production',
-                },
-            ],
             coreConfigurationData: {
                 tab: 'basic',
                 global_currency: this.$parent.coreConfigurationData.basic.global_currency,
@@ -594,13 +562,11 @@ export default {
                 date_time_format: this.$parent.coreConfigurationData.basic.date_time_format,
                 date_format: this.$parent.coreConfigurationData.basic.date_format,
                 default_reorder_limit: this.$parent.coreConfigurationData.basic.default_reorder_limit,
-                footer_image: this.$parent.coreConfigurationData.basic.footer_image,
                 navbar_brand: this.$parent.coreConfigurationData.basic.navbar_brand,
                 length_options: this.$parent.coreConfigurationData.basic.length_options,
                 color_scheme: this.$parent.coreConfigurationData.basic.color_scheme,
                 recaptcha_status: this.$parent.coreConfigurationData.basic.recaptcha_status,
                 recaptcha_type: this.$parent.coreConfigurationData.basic.recaptcha_type,
-                force_password_reset_enabled: this.$parent.coreConfigurationData.basic.force_password_reset_enabled,
                 enable_quick_list: this.$parent.coreConfigurationData.basic.enable_quick_list,
                 enable_multi_customer_manage: this.$parent.coreConfigurationData.basic.enable_multi_customer_manage,
                 enable_guest_pricing: this.$parent.coreConfigurationData.basic.enable_guest_pricing,

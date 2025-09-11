@@ -328,7 +328,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'recaptcha_status' => $request->boolean('recaptcha_status', true),
             'recaptcha_type' => $request->input('recaptcha_type', 'math'),
             'color_scheme' => $request->input('color_scheme', 'purple'),
-            'force_password_reset_enabled' => $request->boolean('force_password_reset_enabled', false),
             'enable_quick_list' => $request->boolean('enable_quick_list', true),
             'enable_multi_customer_manage' => $request->boolean('enable_multi_customer_manage', false),
             'enable_guest_pricing' => $request->boolean('enable_guest_pricing', false),
@@ -611,6 +610,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     private function securityTabFormat($request): array
     {
         return [
+            'force_password_reset_enabled' => $request->boolean('force_password_reset_enabled', false),
             'password_length' => $request->input('password_length', null),
             'cookie_title' => $request->input('cookie_title', null),
             'cookie_content' => $request->input('cookie_content', null),

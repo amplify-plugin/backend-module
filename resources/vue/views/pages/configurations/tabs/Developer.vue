@@ -40,7 +40,6 @@
                 </div>
                 <small class="text-muted mt-2 d-block">
                     If enabled the system will log all the search call going to EasyAsk search.
-                    <br>
                     <a href="/admin/api-log" target="_blank">See Current Logs</a>
                 </small>
             </div>
@@ -58,7 +57,6 @@
                 </div>
                 <small class="text-muted mt-2 d-block">
                     If enabled system will log all the payment gateways related api calls.
-                    <br>
                     <a href="/admin/api-log" target="_blank">See Current Logs</a>
                 </small>
             </div>
@@ -77,7 +75,6 @@
                 <small class="text-muted mt-2 d-block">
                     If enabled system will log all the API calls goes to ERP for customer,
                     shipping and product related information.
-                    <br>
                     <a href="/admin/api-log" target="_blank">See Current Logs</a>
                 </small>
             </div>
@@ -95,7 +92,6 @@
                 </div>
                 <small class="text-muted mt-2 d-block">
                     If enabled system will log email notification and status when it was sent.
-                    <br>
                     <a href="/admin/mail-log" target="_blank">See Current Logs</a>
                 </small>
             </div>
@@ -104,10 +100,10 @@
                 <table class="table table-striped table-hover table-sm">
                     <tr>
                         <th>Email</th>
-                        <th>
+                        <th width="35">
                             <button
                                 type="button"
-
+                                style="width: 35px; height: 35px"
                                 role="button"
                                 @click.prevent="() => coreConfigurationData.bug_recipient.push('')"
                                 class="btn btn-sm btn-primary">
@@ -125,10 +121,11 @@
                                    v-model="coreConfigurationData.bug_recipient[index]"
                             >
                         </td>
-                        <td>
+                        <td width="35">
                             <button
                                 type="button"
                                 role="button"
+                                style="width: 35px; height: 35px"
                                 @click.prevent="() => coreConfigurationData.bug_recipient.splice(index,1)"
                                 class="btn btn-sm btn-danger">
                                 <b>-</b>
@@ -159,11 +156,11 @@ export default {
         return {
             coreConfigurationData: {
                 tab: "developer",
-                log_search: this.$parent.coreConfigurationData.log_search ?? false,
-                log_payment: this.$parent.coreConfigurationData.log_payment ?? false,
-                log_erp_api: this.$parent.coreConfigurationData.log_erp_api ?? false,
-                log_email: this.$parent.coreConfigurationData.log_email ?? false,
-                bug_recipient: this.$parent.coreConfigurationData.bug_recipient ?? [],
+                log_search: this.$parent.coreConfigurationData.developer.log_search ?? false,
+                log_payment: this.$parent.coreConfigurationData.developer.log_payment ?? false,
+                log_erp_api: this.$parent.coreConfigurationData.developer.log_erp_api ?? false,
+                log_email: this.$parent.coreConfigurationData.developer.log_email ?? false,
+                bug_recipient: this.$parent.coreConfigurationData.developer.bug_recipient ?? [],
             }
         }
     }

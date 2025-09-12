@@ -5779,11 +5779,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       coreConfigurationData: {
         tab: "developer",
-        log_search: (_this$$parent$coreCon = this.$parent.coreConfigurationData.log_search) !== null && _this$$parent$coreCon !== void 0 ? _this$$parent$coreCon : false,
-        log_payment: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.log_payment) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
-        log_erp_api: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.log_erp_api) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false,
-        log_email: (_this$$parent$coreCon4 = this.$parent.coreConfigurationData.log_email) !== null && _this$$parent$coreCon4 !== void 0 ? _this$$parent$coreCon4 : false,
-        bug_recipient: (_this$$parent$coreCon5 = this.$parent.coreConfigurationData.bug_recipient) !== null && _this$$parent$coreCon5 !== void 0 ? _this$$parent$coreCon5 : []
+        log_search: (_this$$parent$coreCon = this.$parent.coreConfigurationData.developer.log_search) !== null && _this$$parent$coreCon !== void 0 ? _this$$parent$coreCon : false,
+        log_payment: (_this$$parent$coreCon2 = this.$parent.coreConfigurationData.developer.log_payment) !== null && _this$$parent$coreCon2 !== void 0 ? _this$$parent$coreCon2 : false,
+        log_erp_api: (_this$$parent$coreCon3 = this.$parent.coreConfigurationData.developer.log_erp_api) !== null && _this$$parent$coreCon3 !== void 0 ? _this$$parent$coreCon3 : false,
+        log_email: (_this$$parent$coreCon4 = this.$parent.coreConfigurationData.developer.log_email) !== null && _this$$parent$coreCon4 !== void 0 ? _this$$parent$coreCon4 : false,
+        bug_recipient: (_this$$parent$coreCon5 = this.$parent.coreConfigurationData.developer.bug_recipient) !== null && _this$$parent$coreCon5 !== void 0 ? _this$$parent$coreCon5 : []
       }
     };
   }
@@ -9566,8 +9566,16 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", [_vm._v("System Error Notification Report")]), _vm._v(" "), _c("table", {
     staticClass: "table table-striped table-hover table-sm"
-  }, [_c("tr", [_c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_c("button", {
+  }, [_c("tr", [_c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "35"
+    }
+  }, [_c("button", {
     staticClass: "btn btn-sm btn-primary",
+    staticStyle: {
+      width: "35px",
+      height: "35px"
+    },
     attrs: {
       type: "button",
       role: "button"
@@ -9606,8 +9614,16 @@ var render = function render() {
           _vm.$set(_vm.coreConfigurationData.bug_recipient, index, $event.target.value);
         }
       }
-    })]), _vm._v(" "), _c("td", [_c("button", {
+    })]), _vm._v(" "), _c("td", {
+      attrs: {
+        width: "35"
+      }
+    }, [_c("button", {
       staticClass: "btn btn-sm btn-danger",
+      staticStyle: {
+        width: "35px",
+        height: "35px"
+      },
       attrs: {
         type: "button",
         role: "button"
@@ -9671,7 +9687,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("small", {
     staticClass: "text-muted mt-2 d-block"
-  }, [_vm._v("\n                If enabled the system will log all the search call going to EasyAsk search.\n                "), _c("br"), _vm._v(" "), _c("a", {
+  }, [_vm._v("\n                If enabled the system will log all the search call going to EasyAsk search.\n                "), _c("a", {
     attrs: {
       href: "/admin/api-log",
       target: "_blank"
@@ -9682,7 +9698,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("small", {
     staticClass: "text-muted mt-2 d-block"
-  }, [_vm._v("\n                If enabled system will log all the payment gateways related api calls.\n                "), _c("br"), _vm._v(" "), _c("a", {
+  }, [_vm._v("\n                If enabled system will log all the payment gateways related api calls.\n                "), _c("a", {
     attrs: {
       href: "/admin/api-log",
       target: "_blank"
@@ -9693,7 +9709,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("small", {
     staticClass: "text-muted mt-2 d-block"
-  }, [_vm._v("\n                If enabled system will log all the API calls goes to ERP for customer,\n                shipping and product related information.\n                "), _c("br"), _vm._v(" "), _c("a", {
+  }, [_vm._v("\n                If enabled system will log all the API calls goes to ERP for customer,\n                shipping and product related information.\n                "), _c("a", {
     attrs: {
       href: "/admin/api-log",
       target: "_blank"
@@ -9704,7 +9720,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("small", {
     staticClass: "text-muted mt-2 d-block"
-  }, [_vm._v("\n                If enabled system will log email notification and status when it was sent.\n                "), _c("br"), _vm._v(" "), _c("a", {
+  }, [_vm._v("\n                If enabled system will log email notification and status when it was sent.\n                "), _c("a", {
     attrs: {
       href: "/admin/mail-log",
       target: "_blank"

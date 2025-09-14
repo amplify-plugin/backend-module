@@ -55,6 +55,7 @@ class SystemConfiguration extends Model implements Auditable
     const SECURITY_TAB = 'security';
 
     const AMPLIFY_API_TAB = 'api';
+
     const DEVELOPER_TAB = 'developer';
 
     const VALUE_TYPES = [

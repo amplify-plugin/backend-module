@@ -97,7 +97,7 @@
             </div>
             <div class="form-group">
                 <label>System Error Notification Report</label>
-                <table class="table table-striped table-hover table-sm">
+                <table class="table table-striped table-hover">
                     <tr>
                         <th>Email</th>
                         <th width="35">
@@ -113,7 +113,7 @@
                     </tr>
                     <tr v-for="(email, index) in coreConfigurationData.bug_recipient" :key="index">
                         <td>
-                            <input class="form-control form-control-sm"
+                            <input class="form-control"
                                    type="email"
                                    required
                                    min="5"

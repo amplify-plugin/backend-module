@@ -15,7 +15,7 @@ class LocalizationController extends Controller
 
     public function __construct()
     {
-        $this->languages = Language::pluck('code')->toArray();
+        $this->languages = (new Language())->pluck('code')->toArray();
     }
 
     public function exportLocaleLang(): JsonResponse

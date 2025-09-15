@@ -295,7 +295,8 @@ class CartController extends Controller
                 ];
             }, $codes);
 
-        } else {
+        }
+        else {
             $items = [
                 [
                     'item' => $codes,

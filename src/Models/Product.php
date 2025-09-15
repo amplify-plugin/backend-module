@@ -12,7 +12,6 @@ use Amplify\System\Cms\Models\Page;
 use Amplify\System\Marketing\Models\Campaign;
 use Amplify\System\Scopes\DatabaseScope;
 use Amplify\System\Utility\Models\ImportDefinitionJobProduct;
-use App\Models\Sayt;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -598,7 +597,7 @@ class Product extends Model implements ContractsAuditable
 
     public function getShipRestrictionAttribute(): ?string
     {
-        return $this->flags['ship_restriction'] ?? null;
+        return trim(preg_replace('/^(<br\s*\/?>|\s|&nbsp;|\\\n|\\\t)+/i','', $this->flags['ship_restriction'] ?? ''));
     }
 
     /*

@@ -81,6 +81,36 @@ class EventSeeder extends Seeder
                         new EventVariable(['name' => '__customer_order_details_url__', 'value' => '', 'description' => '/customer-profile-order-list-items?order_id=:id', 'for_admin' => false]),
                         new EventVariable(['name' => '__customer_quotation_details_url__', 'value' => '', 'description' => '/customer-profile-quotation-list-items?order_id=:id', 'for_admin' => false]),
                         new EventVariable(['name' => '__admin_order_details_url__', 'value' => '', 'description' => '/admin/order-line?order_line_id=:id', 'for_admin' => true]),
+
+                        new EventVariable(['name' => '__erp_order_number__', 'value' => '', 'description' => 'ERP Order Number', 'for_admin' => false]),
+                        new EventVariable(['name' => '__contact_email__', 'value' => '', 'description' => 'Email of the contact', 'for_admin' => false]),
+
+                        new EventVariable(['name' => '__billing_address_line_1__', 'value' => '', 'description' => 'Billing Address Line 1', 'for_admin' => false]),
+                        new EventVariable(['name' => '__billing_address_line_2__', 'value' => '', 'description' => 'Billing Address Line 2', 'for_admin' => false]),
+                        new EventVariable(['name' => '__billing_city__', 'value' => '', 'description' => 'Billing City', 'for_admin' => false]),
+                        new EventVariable(['name' => '__billing_state__', 'value' => '', 'description' => 'Billing State', 'for_admin' => false]),
+                        new EventVariable(['name' => '__billing_zip_code__', 'value' => '', 'description' => 'Billing Zip Code', 'for_admin' => false]),
+                        new EventVariable(['name' => '__billing_country__', 'value' => '', 'description' => 'Billing Country', 'for_admin' => false]),
+
+                        new EventVariable(['name' => '__shipping_address_line_1__', 'value' => '', 'description' => 'Shipping Address Line 1', 'for_admin' => false]),
+                        new EventVariable(['name' => '__shipping_address_line_2__', 'value' => '', 'description' => 'Shipping Address Line 2', 'for_admin' => false]),
+                        new EventVariable(['name' => '__shipping_city__', 'value' => '', 'description' => 'Shipping City', 'for_admin' => false]),
+                        new EventVariable(['name' => '__shipping_state__', 'value' => '', 'description' => 'Shipping State', 'for_admin' => false]),
+                        new EventVariable(['name' => '__shipping_zip_code__', 'value' => '', 'description' => 'Shipping Zip Code', 'for_admin' => false]),
+                        new EventVariable(['name' => '__shipping_country__', 'value' => '', 'description' => 'Shipping Country', 'for_admin' => false]),
+
+                        new EventVariable(['name' => '__order_suffix__', 'value' => '', 'description' => 'Order Suffix', 'for_admin' => false]),
+                        new EventVariable(['name' => '__po_number__', 'value' => '', 'description' => 'Purchase Order Number', 'for_admin' => false]),
+                        new EventVariable(['name' => '__order_status__', 'value' => '', 'description' => 'Order Status', 'for_admin' => false]),
+                        new EventVariable(['name' => '__order_type__', 'value' => '', 'description' => 'Order Type', 'for_admin' => false]),
+                        new EventVariable(['name' => '__invoice_amount__', 'value' => '', 'description' => 'Invoice Amount', 'for_admin' => false]),
+                        new EventVariable(['name' => '__warehouse_code__', 'value' => '', 'description' => 'Warehouse Code', 'for_admin' => false]),
+                        new EventVariable(['name' => '__entry_date__', 'value' => '', 'description' => 'Order Entry Date', 'for_admin' => false]),
+                        new EventVariable(['name' => '__estimate_ship_date__', 'value' => '', 'description' => 'Estimated Ship Date', 'for_admin' => false]),
+                        new EventVariable(['name' => '__order_details__', 'value' => '', 'description' => 'Order Details Table', 'for_admin' => false]),
+                        new EventVariable(['name' => '__invoice_date__', 'value' => '', 'description' => 'Invoice Date', 'for_admin' => false]),
+                        new EventVariable(['name' => '__carrier_code__', 'value' => '', 'description' => 'Carrier Code', 'for_admin' => false]),
+
                     ],
                     'eventRecipents' => [
                         new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),

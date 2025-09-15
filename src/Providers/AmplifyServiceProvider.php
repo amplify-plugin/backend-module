@@ -31,7 +31,7 @@ class AmplifyServiceProvider extends ServiceProvider
         Config::set('backpack.base.default_datetime_format',
             strtr(
                 Config::get('amplify.basic.date_time_format', 'D MMM YYYY, HH:mm'),
-                Config::get('amplify.constant.replacement_moment')
+                Config::get('amplify.constant.replacement_moment', [])
             )
         );
 

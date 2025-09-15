@@ -599,10 +599,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     private function developerTabFormat(Request $request)
     {
         return [
-            'log_search' => $request->boolean('', false),
-            'log_payment' => $request->boolean('', false),
-            'log_erp_api' => $request->boolean('', false),
-            'log_email' => $request->boolean('', false),
+            'log_search' => $request->boolean('log_search', false),
+            'log_payment' => $request->boolean('log_payment', false),
+            'log_erp_api' => $request->boolean('log_erp_api', false),
+            'log_email' => $request->boolean('log_email', false),
             'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
         ];
     }

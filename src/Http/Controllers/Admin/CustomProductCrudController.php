@@ -57,7 +57,7 @@ class CustomProductCrudController extends BackpackCustomCrudController
             ['name' => 'ref_link', 'type' => 'hidden'],
         ]);
 
-        Widget::add()->type('script')->content('assets/js/admin/forms/custom-product.js');
+        Widget::add()->type('script')->content('vendor/backend/js/forms/custom-product.js');
     }
 
     protected function setupUpdateOperation()

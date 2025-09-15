@@ -192,7 +192,7 @@ class ReportCrudController extends BackpackCustomCrudController
 
         CRUD::setCreateView('backend::pages.report.create');
 
-        // Widget::add()->type('script')->content(asset('assets/js/admin/forms/report.js'));
+        // Widget::add()->type('script')->content(asset('vendor/backend/js/forms/report.js'));
     }
 
     /**

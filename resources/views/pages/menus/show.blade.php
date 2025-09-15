@@ -102,5 +102,5 @@
 	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
     <script src="{{ mix("js/backend.js", "vendor/backend") }}"></script>
-    <script src="{{ asset('js/import-job.js') }}"></script>
+    <script src="{{ asset('vendor/backend/js/forms/js/import-job.js') }}"></script>
 @endsection

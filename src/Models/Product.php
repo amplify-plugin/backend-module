@@ -597,7 +597,7 @@ class Product extends Model implements ContractsAuditable
 
     public function getShipRestrictionAttribute(): ?string
     {
-        return trim(preg_replace('/^(<br\s*\/?>|\s|&nbsp;|\\\n|\\\t)+/i','', $this->flags['ship_restriction'] ?? ''));
+        return trim(preg_replace('/^(<br\s*\/?>|\s|&nbsp;|\\\n|\\\t)+/i', '', $this->flags['ship_restriction'] ?? ''));
     }
 
     /*

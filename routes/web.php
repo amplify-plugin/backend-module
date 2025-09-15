@@ -82,7 +82,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('customer-group', 'CustomerGroupCrudController');
     Route::crud('customer-registration', 'CustomerRegistrationCrudController');
     Route::crud('contact-registration', 'ContactRegistrationCrudController');
-    Route::crud('language', 'LanguageCrudController');
     Route::crud('localization', 'LocalizationCrudController');
     Route::crud('document-type', 'DocumentTypeCrudController');
     Route::crud('faq-category', 'FaqCategoryCrudController');

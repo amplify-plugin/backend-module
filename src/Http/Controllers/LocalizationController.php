@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Controllers;
 
-use Amplify\System\Backend\Models\Language;
+use Amplify\System\Support\Language;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

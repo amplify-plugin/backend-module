@@ -189,7 +189,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             $this->data['dds_dates'] = array_values($unique_dates);
         }
 
-        foreach (config('amplify.constant.available_locales', []) as $local => $language) {
+        foreach (config('backpack.crud.locales', []) as $local => $language) {
             $this->data['availableLocales'][] = [
                 'value' => $local,
                 'name' => $language,

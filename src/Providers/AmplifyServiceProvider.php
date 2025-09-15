@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Backend\Providers;
 
-use Amplify\System\Backend\Models\Language;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Helpers\UtilityHelper;
 use Illuminate\Support\Facades\Config;
@@ -35,12 +34,6 @@ class AmplifyServiceProvider extends ServiceProvider
                 Config::get('amplify.constant.replacement_moment')
             )
         );
-
-        $languages = Language::all()->pluck('name', 'code')->toArray() ?? [];
-
-        Config::set('backpack.crud.locales', $languages);
-
-        Config::set('amplify.constant.available_locales', $languages);
 
         return $this;
     }

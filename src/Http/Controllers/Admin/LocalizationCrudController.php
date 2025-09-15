@@ -4,8 +4,8 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\LocalizationRequest;
-use Amplify\System\Backend\Models\Language;
 use Amplify\System\Backend\Models\Localization;
+use Amplify\System\Support\Language;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -50,7 +50,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
             'visibleInShow' => false,
         ]);
 
-        $languages = Language::take(3)->get();
+        $languages = Language::take(3);
         foreach ($languages as $key => $language) {
             CRUD::addColumn([
                 'name' => "lang.{$language->code}",

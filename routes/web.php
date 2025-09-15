@@ -265,7 +265,7 @@ Route::get('server-info', ServerInfoController::class)->name('server-info');
 |--------------------------------------------------------------------------
 */
 Route::get('contact/get-address/{id?}', [ContactCrudController::class, 'getAddresses'])->name('addresses.get');
-Route::get('event/get-themes/{id?}', [EventActionCrudController::class, 'getTemplates'])->name('themes.get');
+Route::get('event/get-templates/{id?}', [EventActionCrudController::class, 'getTemplates'])->name('templates.get');
 Route::get('event/get-recipents/{id?}', [EventActionCrudController::class, 'getRecipents'])->name('recipents.get');
 Route::get('event/get-variables', [EventVariableCrudController::class, 'getVariables'])->name('variable.get');
 // Route::post('quote/change-price', [QuoteLineCrudController::class, 'changePrice'])->name('change-price');

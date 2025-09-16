@@ -255,8 +255,8 @@ import SKUS from './tabs/skus/SKUS';
 import AvailableLocales from '../../components/AvailableLocales';
 import SwitchTabs from '../../components/SwitchTabs';
 import _ from 'lodash';
-import ExtraData from './tabs/ExtraData.vue';
-import FeaturesAndSpecifications from './tabs/FeaturesAndSpecifications.vue';
+import ExtraData from './tabs/ExtraData';
+import FeaturesAndSpecifications from './tabs/FeaturesAndSpecifications';
 
 export default {
     name: 'ProductCreate',

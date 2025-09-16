@@ -48,7 +48,7 @@
         hero_slider_data="{{ isset($entry) ? json_encode($entry) : json_encode([]) }}"
         save_action="{{ json_encode($saveAction) }}"
         banner_zones="{{ json_encode($banner_zones) }}"
-        template_colors=" {{ json_encode(template()->options) }}"
+        template_colors=" {{ json_encode(theme()->options) }}"
     ></hero-slider-create>
 @endsection
 

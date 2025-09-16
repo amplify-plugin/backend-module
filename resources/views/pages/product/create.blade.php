@@ -41,6 +41,7 @@
                     axios_url="{{ url($crud->getCurrentOperation() === 'update' ? $crud->route . '/' . $entry->getKey() : $crud->route) }}"
                     current_lang="{{ $crud->model->getAvailableLocales()[request()->input('locale') ?? App::getLocale()] ?? 'English' }}"
                     translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
+                    :unit-of-measurements='@json(config('amplify.pim.unit_of_measurements', []))'
                     available_locales="{{ json_encode($crud->model->getAvailableLocales() ?? []) }}"
                     translatable="{{ json_encode($translatable) }}"
                     product="{{ json_encode($product ?? array_fill_keys($crud->model->getFillable(), null)) }}"

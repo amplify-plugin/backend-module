@@ -299,6 +299,7 @@ export default {
         'save_action',
         'published_status',
         'model_codes',
+        'unitOfMeasurements'
     ],
 
     components: {

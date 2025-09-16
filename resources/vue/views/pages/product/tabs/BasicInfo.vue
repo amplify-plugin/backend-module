@@ -427,17 +427,19 @@
                     style="margin-top: 3px"
                     title="Maximum Unit Of Measure length is 20 characters"
                 ></i>
-                <input
-                    type="text"
-                    name="uom"
-                    v-model="$parent.productData.uom"
-                    class="form-control"
-                    placeholder="Enter UOM"
-                    :class="{ 'is-invalid': $parent.validationErrors.uom }"
-                />
+                <select class="form-control"
+                        name="uom"
+                        v-model="$parent.productData.uom"
+                        :class="{ 'is-invalid': $parent.validationErrors.uom }">
+                    <option v-for="(uom, index) in $parent.unitOfMeasurements"
+                            :key="index"
+                            :value="uom.code">
+                        {{ uom.code }} - {{ uom.label }}
+                    </option>
+                </select>
                 <small v-if="$parent.validationErrors.uom" class="text-danger mt-3">{{
-                    $parent.validationErrors.uom[0]
-                }}</small>
+                        $parent.validationErrors.uom[0]
+                    }}</small>
             </div>
 
             <div class="form-group col-sm-12 col-lg-6" :class="{ 'text-danger': $parent.validationErrors.pack_size }">

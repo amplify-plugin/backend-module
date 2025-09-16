@@ -8,7 +8,6 @@ Vue.component('OptionCreate', () => import('./views/pages/options/Create.vue'));
 Vue.component('CustomerGroupCreate', () => import('./views/pages/customer-group/Create.vue'));
 Vue.component('ImportDefinition', () => import('./views/pages/import/definition/ImportDefinitionCreate.vue'));
 Vue.component('Import', () => import('./views/pages/import/Create.vue'));
-Vue.component('WidgetCreate', () => import('./views/pages/widget/Create.vue'));
 Vue.component('FaqCreate', () => import('./views/pages/faq/Create.vue'));
 Vue.component('DataTransformationCreate', () => import('./views/pages/data-transformation/Create.vue'));
 
@@ -44,9 +43,6 @@ Vue.component('ReportCreate', () => import('./views/pages/report/Create.vue'));
 Vue.component('AdhocReport', () => import('./views/pages/report/adhoc'));
 
 // Frontend components
-Vue.component('CustomerList', () => import('./views/frontend/template-1/customer/CustomerList'));
-Vue.component('CustomerCreate', () => import('./views/frontend/template-1/customer/CustomerCreate'));
-Vue.component('CustomerEdit', () => import('./views/frontend/template-1/customer/CustomerEdit'));
 Vue.component('FileManager', () => import('./views/components/Filemanager'));
 Vue.component('FileManagerPopup', () => import('./views/components/FilemanagerPopup'));
 Vue.component('ForgotPassword', () => import('./views/components/password/ForgotPassword'));

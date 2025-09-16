@@ -217,7 +217,55 @@
                     This dropdown shows the document name along with its media type (e.g., pdf, image ).
                 </small>
             </div>
-
+            <div class="form-group">
+                <label>UOM – Unit of Measurements</label>
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <th>Code</th>
+                        <th>Label</th>
+                        <th width="35">
+                            <button
+                                type="button"
+                                style="width: 35px; height: 35px"
+                                role="button"
+                                @click.prevent="() => pimConfigurationData.unit_of_measurements.push({code: '', label: ''})"
+                                class="btn btn-sm btn-primary">
+                                <b>+</b>
+                            </button>
+                        </th>
+                    </tr>
+                    <tr v-for="(uom, index) in pimConfigurationData.unit_of_measurements" :key="index">
+                        <td>
+                            <input class="form-control"
+                                   type="text"
+                                   required
+                                   min="5"
+                                   max="255"
+                                   v-model="uom.code"
+                            >
+                        </td>
+                        <td>
+                            <input class="form-control"
+                                   type="text"
+                                   required
+                                   min="5"
+                                   max="255"
+                                   v-model="uom.label"
+                            >
+                        </td>
+                        <td width="35">
+                            <button
+                                type="button"
+                                role="button"
+                                style="width: 35px; height: 35px"
+                                @click.prevent="() => pimConfigurationData.unit_of_measurements.splice(index,1)"
+                                class="btn btn-sm btn-danger">
+                                <b>-</b>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </fieldset>
         <div id="saveActions" class="form-group">
             <button @click="$parent.saveCoreConfigInfo(pimConfigurationData)" type="button" class="btn btn-success">
@@ -249,6 +297,7 @@ export default {
                 use_minimum_order_quantity: this.$parent.coreConfigurationData.pim.use_minimum_order_quantity ?? false,
                 categorization_required: this.$parent.coreConfigurationData.pim.categorization_required ?? false,
                 document_type: this.$parent.coreConfigurationData.pim.document_type ?? '',
+                unit_of_measurements: this.$parent.coreConfigurationData.pim.unit_of_measurements ?? [{code: 'EA', label: 'Each'}]
             },
         };
     },

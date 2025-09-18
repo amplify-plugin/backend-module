@@ -29,7 +29,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Localization::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/localization');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/localization');
         CRUD::setEntityNameStrings('Language Manager', 'language managers');
     }
 
@@ -50,8 +50,9 @@ class LocalizationCrudController extends BackpackCustomCrudController
             'visibleInShow' => false,
         ]);
 
-        $languages = Language::take(3);
-        foreach ($languages as $key => $language) {
+        $languages = new Language();
+
+        foreach ($languages->take(3) as $key => $language) {
             CRUD::addColumn([
                 'name' => "lang.{$language->code}",
                 'label' => $language->name,
@@ -63,7 +64,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         $this->setupListOperation();
 
-        $languages = Language::all();
+        $languages = new Language();
         foreach ($languages as $key => $language) {
             CRUD::addColumn([
                 'name' => "lang.{$language->code}",
@@ -83,7 +84,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(LocalizationRequest::class);
 
-        $languages = Language::all();
+        $languages = new Language();
 
         CRUD::field('key')->type('text');
         foreach ($languages as $key => $language) {
@@ -116,7 +117,8 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(LocalizationRequest::class);
 
-        $languages = Language::all();
+        $languages = new Language;
+
         $savedLangs = $this->crud->getCurrentEntry()->lang;
 
         CRUD::field('key')->type('text');

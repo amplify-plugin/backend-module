@@ -29,7 +29,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Localization::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/localization');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/localization');
         CRUD::setEntityNameStrings('Localization', 'Localizations');
     }
 
@@ -50,7 +50,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
             'visibleInShow' => false,
         ]);
 
-        $languages = new Language();
+        $languages = new Language;
 
         foreach ($languages->take(3) as $key => $language) {
             CRUD::addColumn([
@@ -64,7 +64,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         $this->setupListOperation();
 
-        $languages = new Language();
+        $languages = new Language;
         foreach ($languages as $key => $language) {
             CRUD::addColumn([
                 'name' => "lang.{$language->code}",
@@ -84,7 +84,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(LocalizationRequest::class);
 
-        $languages = new Language();
+        $languages = new Language;
 
         CRUD::field('key')->type('text');
         foreach ($languages as $key => $language) {

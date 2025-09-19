@@ -46,7 +46,7 @@ class BackendServiceProvider extends ServiceProvider
 
             Config::set([
                 'backpack.base.styles' => $backpackStyles,
-                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.cms.logo_path', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
+                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
             ]);
         });
     }

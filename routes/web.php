@@ -45,7 +45,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('categoryproduct', 'CategoryProductCrudController');
     Route::crud('contact', 'ContactCrudController');
     Route::crud('customer', 'CustomerCrudController');
-    Route::post('customer/bulk-profile-sync', 'CustomerCrudController@bulkProfileSync');
     Route::crud('product', 'ProductCrudController');
     Route::crud('custom-product', 'CustomProductCrudController');
     Route::post('product/sku/remove/{parent_id}/{sku_id}', 'ProductCrudController@removeSku')->name('product.removeSku');

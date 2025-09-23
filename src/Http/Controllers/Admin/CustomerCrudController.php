@@ -49,6 +49,12 @@ class CustomerCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
+        Route::post($segment.'/bulk-profile-sync', [
+            'as' => $routeName.'.bulk-profile-sync',
+            'uses' => $controller.'@bulkProfileSync',
+            'operation' => 'bulkProfileSync',
+        ]);
+
         Route::post($segment.'/fetch/customer_group', [
             'uses' => $controller.'@fetchCustomerGroup',
         ]);

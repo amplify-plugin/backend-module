@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Jobs\ContactProfileSyncJob;
 use Amplify\Frontend\Events\ContactLoggedIn;
 use Amplify\Frontend\Helpers\CustomerHelper;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
@@ -15,7 +16,7 @@ use Amplify\System\Backend\Models\CustomerPermission;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Backend\Models\Role;
 use Amplify\System\Factories\NotificationFactory;
-use App\Http\Controllers\Admin\CrudPanel;
+use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -36,7 +37,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Class ContactCrudController
  *
- * @property-read CrudPanel $crud
+ * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class ContactCrudController extends BackpackCustomCrudController
 {
@@ -79,6 +80,12 @@ class ContactCrudController extends BackpackCustomCrudController
             'as' => $routeName.'.assignable-validation',
             'uses' => $controller.'@verifyAssignableContact',
         ]);
+
+        Route::post($segment.'/bulk-profile-sync', [
+            'as' => $routeName.'.bulk-profile-sync',
+            'uses' => $controller.'@bulkProfileSync',
+            'operation' => 'bulkProfileSync',
+        ]);
     }
 
     /**
@@ -87,6 +94,7 @@ class ContactCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     * @throws BackpackProRequiredException
      */
     protected function setupListOperation()
     {
@@ -94,6 +102,8 @@ class ContactCrudController extends BackpackCustomCrudController
         // $this->crud->addClause('whereNull', 'enabled_at');
 
         $this->crud->enableExportButtons();
+        $this->crud->enableBulkActions();
+        $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'crud::buttons.bulk_erp_sync');
 
         $this->crud->addFilter([
             'name' => 'synced_at',
@@ -939,6 +949,35 @@ class ContactCrudController extends BackpackCustomCrudController
             Log::error($exception);
 
             return response()->json(['message' => $exception->getMessage(), 'status' => false], 200);
+        }
+    }
+
+    /**
+     * bulkPublish
+     *
+     * @param  mixed  $request
+     * @return JsonResponse
+     */
+    public function bulkProfileSync(Request $request)
+    {
+        try {
+            $selectedItems = $request->input('entries');
+
+            if (! empty($selectedItems)) {
+                foreach ($selectedItems as $contactId) {
+                    ContactProfileSyncJob::dispatch(['id' => $contactId]);
+                }
+            }
+
+            return response()->json([
+                'message' => 'success',
+                'status' => true,
+            ]);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'status' => false,
+            ]);
         }
     }
 }

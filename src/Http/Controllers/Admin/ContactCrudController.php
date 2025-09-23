@@ -60,30 +60,30 @@ class ContactCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Contact::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/contact');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::match(['get', 'post'], $segment . '/roles', [
-            'as' => $routeName . '.roles',
-            'uses' => $controller . '@getRoles',
+        Route::match(['get', 'post'], $segment.'/roles', [
+            'as' => $routeName.'.roles',
+            'uses' => $controller.'@getRoles',
         ]);
 
-        Route::get($segment . '/{contact}/impersonate', [
-            'as' => $routeName . '.impersonate',
-            'uses' => $controller . '@setImpersonate',
+        Route::get($segment.'/{contact}/impersonate', [
+            'as' => $routeName.'.impersonate',
+            'uses' => $controller.'@setImpersonate',
         ]);
 
-        Route::post($segment . '/assignable-validation', [
-            'as' => $routeName . '.assignable-validation',
-            'uses' => $controller . '@verifyAssignableContact',
+        Route::post($segment.'/assignable-validation', [
+            'as' => $routeName.'.assignable-validation',
+            'uses' => $controller.'@verifyAssignableContact',
         ]);
 
-        Route::post($segment . '/bulk-profile-sync', [
-            'as' => $routeName . '.bulk-profile-sync',
-            'uses' => $controller . '@bulkProfileSync',
+        Route::post($segment.'/bulk-profile-sync', [
+            'as' => $routeName.'.bulk-profile-sync',
+            'uses' => $controller.'@bulkProfileSync',
             'operation' => 'bulkProfileSync',
         ]);
     }
@@ -103,7 +103,6 @@ class ContactCrudController extends BackpackCustomCrudController
         // $this->crud->addClause('whereNull', 'enabled_at');
 
         $this->crud->enableExportButtons();
-
 
         if (config('amplify.erp.auto_create_contact')) {
             $this->crud->enableBulkActions();
@@ -175,7 +174,7 @@ class ContactCrudController extends BackpackCustomCrudController
         if (request()->has('role')) {
             [$role_id, $team_id] = explode('-', request('role'));
             set_customer_team_id($team_id);
-            $this->crud->addClause('whereHas', 'ownRoles', fn($q) => $q->id = $role_id);
+            $this->crud->addClause('whereHas', 'ownRoles', fn ($q) => $q->id = $role_id);
         }
 
         $this->crud->modifyButton('create', ['content' => 'crud::buttons.contact-create-old']);
@@ -213,12 +212,12 @@ class ContactCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($contact) {
-                return '<a href="' . route('customer.show', $contact->customer->id) . '" target="_blank" class="text-dark">' . $contact->customer->customer_name . ' - ' . $contact->customer->customer_code . '</a>';
+                return '<a href="'.route('customer.show', $contact->customer->id).'" target="_blank" class="text-dark">'.$contact->customer->customer_name.' - '.$contact->customer->customer_code.'</a>';
             },
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('customer', function ($query) use ($searchTerm) {
-                    $query->where('customer_name', 'like', '%' . $searchTerm . '%')
-                        ->orWhere('customer_code', 'like', '%' . $searchTerm . '%');
+                    $query->where('customer_name', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('customer_code', 'like', '%'.$searchTerm.'%');
                 });
             },
         ]);
@@ -253,7 +252,7 @@ class ContactCrudController extends BackpackCustomCrudController
         ], false, function ($value) {
             $dates = json_decode($value);
             $this->crud->addClause('where', 'created_at', '>=', $dates->from);
-            $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
+            $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
         });
     }
 
@@ -351,7 +350,7 @@ class ContactCrudController extends BackpackCustomCrudController
             'dependencies' => ['customer_id'], // when a dependency changes, this select2 is reset to null
             'pivot' => false,
             'tab' => 'Basic',
-            'options' => (fn($query) => $query->orderBy('address_name')->get()),
+            'options' => (fn ($query) => $query->orderBy('address_name')->get()),
             'default' => old('customer_address_id', $this->crud->entry->customer_address_id ?? null),
         ]);
 
@@ -378,7 +377,7 @@ class ContactCrudController extends BackpackCustomCrudController
                 'label' => 'Default Warehouse',
                 'entity' => 'ownWarehouse',
                 'tab' => 'ERP',
-                'options' => (fn($query) => $query->orderBy('name')->get()),
+                'options' => (fn ($query) => $query->orderBy('name')->get()),
             ]);
 
             CRUD::addField([
@@ -416,7 +415,7 @@ class ContactCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn($query) => $query->orderBy('name')->get()),
+                        'options' => (fn ($query) => $query->orderBy('name')->get()),
                     ],
                     [
                         'name' => 'customer_address_id',
@@ -427,7 +426,7 @@ class ContactCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn($query) => $query->orderBy('address_name')->get()),
+                        'options' => (fn ($query) => $query->orderBy('address_name')->get()),
                     ],
                     [
                         'name' => 'roles',
@@ -701,35 +700,35 @@ class ContactCrudController extends BackpackCustomCrudController
                                 <tbody>
                                     <tr>
                                         <th>Address Name:</th>
-                                        <td>' . ($customer_address->address_name ?? '') . '</td>
+                                        <td>'.($customer_address->address_name ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>Line 1:</th>
-                                        <td>' . ($customer_address->address_1 ?? '') . '</td>
+                                        <td>'.($customer_address->address_1 ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>Line 2:</th>
-                                        <td>' . ($customer_address->address_2 ?? '') . '</td>
+                                        <td>'.($customer_address->address_2 ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>Line 3:</th>
-                                        <td>' . ($customer_address->address_3 ?? '') . '</td>
+                                        <td>'.($customer_address->address_3 ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>City:</th>
-                                        <td>' . ($customer_address->city ?? '') . '</td>
+                                        <td>'.($customer_address->city ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>State:</th>
-                                        <td>' . ($customer_address->state ?? '') . '</td>
+                                        <td>'.($customer_address->state ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>Country:</th>
-                                        <td>' . ($customer_address->country_code ?? '') . '</td>
+                                        <td>'.($customer_address->country_code ?? '').'</td>
                                     </tr>
                                     <tr>
                                         <th>Zip Code:</th>
-                                        <td>' . ($customer_address->zip_code ?? '') . '</td>
+                                        <td>'.($customer_address->zip_code ?? '').'</td>
                                     </tr>
                                 </tbody>
                              </table>';
@@ -811,14 +810,14 @@ class ContactCrudController extends BackpackCustomCrudController
 
         $options = CustomerAddress::select('*', DB::raw('CONCAT(address_name," - ",address_code) AS display_name'));
 
-        if (!empty($request->q)) {
+        if (! empty($request->q)) {
             $options->where(function ($query) use ($request) {
                 return $query->where('address_name', 'LIKE', "%{$request->q}%")
                     ->orWhere('address_code', 'LIKE', "%{$request->q}%");
             });
         }
 
-        if (!$form['customer_id']) {
+        if (! $form['customer_id']) {
             return [];
         }
 
@@ -837,7 +836,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         if (isset($form['customer_id'])) {
             return Role::where('guard_name', 'customer')
-                ->where(fn($q) => $q->whereNull('team_id')->orWhere('team_id', $form['customer_id']))
+                ->where(fn ($q) => $q->whereNull('team_id')->orWhere('team_id', $form['customer_id']))
                 ->orderBy('name', 'ASC')
                 ->paginate(20);
         }
@@ -852,7 +851,7 @@ class ContactCrudController extends BackpackCustomCrudController
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
-            'query' => fn($model) => $model
+            'query' => fn ($model) => $model
                 ->select(
                     'id', 'customer_name', 'customer_code',
                     DB::raw('CONCAT(customer_name," - ",customer_code) AS display_name')
@@ -879,7 +878,7 @@ class ContactCrudController extends BackpackCustomCrudController
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
-            'query' => fn($model) => $model->where('is_assignable', true)->whereNotIn('id', $customerExcluded),
+            'query' => fn ($model) => $model->where('is_assignable', true)->whereNotIn('id', $customerExcluded),
         ]);
     }
 
@@ -894,7 +893,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         event(new ContactLoggedIn($contact));
 
-        if (!empty($contact->redirect_route)) {
+        if (! empty($contact->redirect_route)) {
             return redirect()->intended($contact->redirect_route);
         }
 
@@ -907,13 +906,13 @@ class ContactCrudController extends BackpackCustomCrudController
             $contact_email = $request->input('contact_email');
             $customer_id = $request->input('customer_id');
 
-            if (!$customer_id || !$contact_email) {
+            if (! $customer_id || ! $contact_email) {
                 throw new \Exception('Contact Email or Customer Id is missing');
             }
 
             $customerModel = Customer::find($customer_id);
 
-            if (!$customerModel) {
+            if (! $customerModel) {
                 throw new \Exception('Invalid Customer ID received from input');
             }
 
@@ -942,7 +941,7 @@ class ContactCrudController extends BackpackCustomCrudController
             if (isset($response->DefaultShipTo)) {
                 $defaultShipTo = $customerAddresses->firstWhere('address_name', $response->DefaultShipTo);
 
-                if (!$defaultShipTo) {
+                if (! $defaultShipTo) {
                     $defaultShipTo = $customerAddresses->firstWhere('address_name', $customerModel->shipto_address_code);
                 }
                 $jsonResponse['customer_address_id'] = $defaultShipTo->id ?? null;
@@ -960,7 +959,7 @@ class ContactCrudController extends BackpackCustomCrudController
     /**
      * bulkPublish
      *
-     * @param mixed $request
+     * @param  mixed  $request
      * @return JsonResponse
      */
     public function bulkProfileSync(Request $request)
@@ -968,7 +967,7 @@ class ContactCrudController extends BackpackCustomCrudController
         try {
             $selectedItems = $request->input('entries');
 
-            if (!empty($selectedItems)) {
+            if (! empty($selectedItems)) {
                 foreach ($selectedItems as $contactId) {
                     ContactProfileSyncJob::dispatch(['id' => $contactId]);
                 }

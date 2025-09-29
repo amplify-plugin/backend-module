@@ -11,7 +11,7 @@
                     :class="{ 'is-invalid': $parent.validationErrors.min_order_qty }" />
                 <small v-if="$parent.validationErrors.min_order_qty" class="text-danger mt-3">{{
                     $parent.validationErrors.min_order_qty[0]
-                }}</small>
+                    }}</small>
             </div>
             <div class="form-group col-md-6">
                 <label :class="{ 'text-danger': $parent.validationErrors.qty_interval }">Qty Interval</label>
@@ -19,7 +19,7 @@
                     placeholder="Enter Qty Interval" :class="{ 'is-invalid': $parent.validationErrors.qty_interval }" />
                 <small v-if="$parent.validationErrors.qty_interval" class="text-danger mt-3">{{
                     $parent.validationErrors.qty_interval[0]
-                }}</small>
+                    }}</small>
             </div>
             <div class="form-group col-md-12">
                 <div class="form-check">
@@ -46,9 +46,7 @@
                     <option value="S">S - Special Order (Display actual qty if > 0, otherwise display “Special Order”.
                         We only order if we get an order.)</option>
                 </select>
-                <small v-if="$parent.validationErrors.availability" class="text-danger mt-3">{{
-                    $parent.validationErrors.availability[0]
-                }}</small>
+                <small v-if="$parent.validationErrors.availability" class="text-danger mt-3">{{ $parent.validationErrors.availability[0] }}</small>
             </div>
             <div class="form-group col-md-4">
                 <label :class="{ 'text-danger': $parent.validationErrors.price }">Price</label>
@@ -57,9 +55,7 @@
                     <option value="D">D - Display Price</option>
                     <option value="Y">Y - Display Call For Price</option>
                 </select>
-                <small v-if="$parent.validationErrors.price" class="text-danger mt-3">{{
-                    $parent.validationErrors.price[0]
-                }}</small>
+                <small v-if="$parent.validationErrors.price" class="text-danger mt-3">{{ $parent.validationErrors.price[0] }}</small>
             </div>
             <div class="form-group col-md-4">
                 <label :class="{ 'text-danger': $parent.validationErrors.special }">Special</label>
@@ -74,11 +70,21 @@
                     <option value="U">U - Used Equipment</option>
                     <option value="Z">Z - Nothing</option>
                 </select>
-                <small v-if="$parent.validationErrors.special" class="text-danger mt-3">{{
-                    $parent.validationErrors.special[0]
-                }}</small>
+                <small v-if="$parent.validationErrors.special" class="text-danger mt-3">{{ $parent.validationErrors.special[0] }}</small>
             </div>
         </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label :class="{ 'text-danger': $parent.validationErrors.ship_restriction }">Shipping
+                    Restriction</label>
+                <input type="text" v-model="$parent.flags.ship_restriction" class="form-control"
+                    placeholder="Enter Shipping Restriction"
+                    :class="{ 'is-invalid': $parent.validationErrors.ship_restriction }" />
+                <small v-if="$parent.validationErrors.ship_restriction" class="text-danger mt-3">{{ $parent.validationErrors.ship_restriction[0] }}</small>
+            </div>
+        </div>
+
     </div>
 </template>
 

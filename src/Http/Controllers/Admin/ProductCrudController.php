@@ -156,7 +156,7 @@ class ProductCrudController extends BackpackCustomCrudController
             $transformedData = $this->runDataTransformation($request->all());
             $request->merge($transformedData);
         }
-        dd($request->all());
+
         // your additional operations before save here
         $response = $this->traitStore();
         // your additional operations after save here

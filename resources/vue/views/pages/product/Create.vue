@@ -353,8 +353,8 @@ export default {
             flags : {
                 availability : 'A',
                 price: 'D',
-                special: 'C'
-
+                special: 'C',
+                ship_restriction: ''
             },
             coreConfigs: JSON.parse(this.core_configs),
             queryString: JSON.parse(this.query_string),

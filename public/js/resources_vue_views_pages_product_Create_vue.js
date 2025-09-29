@@ -25684,7 +25684,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       flags: {
         availability: 'A',
         price: 'D',
-        special: 'C'
+        special: 'C',
+        ship_restriction: ''
       },
       coreConfigs: JSON.parse(this.core_configs),
       queryString: JSON.parse(this.query_string),
@@ -26050,7 +26051,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 qty_interval: _this5.productData.qty_interval,
                 own_truck_only: _this5.productData.own_truck_only,
                 features: _this5.productData.features,
-                specifications: _this5.productData.specifications
+                specifications: _this5.productData.specifications,
+                flags: _this5.flags
               });
             case 13:
             case "end":
@@ -34370,9 +34372,7 @@ var render = function render() {
   }, [_vm._v("\n                " + _vm._s(_vm.$parent.validationErrors.own_truck_only[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-4"
-  }, [_c("div", {
-    staticClass: "form-group"
+    staticClass: "form-group col-md-4"
   }, [_c("label", {
     "class": {
       "text-danger": _vm.$parent.validationErrors.availability
@@ -34381,8 +34381,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.$parent.productData.flags.availability,
-      expression: "$parent.productData.flags.availability"
+      value: _vm.$parent.flags.availability,
+      expression: "$parent.flags.availability"
     }],
     staticClass: "form-control",
     "class": {
@@ -34396,27 +34396,29 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.$set(_vm.$parent.productData.flags, "availability", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+        _vm.$set(_vm.$parent.flags, "availability", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
       }
     }
   }, [_c("option", {
     attrs: {
       value: "A"
     }
-  }, [_vm._v("Available")]), _vm._v(" "), _c("option", {
+  }, [_vm._v("A - Actual Quantities (Displays actual quantities)")]), _vm._v(" "), _c("option", {
     attrs: {
-      value: "O"
+      value: "I"
     }
-  }, [_vm._v("Out of Stock")]), _vm._v(" "), _c("option", {
+  }, [_vm._v("I - Increment (Display increments, actual quantities, 25+, 50+, 100+, 500+)\n                ")]), _vm._v(" "), _c("option", {
     attrs: {
-      value: "D"
+      value: "R"
     }
-  }, [_vm._v("Discontinued")])]), _vm._v(" "), _vm.$parent.validationErrors.availability ? _c("small", {
+  }, [_vm._v("R - Restrict to 25+ (Displays actual quantity up to 25, if we have more, it will\n                    display 25+)")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "S"
+    }
+  }, [_vm._v("S - Special Order (Display actual qty if > 0, otherwise display “Special Order”.\n                    We only order if we get an order.)")])]), _vm._v(" "), _vm.$parent.validationErrors.availability ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.availability[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "col-md-4"
-  }, [_c("div", {
-    staticClass: "form-group"
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.availability[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
+    staticClass: "form-group col-md-4"
   }, [_c("label", {
     "class": {
       "text-danger": _vm.$parent.validationErrors.price
@@ -34425,8 +34427,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.$parent.productData.flags.price,
-      expression: "$parent.productData.flags.price"
+      value: _vm.$parent.flags.price,
+      expression: "$parent.flags.price"
     }],
     staticClass: "form-control",
     "class": {
@@ -34440,23 +34442,21 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.$set(_vm.$parent.productData.flags, "price", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+        _vm.$set(_vm.$parent.flags, "price", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
       }
     }
   }, [_c("option", {
     attrs: {
-      value: "A"
-    }
-  }, [_vm._v("Active")]), _vm._v(" "), _c("option", {
-    attrs: {
       value: "D"
     }
-  }, [_vm._v("Disabled")])]), _vm._v(" "), _vm.$parent.validationErrors.price ? _c("small", {
+  }, [_vm._v("D - Display Price")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "Y"
+    }
+  }, [_vm._v("Y - Display Call For Price")])]), _vm._v(" "), _vm.$parent.validationErrors.price ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.price[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "col-md-4"
-  }, [_c("div", {
-    staticClass: "form-group"
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.price[0]))]) : _vm._e()]), _vm._v(" "), _c("div", {
+    staticClass: "form-group col-md-4"
   }, [_c("label", {
     "class": {
       "text-danger": _vm.$parent.validationErrors.special
@@ -34465,8 +34465,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.$parent.productData.flags.special,
-      expression: "$parent.productData.flags.special"
+      value: _vm.$parent.flags.special,
+      expression: "$parent.flags.special"
     }],
     staticClass: "form-control",
     "class": {
@@ -34480,24 +34480,78 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.$set(_vm.$parent.productData.flags, "special", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+        _vm.$set(_vm.$parent.flags, "special", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
       }
     }
   }, [_c("option", {
     attrs: {
-      value: "A"
+      value: "B"
     }
-  }, [_vm._v("Active")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "D"
-    }
-  }, [_vm._v("Disabled")]), _vm._v(" "), _c("option", {
+  }, [_vm._v("B - Discontinued")]), _vm._v(" "), _c("option", {
     attrs: {
       value: "C"
     }
-  }, [_vm._v("Coming Soon")])]), _vm._v(" "), _vm.$parent.validationErrors.special ? _c("small", {
+  }, [_vm._v("C - Closeout")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "F"
+    }
+  }, [_vm._v("F - Flyer Items")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "M"
+    }
+  }, [_vm._v("M - Made in USA")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "N"
+    }
+  }, [_vm._v("N - New Products")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "O"
+    }
+  }, [_vm._v("O - Overstock Items")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "U"
+    }
+  }, [_vm._v("U - Used Equipment")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "Z"
+    }
+  }, [_vm._v("Z - Nothing")])]), _vm._v(" "), _vm.$parent.validationErrors.special ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.special[0]))]) : _vm._e()])])])]);
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.special[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "form-group col-md-6"
+  }, [_c("label", {
+    "class": {
+      "text-danger": _vm.$parent.validationErrors.ship_restriction
+    }
+  }, [_vm._v("Shipping\n                Restriction")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.$parent.flags.ship_restriction,
+      expression: "$parent.flags.ship_restriction"
+    }],
+    staticClass: "form-control",
+    "class": {
+      "is-invalid": _vm.$parent.validationErrors.ship_restriction
+    },
+    attrs: {
+      type: "text",
+      placeholder: "Enter Shipping Restriction"
+    },
+    domProps: {
+      value: _vm.$parent.flags.ship_restriction
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.$parent.flags, "ship_restriction", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm.$parent.validationErrors.ship_restriction ? _c("small", {
+    staticClass: "text-danger mt-3"
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.ship_restriction[0]))]) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

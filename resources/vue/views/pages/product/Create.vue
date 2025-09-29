@@ -350,6 +350,12 @@ export default {
                 model_codes: JSON.parse(this.model_codes),
                 single_product_page: null,
             },
+            flags : {
+                availability : 'A',
+                price: 'D',
+                special: 'C',
+                ship_restriction: ''
+            },
             coreConfigs: JSON.parse(this.core_configs),
             queryString: JSON.parse(this.query_string),
             activeModalId: '',
@@ -690,6 +696,7 @@ export default {
                 own_truck_only: this.productData.own_truck_only,
                 features: this.productData.features,
                 specifications: this.productData.specifications,
+                flags: this.flags
             };
         },
 

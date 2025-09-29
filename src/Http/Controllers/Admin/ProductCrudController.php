@@ -110,7 +110,6 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->crud->addButton('top', 'bulk_publish', 'view', 'crud::buttons.bulk_publish');
 
         CRUD::removeButton('delete');
-
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -159,7 +158,7 @@ class ProductCrudController extends BackpackCustomCrudController
         }
 
         // your additional operations before save here
-        $response = $this->traitStore($request);
+        $response = $this->traitStore();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         $pivot = request()->pivot;
@@ -267,7 +266,6 @@ class ProductCrudController extends BackpackCustomCrudController
         if (! empty($selectedItems)) {
             return Product::whereIn('id', $selectedItems)->where('status', '!=', 'archived')->update(['status' => 'archived']);
         }
-
     }
 
     /**
@@ -664,6 +662,9 @@ class ProductCrudController extends BackpackCustomCrudController
             CRUD::field('min_order_qty')->tab('ExtraData');
             CRUD::field('qty_interval')->tab('ExtraData');
         }
+        CRUD::field('flags[availability]')->tab('ExtraData');
+        CRUD::field('flags[price]')->tab('ExtraData');
+        CRUD::field('flags[special]')->tab('ExtraData');
 
         CRUD::field('specifications')->tab('FeaturesAndSpecifications');
 
@@ -967,8 +968,8 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         if ($product->parent_id !== null) {
             $redirect_uri = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
-                    ? 'https'
-                    : 'http')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                ? 'https'
+                : 'http')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $uri = explode('/', $redirect_uri);
             array_splice($uri, -2);
 
@@ -1111,7 +1112,8 @@ class ProductCrudController extends BackpackCustomCrudController
 
         /* Prepare product attribute as name and value pair */
         $productAttributes = [];
-        if (isset($requestData['pivot']['productAttributes'])
+        if (
+            isset($requestData['pivot']['productAttributes'])
             && count($requestData['pivot']['productAttributes']) > 0
         ) {
             collect($requestData['pivot']['productAttributes'])->map(function ($item) use (&$productAttributes) {
@@ -1430,6 +1432,5 @@ class ProductCrudController extends BackpackCustomCrudController
         } else {
             return response()->json('This product is already a master product', 500);
         }
-
     }
 }

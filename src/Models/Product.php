@@ -221,6 +221,7 @@ class Product extends Model implements ContractsAuditable
 
         self::creating(function ($model) {
             $model->user_id = $model->user_id ?? backpack_auth()->id();
+            $model->flags = request()->input('flags', []);
         });
 
         self::deleting(function ($model) {
@@ -235,6 +236,7 @@ class Product extends Model implements ContractsAuditable
                 $model->product_name = $request->input('product_name');
                 $model->description = $request->input('description');
                 $model->short_description = $request->input('short_description');
+                $model->flags = $request->input('flags', []);
             }
         });
     }

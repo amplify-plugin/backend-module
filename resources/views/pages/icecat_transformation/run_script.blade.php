@@ -22,7 +22,7 @@
         easy_ask_default_product_categories="{{ json_encode(eaDefaultCategories('categories')) }}"
         locale="{{ request('locale', 'en') }}"
         transformation_names="{{ isset($transformationNames) ? json_encode($transformationNames) : json_encode([]) }}"
-        product_search_by_id_prefix="{{ trim(config('amplify.search.product_search_by_id_prefix')) }}"
+        product_search_by_id_prefix="{{ trim(config('amplify.sayt.product_search_by_id_prefix')) }}"
         save_action="{{ json_encode($saveAction) }}">
     </icecat-transformation-run-screen>
 @endsection

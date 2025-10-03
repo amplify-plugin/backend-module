@@ -614,7 +614,7 @@ trait ProductTrait
             ? ''
             : request('site_search');
         $response = \Sayt::storeProducts($site_search);
-        $response['product_search_by_id_prefix'] = config('amplify.search.product_search_by_id_prefix');
+        $response['product_search_by_id_prefix'] = config('amplify.sayt.product_search_by_id_prefix');
 
         return response()->json($response);
     }
@@ -630,7 +630,7 @@ trait ProductTrait
         $type = request('type');
         $data = [];
         $data['products'] = $type == 'category' ? $this->getCategoryProducts($id) : $this->getLocalProduct($id);
-        $data['product_search_by_id_prefix'] = config('amplify.search.product_search_by_id_prefix');
+        $data['product_search_by_id_prefix'] = config('amplify.sayt.product_search_by_id_prefix');
 
         return response()->json(collect($data));
     }

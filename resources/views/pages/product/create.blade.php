@@ -61,7 +61,7 @@
                     sku_default_attributes="{{ isset($sku_default_attributes) ? json_encode($sku_default_attributes) : json_encode([]) }}"
                     query_string="{{ json_encode($query_string) }}" timezone="{{ config('app.timezone') }}"
                     default_datetime_format="{{ getDefaultDateTimeFormat() }}"
-                    product_search_by_id_prefix="{{ trim(config('amplify.search.product_search_by_id_prefix')) }}"
+                    product_search_by_id_prefix="{{ trim(config('amplify.sayt.product_search_by_id_prefix')) }}"
                     :use_product_specific_detail_page="{{ config('amplify.pim.use_product_specific_detail_page') ? 'true' : 'false' }}"
                     all_manufacturers="{{ json_encode($all_manufacturers) }}"
                     all_brands="{{ json_encode($all_brands) }}"

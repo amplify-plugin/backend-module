@@ -23,7 +23,7 @@
             categories="{{ isset($categories) ? json_encode($categories) : json_encode([]) }}"
             easy_ask_default_product_categories="{{ json_encode(eaDefaultCategories('categories')) }}"
             locale="{{request('locale', 'en')}}"
-            product_search_by_id_prefix="{{ trim(config('amplify.search.product_search_by_id_prefix')) }}"
+            product_search_by_id_prefix="{{ trim(config('amplify.sayt.product_search_by_id_prefix')) }}"
     ></data-transformation-run-screen>
 @endsection
 

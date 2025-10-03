@@ -43,7 +43,7 @@ class CategoryRequest extends FormRequest
     {
         $this->merge([
             'category_name' => json_encode($this->input('category_name')),
-            'catalog_id' => config('amplify.search.default_catalog'),
+            'catalog_id' => config('amplify.sayt.default_catalog'),
         ]);
     }
 }

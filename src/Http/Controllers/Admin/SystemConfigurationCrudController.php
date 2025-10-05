@@ -71,7 +71,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
                 unset($options['constant'], $options['widget'],
                     $options['sftp'], $options['debug'],
-                $options['client_code'], $options['suppress_exception']);
+                    $options['client_code'], $options['suppress_exception']);
 
                 ksort($options);
 

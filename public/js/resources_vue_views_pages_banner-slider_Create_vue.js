@@ -1335,7 +1335,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-d28909d2] {\n    color: red;\n}\n.required-custom[data-v-d28909d2] {\n    color: #ff0000;\n}\n.cke_contents[data-v-d28909d2] {\n    min-height: 300px !important;\n}\n.my-editor[data-v-d28909d2] {\n    background: #2d2d2d;\n    color: #ccc !important;\n    font-family: Consolas, Menlo, Courier, monospace;\n    font-size: 14px;\n    line-height: 1.5;\n    padding: 5px;\n    border-radius: 4px !important;\n    min-height: 350px !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-d28909d2] {\r\n    color: red;\n}\n.required-custom[data-v-d28909d2] {\r\n    color: #ff0000;\n}\n.cke_contents[data-v-d28909d2] {\r\n    min-height: 300px !important;\n}\n.my-editor[data-v-d28909d2] {\r\n    background: #2d2d2d;\r\n    color: #ccc !important;\r\n    font-family: Consolas, Menlo, Courier, monospace;\r\n    font-size: 14px;\r\n    line-height: 1.5;\r\n    padding: 5px;\r\n    border-radius: 4px !important;\r\n    min-height: 350px !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

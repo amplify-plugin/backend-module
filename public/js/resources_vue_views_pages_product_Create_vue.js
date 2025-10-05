@@ -26075,7 +26075,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                   text: `This product can't be published, because some of fields are incomplete`,
               }).show();
           }
-           this.productData.status = 'incomplete';
+            this.productData.status = 'incomplete';
       }
       */
       this.productData.status = 'draft';
@@ -37720,7 +37720,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\n    color: #df4759;\n}\n.wait {\n    width: 100%;\n    height: 100%;\n    background: #dddddd2b;\n    z-index: 100;\n    position: absolute;\n}\n.modal-content.ui-resizable {\n    overflow: scroll;\n}\n.modal-moveable {\n    cursor: move;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\r\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\r\n    color: #df4759;\n}\n.wait {\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #dddddd2b;\r\n    z-index: 100;\r\n    position: absolute;\n}\n.modal-content.ui-resizable {\r\n    overflow: scroll;\n}\n.modal-moveable {\r\n    cursor: move;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37744,7 +37744,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\n    position: absolute;\n    top: 9px;\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\n    transform: scale(1.3);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\r\n    position: absolute;\r\n    top: 9px;\r\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\r\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\r\n    transform: scale(1.3);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37768,7 +37768,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\n  background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\n  color: #df4759;\n}\n.checkedSearchedProducts {\n  transform: scale(1.3);\n}\n.wait {\n  width: 100%;\n  height: 100%;\n  background: #dddddd2b;\n  z-index: 100;\n  position: absolute;\n}\n.modal-content.ui-resizable {\n  overflow: scroll;\n}\n.already-added {\n  background: #f7f1e3;\n}\n.modal-moveable {\n  cursor: move;\n}\n.ellipsis-text{\n  width: 141px;\n  font-size: 12px;\n  margin-top: 4px;\n  position: absolute;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\r\n  background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\r\n  color: #df4759;\n}\n.checkedSearchedProducts {\r\n  transform: scale(1.3);\n}\n.wait {\r\n  width: 100%;\r\n  height: 100%;\r\n  background: #dddddd2b;\r\n  z-index: 100;\r\n  position: absolute;\n}\n.modal-content.ui-resizable {\r\n  overflow: scroll;\n}\n.already-added {\r\n  background: #f7f1e3;\n}\n.modal-moveable {\r\n  cursor: move;\n}\n.ellipsis-text{\r\n  width: 141px;\r\n  font-size: 12px;\r\n  margin-top: 4px;\r\n  position: absolute;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37792,7 +37792,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 576px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 768px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 992px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1200px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1440px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1600px) {\n.product-height {\n    height: 178px !important;\n}\n.product-height.modal-image {\n    height: 132px !important;\n}\n}\n.bbb_deals_image img {\n  width: 100%;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 576px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 768px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 992px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1200px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1440px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1600px) {\n.product-height {\r\n    height: 178px !important;\n}\n.product-height.modal-image {\r\n    height: 132px !important;\n}\n}\n.bbb_deals_image img {\r\n  width: 100%;\r\n  -o-object-fit: contain;\r\n     object-fit: contain;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37816,7 +37816,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-ff228b46] {\n    color: red;\n}\n.required-custom[data-v-ff228b46] {\n    color: #ff0000;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-ff228b46] {\r\n    color: red;\n}\n.required-custom[data-v-ff228b46] {\r\n    color: #ff0000;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37840,7 +37840,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-4d49f94a] {\n    color: red;\n}\n.separator[data-v-4d49f94a] {\n    display: flex;\n    align-items: center;\n    text-align: center;\n    margin-bottom: 5px;\n}\n.separator[data-v-4d49f94a]::before,\n.separator[data-v-4d49f94a]::after {\n    content: '';\n    flex: 1;\n    border-bottom: 1px solid #00000026;\n}\n.separator[data-v-4d49f94a]:not(:empty)::before {\n    margin-right: .25em;\n}\n.separator[data-v-4d49f94a]:not(:empty)::after {\n    margin-left: .25em;\n}\n.border-custom[data-v-4d49f94a] {\n    border: 1px solid rgba(0, 40, 100, .12);\n}\n.required-custom[data-v-4d49f94a] {\n    color: #ff0000;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-4d49f94a] {\r\n    color: red;\n}\n.separator[data-v-4d49f94a] {\r\n    display: flex;\r\n    align-items: center;\r\n    text-align: center;\r\n    margin-bottom: 5px;\n}\n.separator[data-v-4d49f94a]::before,\r\n.separator[data-v-4d49f94a]::after {\r\n    content: '';\r\n    flex: 1;\r\n    border-bottom: 1px solid #00000026;\n}\n.separator[data-v-4d49f94a]:not(:empty)::before {\r\n    margin-right: .25em;\n}\n.separator[data-v-4d49f94a]:not(:empty)::after {\r\n    margin-left: .25em;\n}\n.border-custom[data-v-4d49f94a] {\r\n    border: 1px solid rgba(0, 40, 100, .12);\n}\n.required-custom[data-v-4d49f94a] {\r\n    color: #ff0000;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37864,7 +37864,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.cke_contents {\n    min-height: 300px !important;\n}\n.vue-treeselect .vue-treeselect__control,\n.multiselect .multiselect__tags {\n    min-height: 38px;\n    height: auto;\n    border-radius: 4px !important;\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n@media (max-width: 576px) {\n.modal-content {\n        margin-top: 78px;\n}\n.modal-header {\n        margin-left: 28px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.cke_contents {\r\n    min-height: 300px !important;\n}\n.vue-treeselect .vue-treeselect__control,\r\n.multiselect .multiselect__tags {\r\n    min-height: 38px;\r\n    height: auto;\r\n    border-radius: 4px !important;\r\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n@media (max-width: 576px) {\n.modal-content {\r\n        margin-top: 78px;\n}\n.modal-header {\r\n        margin-left: 28px;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37888,7 +37888,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vue-treeselect .vue-treeselect__control,\n.multiselect .multiselect__tags {\n    height: 38px !important;\n    border-radius: 4px !important;\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n.vue-treeselect.is-invalid {\n    border: 1px solid red;\n    border-radius: 5px;\n}\n.multiselect .multiselect__tags {\n    padding-top: 8px !important;\n}\n.required-custom {\n    color: #ff0000;\n}\n.cke_contents {\n    min-height: 300px !important;\n}\n.vue-treeselect__multi-value {\n    margin-bottom: 8px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vue-treeselect .vue-treeselect__control,\r\n.multiselect .multiselect__tags {\r\n    height: 38px !important;\r\n    border-radius: 4px !important;\r\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n.vue-treeselect.is-invalid {\r\n    border: 1px solid red;\r\n    border-radius: 5px;\n}\n.multiselect .multiselect__tags {\r\n    padding-top: 8px !important;\n}\n.required-custom {\r\n    color: #ff0000;\n}\n.cke_contents {\r\n    min-height: 300px !important;\n}\n.vue-treeselect__multi-value {\r\n    margin-bottom: 8px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37912,7 +37912,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-99b08418] {\n    background: aliceblue;\n}\n.w-one-third[data-v-99b08418] {\n    width: 33.33%;\n}\n.gap-3[data-v-99b08418] {\n    gap: 16px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-99b08418] {\r\n    background: aliceblue;\n}\n.w-one-third[data-v-99b08418] {\r\n    width: 33.33%;\n}\n.gap-3[data-v-99b08418] {\r\n    gap: 16px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37936,7 +37936,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.w-one-third[data-v-910951c0] {\n    width: 33.33%;\n}\n.cursor-pointer[data-v-910951c0] {\n    cursor: pointer;\n}\n.e-0[data-v-910951c0] {\n    right: 0;\n}\n.right-custom[data-v-910951c0] {\n    right: 7rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.w-one-third[data-v-910951c0] {\r\n    width: 33.33%;\n}\n.cursor-pointer[data-v-910951c0] {\r\n    cursor: pointer;\n}\n.e-0[data-v-910951c0] {\r\n    right: 0;\n}\n.right-custom[data-v-910951c0] {\r\n    right: 7rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37960,7 +37960,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-75eead02] {\n    background: aliceblue;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-75eead02] {\r\n    background: aliceblue;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37984,7 +37984,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-615c1419] {\n    background: aliceblue;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-615c1419] {\r\n    background: aliceblue;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38008,7 +38008,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-ab3339ea] {\n    font-weight: bold;\n}\n.cursor-pointer[data-v-ab3339ea] {\n    cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-ab3339ea] {\r\n    font-weight: bold;\n}\n.cursor-pointer[data-v-ab3339ea] {\r\n    cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38032,7 +38032,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-670a60d8],\n.loader[data-v-670a60d8]:before,\n.loader[data-v-670a60d8]:after {\n    background: #000000;\n    animation: load1-670a60d8 1s infinite ease-in-out;\n    width: 1em;\n    height: 4em;\n}\n.loader[data-v-670a60d8] {\n    color: #000000;\n    text-indent: -9999em;\n    margin: 88px auto;\n    position: relative;\n    font-size: 11px;\n    transform: translateZ(0);\n    animation-delay: -0.16s;\n}\n.loader[data-v-670a60d8]:before,\n.loader[data-v-670a60d8]:after {\n    position: absolute;\n    top: 0;\n    content: '';\n}\n.loader[data-v-670a60d8]:before {\n    left: -1.5em;\n    animation-delay: -0.32s;\n}\n.loader[data-v-670a60d8]:after {\n    left: 1.5em;\n}\n@keyframes load1-670a60d8 {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 0;\n        height: 4em;\n}\n40% {\n        box-shadow: 0 -2em;\n        height: 5em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-670a60d8],\r\n.loader[data-v-670a60d8]:before,\r\n.loader[data-v-670a60d8]:after {\r\n    background: #000000;\r\n    animation: load1-670a60d8 1s infinite ease-in-out;\r\n    width: 1em;\r\n    height: 4em;\n}\n.loader[data-v-670a60d8] {\r\n    color: #000000;\r\n    text-indent: -9999em;\r\n    margin: 88px auto;\r\n    position: relative;\r\n    font-size: 11px;\r\n    transform: translateZ(0);\r\n    animation-delay: -0.16s;\n}\n.loader[data-v-670a60d8]:before,\r\n.loader[data-v-670a60d8]:after {\r\n    position: absolute;\r\n    top: 0;\r\n    content: '';\n}\n.loader[data-v-670a60d8]:before {\r\n    left: -1.5em;\r\n    animation-delay: -0.32s;\n}\n.loader[data-v-670a60d8]:after {\r\n    left: 1.5em;\n}\n@keyframes load1-670a60d8 {\n0%,\r\n    80%,\r\n    100% {\r\n        box-shadow: 0 0;\r\n        height: 4em;\n}\n40% {\r\n        box-shadow: 0 -2em;\r\n        height: 5em;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38056,7 +38056,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-026d0f5a],\n.loader[data-v-026d0f5a]:before,\n.loader[data-v-026d0f5a]:after {\n    background: #7c88a0;\n    animation: load1-026d0f5a 1s infinite ease-in-out;\n    width: 1em;\n    height: 4em;\n}\n.btn-cross[data-v-026d0f5a] {\n    border-radius: 0 5px 5px 0 !important;\n}\n.loader[data-v-026d0f5a] {\n    color: #7c88a0;\n    text-indent: -9999em;\n    margin: 88px auto;\n    position: relative;\n    font-size: 6px;\n    transform: translateZ(0);\n    animation-delay: -0.16s;\n}\n.loader[data-v-026d0f5a]:before,\n.loader[data-v-026d0f5a]:after {\n    position: absolute;\n    top: 0;\n    content: '';\n}\n.loader[data-v-026d0f5a]:before {\n    left: -1.5em;\n    animation-delay: -0.32s;\n}\n.loader[data-v-026d0f5a]:after {\n    left: 1.5em;\n}\n@keyframes load1-026d0f5a {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 0;\n        height: 4em;\n}\n40% {\n        box-shadow: 0 -2em;\n        height: 5em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-026d0f5a],\r\n.loader[data-v-026d0f5a]:before,\r\n.loader[data-v-026d0f5a]:after {\r\n    background: #7c88a0;\r\n    animation: load1-026d0f5a 1s infinite ease-in-out;\r\n    width: 1em;\r\n    height: 4em;\n}\n.btn-cross[data-v-026d0f5a] {\r\n    border-radius: 0 5px 5px 0 !important;\n}\n.loader[data-v-026d0f5a] {\r\n    color: #7c88a0;\r\n    text-indent: -9999em;\r\n    margin: 88px auto;\r\n    position: relative;\r\n    font-size: 6px;\r\n    transform: translateZ(0);\r\n    animation-delay: -0.16s;\n}\n.loader[data-v-026d0f5a]:before,\r\n.loader[data-v-026d0f5a]:after {\r\n    position: absolute;\r\n    top: 0;\r\n    content: '';\n}\n.loader[data-v-026d0f5a]:before {\r\n    left: -1.5em;\r\n    animation-delay: -0.32s;\n}\n.loader[data-v-026d0f5a]:after {\r\n    left: 1.5em;\n}\n@keyframes load1-026d0f5a {\n0%,\r\n    80%,\r\n    100% {\r\n        box-shadow: 0 0;\r\n        height: 4em;\n}\n40% {\r\n        box-shadow: 0 -2em;\r\n        height: 5em;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38080,7 +38080,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-1ab696b6],\n.loader[data-v-1ab696b6]:before,\n.loader[data-v-1ab696b6]:after {\n    background: #000000;\n    animation: load1-1ab696b6 1s infinite ease-in-out;\n    width: 1em;\n    height: 4em;\n}\n.loader[data-v-1ab696b6] {\n    color: #000000;\n    text-indent: -9999em;\n    margin: 88px auto;\n    position: relative;\n    font-size: 11px;\n    transform: translateZ(0);\n    animation-delay: -0.16s;\n}\n.loader[data-v-1ab696b6]:before,\n.loader[data-v-1ab696b6]:after {\n    position: absolute;\n    top: 0;\n    content: '';\n}\n.loader[data-v-1ab696b6]:before {\n    left: -1.5em;\n    animation-delay: -0.32s;\n}\n.loader[data-v-1ab696b6]:after {\n    left: 1.5em;\n}\n@keyframes load1-1ab696b6 {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 0;\n        height: 4em;\n}\n40% {\n        box-shadow: 0 -2em;\n        height: 5em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-1ab696b6],\r\n.loader[data-v-1ab696b6]:before,\r\n.loader[data-v-1ab696b6]:after {\r\n    background: #000000;\r\n    animation: load1-1ab696b6 1s infinite ease-in-out;\r\n    width: 1em;\r\n    height: 4em;\n}\n.loader[data-v-1ab696b6] {\r\n    color: #000000;\r\n    text-indent: -9999em;\r\n    margin: 88px auto;\r\n    position: relative;\r\n    font-size: 11px;\r\n    transform: translateZ(0);\r\n    animation-delay: -0.16s;\n}\n.loader[data-v-1ab696b6]:before,\r\n.loader[data-v-1ab696b6]:after {\r\n    position: absolute;\r\n    top: 0;\r\n    content: '';\n}\n.loader[data-v-1ab696b6]:before {\r\n    left: -1.5em;\r\n    animation-delay: -0.32s;\n}\n.loader[data-v-1ab696b6]:after {\r\n    left: 1.5em;\n}\n@keyframes load1-1ab696b6 {\n0%,\r\n    80%,\r\n    100% {\r\n        box-shadow: 0 0;\r\n        height: 4em;\n}\n40% {\r\n        box-shadow: 0 -2em;\r\n        height: 5em;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38104,7 +38104,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-08b649e9] {\n    font-weight: bold;\n}\n.cursor-pointer[data-v-08b649e9] {\n    cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-08b649e9] {\r\n    font-weight: bold;\n}\n.cursor-pointer[data-v-08b649e9] {\r\n    cursor: pointer;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38128,7 +38128,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-24f35d64],\n.loader[data-v-24f35d64]:before,\n.loader[data-v-24f35d64]:after {\n    background: #7c88a0;\n    animation: load1-24f35d64 1s infinite ease-in-out;\n    width: 1em;\n    height: 4em;\n}\n.loader[data-v-24f35d64] {\n    color: #7c88a0;\n    text-indent: -9999em;\n    margin: 88px auto;\n    position: relative;\n    font-size: 6px;\n    transform: translateZ(0);\n    animation-delay: -0.16s;\n}\n.loader[data-v-24f35d64]:before,\n.loader[data-v-24f35d64]:after {\n    position: absolute;\n    top: 0;\n    content: '';\n}\n.loader[data-v-24f35d64]:before {\n    left: -1.5em;\n    animation-delay: -0.32s;\n}\n.loader[data-v-24f35d64]:after {\n    left: 1.5em;\n}\n@keyframes load1-24f35d64 {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 0;\n        height: 4em;\n}\n40% {\n        box-shadow: 0 -2em;\n        height: 5em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.loader[data-v-24f35d64],\r\n.loader[data-v-24f35d64]:before,\r\n.loader[data-v-24f35d64]:after {\r\n    background: #7c88a0;\r\n    animation: load1-24f35d64 1s infinite ease-in-out;\r\n    width: 1em;\r\n    height: 4em;\n}\n.loader[data-v-24f35d64] {\r\n    color: #7c88a0;\r\n    text-indent: -9999em;\r\n    margin: 88px auto;\r\n    position: relative;\r\n    font-size: 6px;\r\n    transform: translateZ(0);\r\n    animation-delay: -0.16s;\n}\n.loader[data-v-24f35d64]:before,\r\n.loader[data-v-24f35d64]:after {\r\n    position: absolute;\r\n    top: 0;\r\n    content: '';\n}\n.loader[data-v-24f35d64]:before {\r\n    left: -1.5em;\r\n    animation-delay: -0.32s;\n}\n.loader[data-v-24f35d64]:after {\r\n    left: 1.5em;\n}\n@keyframes load1-24f35d64 {\n0%,\r\n    80%,\r\n    100% {\r\n        box-shadow: 0 0;\r\n        height: 4em;\n}\n40% {\r\n        box-shadow: 0 -2em;\r\n        height: 5em;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38152,7 +38152,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.required-custom[data-v-1f675bc7] {\n    color: #ff0000;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.required-custom[data-v-1f675bc7] {\r\n    color: #ff0000;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38176,7 +38176,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-4565ba4b] {\n    font-weight: bold;\n}\n.cursor-pointer[data-v-4565ba4b] {\n    cursor: pointer;\n}\n.scrollable_product_list[data-v-4565ba4b] {\n    max-height: 250px !important;\n    overflow-y: scroll !important;\n}\n.tableFixHead[data-v-4565ba4b] {\n    max-height: 500px !important;\n    overflow-y: auto !important;\n}\n.tableFixHead thead th[data-v-4565ba4b] {\n    position: sticky;\n    top: 0;\n    z-index: 1;\n}\n.tableFixHead table[data-v-4565ba4b] {\n    border-collapse: collapse;\n    width: 100%;\n}\nth[data-v-4565ba4b], td[data-v-4565ba4b] {\n    padding: 8px 16px;\n}\nth[data-v-4565ba4b] {\n    background: #eee !important;\n}\n.scrollable_product_grid[data-v-4565ba4b] {\n    max-height: 500px !important;\n    overflow-y: auto !important;\n}\n.pointer-event-none[data-v-4565ba4b]{\n    pointer-events: none;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn.active[data-v-4565ba4b] {\r\n    font-weight: bold;\n}\n.cursor-pointer[data-v-4565ba4b] {\r\n    cursor: pointer;\n}\n.scrollable_product_list[data-v-4565ba4b] {\r\n    max-height: 250px !important;\r\n    overflow-y: scroll !important;\n}\n.tableFixHead[data-v-4565ba4b] {\r\n    max-height: 500px !important;\r\n    overflow-y: auto !important;\n}\n.tableFixHead thead th[data-v-4565ba4b] {\r\n    position: sticky;\r\n    top: 0;\r\n    z-index: 1;\n}\n.tableFixHead table[data-v-4565ba4b] {\r\n    border-collapse: collapse;\r\n    width: 100%;\n}\nth[data-v-4565ba4b], td[data-v-4565ba4b] {\r\n    padding: 8px 16px;\n}\nth[data-v-4565ba4b] {\r\n    background: #eee !important;\n}\n.scrollable_product_grid[data-v-4565ba4b] {\r\n    max-height: 500px !important;\r\n    overflow-y: auto !important;\n}\n.pointer-event-none[data-v-4565ba4b]{\r\n    pointer-events: none;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -21862,7 +21862,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\n    color: #df4759;\n}\n.wait {\n    width: 100%;\n    height: 100%;\n    background: #dddddd2b;\n    z-index: 100;\n    position: absolute;\n}\n.modal-content.ui-resizable {\n    overflow: scroll;\n}\n.modal-moveable {\n    cursor: move;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\r\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\r\n    color: #df4759;\n}\n.wait {\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #dddddd2b;\r\n    z-index: 100;\r\n    position: absolute;\n}\n.modal-content.ui-resizable {\r\n    overflow: scroll;\n}\n.modal-moveable {\r\n    cursor: move;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21886,7 +21886,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\n    position: absolute;\n    top: 9px;\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\n    transform: scale(1.3);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\r\n    position: absolute;\r\n    top: 9px;\r\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\r\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\r\n    transform: scale(1.3);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21910,7 +21910,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.script-editor, .script-editor:focus {\n    background-color: #0c1021;\n    color: #fff;\n    font-family: Monospace, monospace;\n    border-color: transparent;\n    box-shadow: none;\n}\n.tableFixHead {\n    max-height: 250px !important;\n    overflow-y: auto !important;\n}\n\n/*.form-control:disabled {*/\n/*    background-color: #2b2b2b;*/\n/*}*/\n.selectedText {\n    background: #2264c1;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.script-editor, .script-editor:focus {\r\n    background-color: #0c1021;\r\n    color: #fff;\r\n    font-family: Monospace, monospace;\r\n    border-color: transparent;\r\n    box-shadow: none;\n}\n.tableFixHead {\r\n    max-height: 250px !important;\r\n    overflow-y: auto !important;\n}\r\n\r\n/*.form-control:disabled {*/\r\n/*    background-color: #2b2b2b;*/\r\n/*}*/\n.selectedText {\r\n    background: #2264c1;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

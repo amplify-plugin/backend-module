@@ -575,7 +575,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.height-100[data-v-291e9244] {\n    height: 100px;\n}\n.height-150[data-v-291e9244] {\n    height: 150px;\n}\n.fixed-height[data-v-291e9244] {\n    height: 350px;\n    overflow: auto;\n}\n.btn-clipboard[data-v-291e9244] {\n    position: absolute;\n    top: .5rem;\n    right: .5rem;\n    z-index: 10;\n    display: block;\n    padding: .25rem .5rem;\n    font-size: 75%;\n    color: #ffffff;\n    background-color: transparent;\n    border: 0;\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-291e9244]:hover {\n    color: #fff;\n    background-color: #ffa000;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.height-100[data-v-291e9244] {\r\n    height: 100px;\n}\n.height-150[data-v-291e9244] {\r\n    height: 150px;\n}\n.fixed-height[data-v-291e9244] {\r\n    height: 350px;\r\n    overflow: auto;\n}\n.btn-clipboard[data-v-291e9244] {\r\n    position: absolute;\r\n    top: .5rem;\r\n    right: .5rem;\r\n    z-index: 10;\r\n    display: block;\r\n    padding: .25rem .5rem;\r\n    font-size: 75%;\r\n    color: #ffffff;\r\n    background-color: transparent;\r\n    border: 0;\r\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-291e9244]:hover {\r\n    color: #fff;\r\n    background-color: #ffa000;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

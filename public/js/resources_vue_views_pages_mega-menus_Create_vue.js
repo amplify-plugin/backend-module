@@ -23002,7 +23002,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\n    color: #df4759;\n}\n.wait {\n    width: 100%;\n    height: 100%;\n    background: #dddddd2b;\n    z-index: 100;\n    position: absolute;\n}\n.modal-content.ui-resizable {\n    overflow: scroll;\n}\n.modal-moveable {\n    cursor: move;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\r\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\r\n    color: #df4759;\n}\n.wait {\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #dddddd2b;\r\n    z-index: 100;\r\n    position: absolute;\n}\n.modal-content.ui-resizable {\r\n    overflow: scroll;\n}\n.modal-moveable {\r\n    cursor: move;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23026,7 +23026,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\n    position: absolute;\n    top: 9px;\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\n    transform: scale(1.3);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\r\n    position: absolute;\r\n    top: 9px;\r\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\r\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\r\n    transform: scale(1.3);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -23050,7 +23050,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.product-attribute {\n    height: 50vh;\n    overflow-y: auto;\n}\n#searchModalRight {\n    height: 54vh;\n    overflow-y: auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.product-attribute {\r\n    height: 50vh;\r\n    overflow-y: auto;\n}\n#searchModalRight {\r\n    height: 54vh;\r\n    overflow-y: auto;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

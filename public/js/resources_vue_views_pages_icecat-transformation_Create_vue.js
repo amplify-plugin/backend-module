@@ -5676,7 +5676,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#icecatTransformationCreate .multiselect__placeholder {\n    margin: 0 !important;\n}\n.ghost {\n    opacity: 0.5;\n    background: #c8ebfb;\n}\n.script-editor, .script-editor:focus {\n    background-color: #0c1021;\n    color: #fff;\n    font-family: Monospace, monospace;\n    border-color: transparent;\n    box-shadow: none;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#icecatTransformationCreate .multiselect__placeholder {\r\n    margin: 0 !important;\n}\n.ghost {\r\n    opacity: 0.5;\r\n    background: #c8ebfb;\n}\n.script-editor, .script-editor:focus {\r\n    background-color: #0c1021;\r\n    color: #fff;\r\n    font-family: Monospace, monospace;\r\n    border-color: transparent;\r\n    box-shadow: none;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

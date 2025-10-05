@@ -692,7 +692,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-clipboard[data-v-454bb53b] {\n    display: block;\n    padding: .25rem .5rem;\n    font-size: 75%;\n    color: #ffffff;\n    border: 0;\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-454bb53b]:hover {\n    color: #fff;\n    background-color: #ffa000;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-clipboard[data-v-454bb53b] {\r\n    display: block;\r\n    padding: .25rem .5rem;\r\n    font-size: 75%;\r\n    color: #ffffff;\r\n    border: 0;\r\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-454bb53b]:hover {\r\n    color: #fff;\r\n    background-color: #ffa000;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -162,10 +162,9 @@ import SwitchTabs from '../../components/SwitchTabs';
 import _ from 'lodash';
 import Basic from './tabs/Basic';
 import PIM from './tabs/PIM';
-import Search from './tabs/Search';
 import Report from './tabs/Report';
 import Sayt from './tabs/Sayt';
-import Icecat from './tabs/Icecat';
+// import Icecat from './tabs/Icecat';
 import Google from './tabs/Google';
 import Frontend from './tabs/Frontend';
 import Payment from './tabs/Payment';
@@ -226,7 +225,6 @@ export default {
         Tabs,
         Basic,
         PIM,
-        Search,
         Report,
         Sayt,
         Google,
@@ -260,7 +258,6 @@ export default {
             tabs: {
                 Basic: { title: 'Basic', hash: 'basic' },
                 PIM: { title: 'PIM', hash: 'pim' },
-                Search: { title: 'Search', hash: 'search' },
                 // Report: { title: 'Report', hash: 'report' },
                 Sayt: { title: 'SAYT', hash: 'sayt' },
                 // Icecat: { title: 'Icecat', hash: 'icecat' },

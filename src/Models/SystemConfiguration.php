@@ -22,8 +22,6 @@ class SystemConfiguration extends Model implements Auditable
 
     const PIM_TAB = 'pim';
 
-    const SEARCH_TAB = 'search';
-
     const REPORT_TAB = 'report';
 
     const SAYT_TAB = 'sayt';
@@ -83,11 +81,7 @@ class SystemConfiguration extends Model implements Auditable
     {
         parent::boot();
 
-        static::created(function ($model) {
-            Artisan::call('queue:restart');
-        });
-
-        static::updated(function ($model) {
+        static::saved(function ($model) {
             Artisan::call('queue:restart');
         });
     }

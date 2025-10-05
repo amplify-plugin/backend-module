@@ -32,6 +32,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\Pro\Http\Controllers\Operations\BulkDeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -67,8 +68,12 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 foreach (array_keys(config('amplify')) as $tab) {
                     $options[$tab] = ucfirst($tab);
                 }
-                unset($options['constant']);
-                $options['email'] = 'Email';
+
+                unset($options['constant'], $options['widget'],
+                    $options['sftp'], $options['debug'],
+                $options['client_code'], $options['suppress_exception']);
+
+                ksort($options);
 
                 return $options;
             },
@@ -218,8 +223,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 $data = $this->basicTabFormat($request);
             } elseif ($tab == SystemConfiguration::PIM_TAB) {
                 $data = $this->pimTabFormat($request);
-            } elseif ($tab == SystemConfiguration::SEARCH_TAB) {
-                $data = $this->searchTabFormat($request);
             } elseif ($tab == SystemConfiguration::REPORT_TAB) {
                 $data = $this->reportTabFormat($request);
             } elseif ($tab == SystemConfiguration::SAYT_TAB) {
@@ -349,20 +352,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
-    private function searchTabFormat($request)
-    {
-        return [
-            'product_search_by_id_prefix' => $request->input('product_search_by_id_prefix', 'Products.Product Id'),
-            'easyask_host' => $request->input('easyask_host', 'demoV16.easyaskondemand.com'),
-            'easyask_port' => $request->input('easyask_port', null),
-            'easyask_dictionary' => $request->input('easyask_dictionary', 'amplify-demo'),
-            'protocol' => $request->input('protocol', 'http'),
-            'use_product_restriction' => $request->boolean('use_product_restriction', true),
-            'search_box_placeholder' => $request->input('search_box_placeholder', 'Search Product all'),
-            'default_catalog' => $request->input('default_catalog'),
-        ];
-    }
-
     private function reportTabFormat($request)
     {
         return [
@@ -379,10 +368,15 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'sayt_product_id' => $request->input('sayt_product_id', 'Product_Id'),
             'sayt_product_image' => $request->input('sayt_product_image', 'Product_Image'),
             'sayt_product_name' => $request->input('sayt_product_name', 'Product_Name'),
+            'sayt_product_code' => $request->input('sayt_product_code', 'Product_Code'),
             'sayt_product_price' => $request->input('sayt_product_price', 'Price'),
             'sayt_product_description' => $request->input('sayt_product_description', 'Short_Description'),
             'sayt_product_type' => $request->input('sayt_product_type', 'Type_Id'),
             'sayt_product_sizes' => $request->input('sayt_product_sizes', 'Sku_Sizes'),
+            'product_search_by_id_prefix' => $request->input('product_search_by_id_prefix', 'Products.Product Id'),
+            'use_product_restriction' => $request->boolean('use_product_restriction', true),
+            'search_box_placeholder' => $request->input('search_box_placeholder', 'Search Product all'),
+            'default_catalog' => $request->input('default_catalog'),
         ];
     }
 

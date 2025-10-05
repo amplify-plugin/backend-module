@@ -1500,7 +1500,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ntable.table {\n    width: 100% !important;\n}\n.dt-buttons {\n    display: block !important;\n}\ndiv.dt-container div.row:last-child>div {\n    display: flex;\n    justify-content: space-between;\n    width: 100%;\n    align-items: baseline;\n}\ndiv.dt-container div.dt-length select {\n    width: 3.5rem;\n}\n.icon-btn {\n    width: 50px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ntable.table {\r\n    width: 100% !important;\n}\n.dt-buttons {\r\n    display: block !important;\n}\ndiv.dt-container div.row:last-child>div {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n    align-items: baseline;\n}\ndiv.dt-container div.dt-length select {\r\n    width: 3.5rem;\n}\n.icon-btn {\r\n    width: 50px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

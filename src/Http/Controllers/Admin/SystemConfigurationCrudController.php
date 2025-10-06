@@ -577,12 +577,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             }
         }
 
-        if (\request('tab') == SystemConfiguration::SAYT_TAB) {
-            if (class_exists(\Amplify\System\Sayt\Jobs\ReConfigSaytStore::class)) {
-                \Amplify\System\Sayt\Jobs\ReConfigSaytStore::dispatch();
-            }
-        }
-
         cacheAll(true);
 
         return [

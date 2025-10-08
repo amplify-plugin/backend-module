@@ -14,12 +14,12 @@ class AmplifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->booted(function () {
-            // Load All Configs to Config system from DB
-            foreach (SystemConfiguration::all() as $systemConfig) {
-                Config::set("amplify.{$systemConfig->name}.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type));
-            }
+        // Load All Configs to Config system from DB
+        foreach (\DB::table('system_configurations')->get() as $systemConfig) {
+            Config::set("amplify.{$systemConfig->name}.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type));
+        }
 
+        $this->app->booted(function () {
             $this->overwriteBackpackLocale();
         });
     }

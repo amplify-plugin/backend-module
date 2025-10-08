@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Backend\Providers;
 
-use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Helpers\UtilityHelper;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;

@@ -37,6 +37,7 @@ class ContactLoginCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     *
      * @throws BackpackProRequiredException
      */
     protected function setupListOperation()

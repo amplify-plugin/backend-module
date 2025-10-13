@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -36,18 +37,39 @@ class ContactLoginCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     * @throws BackpackProRequiredException
      */
     protected function setupListOperation()
     {
-        CRUD::column('contact_id');
-        CRUD::column('customer_id');
-        CRUD::column('warehouse_id');
-        CRUD::column('customer_address_id');
-        CRUD::column('ship_to_name');
-        CRUD::column('last_logged_in');
-        CRUD::column('last_logged_out');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        $this->crud->enableExportButtons();
+
+        CRUD::addFilter([
+            'name' => 'created_between',
+            'type' => 'date_range',
+            'label' => 'Created/Registered',
+            'date_range_options' => [
+                'timePicker' => false,
+                'minYear' => now()->subYears(20)->format('Y'),
+                'maxYear' => now()->format('Y'),
+                'locale' => [
+                    'format' => 'DD MMM, YYYY',
+                ],
+            ],
+        ], false, function ($value) {
+            $dates = json_decode($value);
+            $this->crud->addClause('where', 'created_at', '>=', $dates->from);
+            $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
+        });
+
+        CRUD::column('contact_id')->type('relationship');
+        CRUD::column('customer_id')->type('relationship');
+        CRUD::column('warehouse_id')->type('relationship');
+        CRUD::column('customer_address_id')->type('relationship');
+        CRUD::column('ship_to_name')->type('relationship');
+        CRUD::column('last_logged_in')->type('datetime');
+        CRUD::column('last_logged_out')->type('datetime');
+        CRUD::column('created_at')->type('datetime');
+        CRUD::column('updated_at')->type('datetime');
     }
 
     /**

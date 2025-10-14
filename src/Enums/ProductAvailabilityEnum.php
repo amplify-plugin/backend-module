@@ -1,6 +1,7 @@
 <?php
 
 namespace Amplify\System\Backend\Enums;
+
 enum ProductAvailabilityEnum: string
 {
     case Actual = 'A';

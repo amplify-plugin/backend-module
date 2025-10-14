@@ -375,8 +375,6 @@ class Product extends Model implements ContractsAuditable
 
     /**
      * No spelling mistake there is a db column as *manufacturer*
-     *
-     * @return BelongsTo
      */
     public function manufacturerr(): BelongsTo
     {
@@ -607,7 +605,7 @@ class Product extends Model implements ContractsAuditable
 
     public function getAvailabilityAttribute(): ProductAvailabilityEnum
     {
-        $code = trim( $this->flags['availability'] ?? 'A');
+        $code = trim($this->flags['availability'] ?? 'A');
 
         return ProductAvailabilityEnum::tryFrom($code);
     }
@@ -619,7 +617,7 @@ class Product extends Model implements ContractsAuditable
 
     public function getPricingAttribute(): ?string
     {
-        return (trim( $this->flags['price'] ?? 'D') == 'D');
+        return trim($this->flags['price'] ?? 'D') == 'D';
     }
 
     /*

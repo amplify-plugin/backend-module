@@ -6,6 +6,7 @@
 
 namespace Amplify\System\Backend\Models;
 
+use Amplify\System\Backend\Enums\ProductAvailabilityEnum;
 use Amplify\System\Backend\Models\Mutators\ImageMutator;
 use Amplify\System\Backend\Traits\DynamicDBConnectionTrait;
 use Amplify\System\Cms\Models\Page;
@@ -29,6 +30,8 @@ use OwenIt\Auditing\Contracts\Auditable as ContractsAuditable;
 /**
  * @property-read DocumentType|null $default_document_type
  * @property string $ship_restriction
+ * @property bool $pricing
+ * @property ProductAvailabilityEnum $availability
  */
 class Product extends Model implements ContractsAuditable
 {
@@ -370,6 +373,11 @@ class Product extends Model implements ContractsAuditable
         return $this->belongsTo(Manufacturer::class, 'manufacturer_id', 'id');
     }
 
+    /**
+     * No spelling mistake there is a db column as *manufacturer*
+     *
+     * @return BelongsTo
+     */
     public function manufacturerr(): BelongsTo
     {
         return $this->manufacturerRelation();
@@ -597,9 +605,21 @@ class Product extends Model implements ContractsAuditable
         return $this->product_code.' - '.$this->product_name;
     }
 
+    public function getAvailabilityAttribute(): ProductAvailabilityEnum
+    {
+        $code = trim( $this->flags['availability'] ?? 'A');
+
+        return ProductAvailabilityEnum::tryFrom($code);
+    }
+
     public function getShipRestrictionAttribute(): ?string
     {
         return trim(preg_replace('/^(<br\s*\/?>|\s|&nbsp;|\\\n|\\\t)+/i', '', $this->flags['ship_restriction'] ?? ''));
+    }
+
+    public function getPricingAttribute(): ?string
+    {
+        return (trim( $this->flags['price'] ?? 'D') == 'D');
     }
 
     /*

@@ -207,7 +207,7 @@ class CustomerOrder extends Model implements Auditable
         }
 
         $order_infos = [
-            //'contact_id' => customer(true)?->contact_code ?? '',
+            // 'contact_id' => customer(true)?->contact_code ?? '',
             'contact_code' => customer(true)?->contact_code ?? '',
             'customer_name' => $data['customer_name'] ?? $CustomerDetails->CustomerName,
             'customer_number' => $CustomerDetails->CustomerNumber,

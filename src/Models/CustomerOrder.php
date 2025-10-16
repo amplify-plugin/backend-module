@@ -262,18 +262,12 @@ class CustomerOrder extends Model implements Auditable
                         'order_status' => 'Pending',
                     ]);
 
-                    $contactId = $order_infos['contact_id'];
-
-                    if (in_array(config('amplify.client_code'), ['DKL', 'NUX']) && customer_check()) {
-                        $contactId = customer(true)->id;
-                    }
-
                     NotificationFactory::call([Event::ORDER_RECEIVED], [
                         'order_id' => $this->id,
                         'customer_id' => $this->customer_id,
                         'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
                         'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
-                        'contact_id' => $contactId,
+                        'contact_id' => $this->contact_id ?? null,
                     ]);
 
                     NotificationFactory::call([Event::ORDER_ACCEPTED], [

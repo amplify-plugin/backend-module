@@ -5,14 +5,14 @@ namespace Amplify\System\Backend\Models;
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Factories\NotificationFactory;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class CustomerOrder extends Model implements Auditable
 {
-    use CrudTrait, HasFactory;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
     const IS_ORDER_TYPE = '0';
@@ -119,12 +119,12 @@ class CustomerOrder extends Model implements Auditable
         ];
 
         $filteredAddressParts = array_filter($addressParts, function ($part) {
-            return ! empty($part);
+            return !empty($part);
         });
 
         $address = implode(', ', $filteredAddressParts);
 
-        return ! empty($address) ? $address : 'N/A';
+        return !empty($address) ? $address : 'N/A';
     }
 
     /**
@@ -132,20 +132,20 @@ class CustomerOrder extends Model implements Auditable
      */
     public function buttonOrderLines()
     {
-        return '<a class="btn btn-sm btn-link" href="'.route('order-line.index')
-            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Order Items"><i class="la la-list mr-2"></i>View Details</a>';
+        return '<a class="btn btn-sm btn-link" href="' . route('order-line.index')
+            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Order Items"><i class="la la-list mr-2"></i>View Details</a>';
     }
 
     public function buttonQuoteLines()
     {
-        return '<a class="btn btn-sm btn-link" href="'.route('quote-line.index')
-            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Quote Items"><i class="la la-list mr-2"></i>View Items</a>';
+        return '<a class="btn btn-sm btn-link" href="' . route('quote-line.index')
+            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Quote Items"><i class="la la-list mr-2"></i>View Items</a>';
     }
 
     public function webOrderSettingsButton()
     {
-        return '<a class="btn btn-sm btn-primary" href="'.route('web-order-number.create')
-            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Web Order Number config"><i class="nav-icon las la-cog"></i> Web Order Number config</a>';
+        return '<a class="btn btn-sm btn-primary" href="' . route('web-order-number.create')
+            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Web Order Number config"><i class="nav-icon las la-cog"></i> Web Order Number config</a>';
     }
 
     /**
@@ -163,153 +163,162 @@ class CustomerOrder extends Model implements Auditable
 
     public function createOrderOrQuoteERP(array $data): array
     {
-        if (isset($data['customer_number'])) {
-            $CustomerDetails = ErpApi::getCustomerDetail(['customer_number' => $data['customer_number']]);
-        } else {
-            $CustomerDetails = ErpApi::getCustomerDetail();
-        }
-
-        $this->load(['orderLines', 'orderLines.warehouse']);
-
-        $products = $this->orderLines->map(function ($orderLine) use ($CustomerDetails) {
-            $additionalInfo = collect();
-            if ($orderLine->source_type == 'custom_item') {
-                $additionalInfo = json_decode($orderLine->additional_info);
-                $price = $additionalInfo->total_price;
-            } elseif ($orderLine->source_type == 'Quote' || $orderLine->source_type == 'Promo') {
-                $price = $orderLine->customer_price;
+        try {
+            if (isset($data['customer_number'])) {
+                $CustomerDetails = ErpApi::getCustomerDetail(['customer_number' => $data['customer_number']]);
             } else {
-                $price = $orderLine->customer_price;
+                $CustomerDetails = ErpApi::getCustomerDetail();
             }
 
-            return [
-                'ItemNumber' => $orderLine->product_code,
-                'WarehouseID' => $orderLine?->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
-                // @TODO: warehouse set from customer default
-                // 'WarehouseID' => customer()->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
-                'OrderQty' => $orderLine->qty,
-                'UnitOfMeasure' => $orderLine->unit_code,
-                'SourceType' => $orderLine->source_type ?? null,
-                'Source' => $orderLine->source ?? null,
-                'Price' => $price,
-                'ItemComment' => ! empty($additionalInfo) && ! empty($additionalInfo?->OrderSpec) ? $additionalInfo?->OrderSpec : '',
-                'UnitOfMeasure' => $orderLine->unit_code ?? null,
-            ];
-        });
+            $this->load(['orderLines', 'orderLines.warehouse']);
 
-        if (! empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {
-            $products->push([
-                'ItemNumber' => $data['shipping_option'],
-                'WarehouseID' => $CustomerDetails->DefaultWarehouse,
-                'OrderQty' => '1',
-                'UnitOfMeasure' => 'EA',
-            ]);
-        }
+            $products = $this->orderLines->map(function ($orderLine) use ($CustomerDetails) {
+                $additionalInfo = collect();
+                if ($orderLine->source_type == 'custom_item') {
+                    $additionalInfo = json_decode($orderLine->additional_info);
+                    $price = $additionalInfo->total_price;
+                } elseif ($orderLine->source_type == 'Quote' || $orderLine->source_type == 'Promo') {
+                    $price = $orderLine->customer_price;
+                } else {
+                    $price = $orderLine->customer_price;
+                }
 
-        $order_infos = [
-            // 'contact_id' => customer(true)?->contact_code ?? '',
-            'contact_code' => customer(true)?->contact_code ?? '',
-            'customer_name' => $data['customer_name'] ?? $CustomerDetails->CustomerName,
-            'customer_number' => $CustomerDetails->CustomerNumber,
-            'customer_email' => $data['customer_email'] ?? '',
-            'phone_number' => $data['customer_phone'] ?? '',
-            'order_type' => $data['order_type'] ?? 'O', /** O order Create && T for Quotation Create */
-            'card_token' => $data['card_token'] ?? '',
-            'order_note' => $data['order_notes'] ?? $this->notes,
-            'internal_note' => $data['internal_notes'] ?? '',
-            'customer_order_ref' => $this->customer_order_number,
-            'shipping_method' => $data['shipping_method'] ?? '',
-            'ship_to_number' => $data['shipping_number'] ?? '',
-            'ship_to_name' => $data['customer_name'] ?? '',
-            'freight_amount' => $data['freight_amount'] ?? '',
-            'warehouse_id' => $products->first()['WarehouseID'] ?? '',
-            'po_number' => $data['po_number'] ?? '',
-            'merchant_id' => $data['merchant_id'] ?? '',
-            'card_number' => $data['card_number'] ?? '',
-            'card_type' => $data['card_type'] ?? '',
-            'total_order_value' => $data['total_order_value'] ?? '',
-            'freight_account_number' => $data['freight_account_number'] ?? '',
-            'wtdo_note' => isset($data['wtdo_note']) ? $data['wtdo_note'] : '',
-            'freight_terms_type' => isset($data['freight_terms_type']) ? $data['freight_terms_type'] : '',
-            'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
-            'request' => request()->all(),
-        ];
+                return [
+                    'ItemNumber' => $orderLine->product_code,
+                    'WarehouseID' => $orderLine?->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
+                    // @TODO: warehouse set from customer default
+                    // 'WarehouseID' => customer()->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
+                    'OrderQty' => $orderLine->qty,
+                    'SourceType' => $orderLine->source_type ?? null,
+                    'Source' => $orderLine->source ?? null,
+                    'Price' => $price,
+                    'ItemComment' => !empty($additionalInfo) && !empty($additionalInfo?->OrderSpec) ? $additionalInfo?->OrderSpec : '',
+                    'UnitOfMeasure' => $orderLine->unit_code ?? null,
+                ];
+            });
 
-        if (isset($data['address_name'])) {
-
-            $order_infos['ship_to_address1'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_1'] ?? '');
-            $order_infos['ship_to_address2'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_2'] ?? '');
-            $order_infos['ship_to_address3'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_3'] ?? '');
-            $order_infos['ship_to_city'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_city'] ?? '');
-            $order_infos['ship_to_country_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_country_code'] ?? '');
-            $order_infos['ship_to_state'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_state'] ?? '');
-            $order_infos['ship_to_zip_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_zip_code'] ?? '');
-            $order_infos['ship_to_phone'] = $data['address_name'] != 'TEMP' ? '' : ($data['shipping_phone'] ?? '');
-        }
-
-        if (isset($data['order_type'])) {
-            if ($data['order_type'] == 'O') {
-                $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
-                $orderResponse = ErpApi::createOrder([
-                    'order' => $order_infos,
-                    'items' => $products->toArray(),
+            if (!empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {
+                $products->push([
+                    'ItemNumber' => $data['shipping_option'],
+                    'WarehouseID' => $CustomerDetails->DefaultWarehouse,
+                    'OrderQty' => '1',
+                    'UnitOfMeasure' => 'EA',
                 ]);
+            }
 
-                if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
+            $order_infos = [
+                // 'contact_id' => customer(true)?->contact_code ?? '',
+                'contact_code' => customer(true)?->contact_code ?? '',
+                'customer_name' => $data['customer_name'] ?? $CustomerDetails->CustomerName,
+                'customer_number' => $CustomerDetails->CustomerNumber,
+                'customer_email' => $data['customer_email'] ?? '',
+                'phone_number' => $data['customer_phone'] ?? '',
+                'order_type' => $data['order_type'] ?? 'O', /** O order Create && T for Quotation Create */
+                'card_token' => $data['card_token'] ?? '',
+                'order_note' => $data['order_notes'] ?? $this->notes,
+                'internal_note' => $data['internal_notes'] ?? '',
+                'customer_order_ref' => $this->customer_order_number,
+                'shipping_method' => $data['shipping_method'] ?? '',
+                'ship_to_number' => $data['shipping_number'] ?? '',
+                'ship_to_name' => $data['customer_name'] ?? '',
+                'freight_amount' => $data['freight_amount'] ?? '',
+                'warehouse_id' => $products->first()['WarehouseID'] ?? '',
+                'po_number' => $data['po_number'] ?? '',
+                'merchant_id' => $data['merchant_id'] ?? '',
+                'card_number' => $data['card_number'] ?? '',
+                'card_type' => $data['card_type'] ?? '',
+                'total_order_value' => $data['total_order_value'] ?? '',
+                'freight_account_number' => $data['freight_account_number'] ?? '',
+                'wtdo_note' => isset($data['wtdo_note']) ? $data['wtdo_note'] : '',
+                'freight_terms_type' => isset($data['freight_terms_type']) ? $data['freight_terms_type'] : '',
+                'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
+                'request' => request()->all(),
+            ];
+
+            if (isset($data['address_name'])) {
+
+                $order_infos['ship_to_address1'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_1'] ?? '');
+                $order_infos['ship_to_address2'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_2'] ?? '');
+                $order_infos['ship_to_address3'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_3'] ?? '');
+                $order_infos['ship_to_city'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_city'] ?? '');
+                $order_infos['ship_to_country_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_country_code'] ?? '');
+                $order_infos['ship_to_state'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_state'] ?? '');
+                $order_infos['ship_to_zip_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_zip_code'] ?? '');
+                $order_infos['ship_to_phone'] = $data['address_name'] != 'TEMP' ? '' : ($data['shipping_phone'] ?? '');
+            }
+
+            if (isset($data['order_type'])) {
+
+                if ($data['order_type'] == 'O') {
+                    $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
+                    $orderResponse = ErpApi::createOrder([
+                        'order' => $order_infos,
+                        'items' => $products->toArray(),
+                    ]);
+
+                    if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
+
+                        $this->update([
+                            'erp_order_id' => $orderResponse?->OrderNumber ?? null,
+                            'order_status' => 'Pending',
+                        ]);
+
+
+                        NotificationFactory::call([Event::ORDER_RECEIVED], [
+                            'order_id' => $this->id,
+                            'customer_id' => $this->customer_id,
+                            'guest_customer_email' => !customer_check() ? $order_infos['customer_email'] : null,
+                            'guest_customer_name' => !customer_check() ? $order_infos['customer_name'] : null,
+                            'contact_id' => $this->contact_id ?? null,
+                        ]);
+
+                        NotificationFactory::call([Event::ORDER_ACCEPTED], [
+                            'order_id' => $this->id,
+                            'customer_id' => $this->customer_id,
+                            'guest_customer_email' => !customer_check() ? $order_infos['customer_email'] : null,
+                            'guest_customer_name' => !customer_check() ? $order_infos['customer_name'] : null,
+                        ]);
+
+                        return [
+                            'success' => true,
+                            'message' => 'Order Received',
+                            'order_id' => $orderResponse->OrderNumber,
+                        ];
+                    }
 
                     $this->update([
-                        'erp_order_id' => $orderResponse?->OrderNumber ?? null,
-                        'order_status' => 'Pending',
+                        'order_status' => 'Rejected',
                     ]);
 
-                    NotificationFactory::call([Event::ORDER_RECEIVED], [
+                    NotificationFactory::call([Event::ORDER_REJECTED], [
                         'order_id' => $this->id,
                         'customer_id' => $this->customer_id,
-                        'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
-                        'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
-                        'contact_id' => $this->contact_id ?? null,
-                    ]);
-
-                    NotificationFactory::call([Event::ORDER_ACCEPTED], [
-                        'order_id' => $this->id,
-                        'customer_id' => $this->customer_id,
-                        'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
-                        'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
                     ]);
 
                     return [
+                        'success' => false,
+                        'message' => 'Order Rejected',
+                    ];
+                } elseif ($data['order_type'] == 'T') {
+                    $order_infos['payment_type'] = 'Standard';
+                    $orderResponse = ErpApi::createQuotation(['order' => $order_infos, 'items' => $products->toArray()]);
+
+                    return [
                         'success' => true,
-                        'message' => 'Order Received',
-                        'order_id' => $orderResponse->OrderNumber,
+                        'message' => 'Quotation Received',
                     ];
                 }
-
-                $this->update([
-                    'order_status' => 'Rejected',
-                ]);
-
-                NotificationFactory::call([Event::ORDER_REJECTED], [
-                    'order_id' => $this->id,
-                    'customer_id' => $this->customer_id,
-                ]);
-
-                return [
-                    'success' => false,
-                    'message' => 'Order Rejected',
-                ];
-            } elseif ($data['order_type'] == 'T') {
-                $order_infos['payment_type'] = 'Standard';
-                $orderResponse = ErpApi::createQuotation(['order' => $order_infos, 'items' => $products->toArray()]);
-
-                return [
-                    'success' => true,
-                    'message' => 'Quotation Received',
-                ];
             }
-        } else {
+
             return [
                 'success' => false,
                 'message' => 'Order Received Failed',
+            ];
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
             ];
         }
     }
@@ -327,6 +336,6 @@ class CustomerOrder extends Model implements Auditable
     {
         $spare = json_decode($this->spare_1, true);
 
-        return isset($spare['hazmat_charge']) ? (float) $spare['hazmat_charge'] : null;
+        return isset($spare['hazmat_charge']) ? (float)$spare['hazmat_charge'] : null;
     }
 }

@@ -119,12 +119,12 @@ class CustomerOrder extends Model implements Auditable
         ];
 
         $filteredAddressParts = array_filter($addressParts, function ($part) {
-            return !empty($part);
+            return ! empty($part);
         });
 
         $address = implode(', ', $filteredAddressParts);
 
-        return !empty($address) ? $address : 'N/A';
+        return ! empty($address) ? $address : 'N/A';
     }
 
     /**
@@ -132,20 +132,20 @@ class CustomerOrder extends Model implements Auditable
      */
     public function buttonOrderLines()
     {
-        return '<a class="btn btn-sm btn-link" href="' . route('order-line.index')
-            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Order Items"><i class="la la-list mr-2"></i>View Details</a>';
+        return '<a class="btn btn-sm btn-link" href="'.route('order-line.index')
+            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Order Items"><i class="la la-list mr-2"></i>View Details</a>';
     }
 
     public function buttonQuoteLines()
     {
-        return '<a class="btn btn-sm btn-link" href="' . route('quote-line.index')
-            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Quote Items"><i class="la la-list mr-2"></i>View Items</a>';
+        return '<a class="btn btn-sm btn-link" href="'.route('quote-line.index')
+            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Quote Items"><i class="la la-list mr-2"></i>View Items</a>';
     }
 
     public function webOrderSettingsButton()
     {
-        return '<a class="btn btn-sm btn-primary" href="' . route('web-order-number.create')
-            . '?order_line_id=' . $this->id . '" data-toggle="tooltip" title="Web Order Number config"><i class="nav-icon las la-cog"></i> Web Order Number config</a>';
+        return '<a class="btn btn-sm btn-primary" href="'.route('web-order-number.create')
+            .'?order_line_id='.$this->id.'" data-toggle="tooltip" title="Web Order Number config"><i class="nav-icon las la-cog"></i> Web Order Number config</a>';
     }
 
     /**
@@ -192,12 +192,12 @@ class CustomerOrder extends Model implements Auditable
                     'SourceType' => $orderLine->source_type ?? null,
                     'Source' => $orderLine->source ?? null,
                     'Price' => $price,
-                    'ItemComment' => !empty($additionalInfo) && !empty($additionalInfo?->OrderSpec) ? $additionalInfo?->OrderSpec : '',
+                    'ItemComment' => ! empty($additionalInfo) && ! empty($additionalInfo?->OrderSpec) ? $additionalInfo?->OrderSpec : '',
                     'UnitOfMeasure' => $orderLine->unit_code ?? null,
                 ];
             });
 
-            if (!empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {
+            if (! empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {
                 $products->push([
                     'ItemNumber' => $data['shipping_option'],
                     'WarehouseID' => $CustomerDetails->DefaultWarehouse,
@@ -263,20 +263,19 @@ class CustomerOrder extends Model implements Auditable
                             'order_status' => 'Pending',
                         ]);
 
-
                         NotificationFactory::call([Event::ORDER_RECEIVED], [
                             'order_id' => $this->id,
                             'customer_id' => $this->customer_id,
-                            'guest_customer_email' => !customer_check() ? $order_infos['customer_email'] : null,
-                            'guest_customer_name' => !customer_check() ? $order_infos['customer_name'] : null,
+                            'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
+                            'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
                             'contact_id' => $this->contact_id ?? null,
                         ]);
 
                         NotificationFactory::call([Event::ORDER_ACCEPTED], [
                             'order_id' => $this->id,
                             'customer_id' => $this->customer_id,
-                            'guest_customer_email' => !customer_check() ? $order_infos['customer_email'] : null,
-                            'guest_customer_name' => !customer_check() ? $order_infos['customer_name'] : null,
+                            'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
+                            'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
                         ]);
 
                         return [
@@ -316,6 +315,7 @@ class CustomerOrder extends Model implements Auditable
             ];
         } catch (\Exception $exception) {
             Log::error($exception);
+
             return [
                 'success' => false,
                 'message' => $exception->getMessage(),
@@ -336,6 +336,6 @@ class CustomerOrder extends Model implements Auditable
     {
         $spare = json_decode($this->spare_1, true);
 
-        return isset($spare['hazmat_charge']) ? (float)$spare['hazmat_charge'] : null;
+        return isset($spare['hazmat_charge']) ? (float) $spare['hazmat_charge'] : null;
     }
 }

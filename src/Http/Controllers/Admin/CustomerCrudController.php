@@ -249,15 +249,15 @@ class CustomerCrudController extends BackpackCustomCrudController
             'tab' => 'Addresses',
             'subfields' => [
                 [
-                    'name' => 'address_name',
-                    'type' => 'text',
-                    'label' => 'Address Name',
-                    'allows_null' => false,
-                ],
-                [
                     'name' => 'address_code',
                     'type' => 'text',
                     'label' => 'Address Code',
+                    'allows_null' => false,
+                ],
+                [
+                    'name' => 'address_name',
+                    'type' => 'text',
+                    'label' => 'Address Name',
                     'allows_null' => false,
                 ],
                 [

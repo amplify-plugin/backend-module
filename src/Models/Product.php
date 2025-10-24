@@ -515,6 +515,16 @@ class Product extends Model implements ContractsAuditable
         return $data;
     }
 
+    public function relatedProducts()
+    {
+        return $this->belongsToMany(
+            Product::class, // Related model
+            'product_relationships', // Pivot table
+            'product_id', // Foreign key on pivot for this model
+            'related_product_id' // Foreign key on pivot for the related model
+        ); // eager load relationship type will be added later
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

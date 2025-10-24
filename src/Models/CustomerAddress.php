@@ -56,7 +56,7 @@ class CustomerAddress extends Model implements Auditable
 
     public function stateModel(): BelongsTo
     {
-        return $this->belongsTo(State::class, 'state', 'iso2');
+        return $this->belongsTo(State::class, 'state', 'iso2')->where('states.country_code', $this->country_code);
     }
 
     public function country(): BelongsTo

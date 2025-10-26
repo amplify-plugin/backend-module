@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Session;
 
 class PasswordResetController extends Controller
 {
-    //
-
     public function sendOtp(Request $request)
     {
         try {
@@ -30,11 +28,11 @@ class PasswordResetController extends Controller
                 $contact->save();
 
                 return response([
-                    'message' => 'OTP Send To Your Mail',
+                    'message' => 'We have emailed you OTP.',
                 ]);
             } else {
                 return response([
-                    'message' => 'Email Is Not Registered',
+                    'message' => 'These credential do not match our records.',
                 ], 210);
             }
 
@@ -50,11 +48,11 @@ class PasswordResetController extends Controller
         $contact = Contact::where([['email', $request->email], ['otp', $request->otp]])->first();
         if ($contact) {
             return response([
-                'message' => 'Valid OTP',
+                'message' => 'OTP verification successful.',
             ]);
         } else {
             return response([
-                'message' => 'Invalid OTP',
+                'message' => 'The provided otp is incorrect.',
             ], 210);
         }
     }
@@ -81,7 +79,7 @@ class PasswordResetController extends Controller
 
             return response([
                 'success' => false,
-                'message' => 'Contact Not Found',
+                'message' => 'These credential do not match our records.',
             ], 210);
 
         }

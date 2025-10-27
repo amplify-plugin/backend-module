@@ -21170,7 +21170,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1200px) {\n.modal-xl[data-v-6a088d81] {\r\n        max-width: 1415px !important;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1200px) {\n.modal-xl[data-v-6a088d81] {\n        max-width: 1415px !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21194,7 +21194,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.skeleton-loader-style {\r\n    width: auto !important;\r\n    border-radius: 5px !important;\r\n    margin-top: 10px !important;\r\n    margin-bottom: 10px !important;\n}\n.tableFixHead table {\r\n    border-collapse: collapse;\r\n    width: 100%;\n}\n.tableFixHead table th {\r\n    position: sticky;\r\n    top: 0;\r\n    z-index: 1;\r\n    background: #eee !important;\n}\n.tableFixHead table th,\r\n.tableFixHead table td {\r\n    padding: 8px 16px;\n}\n.disabled-wrapper::after {\r\n    content: '';\r\n    display: block;\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #f1f4f875;\r\n    z-index: 2;\r\n    left: 0;\r\n    top: 0;\r\n    border-radius: 5px;\n}\n.checkbox {\r\n    display: inline;\r\n    margin-right: 1rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.skeleton-loader-style {\n    width: auto !important;\n    border-radius: 5px !important;\n    margin-top: 10px !important;\n    margin-bottom: 10px !important;\n}\n.tableFixHead table {\n    border-collapse: collapse;\n    width: 100%;\n}\n.tableFixHead table th {\n    position: sticky;\n    top: 0;\n    z-index: 1;\n    background: #eee !important;\n}\n.tableFixHead table th,\n.tableFixHead table td {\n    padding: 8px 16px;\n}\n.disabled-wrapper::after {\n    content: '';\n    display: block;\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background: #f1f4f875;\n    z-index: 2;\n    left: 0;\n    top: 0;\n    border-radius: 5px;\n}\n.checkbox {\n    display: inline;\n    margin-right: 1rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

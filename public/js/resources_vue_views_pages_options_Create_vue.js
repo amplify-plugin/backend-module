@@ -818,7 +818,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-4d49f94a] {\r\n    color: red;\n}\n.separator[data-v-4d49f94a] {\r\n    display: flex;\r\n    align-items: center;\r\n    text-align: center;\r\n    margin-bottom: 5px;\n}\n.separator[data-v-4d49f94a]::before,\r\n.separator[data-v-4d49f94a]::after {\r\n    content: '';\r\n    flex: 1;\r\n    border-bottom: 1px solid #00000026;\n}\n.separator[data-v-4d49f94a]:not(:empty)::before {\r\n    margin-right: .25em;\n}\n.separator[data-v-4d49f94a]:not(:empty)::after {\r\n    margin-left: .25em;\n}\n.border-custom[data-v-4d49f94a] {\r\n    border: 1px solid rgba(0, 40, 100, .12);\n}\n.required-custom[data-v-4d49f94a] {\r\n    color: #ff0000;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-4d49f94a] {\n    color: red;\n}\n.separator[data-v-4d49f94a] {\n    display: flex;\n    align-items: center;\n    text-align: center;\n    margin-bottom: 5px;\n}\n.separator[data-v-4d49f94a]::before,\n.separator[data-v-4d49f94a]::after {\n    content: '';\n    flex: 1;\n    border-bottom: 1px solid #00000026;\n}\n.separator[data-v-4d49f94a]:not(:empty)::before {\n    margin-right: .25em;\n}\n.separator[data-v-4d49f94a]:not(:empty)::after {\n    margin-left: .25em;\n}\n.border-custom[data-v-4d49f94a] {\n    border: 1px solid rgba(0, 40, 100, .12);\n}\n.required-custom[data-v-4d49f94a] {\n    color: #ff0000;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

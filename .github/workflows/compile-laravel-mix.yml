@@ -17,10 +17,14 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Compile Develop Assets
+      - name: Setup Node Environment
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
+
+      - name: Remove public directory
+        run: |
+          rm -rf public || true
 
       - name: Install dependencies
         run: npm install --force

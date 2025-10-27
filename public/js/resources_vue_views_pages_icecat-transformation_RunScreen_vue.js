@@ -22666,7 +22666,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 576px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 768px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 992px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1200px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1440px) {\n.product-height {\r\n    height: 200px !important;\n}\n}\n@media (min-width: 1600px) {\n.product-height {\r\n    height: 178px !important;\n}\n.product-height.modal-image {\r\n    height: 132px !important;\n}\n}\n.bbb_deals_image img {\r\n  width: 100%;\r\n  -o-object-fit: contain;\r\n     object-fit: contain;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 576px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 768px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 992px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1200px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1440px) {\n.product-height {\n    height: 200px !important;\n}\n}\n@media (min-width: 1600px) {\n.product-height {\n    height: 178px !important;\n}\n.product-height.modal-image {\n    height: 132px !important;\n}\n}\n.bbb_deals_image img {\n  width: 100%;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22690,7 +22690,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\r\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\r\n    color: #df4759;\n}\n.wait {\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #dddddd2b;\r\n    z-index: 100;\r\n    position: absolute;\n}\n.modal-content.ui-resizable {\r\n    overflow: scroll;\n}\n.modal-moveable {\r\n    cursor: move;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-me:hover {\n    background-color: #f4f7fb;\n}\n.text-hover-danger:hover {\n    color: #df4759;\n}\n.wait {\n    width: 100%;\n    height: 100%;\n    background: #dddddd2b;\n    z-index: 100;\n    position: absolute;\n}\n.modal-content.ui-resizable {\n    overflow: scroll;\n}\n.modal-moveable {\n    cursor: move;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22714,7 +22714,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\r\n    position: absolute;\r\n    top: 9px;\r\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\r\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\r\n    transform: scale(1.3);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.grid_checkbox_wrapper[data-v-387a057d] {\n    position: absolute;\n    top: 9px;\n    right: 11px;\n}\n.already-added[data-v-387a057d] {\n    background: #f7f1e3;\n}\n.checkedSearchedProducts[data-v-387a057d] {\n    transform: scale(1.3);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22738,7 +22738,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card {\r\n    margin-bottom: 0.5rem;\n}\n.load-from-category {\r\n    cursor: pointer;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card {\n    margin-bottom: 0.5rem;\n}\n.load-from-category {\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

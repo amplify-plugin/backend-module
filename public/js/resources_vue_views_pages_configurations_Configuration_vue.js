@@ -6067,7 +6067,7 @@ __webpack_require__.r(__webpack_exports__);
               tab : 'invoice',
               ...res?.data
           }
-            this.initEdit();
+           this.initEdit();
       })
       .catch((err) => {
           console.error(err);
@@ -6076,7 +6076,7 @@ __webpack_require__.r(__webpack_exports__);
               text: 'Something went wrong!',
           }).show();
       });
-     console.log("core config", this.configurationDetails);
+    console.log("core config", this.configurationDetails);
     */
   },
   methods: {
@@ -6658,6 +6658,7 @@ __webpack_require__.r(__webpack_exports__);
         sayt_product_id: this.$parent.coreConfigurationData.sayt.sayt_product_id,
         sayt_product_image: this.$parent.coreConfigurationData.sayt.sayt_product_image,
         sayt_product_name: this.$parent.coreConfigurationData.sayt.sayt_product_name,
+        sayt_product_code: this.$parent.coreConfigurationData.sayt.sayt_product_code,
         sayt_product_price: this.$parent.coreConfigurationData.sayt.sayt_product_price,
         sayt_product_description: this.$parent.coreConfigurationData.sayt.sayt_product_description,
         sayt_product_type: this.$parent.coreConfigurationData.sayt.sayt_product_type,
@@ -15125,16 +15126,12 @@ var render = function render() {
       y2: "18"
     }
   })])])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product ID")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product ID")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15161,17 +15158,11 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_id ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_id[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Image")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product Image")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15198,17 +15189,11 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_image ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_image[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_image[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Name")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product Name")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15235,17 +15220,42 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_name ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_name[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_name[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
+  }, [_c("label", [_vm._v("Product Code")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.coreConfigurationData.sayt_product_code,
+      expression: "coreConfigurationData.sayt_product_code"
+    }],
+    staticClass: "form-control",
+    "class": {
+      "is-invalid": _vm.$parent.validationErrors.sayt_product_code
+    },
+    attrs: {
+      type: "text",
+      name: "sayt_product_code",
+      placeholder: "Enter product code"
+    },
+    domProps: {
+      value: _vm.coreConfigurationData.sayt_product_code
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.coreConfigurationData, "sayt_product_code", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_code ? _c("small", {
+    staticClass: "text-danger mt-3"
+  }, [_vm._v("\n                        " + _vm._s(_vm.$parent.validationErrors.sayt_product_code[0]) + "\n                    ")]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
   }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Price")]), _vm._v(" "), _c("input", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Product Price")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15272,17 +15282,11 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_price ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_price[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_price[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Description")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product Description")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15309,17 +15313,11 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_description ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_description[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_description[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Type")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product Type")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15346,17 +15344,11 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_type ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_type[0]))]) : _vm._e()])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_type[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", [_c("label", [_vm._v("Product Sizes")]), _vm._v(" "), _c("input", {
+  }, [_c("label", [_vm._v("Product Sizes")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -15383,7 +15375,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.$parent.validationErrors.sayt_product_sizes ? _c("small", {
     staticClass: "text-danger mt-3"
-  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_sizes[0]))]) : _vm._e()])])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.$parent.validationErrors.sayt_product_sizes[0]))]) : _vm._e()])])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group",
     attrs: {
       id: "saveActions"
@@ -16447,7 +16439,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.eye-position {\r\n    position: absolute;\r\n    right: 10px !important;\r\n    bottom: 15% !important;\r\n    cursor: pointer;\n}\n.cke_contents {\r\n    min-height: 300px !important;\n}\n.required-custom {\r\n    color: #ff0000;\n}\n.custom-sidebar-ar.show .menu-icon-ar {\r\n    display: none;\n}\n.custom-sidebar-ar .close-icon-ar {\r\n    display: none;\n}\n.custom-sidebar-ar.show .close-icon-ar {\r\n    display: block;\n}\n.tab-pane {\r\n    padding-top: 0;\n}\n.setting-menu {\r\n    width: 200px;\n}\n.setting-content {\r\n    width: calc(100% - 200px);\n}\n@media only screen and (max-width: 767px) {\nlegend {\r\n        font-size: 1.25rem;\n}\n.setting-menu {\r\n        position: absolute;\r\n        left: -210px;\r\n        z-index: 9;\r\n        background: #ffffff;\r\n        transition: all 0.4s;\r\n        box-shadow: 0 0 10px #ddd;\r\n        top: -20px;\r\n        padding: 12px !important;\n}\n.setting-menu.show {\r\n        left: -4px;\n}\n.setting-content {\r\n        width: 100%;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.eye-position {\n    position: absolute;\n    right: 10px !important;\n    bottom: 15% !important;\n    cursor: pointer;\n}\n.cke_contents {\n    min-height: 300px !important;\n}\n.required-custom {\n    color: #ff0000;\n}\n.custom-sidebar-ar.show .menu-icon-ar {\n    display: none;\n}\n.custom-sidebar-ar .close-icon-ar {\n    display: none;\n}\n.custom-sidebar-ar.show .close-icon-ar {\n    display: block;\n}\n.tab-pane {\n    padding-top: 0;\n}\n.setting-menu {\n    width: 200px;\n}\n.setting-content {\n    width: calc(100% - 200px);\n}\n@media only screen and (max-width: 767px) {\nlegend {\n        font-size: 1.25rem;\n}\n.setting-menu {\n        position: absolute;\n        left: -210px;\n        z-index: 9;\n        background: #ffffff;\n        transition: all 0.4s;\n        box-shadow: 0 0 10px #ddd;\n        top: -20px;\n        padding: 12px !important;\n}\n.setting-menu.show {\n        left: -4px;\n}\n.setting-content {\n        width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16471,7 +16463,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.multiselect .multiselect__tags {\r\n    height: 38px !important;\r\n    border-radius: 4px !important;\r\n    border: 1px solid rgba(0, 40, 100, .12) !important;\n}\n.multiselect .multiselect__tags {\r\n    padding-top: 8px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.multiselect .multiselect__tags {\n    height: 38px !important;\n    border-radius: 4px !important;\n    border: 1px solid rgba(0, 40, 100, .12) !important;\n}\n.multiselect .multiselect__tags {\n    padding-top: 8px !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16495,7 +16487,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.vue-treeselect .vue-treeselect__control,\r\n.multiselect .multiselect__tags {\r\n    height: 38px !important;\r\n    border-radius: 4px !important;\r\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n.vue-treeselect.is-invalid {\r\n    border: 1px solid red;\r\n    border-radius: 5px;\n}\n.multiselect .multiselect__tags {\r\n    padding-top: 8px !important;\n}\n.required-custom {\r\n    color: #ff0000;\n}\n.cke_contents {\r\n    min-height: 300px !important;\n}\n.orange {\r\n    width: 1rem;\r\n    height: 1rem;\r\n    border-radius: 50%;\r\n    margin-right: 0.5rem;\r\n    background-color: orange;\r\n    color: white;\n}\n.blue {\r\n    width: 1rem;\r\n    height: 1rem;\r\n    border-radius: 50%;\r\n    margin-right: 0.5rem;\r\n    background-color: blue;\r\n    color: white;\n}\n.purple {\r\n    width: 1rem;\r\n    height: 1rem;\r\n    border-radius: 50%;\r\n    margin-right: 0.5rem;\r\n    background-color: purple;\r\n    color: black;\n}\r\n\r\n/* Style the select box */\n#colors {\r\n    padding: 5px;\r\n    font-size: 16px;\r\n    border: 1px solid #ccc;\r\n    border-radius: 5px;\r\n    width: 150px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.vue-treeselect .vue-treeselect__control,\n.multiselect .multiselect__tags {\n    height: 38px !important;\n    border-radius: 4px !important;\n    border: 1px solid rgba(0, 40, 100, 0.12) !important;\n}\n.vue-treeselect.is-invalid {\n    border: 1px solid red;\n    border-radius: 5px;\n}\n.multiselect .multiselect__tags {\n    padding-top: 8px !important;\n}\n.required-custom {\n    color: #ff0000;\n}\n.cke_contents {\n    min-height: 300px !important;\n}\n.orange {\n    width: 1rem;\n    height: 1rem;\n    border-radius: 50%;\n    margin-right: 0.5rem;\n    background-color: orange;\n    color: white;\n}\n.blue {\n    width: 1rem;\n    height: 1rem;\n    border-radius: 50%;\n    margin-right: 0.5rem;\n    background-color: blue;\n    color: white;\n}\n.purple {\n    width: 1rem;\n    height: 1rem;\n    border-radius: 50%;\n    margin-right: 0.5rem;\n    background-color: purple;\n    color: black;\n}\n\n/* Style the select box */\n#colors {\n    padding: 5px;\n    font-size: 16px;\n    border: 1px solid #ccc;\n    border-radius: 5px;\n    width: 150px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16519,7 +16511,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-backdrop.show {\r\n    opacity: 0;\n}\n.img-preview-wrapper img {\r\n    max-height: 180px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.modal-backdrop.show {\n    opacity: 0;\n}\n.img-preview-wrapper img {\n    max-height: 180px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16543,7 +16535,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.my-editor {\r\n    background: #2d2d2d;\r\n    color: #ccc;\r\n    font-family:\r\n        Fira code,\r\n        Fira Mono,\r\n        Consolas,\r\n        Menlo,\r\n        Courier,\r\n        monospace;\r\n    font-size: 14px;\r\n    line-height: 1.5;\r\n    padding: 5px;\r\n    border-radius: 5px;\n}\n.prism-editor__textarea:focus {\r\n    outline: none;\n}\n.height-300 {\r\n    height: 300px;\n}\n.prism-editor__editor {\r\n    color: #ccc;\n}\n.error {\r\n    color: red;\n}\n.user-select-all {\r\n    -webkit-user-select: all;\r\n       -moz-user-select: all;\r\n            user-select: all;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.my-editor {\n    background: #2d2d2d;\n    color: #ccc;\n    font-family:\n        Fira code,\n        Fira Mono,\n        Consolas,\n        Menlo,\n        Courier,\n        monospace;\n    font-size: 14px;\n    line-height: 1.5;\n    padding: 5px;\n    border-radius: 5px;\n}\n.prism-editor__textarea:focus {\n    outline: none;\n}\n.height-300 {\n    height: 300px;\n}\n.prism-editor__editor {\n    color: #ccc;\n}\n.error {\n    color: red;\n}\n.user-select-all {\n    -webkit-user-select: all;\n       -moz-user-select: all;\n            user-select: all;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

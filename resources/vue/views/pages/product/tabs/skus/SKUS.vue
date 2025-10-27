@@ -527,13 +527,14 @@ export default {
                 axios.post(url)
                     .then(({data}) => {
                         if (!data.noResultsMessage) {
-                            if (data.products?.items && data.products.items.length > 0) {
-                                data.products.items.map((product, index) => {
+                            let { products } = data.source;
+                            if (products?.items && products.items.length > 0) {
+                                products.items.map((product, index) => {
                                     product.isSkuProduct = (JSON.parse(product.Sku_List).length === 1 && product?.Sku_ProductCode && (product.Sku_ProductCode === JSON.parse(product.Sku_List)[0][1])) ?? false;
                                 });
                             }
                             if (!_.isNull(product_id)) {
-                               if (!data.products?.items.length || (this.parent_id == data.products.items[0].Product_Id)) {
+                               if (!products?.items.length || (this.parent_id == products.items[0].Product_Id)) {
                                     new Noty({
                                         type: "error",
                                         text: 'Product not found'
@@ -542,13 +543,13 @@ export default {
                                     return;
                                 }
 
-                                let productData = data.products.items[0];
+                                let productData = products.items[0];
                                 this.addSKUToList(productData);
                                 this.$refs.selector.$refs.bottom.search_by_product_id = null;
                                 Selector.components.Bottom.methods.resetSearchByProductId();
                             } else {
-                                (data.products?.items ?? []).filter(item => item.is_checked = false);
-                                this.searchResultSKUProducts = data.products.items ?? [];
+                                (products?.items ?? []).filter(item => item.is_checked = false);
+                                this.searchResultSKUProducts = products.items ?? [];
                                 this.searchResultSKUProducts.forEach((ele, index) => {
                                     this.allSKUProductsInList.forEach((list_ele) => {
                                         if (ele.Product_Id == list_ele) {
@@ -556,7 +557,7 @@ export default {
                                         }
                                     });
                                 });
-                                let paginationData = data.products.itemDescription;
+                                let paginationData = products.itemDescription;
                                 this.pagination    = {
                                     currentPage   : paginationData.currentPage,
                                     firstItem     : paginationData.firstItem,

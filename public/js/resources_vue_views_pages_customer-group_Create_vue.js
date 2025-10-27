@@ -2763,7 +2763,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.right-float[data-v-69042c2d] {\r\n    position: absolute;\r\n    top: 6px;\r\n    right: 20px;\n}\n.v-middle[data-v-69042c2d] {\r\n    vertical-align: middle;\n}\n.flat-disabled[data-v-69042c2d]::after {\r\n    content: \"\";\r\n    display: block;\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    background: #f1f4f875;\r\n    z-index: 2;\r\n    left: 0;\r\n    top: 0;\r\n    border-radius: 5px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.right-float[data-v-69042c2d] {\n    position: absolute;\n    top: 6px;\n    right: 20px;\n}\n.v-middle[data-v-69042c2d] {\n    vertical-align: middle;\n}\n.flat-disabled[data-v-69042c2d]::after {\n    content: \"\";\n    display: block;\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background: #f1f4f875;\n    z-index: 2;\n    left: 0;\n    top: 0;\n    border-radius: 5px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2786,7 +2786,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown-menu[data-v-3809ee06] {\r\n    width: 100%;\r\n    display: block;\n}\n.divFixed[data-v-3809ee06] {\r\n    max-height: 200px !important;\r\n    overflow-y: auto !important;\n}\na[data-v-3809ee06]:not([href]):not([tabindex]):hover {\r\n    background-color: #ebeced;\n}\n.tableFixHead[data-v-3809ee06] {\r\n    max-height: 400px !important;\r\n    overflow-y: auto !important;\n}\n.tableFixHead table[data-v-3809ee06] {\r\n    border-collapse: collapse;\r\n    width: 100%;\n}\n.tableFixHead table th[data-v-3809ee06] {\r\n    position: sticky;\r\n    top: 0;\r\n    z-index: 1;\r\n    background: #eee !important;\n}\n.tableFixHead table th[data-v-3809ee06],\r\n.tableFixHead table td[data-v-3809ee06] {\r\n    padding: 8px 16px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dropdown-menu[data-v-3809ee06] {\n    width: 100%;\n    display: block;\n}\n.divFixed[data-v-3809ee06] {\n    max-height: 200px !important;\n    overflow-y: auto !important;\n}\na[data-v-3809ee06]:not([href]):not([tabindex]):hover {\n    background-color: #ebeced;\n}\n.tableFixHead[data-v-3809ee06] {\n    max-height: 400px !important;\n    overflow-y: auto !important;\n}\n.tableFixHead table[data-v-3809ee06] {\n    border-collapse: collapse;\n    width: 100%;\n}\n.tableFixHead table th[data-v-3809ee06] {\n    position: sticky;\n    top: 0;\n    z-index: 1;\n    background: #eee !important;\n}\n.tableFixHead table th[data-v-3809ee06],\n.tableFixHead table td[data-v-3809ee06] {\n    padding: 8px 16px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

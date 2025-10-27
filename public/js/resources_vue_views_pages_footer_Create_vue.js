@@ -2079,7 +2079,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.height-100[data-v-41a58e93] {\r\n    height: 100px;\n}\n.height-150[data-v-41a58e93] {\r\n    height: 150px;\n}\n.fixed-height[data-v-41a58e93] {\r\n    height: 350px;\r\n    overflow: auto;\n}\n.btn-clipboard[data-v-41a58e93] {\r\n    position: absolute;\r\n    top: .5rem;\r\n    right: .5rem;\r\n    z-index: 10;\r\n    display: block;\r\n    padding: .25rem .5rem;\r\n    font-size: 75%;\r\n    color: #ffffff;\r\n    background-color: transparent;\r\n    border: 0;\r\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-41a58e93]:hover {\r\n    color: #fff;\r\n    background-color: #ffa000;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.height-100[data-v-41a58e93] {\n    height: 100px;\n}\n.height-150[data-v-41a58e93] {\n    height: 150px;\n}\n.fixed-height[data-v-41a58e93] {\n    height: 350px;\n    overflow: auto;\n}\n.btn-clipboard[data-v-41a58e93] {\n    position: absolute;\n    top: .5rem;\n    right: .5rem;\n    z-index: 10;\n    display: block;\n    padding: .25rem .5rem;\n    font-size: 75%;\n    color: #ffffff;\n    background-color: transparent;\n    border: 0;\n    border-radius: .25rem;\n}\n.btn-clipboard[data-v-41a58e93]:hover {\n    color: #fff;\n    background-color: #ffa000;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2103,7 +2103,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-eda11b98] {\r\n    color: red;\n}\n.required-custom[data-v-eda11b98] {\r\n    color: #ff0000;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.error-color[data-v-eda11b98] {\n    color: red;\n}\n.required-custom[data-v-eda11b98] {\n    color: #ff0000;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2127,7 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh5[data-v-1d5c776c] {\r\n    text-align: center;\r\n    position: relative;\r\n    background-color: #fff;\n}\nh5 .border[data-v-1d5c776c] {\r\n    border-bottom: 3px solid #999;\r\n    position: absolute;\r\n    width: 100%;\r\n    left: 0;\r\n    top: 50%;\r\n    margin-top: -1px;\r\n    z-index: 1;\n}\nh5 .text[data-v-1d5c776c] {\r\n    background-color: #fff;\r\n    position: relative;\r\n    z-index: 2;\r\n    padding: 10px;\r\n    display: inline-block;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh5[data-v-1d5c776c] {\n    text-align: center;\n    position: relative;\n    background-color: #fff;\n}\nh5 .border[data-v-1d5c776c] {\n    border-bottom: 3px solid #999;\n    position: absolute;\n    width: 100%;\n    left: 0;\n    top: 50%;\n    margin-top: -1px;\n    z-index: 1;\n}\nh5 .text[data-v-1d5c776c] {\n    background-color: #fff;\n    position: relative;\n    z-index: 2;\n    padding: 10px;\n    display: inline-block;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -566,17 +566,13 @@ trait ProductTrait
      */
     public function fetchProductFromEasyaskById(Request $request)
     {
-        $easyAskProduct = \Sayt::getProductById((int) $request->id);
+        $easyAskProduct = \Sayt::storeProductDetail($request->id);
 
-        if (! empty($easyAskProduct)) {
-            $product = $easyAskProduct->items[0];
-            $product->isSkuProduct = isset($product->Sku_Id) ? true : false;
-            $product->seopath = $easyAskProduct->seoPath;
+        $product = $easyAskProduct->getFirstProduct() ?? new \stdClass();
+        $product->isSkuProduct = isset($product->Sku_Id) ? true : false;
+        $product->seopath = $easyAskProduct->getCurrentSeoPath();
 
-            return $product;
-        }
-
-        return null;
+        return $product;
     }
 
     /**

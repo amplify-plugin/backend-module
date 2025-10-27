@@ -733,6 +733,7 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         $product = Product::where('id', $request->id)->with('productImage')->firstOrFail();
         $productData = $this->prepareData($request);
+        $productData['sku_id'] = $request->parent_id.'-'.$product->id;
         $product->update($productData);
         $product->parentProducts()->attach($request->parent_id);
         $this->createOrUpdateSKUProductImage($request->main, $request->id);

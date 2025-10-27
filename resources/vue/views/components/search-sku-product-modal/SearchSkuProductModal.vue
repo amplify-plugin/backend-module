@@ -218,8 +218,8 @@
 
                                          <template v-else>
                                             <p class="ellipsis ellipsis-text"> {{product.Product_Code}} {{product.Product_Name}} </p>
-                                         </template> 
-                                 
+                                         </template>
+
                                 </label>
                               </div>
                               <div class="bbb_deals_slider_container">
@@ -236,7 +236,7 @@
                                         <span v-if="product.duplicate" class="badge badge-success">Added</span>
                                     </div>
                                   </div>
-                                  
+
                                 </div>
                               </div>
                             </div>

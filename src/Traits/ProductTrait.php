@@ -568,7 +568,7 @@ trait ProductTrait
     {
         $easyAskProduct = \Sayt::storeProductDetail($request->id);
 
-        $product = $easyAskProduct->getFirstProduct() ?? new \stdClass();
+        $product = $easyAskProduct->getFirstProduct() ?? new \stdClass;
         $product->isSkuProduct = isset($product->Sku_Id) ? true : false;
         $product->seopath = $easyAskProduct->getCurrentSeoPath();
 

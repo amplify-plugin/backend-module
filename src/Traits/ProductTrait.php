@@ -616,7 +616,7 @@ trait ProductTrait
         $response = \Sayt::storeProducts($site_search);
         // $response['product_search_by_id_prefix'] = config('amplify.sayt.product_search_by_id_prefix');
 
-        return response()->json($response);
+        return response()->json($response->getNode());
     }
 
     /**

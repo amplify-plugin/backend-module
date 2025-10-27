@@ -21,7 +21,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        if (!config('amplify.frontend.guest_add_to_cart')) {
+        if (! config('amplify.frontend.guest_add_to_cart')) {
             $this->middleware('customers');
         }
     }
@@ -43,13 +43,13 @@ class CartController extends Controller
      */
     public function addToCart(QuickOrderAddToOrderRequest $request)
     {
-        abort_if(!haveAnyPermissions(['shop.add-to-cart', 'order.add-to-cart']), 403, 'You don\'t have permission to add to cart.');
+        abort_if(! haveAnyPermissions(['shop.add-to-cart', 'order.add-to-cart']), 403, 'You don\'t have permission to add to cart.');
 
-        if (!ErpApi::enabled()) {
+        if (! ErpApi::enabled()) {
             return $this->apiResponse(false, 'ERP service not enabled.');
         }
 
-//        DB::beginTransaction();
+        //        DB::beginTransaction();
 
         try {
             $is_added_to_cart = false;
@@ -73,11 +73,11 @@ class CartController extends Controller
                 $product_qty = $product['qty'];
                 $dbProduct = Product::with('productImage')->whereProductCode($product_code)->first();
 
-                if (!$dbProduct) {
+                if (! $dbProduct) {
                     return $this->apiResponse(false, "Product with code {$product_code} is not available.", 404);
                 }
 
-                $minQty = (int)($dbProduct->min_order_qty ?? 0);
+                $minQty = (int) ($dbProduct->min_order_qty ?? 0);
                 if ($minQty > 0 && $product_qty < $minQty) {
                     return $this->apiResponse(false, "Product {$product_code} requires a minimum order quantity of {$minQty}. You entered {$product_qty}.", 422);
                 }
@@ -111,21 +111,21 @@ class CartController extends Controller
                 $cart->cartItems()->where($cart_item_identifier)->delete();
 
                 throw_if((ErpApi::useSingleWarehouseInCart() && $cart->cartItems->count())
-                    && !$cart->cartItems()->whereProductWarehouseCode($product_warehouse_code)->exists(),
+                    && ! $cart->cartItems()->whereProductWarehouseCode($product_warehouse_code)->exists(),
                     new Exception('Sorry, you cannot add multiple item orders to multiple warehouses at once. Please order separately.')
                 );
 
                 $cart->cartItems()->create($cart_item_identifier + $source_info + [
-                        'quantity' => $product_qty,
-                        'unitprice' => $product_price,
-                        'product_warehouse_code' => $warehouse_code,
-                        'warehouse_id' => $warehouse_id,
-                        'address_id' => customer_check() ? customer(true)->customer_address_id : null,
-                        'product_name' => $dbProduct->product_name,
-                        'product_image' => $dbProduct->productImage->main ?? null,
-                    ]);
+                    'quantity' => $product_qty,
+                    'unitprice' => $product_price,
+                    'product_warehouse_code' => $warehouse_code,
+                    'warehouse_id' => $warehouse_id,
+                    'address_id' => customer_check() ? customer(true)->customer_address_id : null,
+                    'product_name' => $dbProduct->product_name,
+                    'product_image' => $dbProduct->productImage->main ?? null,
+                ]);
 
-                if (!$is_added_to_cart) {
+                if (! $is_added_to_cart) {
                     $is_added_to_cart = true;
                 }
             }
@@ -289,9 +289,6 @@ class CartController extends Controller
     }
 
     /**
-     * @param array|string $codes
-     * @param int $quantity
-     * @param $warehouse
      * @return \Amplify\ErpApi\Collections\ProductPriceAvailabilityCollection
      */
     public static function getERPInfo(array|string $codes, int $quantity = 1, $warehouse = null)
@@ -300,7 +297,7 @@ class CartController extends Controller
 
         if (is_array($codes)) {
             $items = array_map(function ($item) use (&$itemWarehouse) {
-                if (!empty($item['product_warehouse_code'])) {
+                if (! empty($item['product_warehouse_code'])) {
                     $itemWarehouse = $item['product_warehouse_code'];
                 }
 
@@ -316,7 +313,7 @@ class CartController extends Controller
                 [
                     'item' => $codes,
                     'qty' => $quantity,
-                    'uom' => 'EA'
+                    'uom' => 'EA',
                 ],
             ];
 
@@ -344,17 +341,17 @@ class CartController extends Controller
                 $product_price = customer_check() ? $erpProduct->Price : ($erpProduct->ListPrice ?? $erpProduct->Price);
                 break;
 
-//            default:
-//                for ($i = 1; $i <= 6; $i++) {
-//                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
-//                        $product_price = $erpProduct["QtyPrice_{$i}"];
-//
-//                        continue;
-//                    }
-//                    break;
-//                }
-//
-//                break;
+                //            default:
+                //                for ($i = 1; $i <= 6; $i++) {
+                //                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
+                //                        $product_price = $erpProduct["QtyPrice_{$i}"];
+                //
+                //                        continue;
+                //                    }
+                //                    break;
+                //                }
+                //
+                //                break;
         }
 
         return floatval(str_replace(',', '', $product_price));
@@ -363,8 +360,8 @@ class CartController extends Controller
     /**
      * Build a standardized API JSON response.
      *
-     * @param int $status HTTP status code (default: 200)
-     * @param array $extra Additional data to merge into the response
+     * @param  int  $status  HTTP status code (default: 200)
+     * @param  array  $extra  Additional data to merge into the response
      */
     protected function apiResponse(bool $success, string $message, int $status = 200, array $extra = []): \Illuminate\Http\JsonResponse
     {

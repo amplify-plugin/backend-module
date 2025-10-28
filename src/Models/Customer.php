@@ -36,8 +36,6 @@ class Customer extends Model implements Auditable
     // public $timestamps = false;
     protected $guarded = ['id'];
 
-    protected $appends = ['subscribe'];
-
     protected $casts = [
         'customer_po_required' => 'boolean',
         'allow_backorder' => 'boolean',

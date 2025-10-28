@@ -353,7 +353,7 @@ export default {
             flags : {
                 availability : 'A',
                 price: 'D',
-                special: 'C',
+                special: 'Z',
                 ship_restriction: ''
             },
             coreConfigs: JSON.parse(this.core_configs),
@@ -416,7 +416,6 @@ export default {
 
     mounted() {
         this.init();
-
         if (_.isNull(this.productData.product_slug)) {
             this.convertNameToSlug(this.productData.local_product_name ?? '');
         }
@@ -522,6 +521,11 @@ export default {
             this.productData.specifications = JSON.parse(this.productData.specifications ?? '[]');
 
             this.processQueryString();
+
+            if (typeof this.productData.flags === 'object' && !Array.isArray(this.productData.flags) && this.productData.flags !== null) {
+                this.flags = { ...this.flags, ...this.productData.flags };
+            }
+
         },
 
         fetchProductClassification(id = null) {

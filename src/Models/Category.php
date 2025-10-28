@@ -149,9 +149,8 @@ class Category extends Model implements ContractsAuditable
         static::addGlobalScope(new DatabaseScope);
 
         static::saved(function (self $category) {
-            if (Cache::has('site-db-categories')) {
-                Cache::forget('site-db-categories');
-            }
+            @Cache::forget('site-db-categories');
+            @Cache::forget('site-default-catalog');
         });
     }
 }

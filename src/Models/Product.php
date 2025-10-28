@@ -128,7 +128,7 @@ class Product extends Model implements ContractsAuditable
 
     public function scopeGetEaProductsData()
     {
-        return Sayt::getEaProductsData();
+        return \Sayt::getEaProductsData();
     }
 
     /**
@@ -218,9 +218,9 @@ class Product extends Model implements ContractsAuditable
         }
     }
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
+        static::addGlobalScope(new DatabaseScope);
 
         self::creating(function ($model) {
             $model->user_id = $model->user_id ?? backpack_auth()->id();
@@ -499,8 +499,6 @@ class Product extends Model implements ContractsAuditable
         $locale = $_GET['locale'] ?? app()->getLocale();
         $data = $this->getTranslation($original_field_name, $locale);
 
-        dd($data);
-
         if (empty($data)) {
             try {
                 $original_data = json_decode(($this->attributes[$original_field_name] ?? '{}'),
@@ -661,15 +659,5 @@ class Product extends Model implements ContractsAuditable
         $this->attributes['archived_at'] = $this->status === 'archived'
             ? now()
             : null;
-    }
-
-    /**
-     * The application is now fully bootstrapped and ready.
-     * This method is called once the application has fully booted.
-     * It provides a hook to run specific tasks after all service providers have been registered.
-     */
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new DatabaseScope);
     }
 }

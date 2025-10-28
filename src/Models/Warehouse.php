@@ -30,5 +30,4 @@ class Warehouse extends Model implements Auditable
             });
         });
     }
-
 }

@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
 use Amplify\Frontend\Http\Resources\CartResource;
 use Amplify\System\Backend\Http\Requests\Orders\QuickOrderAddToOrderRequest;
 use Amplify\System\Backend\Models\Cart;
@@ -49,7 +50,7 @@ class CartController extends Controller
             return $this->apiResponse(false, 'ERP service not enabled.');
         }
 
-        //        DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $is_added_to_cart = false;
@@ -328,7 +329,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function generateProductPrice($cart_item, $erpProduct)
+    public function generateProductPrice($cart_item, ProductPriceAvailability $erpProduct)
     {
         switch ($cart_item['source_type'] ?? null) {
             case 'CAMPAIGN':

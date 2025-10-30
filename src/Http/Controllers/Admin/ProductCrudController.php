@@ -103,7 +103,7 @@ class ProductCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Product::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/product');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product');
         CRUD::setEntityNameStrings('product', 'products');
         $this->crud->enableBulkActions();
         $this->crud->addButton('top', 'bulk_archive', 'view', 'crud::buttons.bulk_archive');
@@ -114,19 +114,19 @@ class ProductCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::post($segment . '/{id}/attribute-values', [
-            'as' => $routeName . '.attributeValues',
-            'uses' => $controller . '@attributeValues',
+        Route::post($segment.'/{id}/attribute-values', [
+            'as' => $routeName.'.attributeValues',
+            'uses' => $controller.'@attributeValues',
             'operation' => 'attributeValues',
         ]);
-        Route::post($segment . '/{id}/publish', [
-            'as' => $routeName . '.publish',
-            'uses' => $controller . '@publish',
+        Route::post($segment.'/{id}/publish', [
+            'as' => $routeName.'.publish',
+            'uses' => $controller.'@publish',
             'operation' => 'publish',
         ]);
-        Route::post($segment . '/sku-reorder', [
-            'as' => $routeName . '.sku-reorder',
-            'uses' => $controller . '@skuReorder',
+        Route::post($segment.'/sku-reorder', [
+            'as' => $routeName.'.sku-reorder',
+            'uses' => $controller.'@skuReorder',
             'operation' => 'sku-reorder',
         ]);
     }
@@ -178,7 +178,7 @@ class ProductCrudController extends BackpackCustomCrudController
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {
             // Model Code Attach
-            $codes = Arr::map($request->model_codes, fn($item) => $item['code']);
+            $codes = Arr::map($request->model_codes, fn ($item) => $item['code']);
             $this->crud->entry->modelCodes()->attach($codes);
         }
 
@@ -238,7 +238,7 @@ class ProductCrudController extends BackpackCustomCrudController
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {
             // Model Code table data sync
-            $codes = Arr::map($request->model_codes, fn($item) => $item['code']);
+            $codes = Arr::map($request->model_codes, fn ($item) => $item['code']);
 
             $this->crud->entry->modelCodes()->sync($codes);
         }
@@ -345,7 +345,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 $productClassification = ProductClassification::with('children')
                     ->where('parent_id', null)
                     ->get()
-                    ->sortBy(fn($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
+                    ->sortBy(fn ($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
                     ->values()
                     ->toArray();
                 array_unset_recursive($productClassification, 'children');
@@ -373,7 +373,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 $categories = Category::with('children')
                     ->where('parent_id', '=', null)
                     ->get()
-                    ->sortBy(fn($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
+                    ->sortBy(fn ($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
                     ->values()
                     ->toArray();
                 array_unset_recursive($categories, 'children');
@@ -464,9 +464,9 @@ class ProductCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'value' => function ($model) {
                 if ($model->is_new === 1 && ! $model->is_updated) {
-                    return $model->id . ' <sup class="badge text-danger px-0">New</sup>';
+                    return $model->id.' <sup class="badge text-danger px-0">New</sup>';
                 } elseif ($model->is_updated) {
-                    return $model->id . ' <sup class="badge text-warning px-0">Updated</sup>';
+                    return $model->id.' <sup class="badge text-warning px-0">Updated</sup>';
                 } else {
                     return $model->id;
                 }
@@ -486,7 +486,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 return $model->local_product_name;
             },
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('product_name', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('product_name', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -517,7 +517,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 return $html;
             },
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('status', 'like', '%' . $searchTerm . '%');
+                $query->orWhere('status', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -529,7 +529,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'model' => ProductClassification::class,
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
-                    $q->where('title', 'like', '%' . $searchTerm . '%');
+                    $q->where('title', 'like', '%'.$searchTerm.'%');
                 });
             },
         ]);
@@ -542,7 +542,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'entity' => 'categories',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('categories', function ($q) use ($searchTerm) {
-                    $q->where('category_name', 'like', '%' . $searchTerm . '%');
+                    $q->where('category_name', 'like', '%'.$searchTerm.'%');
                 });
             },
         ]);
@@ -555,7 +555,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'entity' => 'modelCodes',
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
-                    $q->where('code', 'like', '%' . $searchTerm . '%');
+                    $q->where('code', 'like', '%'.$searchTerm.'%');
                 });
             },
         ]);
@@ -733,7 +733,7 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         $product = Product::where('id', $request->id)->with('productImage')->firstOrFail();
         $productData = $this->prepareData($request);
-        $productData['sku_id'] = $request->parent_id . '-' . $product->id;
+        $productData['sku_id'] = $request->parent_id.'-'.$product->id;
         $product->update($productData);
         $product->parentProducts()->attach($request->parent_id);
         $this->createOrUpdateSKUProductImage($request->main, $request->id);
@@ -807,7 +807,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'name' => 'brand_id',
             'label' => 'Brand Name',
             'type' => 'custom_html',
-            'value' => fn($entry) => $entry->brand?->title ?? '-',
+            'value' => fn ($entry) => $entry->brand?->title ?? '-',
         ]);
         CRUD::addcolumn([
             'name' => 'product_name',
@@ -971,7 +971,7 @@ class ProductCrudController extends BackpackCustomCrudController
         if ($product->parent_id !== null) {
             $redirect_uri = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
                 ? 'https'
-                : 'http') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                : 'http')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $uri = explode('/', $redirect_uri);
             array_splice($uri, -2);
 
@@ -981,8 +981,8 @@ class ProductCrudController extends BackpackCustomCrudController
                 'action' => $action,
             ];
             $query = array_merge(request()->all(), $query);
-            $uri = implode('/', $uri) . '/' . $product->parent_id . '/edit?' . http_build_query($query);
-            header('Location: ' . $uri);
+            $uri = implode('/', $uri).'/'.$product->parent_id.'/edit?'.http_build_query($query);
+            header('Location: '.$uri);
             exit();
         }
     }
@@ -1099,8 +1099,8 @@ class ProductCrudController extends BackpackCustomCrudController
                 ->whereIn('id', $categoryIds)
                 ->get()
                 ->toArray())
-            ->pluck('label')
-            ->toArray()
+                ->pluck('label')
+                ->toArray()
             : [];
 
         /* Prepare productClassification name from id to name */
@@ -1197,7 +1197,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $productAttributesWithPivotStructure = [];
         collect($transformedData['attributes'])->map(function ($item) use (&$productAttributes, &$productAttributesWithPivotStructure) {
             $matchedAttributes = Attribute::query()
-                ->where('name', 'like', '%' . $item['name'] . '%')
+                ->where('name', 'like', '%'.$item['name'].'%')
                 ->get();
 
             if (count($matchedAttributes) > 0) {
@@ -1235,7 +1235,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $categoryIds = [];
         collect($transformedData['categories'])->map(function ($item) use (&$categoryIds) {
             $matchedCategories = Category::query()
-                ->where('category_name', 'like', '%' . $item . '%')
+                ->where('category_name', 'like', '%'.$item.'%')
                 ->get();
             if (count($matchedCategories) > 0) {
                 $category = collect($matchedCategories->toArray())->where('label', $item)->first();
@@ -1246,7 +1246,7 @@ class ProductCrudController extends BackpackCustomCrudController
         /* Making $transformedData['productClassification'] compatible with $requestData format */
         $productClassificationId = null;
         $matchedProductClassification = ProductClassification::query()
-            ->where('title', 'like', '%' . $transformedData['productClassification'] . '%')
+            ->where('title', 'like', '%'.$transformedData['productClassification'].'%')
             ->get();
         if (count($matchedProductClassification) > 0) {
             $productClassificationData = collect($matchedProductClassification->toArray())->first();
@@ -1356,9 +1356,9 @@ class ProductCrudController extends BackpackCustomCrudController
 
         switch ($status) {
             case 'archived':
-                $lastProduct = Product::where('product_code', 'like', $product_code . '-archived-' . '%')->latest()->first();
+                $lastProduct = Product::where('product_code', 'like', $product_code.'-archived-'.'%')->latest()->first();
                 $serial = $lastProduct ? explode('-archived-', $lastProduct->product_code)[1] : 0;
-                $product->product_code = $product_code . '-archived-' . ($serial + 1);
+                $product->product_code = $product_code.'-archived-'.($serial + 1);
                 break;
             default:
                 $product->product_code = $product_code;
@@ -1405,11 +1405,11 @@ class ProductCrudController extends BackpackCustomCrudController
 
         if ($oldEntry->has_sku == 0) {
             $clonedEntry = $oldEntry->replicate(['product_code', 'has_sku', 'sku_id', 'product_slug', 'sku_default_attributes']);
-            $clonedEntry->product_code = 'master-' . $oldEntry->product_code;
+            $clonedEntry->product_code = 'master-'.$oldEntry->product_code;
             $clonedEntry->has_sku = true;
             $clonedEntry->sku_id = null;
             $clonedEntry->sku_default_attributes = json_encode($new_attribute);
-            $clonedEntry->product_slug = 'master-' . $oldEntry->product_slug;
+            $clonedEntry->product_slug = 'master-'.$oldEntry->product_slug;
 
             $existingProduct = Product::where('product_code', $clonedEntry->product_code)->first();
             if ($existingProduct) {
@@ -1428,7 +1428,7 @@ class ProductCrudController extends BackpackCustomCrudController
             }
 
             $clonedEntry->skuProducts()->attach($oldEntry->id);
-            $oldEntry->update(['sku_id' => $clonedEntry->id . '-' . $oldEntry->id]);
+            $oldEntry->update(['sku_id' => $clonedEntry->id.'-'.$oldEntry->id]);
 
             return 'true';
         } else {

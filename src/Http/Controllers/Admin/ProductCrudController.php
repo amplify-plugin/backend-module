@@ -920,22 +920,23 @@ class ProductCrudController extends BackpackCustomCrudController
         }
 
         // $this->crud->entry->productClassification->attributes()->sync($pivot['optionalSelectedAttributes']);
+        if (config('amplify.pim.use_classifications')) {
+            foreach ($pivot['optionalSelectedAttributes'] as $optional) {
+                $where = [
+                    'classification_id' => $optional['classification_id'] ?? $classification_id,
+                    'attribute_id' => $optional['attribute_id'],
+                ];
+                $optional['updated_at'] = now();
+                $optional['created_at'] = now();
+                $optional['boolean_titles'] = isset($optional['boolean_titles'])
+                    ? json_encode($optional['boolean_titles'])
+                    : null;
+                $optional['enums'] = isset($optional['enums'])
+                    ? json_encode($optional['enums'])
+                    : null;
 
-        foreach ($pivot['optionalSelectedAttributes'] as $optional) {
-            $where = [
-                'classification_id' => $optional['classification_id'] ?? $classification_id,
-                'attribute_id' => $optional['attribute_id'],
-            ];
-            $optional['updated_at'] = now();
-            $optional['created_at'] = now();
-            $optional['boolean_titles'] = isset($optional['boolean_titles'])
-                ? json_encode($optional['boolean_titles'])
-                : null;
-            $optional['enums'] = isset($optional['enums'])
-                ? json_encode($optional['enums'])
-                : null;
-
-            DB::table('attribute_product_classification')->updateOrInsert($where, $optional);
+                DB::table('attribute_product_classification')->updateOrInsert($where, $optional);
+            }
         }
 
         foreach ($pivot['productOptions'] as $productOption) {

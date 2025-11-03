@@ -118,7 +118,7 @@ class CartController extends Controller
 
                 $cart->cartItems()->create($cart_item_identifier + $source_info + [
                     'quantity' => $product_qty,
-                    'unitprice' => $product_price/$product_qty,
+                    'unitprice' => $product_price / $product_qty,
                     'subtotal' => $product_price,
                     'product_warehouse_code' => $warehouse_code,
                     'warehouse_id' => $warehouse_id,

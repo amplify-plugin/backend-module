@@ -12,7 +12,6 @@ Vue.component('FaqCreate', () => import('./views/pages/faq/Create.vue'));
 Vue.component('DataTransformationCreate', () => import('./views/pages/data-transformation/Create.vue'));
 
 Vue.component('CampaignCreate', () => import('./views/pages/campaign/Create.vue'));
-Vue.component('Registration', () => import('./views/pages/auth/Registration.vue'));
 
 Vue.component('IcecatTransformationCreate', () => import('./views/pages/icecat-transformation/Create.vue'));
 Vue.component('DataTransformationTestScreen', () => import('./views/pages/data-transformation/TestScreen'));
@@ -35,7 +34,6 @@ Vue.component('SettingEmail', () => import('./views/pages/settings/SettingEmail'
 Vue.component('EventAction', () => import('./views/pages/events/Action'));
 Vue.component('SelectTree', () => import('./views/components/SelectTree'));
 Vue.component('ProgressBar', () => import('./views/components/ProgressBar'));
-Vue.component('FirstMessageSender', () => import('./views/components/messanger/FirstMessageSender'));
 Vue.component('Configuration', () => import('./views/pages/configurations/Configuration.vue'));
 Vue.component('TemplateInstall', () => import('./views/pages/templates/Install.vue'));
 Vue.component('HeroSliderCreate', () => import('./views/pages/banner-slider/Create.vue'));
@@ -45,7 +43,6 @@ Vue.component('AdhocReport', () => import('./views/pages/report/adhoc'));
 // Frontend components
 Vue.component('FileManager', () => import('./views/components/Filemanager'));
 Vue.component('FileManagerPopup', () => import('./views/components/FilemanagerPopup'));
-Vue.component('ForgotPassword', () => import('./views/components/password/ForgotPassword'));
 
 //Quick Item Update
 Vue.component('CustomerQuickListUpdate', () => import('./views/pages/quick-lists/Update.vue'));

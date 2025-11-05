@@ -56,7 +56,22 @@
                             </span>
                             </td>
 
-                            <td>
+                            <td v-if="attribute.type === 'select'">
+                                <multiselect
+                                    v-model="attribute.attribute_value"
+                                    :options="JSON.parse(attribute.select_options).map(option => option.slug)"
+                                    :multiple="false"
+                                    :close-on-select="true"
+                                    :clear-on-select="false"
+                                    :preserve-search="true"
+                                    :hide-selected="true"
+                                    placeholder="Select option"
+                                >
+                                </multiselect>
+
+                            </td>
+
+                            <td v-else>
                                 <input type="text" class="form-control"
                                        v-model="attribute.attribute_value"
                                        :class="{'is-invalid': $parent.getErrorMessage('productAttributes', getOptionalAttributeIndex(index), 'attribute_value')}"

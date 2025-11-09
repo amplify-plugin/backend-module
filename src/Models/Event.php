@@ -65,6 +65,8 @@ class Event extends Model implements Auditable
 
     const CREATE_ORDER_FROM_QUOTATION = 'create_order_from_quotation';
 
+    const CUSTOMER_PART_NUMBER_DELETED = 'customer_part_number_deleted';
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

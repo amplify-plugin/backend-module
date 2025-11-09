@@ -399,6 +399,25 @@ class EventSeeder extends Seeder
                         new EventRecipent(['name' => 'Quotation Sales Person', 'event_action_field' => 'is_quote_sales_person', 'description' => 'ERP Sales Person', 'enabled' => true]),
                     ],
                 ],
+                [
+                    'name' => 'Customer Part Number Deleted',
+                    'code' => 'customer_part_number_deleted',
+                    'enabled' => true,
+                    'description' => 'Customer Part Number Deleted',
+                    'eventVariables' => [
+                        new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
+                        new EventVariable(['name' => '__customer_code__', 'value' => '', 'description' => 'ERP Code of the customer', 'for_admin' => false]),
+                        new EventVariable(['name' => '__product_code__', 'value' => '', 'description' => 'Product Real Code', 'for_admin' => false]),
+                        new EventVariable(['name' => '__product_name__', 'value' => '', 'description' => 'Product Name', 'for_admin' => false]),
+                        new EventVariable(['name' => '__customer_part_number__', 'value' => '', 'description' => 'Customer Part Number', 'for_admin' => false]),
+                    ],
+                    'eventRecipents' => [
+                        new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
+                        new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false]),
+                        new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false]),
+                        new EventRecipent(['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false]),
+                    ],
+                ],
             ];
 
             foreach ($events as $event) {

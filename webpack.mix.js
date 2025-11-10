@@ -26,13 +26,7 @@ mix.options({
             },
         },
     },
-    hmrOptions: {
-        host: 'localhost', // or your local IP / domain
-        port: 8000         // change this to any port you want
-    }
-})
-    .setPublicPath('public')
-    .setResourceRoot('resources')
+}).setPublicPath('public')
     .sass('resources/scss/backend.scss', 'public/css/backend.css')
     .copyDirectory('resources/js', 'public/js/')
     .copyDirectory('resources/css', 'public/css/')
@@ -52,19 +46,6 @@ mix.options({
         ],
         output: {
             chunkFilename: 'js/[name].js',
-            publicPath: 'http://localhost:8000/vendor/backend/',
+            publicPath: '/vendor/backend/',
         }
-    })
-    .browserSync({
-        proxy:'http://localhost:8000',
-        host: 'localhost',
-        port: 3000,
-        open: false,
-        files : [
-            'src/**/*.php',
-            'resources/views/**/*.php',
-            'public/**/*.js',
-            'public/**/*.css'
-        ]
-    })
-    .version();
+    }).version();

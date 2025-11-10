@@ -57,21 +57,6 @@
                 </select>
                 <small v-if="$parent.validationErrors.price" class="text-danger mt-3">{{ $parent.validationErrors.price[0] }}</small>
             </div>
-            <div class="form-group col-md-4">
-                <label :class="{ 'text-danger': $parent.validationErrors.special }">Special</label>
-                <select v-model="$parent.flags.special" class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.special }">
-                    <option value="B">B - Discontinued</option>
-                    <option value="C">C - Closeout</option>
-                    <option value="F">F - Flyer Items</option>
-                    <option value="M">M - Made in USA</option>
-                    <option value="N">N - New Products</option>
-                    <option value="O">O - Overstock Items</option>
-                    <option value="U">U - Used Equipment</option>
-                    <option value="Z">Z - Nothing</option>
-                </select>
-                <small v-if="$parent.validationErrors.special" class="text-danger mt-3">{{ $parent.validationErrors.special[0] }}</small>
-            </div>
         </div>
 
         <div class="row">

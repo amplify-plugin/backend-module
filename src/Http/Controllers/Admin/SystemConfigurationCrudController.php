@@ -267,7 +267,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
                 $options = implode(' ', array_map(fn ($date) => "--date=\"{$date}\"", $request->input('dates')));
 
-                Artisan::call('app:incremental-catalog-update '.$options.' --delay='.$delay);
+                Artisan::call('amplify:incremental-catalog-update '.$options.' --delay='.$delay);
 
                 return [
                     'status' => 'success',

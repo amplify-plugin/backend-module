@@ -44,8 +44,6 @@ class CartController extends Controller
      */
     public function addToCart(QuickOrderAddToOrderRequest $request)
     {
-        abort_if(! haveAnyPermissions(['shop.add-to-cart', 'order.add-to-cart']), 403, 'You don\'t have permission to add to cart.');
-
         if (! ErpApi::enabled()) {
             return $this->apiResponse(false, 'ERP service not enabled.');
         }

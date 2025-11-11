@@ -13,7 +13,7 @@ class QuickOrderAddToOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return haveAnyPermissions(['shop.add-to-cart', 'order.add-to-cart']);
     }
 
     /**
@@ -24,7 +24,7 @@ class QuickOrderAddToOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'products' => 'required|array',
+            'products' => 'required|array|min:1',
             'products.*.product_code' => 'required',
             'products.*.product_warehouse_code' => 'nullable',
             'products.*.qty' => 'required|numeric|min:1',

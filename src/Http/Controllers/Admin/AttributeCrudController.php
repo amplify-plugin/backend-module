@@ -13,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 
 /**
@@ -54,6 +55,7 @@ class AttributeCrudController extends BackpackCustomCrudController
         'decimal' => 'Decimal',
         'boolean' => 'Boolean',
         'enum' => 'Enum',
+        'select' => 'Select',
     ];
 
     /**
@@ -118,8 +120,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $use_as_filter = $attribute->use_as_filter ?? false;
 
                 return "<i class='la la-".($use_as_filter
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -131,8 +133,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $searchable = $attribute->searchable ?? false;
 
                 return "<i class='la la-".($searchable
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -186,8 +188,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $has_range = $attribute->has_range ?? false;
 
                 return "<i class='la la-".($has_range
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -199,8 +201,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $use_as_filter = $attribute->use_as_filter ?? false;
 
                 return "<i class='la la-".($use_as_filter
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -212,8 +214,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $searchable = $attribute->searchable ?? false;
 
                 return "<i class='la la-".($searchable
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -225,8 +227,8 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $tunable = $attribute->tunable ?? false;
 
                 return "<i class='la la-".($tunable
-                        ? 'check text-success'
-                        : 'times text-danger')."'></i>";
+                    ? 'check text-success'
+                    : 'times text-danger')."'></i>";
             },
         ]);
 
@@ -255,26 +257,40 @@ class AttributeCrudController extends BackpackCustomCrudController
 
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['attribute'] = $this->crud->model->find(request()->id);
+        Widget::add()->type('script')->content(asset('vendor/backend/js/forms/attributes.js').'?v='.config('backpack.base.cachebusting_string'));
 
-        $this->crud->setCreateView('backend::pages.attribute.create');
+        // $this->crud->setCreateView('backend::pages.attribute.create');
 
-        CRUD::addField([
-            'name' => 'hide',
-            'type' => 'custom_html',
-            'value' => '<style> .close.delete-element {display: none} </style>',
-        ]);
+        // CRUD::addField([
+        //     'name' => 'hide',
+        //     'type' => 'custom_html',
+        //     'value' => '<style> .close.delete-element {display: none} </style>',
+        // ]);
 
         CRUD::addField([
             'name' => 'name',
+            'type' => 'text',
+            'label' => 'Display Name',
+            'attributes' => [
+                'placeholder' => 'Attribute Name',
+            ],
         ]);
 
         CRUD::addField([
             'name' => 'slug',
+            'type' => 'text',
+            'label' => 'Name',
+            'attributes' => [
+                'placeholder' => 'attribute-name',
+            ],
         ]);
 
         CRUD::addField([
             'name' => 'description',
-            'type' => 'text',
+            'type' => 'textarea',
+            'attributes' => [
+                'placeholder' => 'Attribute Description',
+            ],
         ]);
 
         CRUD::addField([
@@ -282,37 +298,59 @@ class AttributeCrudController extends BackpackCustomCrudController
             'type' => 'select_from_array',
             'options' => $this->types,
             'allows_null' => false,
+            'attributes' => [
+                'id' => 'attribute_type',
+            ],
+        ]);
+
+        CRUD::addField([
+            'name' => 'select_options',
+            'label' => 'Select Options',
+            'type' => 'table',
+            'columns' => [
+                'slug' => 'Slug',
+                'label' => 'Label',
+            ],
         ]);
 
         CRUD::addField([
             'name' => 'unit',
             'type' => 'text',
             'allows_null' => false,
+            'attributes' => [
+                'placeholder' => 'Type unit here...',
+            ],
         ]);
 
         CRUD::addField([
             'name' => 'is_required',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'has_range',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'use_as_filter',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'is_updated',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'searchable',
+            'type' => 'checkbox',
         ]);
 
         CRUD::addField([
             'name' => 'tunable',
             'label' => 'Treat As Column',
+            'type' => 'checkbox',
         ]);
     }
 
@@ -381,7 +419,7 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->setUpdateView('backend::pages.attribute.create');
+        // $this->crud->setUpdateView('backend::pages.attribute.create');
         $this->setupCreateOperation();
     }
 }

@@ -32,7 +32,7 @@ class Attribute extends Model implements ContractsAuditable
 
     protected $fillable = [
         'name', 'slug', 'description', 'is_new', 'is_updated', 'has_range', 'use_as_filter', 'searchable', 'tunable',
-        'unit', 'type', 'traceparts_attribute_id',
+        'unit', 'type', 'traceparts_attribute_id', 'select_options',
     ];
 
     // protected $hidden = [];

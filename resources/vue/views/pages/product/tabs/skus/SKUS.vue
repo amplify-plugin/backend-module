@@ -527,7 +527,22 @@ export default {
                 axios.post(url)
                     .then(({data}) => {
                         if (!data.noResultsMessage) {
-                            let { products } = data.source;
+                            let products = [];
+
+                            if ('products' in data) {
+                                products = data.products;
+                            } else if ('source' in data && 'products' in data.source) {
+                                products = data.source.products
+                            }
+
+                            if (products.length === 0) {
+                                new Noty({
+                                    type: "warning",
+                                    text: 'Product not found'
+                                }).show();
+                                return;
+                            }
+
                             if (products?.items && products.items.length > 0) {
                                 products.items.map((product, index) => {
                                     product.isSkuProduct = (JSON.parse(product.Sku_List).length === 1 && product?.Sku_ProductCode && (product.Sku_ProductCode === JSON.parse(product.Sku_List)[0][1])) ?? false;

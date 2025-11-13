@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 class CartController extends Controller
 {
     public function __construct()
@@ -365,9 +366,126 @@ class CartController extends Controller
      */
     protected function apiResponse(bool $success, string $message, int $status = 200, array $extra = []): \Illuminate\Http\JsonResponse
     {
-        return response()->json(array_merge([
-            'success' => $success,
-            'message' => $message,
-        ], $extra), $status);
+        return response()->json(
+            array_merge(
+                [
+                    'success' => $success,
+                    'message' => $message,
+                ],
+                $extra,
+            ),
+            $status,
+        );
+    }
+
+    public function checkShipping(Request $request)
+    {
+        // basic payload validation (keep minimal)
+        $v = Validator::make($request->all(), [
+            'customer_country' => 'required|string',
+        ]);
+        if ($v->fails()) {
+            return response()->json(['message' => 'Invalid payload.', 'errors' => $v->errors()], 422);
+        }
+
+        $cart = getCart();
+        if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
+            return response()->json(['restricted_items' => [], 'minimum_order_required' => false], 200);
+        }
+        // Build warehouse string (same logic used in Checkout widget)
+        $warehouses = ErpApi::getWarehouses([['enabled', '=', true]]);
+        $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
+
+        $customer = ErpApi::getCustomerDetail();
+        if (!Str::contains($warehouseString, $customer->DefaultWarehouse)) {
+            $warehouseString = "$warehouseString,{$customer->DefaultWarehouse}";
+        }
+
+        // Build items list for ERP call from cart items
+        $items = [];
+        foreach ($cart->cartItems as $ci) {
+            $items[] = array_filter([
+                'item' => $ci->product_code,
+                'uom' => $ci->uom,
+            ]);
+        }
+
+        // ship_to_address_code data sent to ERP
+        $ship_to_address = $request->ship_to_number;
+
+        // Call ERP
+        $priceAvailability = ErpApi::getProductPriceAvailability([
+            'items' => $items,
+            'warehouse' => $warehouseString,
+            'ship_to_address' => $ship_to_address,
+        ]);
+
+        // Determine restricted items
+        $restricted = [];
+        $addedItems = []; // track added product codes
+        // Build a lookup from cart items keyed by product_code
+        $cartItemMap = [];
+        foreach ($cart->cartItems as $ci) {
+            $info = is_array($ci->additional_info) ? $ci->additional_info : json_decode($ci->additional_info, true) ?? [];
+
+            $cartItemMap[$ci->product_code] = [
+                'cart_item_id' => $ci->id,
+                'ship_restriction' => $info['ship_restriction'] ?? null,
+            ];
+        }
+
+        // priceAvailability may contain one or more entries per item (grouped by warehouse/seq)
+        foreach ($priceAvailability as $entry) {
+            $itemCode = $entry['ItemNumber'] ?? null;
+            // Skip if already added
+            if (isset($addedItems[$itemCode])) {
+                continue;
+            }
+
+            $isRestricted = isset($entry['ItemRestricted']) ? boolval($entry['ItemRestricted']) : false;
+
+            if ($isRestricted) {
+                $cartInfo = $cartItemMap[$itemCode] ?? [];
+
+                $restricted[] = [
+                    'cart_item_id' => $cartInfo['cart_item_id'] ?? null, // ✅ get id from cart
+                    'product_code' => $itemCode,
+                    'warehouse' => $entry['WarehouseID'] ?? null,
+                    'price' => $entry['Price'] ?? null,
+                    'uom' => $entry['UnitOfMeasure'] ?? null,
+                    'quantity_available' => isset($entry['QuantityAvailable']) ? (int) $entry['QuantityAvailable'] : $entry['netavail'] ?? null,
+                    'ship_restriction' => $cartInfo['ship_restriction'] ?? null,
+                ];
+
+                $addedItems[$itemCode] = true; // mark as added
+            }
+        }
+
+        // Check outside-country minimum order threshold
+        $country = strtoupper($request->customer_country ?? '');
+        $outside_country = $country !== 'US' && $country !== 'CA' && $country !== '';
+        $subtotal = (float) $cart->total; // fallback to cart total property if available
+        if (empty($subtotal)) {
+            $subtotal = $cart->cartItems->sum(function ($i) {
+                return ($i->unitprice ?? 0) * ($i->quantity ?? 0);
+            });
+        }
+
+        $minimum_order_required = false;
+        $minimum_order_message = null;
+        if ($outside_country && $subtotal < 250) {
+            $minimum_order_required = true;
+            $minimum_order_message = 'Orders shipping outside the US/Canada must have a minimum order value of $250.';
+        }
+
+        return response()->json(
+            [
+                'restricted_items' => $restricted,
+                'minimum_order_required' => $minimum_order_required,
+                'minimum_order_message' => $minimum_order_message,
+                'price_availability' => $priceAvailability,
+            ],
+            200,
+        );
     }
 }

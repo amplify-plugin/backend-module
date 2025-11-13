@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+
 class CartController extends Controller
 {
     public function __construct()
@@ -389,7 +390,7 @@ class CartController extends Controller
         }
 
         $cart = getCart();
-        if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
+        if (! $cart instanceof Cart || $cart->cartItems()->count() === 0) {
             return response()->json(['restricted_items' => [], 'minimum_order_required' => false], 200);
         }
         // Build warehouse string (same logic used in Checkout widget)
@@ -397,7 +398,7 @@ class CartController extends Controller
         $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
 
         $customer = ErpApi::getCustomerDetail();
-        if (!Str::contains($warehouseString, $customer->DefaultWarehouse)) {
+        if (! Str::contains($warehouseString, $customer->DefaultWarehouse)) {
             $warehouseString = "$warehouseString,{$customer->DefaultWarehouse}";
         }
 

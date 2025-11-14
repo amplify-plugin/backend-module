@@ -390,7 +390,7 @@ class CartController extends Controller
 
         $cart = getCart();
         if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
-            return response()->json(['restricted_items' => [], 'minimum_order_required' => false], 200);
+            return response()->json(['restricted_items' => []], 200);
         }
         // Build warehouse string (same logic used in Checkout widget)
         $warehouses = ErpApi::getWarehouses([['enabled', '=', true]]);
@@ -461,28 +461,10 @@ class CartController extends Controller
             }
         }
 
-        // Check outside-country minimum order threshold
-        $country = strtoupper($request->customer_country ?? '');
-        $outside_country = $country !== 'US' && $country !== 'CA' && $country !== '';
-        $subtotal = (float) $cart->total; // fallback to cart total property if available
-        if (empty($subtotal)) {
-            $subtotal = $cart->cartItems->sum(function ($i) {
-                return ($i->unitprice ?? 0) * ($i->quantity ?? 0);
-            });
-        }
-
-        $minimum_order_required = false;
-        $minimum_order_message = null;
-        if ($outside_country && $subtotal < 250) {
-            $minimum_order_required = true;
-            $minimum_order_message = 'Orders shipping outside the US/Canada must have a minimum order value of $250.';
-        }
-
+        // Return response
         return response()->json(
             [
                 'restricted_items' => $restricted,
-                'minimum_order_required' => $minimum_order_required,
-                'minimum_order_message' => $minimum_order_message,
                 'price_availability' => $priceAvailability,
             ],
             200,

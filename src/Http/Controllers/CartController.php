@@ -390,7 +390,7 @@ class CartController extends Controller
         }
 
         $cart = getCart();
-        if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
+        if (! $cart instanceof Cart || $cart->cartItems()->count() === 0) {
             return response()->json(['restricted_items' => []], 200);
         }
         // Build warehouse string (same logic used in Checkout widget)

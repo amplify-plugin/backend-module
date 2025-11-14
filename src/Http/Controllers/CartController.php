@@ -87,6 +87,7 @@ class CartController extends Controller
 
                 if ($erpProduct->ItemRestricted) {
                     $restrictedMessage = "Please change the shipping address.{$dbProduct->ship_restriction}";
+
                     return $this->apiResponse(false, $restrictedMessage, 422);
                 }
 
@@ -305,7 +306,7 @@ class CartController extends Controller
         $itemWarehouse = $customer?->DefaultWarehouse;
         // get selected shipping address from session or fallback to customer default
         $shipToAddress = session('ship_to_address.ShipToNumber') ?? $customer?->DefaultShipTo;
-        
+
         if (is_array($codes)) {
             $items = array_map(function ($item) use (&$itemWarehouse) {
                 if (! empty($item['product_warehouse_code'])) {

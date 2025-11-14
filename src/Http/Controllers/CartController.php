@@ -85,6 +85,11 @@ class CartController extends Controller
 
                 $erpProduct = $erpProductDetails->firstWhere('ItemNumber', '=', $product_code);
 
+                if ($erpProduct->ItemRestricted) {
+                    $restrictedMessage = "Please change the shipping address.{$dbProduct->ship_restriction}";
+                    return $this->apiResponse(false, $restrictedMessage, 422);
+                }
+
                 $product_price = $this->generateProductPrice($product, $erpProduct);
 
                 $cart_item_identifier = [
@@ -295,8 +300,12 @@ class CartController extends Controller
      */
     public static function getERPInfo(array|string $codes, int $quantity = 1, $warehouse = null)
     {
-        $itemWarehouse = ErpApi::getCustomerDetail()?->DefaultWarehouse ?? null;
-
+        $customer = ErpApi::getCustomerDetail();
+        // get default warehouse
+        $itemWarehouse = $customer?->DefaultWarehouse;
+        // get selected shipping address from session or fallback to customer default
+        $shipToAddress = session('ship_to_address.ShipToNumber') ?? $customer?->DefaultShipTo;
+        
         if (is_array($codes)) {
             $items = array_map(function ($item) use (&$itemWarehouse) {
                 if (! empty($item['product_warehouse_code'])) {
@@ -327,6 +336,7 @@ class CartController extends Controller
         return ErpApi::getProductPriceAvailability([
             'items' => $items,
             'warehouse' => $itemWarehouse,
+            'ship_to_address' => $shipToAddress,
         ]);
     }
 

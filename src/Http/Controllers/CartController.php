@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+
 class CartController extends Controller
 {
     public function __construct()
@@ -397,7 +398,7 @@ class CartController extends Controller
         $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
 
         $customer = ErpApi::getCustomerDetail();
-        if (!Str::contains($warehouseString, $customer->DefaultWarehouse)) {
+        if (! Str::contains($warehouseString, $customer->DefaultWarehouse)) {
             $warehouseString = "$warehouseString,{$customer->DefaultWarehouse}";
         }
 

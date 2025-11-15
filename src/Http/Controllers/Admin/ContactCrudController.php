@@ -889,6 +889,9 @@ class ContactCrudController extends BackpackCustomCrudController
         // Clear application cache
         Cache::clear();
 
+        // Clear specific session data (shipping address)
+        session()->forget('ship_to_address');
+
         Auth::guard(Contact::AUTH_GUARD)->login($contact);
 
         event(new ContactLoggedIn($contact));

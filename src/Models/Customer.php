@@ -22,6 +22,7 @@ class Customer extends Model implements Auditable
     const UNAPPROVED = false;
 
     use CrudTrait, CustomerERPIDAttribute, HasFactory;
+
     // use HasTranslations;
 
     /*
@@ -54,9 +55,9 @@ class Customer extends Model implements Auditable
 
         static::deleting(function ($model) {
 
-            $model->contacts->each(fn (Contact $contact) => $contact->delete());
+            $model->contacts->each(fn(Contact $contact) => $contact->delete());
 
-            $model->addresses->each(fn (CustomerAddress $customerAddress) => $customerAddress->delete());
+            $model->addresses->each(fn(CustomerAddress $customerAddress) => $customerAddress->delete());
         });
 
     }
@@ -117,6 +118,11 @@ class Customer extends Model implements Auditable
         return $this->belongsTo(IndustryClassification::class);
     }
 
+    public function defaultAddress(): HasOne
+    {
+        return $this->hasOne(CustomerAddress::class, 'id', 'default_address_id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -148,7 +154,7 @@ class Customer extends Model implements Auditable
      */
     public function setPunchOutConfigurationAttribute($value)
     {
-        $this->attributes['punch_out_configuration'] = (bool) $this->punch_out
+        $this->attributes['punch_out_configuration'] = (bool)$this->punch_out
             ? $value
             : null;
     }
@@ -156,6 +162,6 @@ class Customer extends Model implements Auditable
     // Define the display_name accessor
     public function getDisplayNameAttribute()
     {
-        return $this->customer_name.' - '.$this->customer_code;
+        return $this->customer_name . ' - ' . $this->customer_code;
     }
 }

@@ -29,7 +29,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(\Amplify\System\Backend\Models\EventTemplate::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event-template');
-        CRUD::setEntityNameStrings('event-template', 'notification themes');
+        CRUD::setEntityNameStrings('template', 'templates');
     }
 
     /**

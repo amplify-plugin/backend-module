@@ -67,6 +67,8 @@ class Event extends Model implements Auditable
 
     const CUSTOMER_PART_NUMBER_DELETED = 'customer_part_number_deleted';
 
+    const CUSTOMER_REGISTRATION_REPORT_GENERATED = 'customer_registration_report_generated';
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

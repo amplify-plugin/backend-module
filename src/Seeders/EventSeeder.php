@@ -418,6 +418,20 @@ class EventSeeder extends Seeder
                         new EventRecipent(['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false]),
                     ],
                 ],
+                [
+                    'name' => 'Customer Registration Report Generated',
+                    'code' => 'customer_registration_report_generated',
+                    'enabled' => true,
+                    'description' => 'Customer Registration Report Generated',
+                    'eventVariables' => [
+                        new EventVariable(['name' => '__interval_in_days__', 'value' => '', 'description' => 'Number of days report is generated', 'for_admin' => false]),
+                        new EventVariable(['name' => '__report_start_date__', 'value' => '', 'description' => 'Date from report started', 'for_admin' => false]),
+                        new EventVariable(['name' => '__report_end_date__', 'value' => 'Date from report end', 'description' => 'Product Real Code', 'for_admin' => false]),
+                    ],
+                    'eventRecipents' => [
+                        new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
+                    ],
+                ],
             ];
 
             foreach ($events as $event) {

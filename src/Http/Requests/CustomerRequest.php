@@ -38,6 +38,13 @@ class CustomerRequest extends FormRequest
             'customer_type' => 'nullable',
             'is_suspended' => 'boolean|nullable',
             'warehouse_seq_code' => 'string|nullable',
+            'address_1' => 'required|string',
+            'address_2' => 'nullable|string',
+            'address_3' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country_code' => 'nullable|string',
+            'zip_code' => 'nullable|string',
 
             // contact validate
             'contact' => 'required|array|min:1',

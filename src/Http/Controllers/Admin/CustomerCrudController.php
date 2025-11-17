@@ -243,10 +243,70 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::field('free_shipment_amount')->type('number')->tab('Basic');
         CRUD::field('is_suspended')->type('boolean')->tab('Basic');
         // ADDRESS
+        CRUD::addFields([
+            [
+                'name' => 'address_1',
+                'type' => 'text',
+                'label' => 'Address Line 1',
+                'tab' => 'Addresses',
+                'allows_null' => false,
+            ],
+            [
+                'name' => 'address_2',
+                'type' => 'text',
+                'label' => 'Address Line 2',
+                'tab' => 'Addresses',
+            ],
+            [
+                'name' => 'address_3',
+                'type' => 'text',
+                'label' => 'Address Line 3',
+                'tab' => 'Addresses',
+            ],
+            [
+                'name' => 'city',
+                'type' => 'text',
+                'label' => 'City',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'state',
+                'type' => 'text',
+                'label' => 'State',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'country_code',
+                'type' => 'text',
+                'label' => 'Country',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'zip_code',
+                'type' => 'text',
+                'label' => 'Zip Code',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+        ]);
+
         CRUD::addField([
             'name' => 'addresses',
+            'label' => 'Ship To Addresses',
             'type' => 'relationship',
             'tab' => 'Addresses',
+            'new_item_label' => 'New Ship To Address',
             'subfields' => [
                 [
                     'name' => 'address_code',

@@ -28,7 +28,7 @@ class QuickOrderAddToOrderRequest extends FormRequest
             'products.*.product_code' => 'required',
             'products.*.product_warehouse_code' => 'nullable',
             'products.*.qty' => 'required|numeric|min:1',
-            'products.*.source_type' => 'nullable|in:Quote,Promo',
+            'products.*.source_type' => 'nullable|string|in:Quote,Promo',
             'products.*.source' => 'required_if:source_type,Quote,Promo',
             'products.*.expiry_date' => 'required_if:source_type,Quote,Promo',
             'products.*.additional_info' => 'required_if:source_type,Quote,Promo|array',

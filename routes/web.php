@@ -294,3 +294,5 @@ Route::get('get-page-data', [SystemConfigurationCrudController::class, 'getPageD
 
 Route::post('campaign-store', [CampaignCrudController::class, 'store'])->name('admin.campaign.store');
 Route::put('campaign-update/{campaign?}', [CampaignCrudController::class, 'update'])->name('admin.campaign.update');
+
+Route::view('google-analytic', 'backend::google-analytics.index');

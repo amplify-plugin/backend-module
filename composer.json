@@ -12,7 +12,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-
+        "spatie/laravel-analytics": "*"
     },
     "require-dev": {
     },

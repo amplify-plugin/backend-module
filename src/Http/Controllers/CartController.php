@@ -8,14 +8,15 @@ use Amplify\Frontend\Http\Resources\CartResource;
 use Amplify\System\Backend\Http\Requests\Orders\QuickOrderAddToOrderRequest;
 use Amplify\System\Backend\Models\Cart;
 use Amplify\System\Backend\Models\CartItem;
-use Amplify\System\Backend\Models\Product;
+use Amplify\System\Pipelines\AddToCart;
 use Amplify\Widget\Components\CartSummary;
 use App\Http\Controllers\Controller;
 use ErrorException;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -24,7 +25,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        if (! config('amplify.frontend.guest_add_to_cart')) {
+        if (!config('amplify.frontend.guest_add_to_cart')) {
             $this->middleware('customers');
         }
     }
@@ -46,112 +47,111 @@ class CartController extends Controller
      */
     public function addToCart(QuickOrderAddToOrderRequest $request)
     {
-        if (! ErpApi::enabled()) {
-            return $this->apiResponse(false, 'ERP service not enabled.');
-        }
-
         DB::beginTransaction();
-
         try {
-            $is_added_to_cart = false;
-            $erpProductDetails = $this->getERPInfo($request->input('products', []));
-
-            if ($erpProductDetails->isEmpty()) {
-                return $this->apiResponse(false, product_not_avail_message(), 404);
-            }
-
-            $warehouses = ErpApi::getWarehouses();
+            $data = app(Pipeline::class)
+                ->send(['meta' => [], 'items' => $request->input('products')])
+                ->through([
+                    AddToCart\ErpIsEnabled::class,
+                    AddToCart\DataPreparation::class,
+//                    AddToCart\OnlyDefaultWarehouse::class,
+//                    AddToCart\SingleWarehouseForCart::class,
+                    AddToCart\ErpInventory::class,
+                    ...config('amplify.add_to_cart_pipeline', [])
+                ])
+                ->thenReturn();
 
             $cart = getOrCreateCart();
 
-            foreach ($request->input('products', []) as $product) {
-                $source_info = [];
-                $product_code = $product['product_code'];
-                $product_warehouse_code = $product['product_warehouse_code'] ?? $this->getContactWarehouse();
-                $warehouse = $warehouses->firstWhere('WarehouseNumber', '=', $product_warehouse_code);
-                $warehouse_id = ($warehouse) ? $warehouse->InternalId : null;
-                $warehouse_code = ($warehouse) ? $warehouse->WarehouseNumber : null;
-                $product_qty = $product['qty'];
-                $dbProduct = Product::with('productImage')->whereProductCode($product_code)->first();
-
-                if (! $dbProduct) {
-                    return $this->apiResponse(false, "Product with code {$product_code} is not available.", 404);
-                }
-
-                $minQty = (int) ($dbProduct->min_order_qty ?? 0);
-                if ($minQty > 0 && $product_qty < $minQty) {
-                    return $this->apiResponse(false, "Product {$product_code} requires a minimum order quantity of {$minQty}. You entered {$product_qty}.", 422);
-                }
-
-                $erpProduct = $erpProductDetails->firstWhere('ItemNumber', '=', $product_code);
-
-                if ($erpProduct->ItemRestricted) {
-                    $restrictedMessage = "Please change the shipping address.{$dbProduct->ship_restriction}";
-
-                    return $this->apiResponse(false, $restrictedMessage, 422);
-                }
-
-                $product_price = $this->generateProductPrice($product, $erpProduct);
-
-                $cart_item_identifier = [
-                    'product_id' => $dbProduct->id,
-                    'product_code' => $product_code,
-                ];
-
-                if (isset($product['source_type'])) {
-                    $source_info['source_type'] = $product['source_type'] ?? null;
-                    $source_info[''] = $product['source'] ?? null;
-                    $source_info['expiry_date'] = $product['expiry_date'] ?? null;
-                    $source_info['additional_info'] = $product['additional_info'] ?? null;
-                } elseif (config('amplify.pim.use_minimum_order_quantity')) {
-                    $source_info['additional_info'] = [
-                        'minimum_quantity' => $dbProduct->min_order_qty,
-                        'quantity_interval' => $dbProduct->qty_interval,
-                    ];
-                }
-
-                $source_info['additional_info']['own_truck_only'] = $erpProduct->OwnTruckOnly ?? false;
-                $source_info['additional_info']['in_stock'] = $dbProduct->in_stock ?? false;
-                $source_info['additional_info']['is_ncnr'] = $dbProduct->is_ncnr ?? false;
-                $source_info['additional_info']['ship_restriction'] = $dbProduct->ship_restriction ?? null;
-
-                $cart->cartItems()->where($cart_item_identifier)->delete();
-
-                throw_if((ErpApi::useSingleWarehouseInCart() && $cart->cartItems->count())
-                    && ! $cart->cartItems()->whereProductWarehouseCode($product_warehouse_code)->exists(),
-                    new Exception('Sorry, you cannot add multiple item orders to multiple warehouses at once. Please order separately.')
-                );
-
-                $cart->cartItems()->create($cart_item_identifier + $source_info + [
-                    'quantity' => $product_qty,
-                    'unitprice' => $product_price / $product_qty,
-                    'subtotal' => $product_price,
-                    'product_warehouse_code' => $warehouse_code,
-                    'warehouse_id' => $warehouse_id,
-                    'address_id' => customer_check() ? customer(true)->customer_address_id : null,
-                    'product_name' => $dbProduct->product_name,
-                    'product_image' => $dbProduct->productImage->main ?? null,
-                ]);
-
-                if (! $is_added_to_cart) {
-                    $is_added_to_cart = true;
-                }
+            if (!$cart->wasRecentlyCreated) {
+                $cart->cartItems()->whereIn('product_id', collect($data['items'])->pluck('product_id')->toArray())->delete();
             }
+
+            $cart->cartItems()->createMany($data['items']);
 
             DB::commit();
 
             return response()->json([
-                'success' => $is_added_to_cart,
-                'message' => $is_added_to_cart ? 'Added to the order successfully.' : 'Product not available, Try again later.',
-            ], $is_added_to_cart ? 200 : 500);
-        } catch (\Throwable $th) {
+                'success' => true,
+                'message' => 'Product(s) added to cart successfully.'
+            ]);
+
+        } catch (\Exception $exception) {
+
             DB::rollBack();
 
-            return response()->json([
-                'success' => false,
-                'message' => $th->getMessage(),
-            ], 500);
+            Log::debug($exception);
+
+            return $this->apiResponse(false, $exception->getMessage(), 500);
         }
+
+//        try {
+//            $cart = getOrCreateCart();
+//
+//            foreach ($request->input('products', []) as $product) {
+//
+//
+//                $product_price = $this->generateProductPrice($product, $erpProduct);
+//
+//                $cart_item_identifier = [
+//                    'product_id' => $dbProduct->id,
+//                    'product_code' => $product_code,
+//                ];
+//
+////                if (isset($product['source_type'])) {
+////                    $source_info['source_type'] = $product['source_type'] ?? null;
+////                    $source_info[''] = $product['source'] ?? null;
+////                    $source_info['expiry_date'] = $product['expiry_date'] ?? null;
+////                    $source_info['additional_info'] = $product['additional_info'] ?? null;
+////                } elseif (config('amplify.pim.use_minimum_order_quantity')) {
+////                    $source_info['additional_info'] = [
+////                        'minimum_quantity' => $dbProduct->min_order_qty,
+////                        'quantity_interval' => $dbProduct->qty_interval,
+////                    ];
+////                }
+////
+////                $source_info['additional_info']['own_truck_only'] = $erpProduct->OwnTruckOnly ?? false;
+////                $source_info['additional_info']['in_stock'] = $dbProduct->in_stock ?? false;
+////                $source_info['additional_info']['is_ncnr'] = $dbProduct->is_ncnr ?? false;
+////                $source_info['additional_info']['ship_restriction'] = $dbProduct->ship_restriction ?? null;
+//
+//                $cart->cartItems()->where($cart_item_identifier)->delete();
+//
+////                throw_if((ErpApi::useSingleWarehouseInCart() && $cart->cartItems->count())
+////                    && !$cart->cartItems()->whereProductWarehouseCode($product_warehouse_code)->exists(),
+////                    new Exception()
+////                );
+//
+////                $cart->cartItems()->create($cart_item_identifier + $source_info + [
+////                        'quantity' => $product_qty,
+////                        'unitprice' => $product_price / $product_qty,
+////                        'subtotal' => $product_price,
+////                        'product_warehouse_code' => $warehouse_code,
+////                        'warehouse_id' => $warehouse_id,
+////                        'address_id' => customer_check() ? customer(true)->customer_address_id : null,
+////                        'product_name' => $dbProduct->product_name,
+////                        'product_image' => $dbProduct->productImage->main ?? null,
+////                    ]);
+////
+////                if (!$is_added_to_cart) {
+////                    $is_added_to_cart = true;
+////                }
+//            }
+//
+//
+//
+////            return response()->json([
+////                'success' => $is_added_to_cart,
+////                'message' => $is_added_to_cart ? 'Added to the order successfully.' : 'Product not available, Try again later.',
+////            ], $is_added_to_cart ? 200 : 500);
+//        } catch (\Throwable $th) {
+//            DB::rollBack();
+//
+//            return response()->json([
+//                'success' => false,
+//                'message' => $th->getMessage(),
+//            ], 500);
+//        }
     }
 
     public function getCarts()
@@ -309,7 +309,7 @@ class CartController extends Controller
 
         if (is_array($codes)) {
             $items = array_map(function ($item) use (&$itemWarehouse) {
-                if (! empty($item['product_warehouse_code'])) {
+                if (!empty($item['product_warehouse_code'])) {
                     $itemWarehouse = $item['product_warehouse_code'];
                 }
 
@@ -354,17 +354,17 @@ class CartController extends Controller
                 $product_price = customer_check() ? $erpProduct->Price : ($erpProduct->ListPrice ?? $erpProduct->Price);
                 break;
 
-                //            default:
-                //                for ($i = 1; $i <= 6; $i++) {
-                //                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
-                //                        $product_price = $erpProduct["QtyPrice_{$i}"];
-                //
-                //                        continue;
-                //                    }
-                //                    break;
-                //                }
-                //
-                //                break;
+            //            default:
+            //                for ($i = 1; $i <= 6; $i++) {
+            //                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
+            //                        $product_price = $erpProduct["QtyPrice_{$i}"];
+            //
+            //                        continue;
+            //                    }
+            //                    break;
+            //                }
+            //
+            //                break;
         }
 
         return floatval(str_replace(',', '', $product_price));
@@ -373,8 +373,8 @@ class CartController extends Controller
     /**
      * Build a standardized API JSON response.
      *
-     * @param  int  $status  HTTP status code (default: 200)
-     * @param  array  $extra  Additional data to merge into the response
+     * @param int $status HTTP status code (default: 200)
+     * @param array $extra Additional data to merge into the response
      */
     protected function apiResponse(bool $success, string $message, int $status = 200, array $extra = []): \Illuminate\Http\JsonResponse
     {
@@ -401,7 +401,7 @@ class CartController extends Controller
         }
 
         $cart = getCart();
-        if (! $cart instanceof Cart || $cart->cartItems()->count() === 0) {
+        if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
             return response()->json(['restricted_items' => []], 200);
         }
         // Build warehouse string (same logic used in Checkout widget)
@@ -409,7 +409,7 @@ class CartController extends Controller
         $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
 
         $customer = ErpApi::getCustomerDetail();
-        if (! Str::contains($warehouseString, $customer->DefaultWarehouse)) {
+        if (!Str::contains($warehouseString, $customer->DefaultWarehouse)) {
             $warehouseString = "$warehouseString,{$customer->DefaultWarehouse}";
         }
 
@@ -465,7 +465,7 @@ class CartController extends Controller
                     'warehouse' => $entry['WarehouseID'] ?? null,
                     'price' => $entry['Price'] ?? null,
                     'uom' => $entry['UnitOfMeasure'] ?? null,
-                    'quantity_available' => isset($entry['QuantityAvailable']) ? (int) $entry['QuantityAvailable'] : $entry['netavail'] ?? null,
+                    'quantity_available' => isset($entry['QuantityAvailable']) ? (int)$entry['QuantityAvailable'] : $entry['netavail'] ?? null,
                     'ship_restriction' => $cartInfo['ship_restriction'] ?? null,
                 ];
 

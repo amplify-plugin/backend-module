@@ -111,7 +111,7 @@ class Attribute extends Model implements ContractsAuditable
         $data = $this->getTranslation($original_field_name, $locale);
 
         if (empty($data)) {
-            $original_data = json_decode($this->attributes[$original_field_name] ?? '',
+            $original_data = json_decode($this->attributes[$original_field_name] ?? '{}',
                 false,
                 512,
                 JSON_THROW_ON_ERROR);

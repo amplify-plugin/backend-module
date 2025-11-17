@@ -308,7 +308,6 @@ class AttributeCrudController extends BackpackCustomCrudController
             'label' => 'Select Options',
             'type' => 'table',
             'columns' => [
-                'slug' => 'Slug',
                 'label' => 'Label',
             ],
         ]);

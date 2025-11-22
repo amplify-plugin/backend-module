@@ -36,10 +36,7 @@ export default {
         <input type="hidden" name="_token" :value="csrfToken"/>
         <textarea class="d-none" name="content" v-model="variables"/>
         <div class="form-group">
-            <label class="text-right fw-bold">
-                Caution: Any wrong/syntax change in (.env) may cause system failure.
-                <code class="text-danger">--"With great power comes great responsibility"</code>.
-            </label>
+            <slot name="header"/>
             <prism-editor
                 class="my-editor language-xml-doc"
                 v-model="variables"
@@ -49,6 +46,7 @@ export default {
             <small v-if="errors?.content?.length > 0" class="text-danger mt-3">
                 {{ errors.content[0] ?? '' }}
             </small>
+            <slot name="footer"/>
         </div>
         <div id="saveActions" class="form-group mb-0">
             <input type="hidden" name="save_action" value="save_and_back" v-model="actionType">

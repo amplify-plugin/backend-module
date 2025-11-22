@@ -33,13 +33,19 @@
                         </button>
                     </div>
                     @enderror
-                    <env-variable-editor
+                    <code-editor
                         url="{{ url($crud->getRoute()) }}"
                         content="{{ old('content', $content) }}"
                         back-url="{{ backpack_url('/dashboard') }}"
                         errors="{{$errors}}"
-                        csrf-token="{{ csrf_token() }}"
-                    />
+                        csrf-token="{{ csrf_token() }}">
+                        <template #header>
+                            <label class="text-right fw-bold">
+                                Caution: Any wrong/syntax change in (.env) may cause system failure.
+                                <code class="text-danger">--"With great power comes great responsibility"</code>.
+                            </label>
+                        </template>
+                    </code-editor>
                 </div>
             </div>
         </div>

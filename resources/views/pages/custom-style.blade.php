@@ -3,7 +3,7 @@
 @php
     $breadcrumbs = [
         'Admin' => backpack_url('dashboard'),
-        'Custom Style' => backpack_url('page'),
+        __('Custom Style') => false,
     ];
 @endphp
 

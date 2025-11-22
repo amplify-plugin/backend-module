@@ -68,3 +68,7 @@ Vue.component('CustomerCheckout', () => import('./modules/clients/rhsparts/check
 Vue.component('CalToolCheckout', () => import('./modules/clients/cal-tool/checkout/index.vue'));
 Vue.component('DkLokCheckout', () => import('./modules/clients/dk-lok/checkout/index.vue'));
 Vue.component('NudraulixCheckout', () => import('./modules/clients/nudraulix/checkout/index.vue'));
+
+Vue.component('CustomStyleEditor', () => import('./views/pages/custom-style-editor.vue'));
+
+Vue.component('EnvVariableEditor', () => import('./views/pages/env-variable-editor.vue'));

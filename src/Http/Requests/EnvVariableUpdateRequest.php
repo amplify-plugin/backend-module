@@ -23,7 +23,7 @@ class EnvVariableUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => ['required', 'string', new EnvFile]
+            'content' => ['required', 'string', new EnvFile],
         ];
     }
 }

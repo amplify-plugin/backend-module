@@ -27,7 +27,7 @@ class EnvVariableController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/env-variable');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/env-variable');
         CRUD::setEntityNameStrings('env variable', 'env variables');
 
         $this->envPath = app()->environmentFilePath();
@@ -52,22 +52,21 @@ class EnvVariableController extends BackpackCustomCrudController
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      *
-     * @param EnvVariableUpdateRequest $request
      * @return RedirectResponse
      */
     protected function store(EnvVariableUpdateRequest $request)
     {
         $code = $request->validated('content', '');
 
-        $backupPath = $this->envPath . '.backup';
+        $backupPath = $this->envPath.'.backup';
 
         copy($this->envPath, $backupPath);
 
-        if (!file_put_contents($this->envPath, $code.PHP_EOL)) {
+        if (! file_put_contents($this->envPath, $code.PHP_EOL)) {
             copy($backupPath, $this->envPath);
-            \Alert::error( 'Unable to modify the .env file.')->flash();
+            \Alert::error('Unable to modify the .env file.')->flash();
         } else {
-            \Alert::success( __('backpack::crud.update_success'))->flash();
+            \Alert::success(__('backpack::crud.update_success'))->flash();
             Artisan::call('optimize:clear');
         }
 

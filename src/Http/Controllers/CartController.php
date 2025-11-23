@@ -20,7 +20,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        if (!config('amplify.frontend.guest_add_to_cart')) {
+        if (! config('amplify.frontend.guest_add_to_cart')) {
             $this->middleware('customers');
         }
     }
@@ -192,7 +192,7 @@ class CartController extends Controller
 
         if (is_array($codes)) {
             $items = array_map(function ($item) use (&$itemWarehouse) {
-                if (!empty($item['product_warehouse_code'])) {
+                if (! empty($item['product_warehouse_code'])) {
                     $itemWarehouse = $item['product_warehouse_code'];
                 }
 
@@ -237,17 +237,17 @@ class CartController extends Controller
                 $product_price = customer_check() ? $erpProduct->Price : ($erpProduct->ListPrice ?? $erpProduct->Price);
                 break;
 
-            //            default:
-            //                for ($i = 1; $i <= 6; $i++) {
-            //                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
-            //                        $product_price = $erpProduct["QtyPrice_{$i}"];
-            //
-            //                        continue;
-            //                    }
-            //                    break;
-            //                }
-            //
-            //                break;
+                //            default:
+                //                for ($i = 1; $i <= 6; $i++) {
+                //                    if (isset($erpProduct["QtyBreak_{$i}"]) && $erpProduct["QtyBreak_{$i}"] <= $cart_item['qty']) {
+                //                        $product_price = $erpProduct["QtyPrice_{$i}"];
+                //
+                //                        continue;
+                //                    }
+                //                    break;
+                //                }
+                //
+                //                break;
         }
 
         return floatval(str_replace(',', '', $product_price));
@@ -256,8 +256,8 @@ class CartController extends Controller
     /**
      * Build a standardized API JSON response.
      *
-     * @param int $status HTTP status code (default: 200)
-     * @param array $extra Additional data to merge into the response
+     * @param  int  $status  HTTP status code (default: 200)
+     * @param  array  $extra  Additional data to merge into the response
      */
     protected function apiResponse(bool $success, string $message, int $status = 200, array $extra = []): \Illuminate\Http\JsonResponse
     {
@@ -284,7 +284,7 @@ class CartController extends Controller
         }
 
         $cart = getCart();
-        if (!$cart instanceof Cart || $cart->cartItems()->count() === 0) {
+        if (! $cart instanceof Cart || $cart->cartItems()->count() === 0) {
             return response()->json(['restricted_items' => []], 200);
         }
         // Build warehouse string (same logic used in Checkout widget)
@@ -292,7 +292,7 @@ class CartController extends Controller
         $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
 
         $customer = ErpApi::getCustomerDetail();
-        if (!Str::contains($warehouseString, $customer->DefaultWarehouse)) {
+        if (! Str::contains($warehouseString, $customer->DefaultWarehouse)) {
             $warehouseString = "$warehouseString,{$customer->DefaultWarehouse}";
         }
 
@@ -348,7 +348,7 @@ class CartController extends Controller
                     'warehouse' => $entry['WarehouseID'] ?? null,
                     'price' => $entry['Price'] ?? null,
                     'uom' => $entry['UnitOfMeasure'] ?? null,
-                    'quantity_available' => isset($entry['QuantityAvailable']) ? (int)$entry['QuantityAvailable'] : $entry['netavail'] ?? null,
+                    'quantity_available' => isset($entry['QuantityAvailable']) ? (int) $entry['QuantityAvailable'] : $entry['netavail'] ?? null,
                     'ship_restriction' => $cartInfo['ship_restriction'] ?? null,
                 ];
 

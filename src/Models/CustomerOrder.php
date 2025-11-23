@@ -256,6 +256,14 @@ class CustomerOrder extends Model implements Auditable
                         'items' => $products->toArray(),
                     ]);
 
+                    if (isset($orderResponse->Message) && !empty($orderResponse->Message)) {
+                        return [
+                            'success' => false,
+                            'message' => $orderResponse->Message,
+                        ];
+                    }
+
+
                     if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
 
                         $this->update([
@@ -311,6 +319,13 @@ class CustomerOrder extends Model implements Auditable
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
+                    
+                    if (isset($orderResponse->Message) && !empty($orderResponse->Message)) {
+                        return [
+                            'success' => false,
+                            'message' => $orderResponse->Message,
+                        ];
+                    }
 
                     if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
 

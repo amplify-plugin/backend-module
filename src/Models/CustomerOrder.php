@@ -256,6 +256,13 @@ class CustomerOrder extends Model implements Auditable
                         'items' => $products->toArray(),
                     ]);
 
+                    if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+                        return [
+                            'success' => false,
+                            'message' => $orderResponse->Message,
+                        ];
+                    }
+
                     if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
 
                         $this->update([
@@ -305,6 +312,49 @@ class CustomerOrder extends Model implements Auditable
                     return [
                         'success' => true,
                         'message' => 'Quotation Received',
+                    ];
+                } elseif ($data['order_type'] == 'Q') {
+                    $orderResponse = ErpApi::createOrder([
+                        'order' => $order_infos,
+                        'items' => $products->toArray(),
+                    ]);
+
+                    if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+                        return [
+                            'success' => false,
+                            'message' => $orderResponse->Message,
+                        ];
+                    }
+
+                    if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
+
+                        $this->update([
+                            'erp_order_id' => $orderResponse?->OrderNumber ?? null,
+                            'order_status' => 'Quotation',
+                        ]);
+
+                        NotificationFactory::call([Event::QUOTATION_RECEIVED], [
+                            'order_id' => $this->id,
+                            'customer_id' => $this->customer_id,
+                            'guest_customer_email' => ! customer_check() ? $order_infos['customer_email'] : null,
+                            'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
+                            'contact_id' => $this->contact_id ?? null,
+                        ]);
+
+                        return [
+                            'success' => true,
+                            'message' => 'Quotation Received',
+                            'order_id' => $orderResponse->OrderNumber,
+                        ];
+                    }
+
+                    $this->update([
+                        'order_status' => 'Rejected',
+                    ]);
+
+                    return [
+                        'success' => false,
+                        'message' => 'Quotation Rejected',
                     ];
                 }
             }

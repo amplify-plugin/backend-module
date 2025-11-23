@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkbackend=self.webpackChunkbackend||[]).push([[6062],{6062:(e,s,t)=>{t.r(s),t.d(s,{default:()=>u});const n={__name:"custom-style-editor",setup:function(e){return{__sfc:!0}}};const u=(0,t(14486).A)(n,(function(){var e=this._self._c;this._self._setupProxy;return e("div")}),[],!1,null,"0fbc6742",null).exports}}]);

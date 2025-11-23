@@ -40,7 +40,7 @@
                 </div>
                 <small class="text-muted mt-2 d-block">
                     If enabled the system will log all the search call going to EasyAsk search.
-                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                    <a href="/admin/api-log?group=" target="_blank">See Current Logs</a>
                 </small>
             </div>
             <div class="form-group">
@@ -57,7 +57,7 @@
                 </div>
                 <small class="text-muted mt-2 d-block">
                     If enabled system will log all the payment gateways related api calls.
-                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                    <a href="/admin/api-log?group=" target="_blank">See Current Logs</a>
                 </small>
             </div>
             <div class="form-group">
@@ -75,7 +75,7 @@
                 <small class="text-muted mt-2 d-block">
                     If enabled system will log all the API calls goes to ERP for customer,
                     shipping and product related information.
-                    <a href="/admin/api-log" target="_blank">See Current Logs</a>
+                    <a href="/admin/api-log?group=" target="_blank">See Current Logs</a>
                 </small>
             </div>
             <div class="form-group">
@@ -94,6 +94,11 @@
                     If enabled system will log email notification and status when it was sent.
                     <a href="/admin/mail-log" target="_blank">See Current Logs</a>
                 </small>
+            </div>
+            <div class="form-group">
+                <p class="text-muted mt-2 d-block">
+                    <a href="/admin/env-variable" target="_blank">.ENV Variable Editor <code>(Developer and System Administrator Only)</code></a>
+                </p>
             </div>
             <div class="form-group">
                 <label>System Error Notification Report</label>
@@ -154,6 +159,7 @@ export default {
     name: "Developer",
     data() {
         return {
+            systemConfiguration: this.$parent.coreConfigurationData,
             coreConfigurationData: {
                 tab: "developer",
                 log_search: this.$parent.coreConfigurationData.developer.log_search ?? false,
@@ -163,6 +169,9 @@ export default {
                 bug_recipient: this.$parent.coreConfigurationData.developer.bug_recipient ?? [],
             }
         }
-    }
+    },
+    mounted() {
+        console.log(this.systemConfiguration);
+    },
 }
 </script>

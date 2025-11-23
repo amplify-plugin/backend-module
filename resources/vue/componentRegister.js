@@ -2,7 +2,6 @@ import Vue from 'vue';
 
 Vue.component('ProductCreate', () => import('./views/pages/product/Create.vue'));
 Vue.component('ProductClassificationCreate', () => import('./views/pages/product-classification/Create.vue'));
-Vue.component('AttributeCreate', () => import('./views/pages/attribute/Create.vue'));
 Vue.component('CategoryCreate', () => import('./views/pages/category/Create.vue'));
 Vue.component('OptionCreate', () => import('./views/pages/options/Create.vue'));
 Vue.component('CustomerGroupCreate', () => import('./views/pages/customer-group/Create.vue'));
@@ -20,14 +19,10 @@ Vue.component('IcecatTransformationRunScreen', () => import('./views/pages/iceca
 Vue.component('PageCreate', () => import('./views/pages/pages/Create.vue'));
 Vue.component('SiteCreate', () => import('./views/pages/sites/Create.vue'));
 Vue.component('TemplateCreate', () => import('./views/pages/templates/Create.vue'));
-Vue.component('EnvSettingsCreate', () => import('./views/pages/env-settings/Create'));
-Vue.component('TopBarCreate', () => import('./views/pages/top-bar/Create.vue'));
 Vue.component('MerchandisingZoneCreate', () => import('./views/pages/merchandising-zones/Create.vue'));
 Vue.component('MenusCreate', () => import('./views/pages/menus/Create.vue'));
 Vue.component('MegamenuCreate', () => import('./views/pages/mega-menus/Create.vue'));
 Vue.component('BannerCreate', () => import('./views/pages/banner/Create.vue'));
-Vue.component('CmsConfigCreate', () => import('./views/pages/cms-config/Create.vue'));
-Vue.component('NavigationCreate', () => import('./views/pages/navigation/Create.vue'));
 Vue.component('FooterCreate', () => import('./views/pages/footer/Create.vue'));
 Vue.component('InvoiceConfigCreate', () => import('./views/pages/invoice-configuration/Create.vue'));
 Vue.component('SettingEmail', () => import('./views/pages/settings/SettingEmail'));

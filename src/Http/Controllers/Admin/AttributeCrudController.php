@@ -259,14 +259,6 @@ class AttributeCrudController extends BackpackCustomCrudController
         $this->data['attribute'] = $this->crud->model->find(request()->id);
         Widget::add()->type('script')->content(asset('vendor/backend/js/forms/attributes.js').'?v='.config('backpack.base.cachebusting_string'));
 
-        // $this->crud->setCreateView('backend::pages.attribute.create');
-
-        // CRUD::addField([
-        //     'name' => 'hide',
-        //     'type' => 'custom_html',
-        //     'value' => '<style> .close.delete-element {display: none} </style>',
-        // ]);
-
         CRUD::addField([
             'name' => 'name',
             'type' => 'text',

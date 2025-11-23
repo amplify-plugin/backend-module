@@ -5,18 +5,13 @@ namespace Amplify\System\Backend\Http\Controllers;
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
 use Amplify\Frontend\Http\Resources\CartResource;
-use Amplify\System\Backend\Http\Requests\Orders\QuickOrderAddToOrderRequest;
 use Amplify\System\Backend\Models\Cart;
 use Amplify\System\Backend\Models\CartItem;
-use Amplify\System\Jobs\CartPricingSyncJob;
 use Amplify\Widget\Components\CartSummary;
 use App\Http\Controllers\Controller;
 use ErrorException;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -40,44 +35,6 @@ class CartController extends Controller
         }
 
         return $warehouse_code;
-    }
-
-    /**
-     * @throws \Throwable
-     */
-    public function addToCart(QuickOrderAddToOrderRequest $request)
-    {
-        DB::beginTransaction();
-
-        try {
-
-            $data = app(Pipeline::class)
-                ->send(['meta' => [], 'items' => $request->input('products')])
-                ->through(config('amplify.add_to_cart_pipeline', []))
-                ->thenReturn();
-
-            $cart = getOrCreateCart();
-
-            if (!$cart->wasRecentlyCreated) {
-                $cart->cartItems()->whereIn('product_id', collect($data['items'])->pluck('product_id')->toArray())->delete();
-            }
-
-            $cart->cartItems()->createMany($data['items']);
-
-            DB::commit();
-
-            CartPricingSyncJob::dispatch($cart->getkey());
-
-            return $this->apiResponse(true, __('Product(s) added to cart successfully.'));
-
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-            Log::debug($exception);
-
-            return $this->apiResponse(false, $exception->getMessage(), 500);
-        }
     }
 
     public function getCarts()

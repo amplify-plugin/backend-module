@@ -17,6 +17,7 @@ use Amplify\System\Backend\Models\ModelCode;
 use Amplify\System\Backend\Models\OptionProduct;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\ProductClassification;
+use Amplify\System\Backend\Models\ProductImage;
 use Amplify\System\Backend\Models\SkuProduct;
 use Amplify\System\Backend\Traits\ProductTrait;
 use Amplify\System\Cms\Models\Page;
@@ -970,8 +971,8 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         if ($product->parent_id !== null) {
             $redirect_uri = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
-                ? 'https'
-                : 'http')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                    ? 'https'
+                    : 'http')."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $uri = explode('/', $redirect_uri);
             array_splice($uri, -2);
 
@@ -1056,14 +1057,14 @@ class ProductCrudController extends BackpackCustomCrudController
 
     private function createOrUpdateSKUProductImage($image, $productID)
     {
-        $isImageExist = DB::table('product__images')->where('product_id', $productID)->first();
+        $isImageExist = ProductImage::where('product_id', $productID)->first();
         if (! empty($isImageExist)) {
-            DB::table('product__images')->where('product_id', $productID)->update([
+            ProductImage::where('product_id', $productID)->update([
                 'main' => $image,
                 'updated_at' => Carbon::now(),
             ]);
         } else {
-            DB::table('product__images')->insert([
+            ProductImage::insert([
                 'product_id' => $productID,
                 'main' => $image,
                 'created_at' => Carbon::now(),
@@ -1328,7 +1329,7 @@ class ProductCrudController extends BackpackCustomCrudController
         try {
             $productId = DB::table('products')
                 ->insertGetId(array_merge($request->product, ['user_id' => backpack_auth()->id()]));
-            DB::table('product__images')->insert(array_merge($request->product_image, ['product_id' => $productId]));
+            ProductImage::insert(array_merge($request->product_image, ['product_id' => $productId]));
             $product = Product::find($productId);
             // $product->attributes()->sync($request->attributes);
             $product->categories()->sync($request->categories);

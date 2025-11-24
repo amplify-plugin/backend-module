@@ -145,29 +145,29 @@ trait ProductTrait
 
         $attributes['product'] = $productId
             ? Product::findOrFail($productId)->attributes()->get()->map(function ($attribute) {
-            $productClassification = $this->getAttributeProductClassification($attribute);
-            $productClassificationPivot = $productClassification->pivot ?? [];
-            $pivot = $attribute->pivot ?? new stdClass;
-            $boolean_titles = json_decode($productClassificationPivot->boolean_titles ?? '{}');
+                $productClassification = $this->getAttributeProductClassification($attribute);
+                $productClassificationPivot = $productClassification->pivot ?? [];
+                $pivot = $attribute->pivot ?? new stdClass;
+                $boolean_titles = json_decode($productClassificationPivot->boolean_titles ?? '{}');
 
-            return array_merge(
-                $attribute->toArray(),
-                [
-                    'attribute_value' => $this->getLocaleValue($pivot->attribute_value ?? ''),
-                    'local_attribute_value' => $this->getLocaleValue($pivot->attribute_value ?? ''),
-                ],
-                [
-                    'enums' => $this->decorateEnums($productClassificationPivot->enums
-                        ?? '[]'),
-                    'min' => $productClassificationPivot->min ?? '',
-                    'max' => $productClassificationPivot->max ?? '',
-                    'boolean_true' => $boolean_titles->true ?? '',
-                    'boolean_false' => $boolean_titles->false ?? '',
-                    'is_required' => $productClassificationPivot->is_required ?? 0,
-                    'is_multiple' => $productClassificationPivot->is_multiple ?? false,
-                ],
-            );
-        })->values() ?? [] : [];
+                return array_merge(
+                    $attribute->toArray(),
+                    [
+                        'attribute_value' => $this->getLocaleValue($pivot->attribute_value ?? ''),
+                        'local_attribute_value' => $this->getLocaleValue($pivot->attribute_value ?? ''),
+                    ],
+                    [
+                        'enums' => $this->decorateEnums($productClassificationPivot->enums
+                            ?? '[]'),
+                        'min' => $productClassificationPivot->min ?? '',
+                        'max' => $productClassificationPivot->max ?? '',
+                        'boolean_true' => $boolean_titles->true ?? '',
+                        'boolean_false' => $boolean_titles->false ?? '',
+                        'is_required' => $productClassificationPivot->is_required ?? 0,
+                        'is_multiple' => $productClassificationPivot->is_multiple ?? false,
+                    ],
+                );
+            })->values() ?? [] : [];
 
         $attributes['all'] = $this->fetchAttributes();
 
@@ -586,9 +586,9 @@ trait ProductTrait
 
         $options['product'] = request()->id
             ? Product::query()
-            ->findOrFail(request()->id)
-            ->options()
-            ->get() ?? new stdClass
+                ->findOrFail(request()->id)
+                ->options()
+                ->get() ?? new stdClass
             : new stdClass;
 
         $options['all'] = $this->fetchProductOptions();

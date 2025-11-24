@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Backend\Models;
 
-use Amplify\System\Backend\Traits\DynamicDBConnectionTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class OrderListItem extends Model implements Auditable
 {
-    use CrudTrait, DynamicDBConnectionTrait, HasFactory;
+    use CrudTrait, HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     public $timestamps = true;

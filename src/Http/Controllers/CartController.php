@@ -37,18 +37,6 @@ class CartController extends Controller
         return $warehouse_code;
     }
 
-    public function getCarts()
-    {
-        $cart = getCart();
-        if ($cart instanceof Cart) {
-            $cart->load(['cartItems', 'cartItems.product.manufacturerRelation']);
-
-            return new CartResource($cart);
-        }
-
-        return ['data' => ['products' => [], 'total_price' => 0]];
-    }
-
     public function getCartSummary()
     {
         return response()->json([

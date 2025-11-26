@@ -192,90 +192,90 @@ class CustomerOrderController extends Controller
         }
     }
 
-    public function quickOrderAddToOrder(): JsonResponse
-    {
-        $address_id = '';
-        if ($authenticated = customer_check()) {
-            $address_id = customer(true)->customer_address_id;
-        }
-
-        $all_products = request()->products;
-
-        $products = [];
-
-        $total_price = 0;
-
-        foreach ($all_products as $product) {
-            $product_code = $product['product_code'];
-            $product_id = $product['product_id'] ?? null;
-            $warehouse_code = $product['product_warehouse_code'] ?? '';
-            $product_exist = Product::with('productImage')->where('product_code', $product_code)->first();
-            // $warehouses = \ErpApi::getWarehouses()->firstWhere('WarehouseNumber', $warehouse_code);
-            $ERPInfo = $this->getERPInfo($product_code, $warehouse_code);
-            $new_structure = [];
-
-            if ($product_exist) {
-                if (\ErpApi::enabled()) {
-                    if (((
-                        ! $ERPInfo || ! $product['qty'] ||
-                        ! $ERPInfo[0]->QuantityAvailable ||
-                        ! ($ERPInfo[0]->QuantityAvailable >= $product['qty'])))
-                    ) {
-                        if (((! empty($product['customer_back_order_code'])
-                                    && $product['customer_back_order_code'] !== 'Y')
-                                || (! empty($product['product_back_order'])
-                                    && $product['product_back_order'] !== 'Y'))
-                            || ! ($product['qty'] > 0)) {
-                            continue;
-                        }
-                    }
-                }
-
-                $product_already_exist_in_products = false;
-                foreach ($products as $key => $product_data) {
-                    if ($product_data['product_code'] === $product_code) {
-                        $products[$key]['qty'] = $product['qty'];
-                        $products[$key]['product_warehouse_code'] = $warehouse_code;
-                        $product_already_exist_in_products = true;
-                    }
-                }
-                if (! $product_already_exist_in_products) {
-                    $new_structure['product_code'] = $product_code;
-                    $new_structure['product_id'] = $product_id ?? $product_exist->id;
-                    $new_structure['url'] = frontendSingleProductURL($product_exist->id);
-                    $new_structure['product_name'] = $product_exist->product_name;
-                    $new_structure['qty'] = $product['qty'];
-                    $new_structure['product_warehouse_code'] = $warehouse_code;
-                    $new_structure['product_back_order'] = (! empty($product['product_back_order'])) ? $product['product_back_order'] : 'N';
-                    $new_structure['product_image'] = $product_exist->productImage->main ?? null;
-                    $new_structure['address_id'] = $address_id;
-                    if (ErpApi::enabled()) {
-                        $new_structure['price'] = $ERPInfo[0]->Price ?? 0;
-                    } else {
-                        $new_structure['price'] = $product_exist->selling_price ?? 0;
-                    }
-
-                    $products[] = $new_structure;
-                    $total_price += getPriceOfItem($new_structure['price'], $new_structure['qty']);
-                }
-            }
-        }
-
-        $data = [
-            'products' => $products,
-            'total_price' => round($total_price, 2),
-        ];
-
-        $total_products = count($products);
-
-        return response()->json([
-            'success' => $total_products > 0,
-            'data' => $data,
-            'message' => $total_products > 0
-                ? 'Added to the order successfully'
-                : 'Quantity is invalid',
-        ]);
-    }
+//    public function quickOrderAddToOrder(): JsonResponse
+//    {
+//        $address_id = '';
+//        if ($authenticated = customer_check()) {
+//            $address_id = customer(true)->customer_address_id;
+//        }
+//
+//        $all_products = request()->products;
+//
+//        $products = [];
+//
+//        $total_price = 0;
+//
+//        foreach ($all_products as $product) {
+//            $product_code = $product['product_code'];
+//            $product_id = $product['product_id'] ?? null;
+//            $warehouse_code = $product['product_warehouse_code'] ?? '';
+//            $product_exist = Product::with('productImage')->where('product_code', $product_code)->first();
+//            // $warehouses = \ErpApi::getWarehouses()->firstWhere('WarehouseNumber', $warehouse_code);
+//            $ERPInfo = $this->getERPInfo($product_code, $warehouse_code);
+//            $new_structure = [];
+//
+//            if ($product_exist) {
+//                if (\ErpApi::enabled()) {
+//                    if (((
+//                        ! $ERPInfo || ! $product['qty'] ||
+//                        ! $ERPInfo[0]->QuantityAvailable ||
+//                        ! ($ERPInfo[0]->QuantityAvailable >= $product['qty'])))
+//                    ) {
+//                        if (((! empty($product['customer_back_order_code'])
+//                                    && $product['customer_back_order_code'] !== 'Y')
+//                                || (! empty($product['product_back_order'])
+//                                    && $product['product_back_order'] !== 'Y'))
+//                            || ! ($product['qty'] > 0)) {
+//                            continue;
+//                        }
+//                    }
+//                }
+//
+//                $product_already_exist_in_products = false;
+//                foreach ($products as $key => $product_data) {
+//                    if ($product_data['product_code'] === $product_code) {
+//                        $products[$key]['qty'] = $product['qty'];
+//                        $products[$key]['product_warehouse_code'] = $warehouse_code;
+//                        $product_already_exist_in_products = true;
+//                    }
+//                }
+//                if (! $product_already_exist_in_products) {
+//                    $new_structure['product_code'] = $product_code;
+//                    $new_structure['product_id'] = $product_id ?? $product_exist->id;
+//                    $new_structure['url'] = frontendSingleProductURL($product_exist->id);
+//                    $new_structure['product_name'] = $product_exist->product_name;
+//                    $new_structure['qty'] = $product['qty'];
+//                    $new_structure['product_warehouse_code'] = $warehouse_code;
+//                    $new_structure['product_back_order'] = (! empty($product['product_back_order'])) ? $product['product_back_order'] : 'N';
+//                    $new_structure['product_image'] = $product_exist->productImage->main ?? null;
+//                    $new_structure['address_id'] = $address_id;
+//                    if (ErpApi::enabled()) {
+//                        $new_structure['price'] = $ERPInfo[0]->Price ?? 0;
+//                    } else {
+//                        $new_structure['price'] = $product_exist->selling_price ?? 0;
+//                    }
+//
+//                    $products[] = $new_structure;
+//                    $total_price += getPriceOfItem($new_structure['price'], $new_structure['qty']);
+//                }
+//            }
+//        }
+//
+//        $data = [
+//            'products' => $products,
+//            'total_price' => round($total_price, 2),
+//        ];
+//
+//        $total_products = count($products);
+//
+//        return response()->json([
+//            'success' => $total_products > 0,
+//            'data' => $data,
+//            'message' => $total_products > 0
+//                ? 'Added to the order successfully'
+//                : 'Quantity is invalid',
+//        ]);
+//    }
 
     private function getERPInfo(string $productCode, string $warehouseString)
     {

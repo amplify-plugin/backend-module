@@ -4,7 +4,6 @@ namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
-use Amplify\Frontend\Http\Resources\CartResource;
 use Amplify\System\Backend\Models\Cart;
 use Amplify\System\Backend\Models\CartItem;
 use Amplify\Widget\Components\CartSummary;

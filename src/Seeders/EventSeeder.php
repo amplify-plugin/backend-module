@@ -432,6 +432,18 @@ class EventSeeder extends Seeder
                         new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
                     ],
                 ],
+                [
+                    'name' => 'Wishlist Product Restocked',
+                    'code' => 'wishlist_product_restocked',
+                    'enabled' => true,
+                    'description' => 'Wishlist Product Restocked',
+                    'eventVariables' => [],
+                    'eventRecipents' => [
+                        new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
+                        new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false]),
+                        new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => false]),
+                    ],
+                ],
             ];
 
             foreach ($events as $event) {

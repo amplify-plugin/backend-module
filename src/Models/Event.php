@@ -69,6 +69,8 @@ class Event extends Model implements Auditable
 
     const CUSTOMER_REGISTRATION_REPORT_GENERATED = 'customer_registration_report_generated';
 
+    const WISHLIST_PRODUCT_RESTOCKED = 'wishlist_product_restocked';
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

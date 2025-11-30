@@ -60,6 +60,8 @@ class Product extends Model implements ContractsAuditable
         'in_stock' => 'bool',
         'is_ncnr' => 'bool',
         'flags' => 'array',
+        'sku_default_attributes' => 'array',
+        'specifications' => 'array',
     ];
 
     private $singleProductIndex = [
@@ -224,6 +226,13 @@ class Product extends Model implements ContractsAuditable
         static::addGlobalScope(new DatabaseScope);
 
         self::creating(function ($model) {
+            $request = request();
+            if ($request->method() === 'POST') {
+                $model->product_name = $request->input('product_name');
+                $model->description = $request->input('description');
+                $model->short_description = $request->input('short_description');
+            }
+
             $model->user_id = $model->user_id ?? backpack_auth()->id();
             $model->flags = request()->input('flags', []);
         });

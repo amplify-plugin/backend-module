@@ -139,12 +139,7 @@ class ProductRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        // $this->merge([
-        //     'product_name' => json_encode($this->input('product_name'), true),
-        //     'description' => json_encode($this->input('description'), false),
-        //     // 'model_name' => json_encode($this->input('model_name')),
-        //     'short_description' => json_encode($this->input('short_description'), false),
-        // ]);
+        //
     }
 
     /**

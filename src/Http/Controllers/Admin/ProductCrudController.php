@@ -756,9 +756,9 @@ class ProductCrudController extends BackpackCustomCrudController
         $product = $this->crud->getCurrentEntry();
         $this->redirectUriIfSKUProduct($product, 'edit');
         // SKU default attributes set functionality
-        $sku_default_attributes_ids = ! empty($product->sku_default_attributes)
-            ? json_decode($product->sku_default_attributes)
-            : [];
+        $sku_default_attributes_ids = is_array($product->sku_default_attributes)
+            ? $product->sku_default_attributes
+            : (! empty($product->sku_default_attributes) ? json_decode($product->sku_default_attributes) : []);
         if (count($sku_default_attributes_ids) > 0) {
             $sku_default_attributes = ProductTrait::getSkuDefaultAttributes($sku_default_attributes_ids);
             $this->data['sku_default_attributes'] = $sku_default_attributes;

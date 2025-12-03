@@ -232,6 +232,7 @@ class CustomerOrder extends Model implements Auditable
                 'wtdo_note' => isset($data['wtdo_note']) ? $data['wtdo_note'] : '',
                 'freight_terms_type' => isset($data['freight_terms_type']) ? $data['freight_terms_type'] : '',
                 'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
+                'review_order_hold' => isset($data['review_order_hold']) ? $data['review_order_hold'] : '',
                 'request' => request()->all(),
             ];
 

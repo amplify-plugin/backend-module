@@ -43,13 +43,11 @@ class CustomerRegistrationRequest extends FormRequest
             'contact.email' => 'required|email|unique:contacts,email,'.$contactId,
             'contact.phone' => 'required|string',
             'contact.profile_image' => 'nullable|string',
-            'contact.password' => "required|min:$passLength|same:contact.*.password_confirmation",
+            'contact.password' => "required|min:$passLength|same:contact.password_confirmation",
             'contact.password_confirmation' => "required|min:$passLength",
             'contact.order_limit' => 'required|numeric|min:0',
             'contact.daily_budget_limit' => 'required|numeric|min:0',
             'contact.monthly_budget_limit' => 'required|numeric|min:0',
-            'contact.password' => "nullable|min:$passLength|same:contact.*.password_confirmation",
-            'contact.password_confirmation' => "nullable|min:$passLength",
 
             // Address validation.
             'addresses' => 'nullable|array',

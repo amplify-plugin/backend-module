@@ -21,6 +21,9 @@ use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property Customer $activeCustomer
+ */
 class Contact extends Authenticatable implements Auditable, MessageableInterface, TicketableInterface
 {
     use CrudTrait, HasFactory, HasPermissions, HasRoles, Messageable, Notifiable, TicketableTrait;

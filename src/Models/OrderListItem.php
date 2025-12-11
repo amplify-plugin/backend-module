@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class OrderListItem extends Model implements Auditable
 {
-    use CrudTrait, HasFactory;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
     public $timestamps = true;
@@ -31,7 +31,7 @@ class OrderListItem extends Model implements Auditable
 
     public function list(): BelongsTo
     {
-        return $this->belongsTo(OrderList::class);
+        return $this->belongsTo(OrderList::class, 'list_id');
     }
 
     /**

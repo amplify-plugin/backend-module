@@ -71,6 +71,8 @@ class Event extends Model implements Auditable
 
     const WISHLIST_PRODUCT_RESTOCKED = 'wishlist_product_restocked';
 
+    const TICKET_CREATED = 'ticket_created';
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

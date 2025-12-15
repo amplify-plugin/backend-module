@@ -16,6 +16,14 @@ class Cart extends Model implements Auditable
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'status' => 'boolean',
+        'sub_total' => 'float',
+        'tax_amount' => 'float',
+        'ship_charge' => 'float',
+        'total' => 'float',
+    ];
+
     public function getTotalAttribute()
     {
         return $this->cartItems()->sum(\DB::raw('unitprice * quantity'));

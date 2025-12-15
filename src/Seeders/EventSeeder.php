@@ -457,7 +457,7 @@ class EventSeeder extends Seeder
                         new EventVariable(['name' => '__ticket_url__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
                     ],
                     'eventRecipents' => [],
-                ]
+                ],
             ];
 
             foreach ($events as $event) {

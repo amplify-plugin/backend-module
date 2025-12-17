@@ -23,6 +23,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property Customer $activeCustomer
+ * @property Customer $customer
  */
 class Contact extends Authenticatable implements Auditable, MessageableInterface, TicketableInterface
 {

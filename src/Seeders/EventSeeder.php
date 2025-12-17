@@ -456,7 +456,11 @@ class EventSeeder extends Seeder
                         new EventVariable(['name' => '__ticket_department__', 'value' => '', 'description' => 'Support Ticket Department', 'for_admin' => false]),
                         new EventVariable(['name' => '__ticket_url__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
                     ],
-                    'eventRecipents' => [],
+                    'eventRecipents' => [
+                        new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
+                        new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                        new EventRecipent(['name' => 'Ticket Department', 'event_action_field' => 'is_get_contact', 'description' => 'Ticket Department', 'enabled' => true]),
+                    ],
                 ],
             ];
 

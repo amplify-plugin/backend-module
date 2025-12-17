@@ -451,6 +451,10 @@ class EventSeeder extends Seeder
                     'description' => 'Notify to department on new support ticket',
                     'eventVariables' => [
                         new EventVariable(['name' => '__ticket_content__', 'value' => '', 'description' => 'Support Ticket Content', 'for_admin' => false]),
+                        new EventVariable(['name' => '__ticket_subject__', 'value' => '', 'description' => 'Support Ticket Subject', 'for_admin' => false]),
+                        new EventVariable(['name' => '__ticket_priority__', 'value' => '', 'description' => 'Support Ticket Priority', 'for_admin' => false]),
+                        new EventVariable(['name' => '__ticket_department__', 'value' => '', 'description' => 'Support Ticket Department', 'for_admin' => false]),
+                        new EventVariable(['name' => '__ticket_url__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
                     ],
                     'eventRecipents' => [
                         new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),

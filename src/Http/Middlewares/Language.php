@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\App;
 
 class Language
 {
+    public array $fakeFields = [
+        '_email',
+        '_password',
+    ];
     /**
      * Handle an incoming request.
      *
@@ -17,6 +21,12 @@ class Language
     public function handle(Request $request, Closure $next)
     {
         App::setLocale(session('locale_lang', config('app.fallback_locale')));
+
+        if (in_array($request->method(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+            foreach ($this->fakeFields as $field) {
+                $request->request->remove($field);
+            }
+        }
 
         return $next($request);
     }

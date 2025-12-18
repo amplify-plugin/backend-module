@@ -12,6 +12,7 @@ class Language
         '_email',
         '_password',
     ];
+
     /**
      * Handle an incoming request.
      *

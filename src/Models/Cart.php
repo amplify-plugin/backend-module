@@ -12,8 +12,6 @@ class Cart extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $appends = ['total'];
-
     protected $guarded = ['id'];
 
     protected $casts = [
@@ -23,12 +21,6 @@ class Cart extends Model implements Auditable
         'ship_charge' => 'float',
         'total' => 'float',
     ];
-
-    public function getTotalAttribute()
-    {
-        return $this->cartItems()->sum(\DB::raw('unitprice * quantity'));
-    }
-
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);

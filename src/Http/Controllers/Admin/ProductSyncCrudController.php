@@ -35,7 +35,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -82,6 +82,24 @@ class ProductSyncCrudController extends BackpackCustomCrudController
                 $this->crud->addClause('where', 'is_processed', '=', $value);
             });
 
+        CRUD::addFilter([
+            'name' => 'error',
+            'label' => 'Failed?',
+            'type' => 'dropdown',
+        ],
+            [
+                1 => 'Yes',
+                0 => 'No',
+
+            ],
+            function ($value) {
+                $this->crud->addClause(function ($query) use ($value) {
+                    return ($value == 1)
+                        ? $query->whereNotNull('error')
+                        : $query->whereNull('error');
+                });
+            });
+
         $this->crud->enableBulkActions();
 
         $this->crud->addButtonFromView('top', 'bulk_process', 'bulk_sync_process', 'beginning');
@@ -95,11 +113,12 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'label' => 'ID',
             'type' => 'custom_html',
             'value' => function ($productSync) {
-                return "<span>{$productSync->id} "
-                    .(($productSync->is_processed == 1) ? "<sup class='badge text-success px-0 font-weight-bold'>Processed</sup>" : '')
-                    .'</span>';
+            return match (true) {
+                !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Processed</sup></span>",
+                default => "<span>{$productSync->id}</span>"
+            };
             },
-
         ]);
         CRUD::column('item_number');
         CRUD::column('update_action');
@@ -120,18 +139,20 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(ProductSyncRequest::class);
 
+        CRUD::field('item_number');
         CRUD::field('description_1');
         CRUD::field('description_2');
         CRUD::field('item_class');
-        CRUD::field('item_number');
-        CRUD::field('list_price');
+        CRUD::field('list_price')->type('text');
         CRUD::field('manufacturer');
+        CRUD::field('brand');
         CRUD::field('price_class');
         CRUD::field('pricing_unit_of_measure');
         CRUD::field('primary_vendor');
         CRUD::field('unit_of_measure');
         CRUD::field('update_action');
         CRUD::field('is_processed')->type('boolean');
+        CRUD::field('error')->type('textarea');
     }
 
     /**
@@ -163,14 +184,14 @@ class ProductSyncCrudController extends BackpackCustomCrudController
 
             $user_id = backpack_user()->id;
 
-            if (! empty($productSyncList)) {
+            if (!empty($productSyncList)) {
                 foreach ($productSyncList as $id) {
                     \ErpApi::dispatchProductSyncJob($id, $user_id);
                 }
 
                 $response = [
                     'type' => 'success',
-                    'message' => 'Total '.count($productSyncList).' item(s) has been added to catalog sync process.'];
+                    'message' => 'Total ' . count($productSyncList) . ' item(s) has been added to catalog sync process.'];
             } else {
                 throw new InvalidArgumentException('No Entries available to process');
             }

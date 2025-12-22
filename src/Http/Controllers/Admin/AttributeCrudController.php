@@ -301,6 +301,7 @@ class AttributeCrudController extends BackpackCustomCrudController
             'type' => 'table',
             'columns' => [
                 'label' => 'Label',
+                'slug' => 'Slug',
             ],
         ]);
 

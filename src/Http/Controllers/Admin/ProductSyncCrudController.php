@@ -35,7 +35,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -113,11 +113,11 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'label' => 'ID',
             'type' => 'custom_html',
             'value' => function ($productSync) {
-            return match (true) {
-                !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
-                $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
-                default => "<span>{$productSync->id}</span>"
-            };
+                return match (true) {
+                    ! empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                    $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
+                    default => "<span>{$productSync->id}</span>"
+                };
             },
         ]);
         CRUD::column('item_number');
@@ -184,14 +184,14 @@ class ProductSyncCrudController extends BackpackCustomCrudController
 
             $user_id = backpack_user()->id;
 
-            if (!empty($productSyncList)) {
+            if (! empty($productSyncList)) {
                 foreach ($productSyncList as $id) {
                     \ErpApi::dispatchProductSyncJob($id, $user_id);
                 }
 
                 $response = [
                     'type' => 'success',
-                    'message' => 'Total ' . count($productSyncList) . ' item(s) has been added to catalog sync process.'];
+                    'message' => 'Total '.count($productSyncList).' item(s) has been added to catalog sync process.'];
             } else {
                 throw new InvalidArgumentException('No Entries available to process');
             }

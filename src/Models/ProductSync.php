@@ -27,6 +27,10 @@ class ProductSync extends Model implements Auditable
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
+    protected $casts = [
+      'is_processed' => 'boolean',
+      'is_processing' => 'boolean',
+    ];
 
     /*
     |--------------------------------------------------------------------------

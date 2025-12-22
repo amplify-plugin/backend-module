@@ -74,8 +74,8 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'type' => 'dropdown',
         ],
             [
-                1 => 'Yes',
-                0 => 'No',
+                '1' => 'Yes',
+                '0' => 'No',
 
             ],
             function ($value) {
@@ -115,7 +115,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'value' => function ($productSync) {
             return match (true) {
                 !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
-                $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Processed</sup></span>",
+                $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
                 default => "<span>{$productSync->id}</span>"
             };
             },

@@ -21,6 +21,7 @@ class Cart extends Model implements Auditable
         'ship_charge' => 'float',
         'total' => 'float',
     ];
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);

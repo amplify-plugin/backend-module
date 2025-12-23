@@ -306,7 +306,7 @@ class Product extends Model implements ContractsAuditable
     {
         $sku_default_attributes = $this->sku_default_attributes;
 
-        if (empty($sku_default_attributes) || !is_string($sku_default_attributes)) {
+        if (empty($sku_default_attributes) || ! is_string($sku_default_attributes)) {
             $sku_attributes = [];
         } else {
             $decoded = json_decode($sku_default_attributes, true);

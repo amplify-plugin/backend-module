@@ -304,7 +304,14 @@ class Product extends Model implements ContractsAuditable
 
     public function skuAttributes()
     {
-        $sku_attributes = json_decode($this->sku_default_attributes) ?: [];
+        $sku_default_attributes = $this->sku_default_attributes;
+
+        if (empty($sku_default_attributes) || !is_string($sku_default_attributes)) {
+            $sku_attributes = [];
+        } else {
+            $decoded = json_decode($sku_default_attributes, true);
+            $sku_attributes = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+        }
 
         return Attribute::select('id', 'name')->whereIn('id', $sku_attributes)->get();
     }

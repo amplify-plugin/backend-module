@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Models;
 
+use Amplify\System\Backend\Traits\DynamicDBConnectionTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,6 +15,7 @@ class DocumentType extends Model implements Auditable
 {
     use CrudTrait;
     use \OwenIt\Auditing\Auditable;
+    use DynamicDBConnectionTrait;
 
     /*
     |--------------------------------------------------------------------------

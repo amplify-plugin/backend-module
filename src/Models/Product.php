@@ -306,6 +306,7 @@ class Product extends Model implements ContractsAuditable
     {
         $sku_default_attributes = $this->sku_default_attributes ?? [];
         $sku_attributes = (\is_array($sku_default_attributes)) ? $sku_default_attributes : json_decode($sku_default_attributes, true);
+
         return Attribute::select('id', 'name')->whereIn('id', $sku_attributes)->get();
     }
 

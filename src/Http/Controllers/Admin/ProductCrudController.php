@@ -770,10 +770,12 @@ class ProductCrudController extends BackpackCustomCrudController
             ->orderBy('order', 'ASC')
             ->get()
             ->transform(function ($item) {
-                $media_type = DocumentType::find($item->document_type_id)->media_type;
-                $item->file_type = DocumentType::ACCEPT_FILE_TYPES[$media_type] ?? null;
-                $item->media_type = $media_type;
-
+                $documentType = DocumentType::find($item->document_type_id);
+                if (! empty($documentType)) {
+                    $media_type = $documentType->media_type;
+                    $item->file_type = DocumentType::ACCEPT_FILE_TYPES[$media_type] ?? null;
+                    $item->media_type = $media_type;
+                }
                 return $item;
             });
 

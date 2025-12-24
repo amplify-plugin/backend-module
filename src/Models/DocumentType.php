@@ -14,8 +14,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 class DocumentType extends Model implements Auditable
 {
     use CrudTrait;
-    use \OwenIt\Auditing\Auditable;
     use DynamicDBConnectionTrait;
+    use \OwenIt\Auditing\Auditable;
 
     /*
     |--------------------------------------------------------------------------

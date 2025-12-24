@@ -776,6 +776,7 @@ class ProductCrudController extends BackpackCustomCrudController
                     $item->file_type = DocumentType::ACCEPT_FILE_TYPES[$media_type] ?? null;
                     $item->media_type = $media_type;
                 }
+
                 return $item;
             });
 

@@ -3,7 +3,6 @@
 namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -19,6 +18,7 @@ class Notice extends Model implements Auditable
     */
 
     protected $table = 'notices';
+
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

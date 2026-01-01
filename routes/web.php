@@ -147,6 +147,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('product-relation', 'ProductRelationCrudController');
     Route::crud('catalog', 'CatalogCrudController');
     Route::crud('env-variable', 'EnvVariableController');
+    Route::crud('notice', 'NoticeCrudController');
 });
 
 Route::get('failed-job/{id}/retry', [FailedJobCrudController::class, 'retry']);

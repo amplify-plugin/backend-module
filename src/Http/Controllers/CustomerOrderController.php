@@ -166,7 +166,8 @@ class CustomerOrderController extends Controller
                             return $item['ItemNumber'] == $product_code;
                         });
 
-                        $arr = array_combine(range(0, count($new_structure['ERP']) - 1), $new_structure['ERP']->toArray());
+                        $arr = array_values($new_structure['ERP']->toArray());
+
                         $new_structure['ERP'] = $arr;
                         $new_structure['address_id'] = '';
                         $new_structure['error'] = '';
@@ -298,10 +299,9 @@ class CustomerOrderController extends Controller
         $data['ERP'] = [];
 
         if ($product_exist) {
-            $warehouses = \ErpApi::getWarehouses();
-            $ERP = $this->getERPInfo($product_code, $warehouses->reduce(function ($pre, $curr) {
-                return $pre.$curr->WarehouseNumber;
-            }));
+            $warehouses = \ErpApi::getWarehouses([['enabled', '=', true]]);
+            $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
+            $ERP = $this->getERPInfo($product_code, $warehouseString);
 
             foreach ($ERP as $productPriceAvailability) {
                 $productPriceAvailability['WarehouseName'] = optional($warehouses->firstWhere('WarehouseNumber', $productPriceAvailability['WarehouseID']))->WarehouseName ?? $productPriceAvailability['WarehouseID'];

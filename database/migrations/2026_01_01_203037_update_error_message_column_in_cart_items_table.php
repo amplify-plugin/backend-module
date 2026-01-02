@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cart_items', function (Blueprint $table) {
-            $table->text("error")->nullable()->after('additional_info');
+            $table->text('error')->nullable()->after('additional_info');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cart_items', function (Blueprint $table) {
-            $table->dropColumn("error");
+            $table->dropColumn('error');
         });
     }
 };

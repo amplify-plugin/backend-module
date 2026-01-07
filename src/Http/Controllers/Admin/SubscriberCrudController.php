@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
-use Amplify\System\Marketing\Http\Request\SubscriberRequest;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Marketing\Http\Request\SubscriberRequest;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**

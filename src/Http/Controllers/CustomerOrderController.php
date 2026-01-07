@@ -5,7 +5,7 @@ namespace Amplify\System\Backend\Http\Controllers;
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Backend\Facades\CenPos;
 use Amplify\System\Backend\Http\Requests\CustomerOrderRequest;
-use Amplify\System\Backend\Http\Requests\QuickOrderFileRequest;
+use Amplify\System\Backend\Http\Requests\OrderFileRequest;
 use Amplify\System\Backend\Models\Cart;
 use Amplify\System\Backend\Models\CustomerOrder;
 use Amplify\System\Backend\Models\CustomerOrderLine;
@@ -33,7 +33,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerOrderController extends Controller
 {
-    public function quickOrderFileUpload(QuickOrderFileRequest $request): JsonResponse
+    public function quickOrderFileUpload(OrderFileRequest $request): JsonResponse
     {
         $file = request()->file('file');
         $fileName = time().'_'.$file->getClientOriginalName();

@@ -4,7 +4,7 @@ namespace Amplify\System\Backend\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QuickOrderFileRequest extends FormRequest
+class OrderFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

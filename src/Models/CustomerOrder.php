@@ -264,7 +264,7 @@ class CustomerOrder extends Model implements Auditable
                         ];
                     }
 
-                    if (isset($orderResponse->OrderStatus) && $orderResponse->OrderStatus === 'Accepted') {
+                    if (isset($orderResponse->OrderStatus) && in_array($orderResponse->OrderStatus, ['Accepted', 'In Process'], true)) {
 
                         $this->update([
                             'erp_order_id' => $orderResponse?->OrderNumber ?? null,

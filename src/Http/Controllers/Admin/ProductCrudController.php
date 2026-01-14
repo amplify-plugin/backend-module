@@ -652,6 +652,7 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::field('product_slug')->tab('SEO');
         CRUD::field('meta_description')->tab('SEO');
         CRUD::field('meta_keywords')->tab('SEO');
+        CRUD::field('og_description')->tab('SEO');
 
         CRUD::field('status')->type('enum')->tab('BasicInfo');
         CRUD::field('products_list')->tab('BasicInfo');

@@ -44,7 +44,12 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
     protected $casts = [
         'assigned_customers' => 'array',
-        // 'password' => 'hashed',
+        'enabled' => 'boolean',
+        'is_admin' => 'boolean',
+        'is_approver' => 'boolean',
+        'is_viewer' => 'boolean',
+        'password_reset_required' => 'boolean',
+        'is_buyer' => 'boolean',
     ];
 
     protected $hidden = ['password'];

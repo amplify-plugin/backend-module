@@ -33,6 +33,7 @@ use OwenIt\Auditing\Contracts\Auditable as ContractsAuditable;
  * @property bool $pricing
  * @property ProductAvailabilityEnum $availability
  * @property ProductImage $productImage
+ * @property string $product_name
  */
 class Product extends Model implements ContractsAuditable
 {

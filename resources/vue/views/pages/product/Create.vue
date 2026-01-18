@@ -686,6 +686,7 @@ export default {
                 product_slug: this.productData.product_slug,
                 meta_description: this.productData.meta_description,
                 meta_keywords: this.productData.meta_keywords,
+                og_description: this.productData.og_description,
                 single_product_page_id:
                     this.productData.single_product_page === undefined
                         ? null

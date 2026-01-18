@@ -56,6 +56,24 @@
                 <small v-if="$parent.validationErrors.meta_keywords"
                        class="text-danger mt-3">{{ $parent.validationErrors.meta_keywords[0] }}</small>
             </div>
+
+            <div class="form-group col-sm-12">
+                <div class="d-flex justify-content-between">
+                    <label :class="{'text-danger': $parent.validationErrors.og_description}">
+                        OG Description
+                        <i class="las la-info-circle pull-right" style="margin-top: 3px;"
+                           title="OG Description"></i>
+                    </label>
+                </div>
+                <textarea v-model="$parent.productData.og_description"
+                          @input="removeError('og_description')"
+                          placeholder="Enter OG description"
+                          class="form-control"
+                          :class="{'is-invalid': $parent.validationErrors.og_description}"
+                          rows="4"> </textarea>
+                <small v-if="$parent.validationErrors.og_description"
+                       class="text-danger mt-3">{{ $parent.validationErrors.og_description[0] }}</small>
+            </div>
         </div>
     </div>
 </template>

@@ -23,7 +23,7 @@ class DatabaseSeederWithoutProductsData extends Seeder
      */
     public function run()
     {
-        $this->call(UserSeed::class);
+        $this->call(UserSeeder::class);
         $this->call(SiteConfigSeed::class);
         $this->call(CustomerGroupSeeder::class);
         $this->call(ImportSeeder::class);

@@ -96,6 +96,23 @@
                 </small>
             </div>
             <div class="form-group">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        v-model="coreConfigurationData.log_trace_parts_api"
+                        id="log_trace_parts_api"
+                    />
+                    <label class="form-check-label" for="log_trace_parts_api">
+                        Enabled log of trace-parts api.
+                    </label>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    If enabled system will log trace-parts api data.
+                    <a href="/admin/api-log?group=api.navigator.traceparts.com" target="_blank">See Current Logs</a>
+                </small>
+            </div>
+            <div class="form-group">
                 <p class="text-muted mt-2 d-block">
                     <a href="/admin/env-variable" target="_blank">.ENV Variable Editor <code>(Developer and System Administrator Only)</code></a>
                 </p>
@@ -165,13 +182,14 @@ export default {
                 log_search: this.$parent.coreConfigurationData.developer.log_search ?? false,
                 log_payment: this.$parent.coreConfigurationData.developer.log_payment ?? false,
                 log_erp_api: this.$parent.coreConfigurationData.developer.log_erp_api ?? false,
+                log_trace_parts_api: this.$parent.coreConfigurationData.developer.log_trace_parts_api ?? false,
                 log_email: this.$parent.coreConfigurationData.developer.log_email ?? false,
                 bug_recipient: this.$parent.coreConfigurationData.developer.bug_recipient ?? [],
             }
         }
     },
     mounted() {
-        console.log(this.systemConfiguration);
+        // console.log(this.systemConfiguration);
     },
 }
 </script>

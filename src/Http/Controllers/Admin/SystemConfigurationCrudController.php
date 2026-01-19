@@ -592,6 +592,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'log_payment' => $request->boolean('log_payment', false),
             'log_erp_api' => $request->boolean('log_erp_api', false),
             'log_email' => $request->boolean('log_email', false),
+            'log_trace_parts_api' => $request->boolean('log_trace_parts_api', false),
             'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
         ];
     }

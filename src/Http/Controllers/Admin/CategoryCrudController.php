@@ -60,15 +60,15 @@ class CategoryCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Category::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/category');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
         CRUD::setEntityNameStrings('category', 'categories');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller): void
     {
-        Route::get($segment.'/clone/{category}', [
-            'as' => $routeName.'.clone',
-            'uses' => $controller.'@cloneCategory',
+        Route::get($segment . '/clone/{category}', [
+            'as' => $routeName . '.clone',
+            'uses' => $controller . '@cloneCategory',
             'operation' => 'cloneCategory',
         ]);
     }
@@ -140,7 +140,7 @@ class CategoryCrudController extends BackpackCustomCrudController
 
         $this->crud->addButtonFromModelFunction('line', 'show-clone_category-btn', 'showCloneCategoryBtn', 'ending');
 
-        if (! backpack_user()->can('category.create') && ! (is_super_admin())) {
+        if (!backpack_user()->can('category.create') && !(is_super_admin())) {
             $this->crud->removeButton('create');
         }
 
@@ -149,10 +149,10 @@ class CategoryCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'label' => '#',
             'value' => function ($model) {
-                if ($model->is_new === 1 && ! $model->is_updated) {
-                    return $model->id.' <sup class="badge text-danger px-0">New</sup>';
+                if ($model->is_new === 1 && !$model->is_updated) {
+                    return $model->id . ' <sup class="badge text-danger px-0">New</sup>';
                 } elseif ($model->is_updated) {
-                    return $model->id.' <sup class="badge text-warning px-0">Updated</sup>';
+                    return $model->id . ' <sup class="badge text-warning px-0">Updated</sup>';
                 } else {
                     return $model->id;
                 }
@@ -295,14 +295,9 @@ class CategoryCrudController extends BackpackCustomCrudController
     protected function setupReorderOperation()
     {
         $this->crud->set('reorder.label', 'category_name');
-        // define which model attribute will be shown on draggable elements
-        // $this->crud->set('reorder.label', 'category_name');
-        // define how deep the admin is allowed to nest the items
-        // for infinite levels, set it to 0
         $this->crud->set('reorder.max_level', 0);
-
-        // $this->crud->disableReorder();
-        // $this->crud->isReorderEnabled();
+        $this->crud->addClause('orderBy', 'lft', 'ASC');
+        $this->crud->addClause('select', ['id', 'category_name', 'lft', 'parent_id']);
     }
 
     /**
@@ -391,11 +386,11 @@ class CategoryCrudController extends BackpackCustomCrudController
         $product = Product::query()->with('productImage')->whereHas('categories', function ($q) use ($search) {
             $q = $q->where('category_id', request()->id);
 
-            if (! empty($search)) {
+            if (!empty($search)) {
                 $q = $q->where(function ($query) use ($search) {
-                    return $query->where('product_name', 'like', '%'.$search.'%')
-                        ->orWhere('description', 'like', '%'.$search.'%')
-                        ->orWhere('product_code', 'like', '%'.$search.'%');
+                    return $query->where('product_name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('product_code', 'like', '%' . $search . '%');
                 });
             }
 
@@ -415,6 +410,11 @@ class CategoryCrudController extends BackpackCustomCrudController
         ]);
     }
 
+    protected function fetchCategoryTree()
+    {
+
+    }
+
     /**
      * @return bool|string
      */
@@ -423,7 +423,7 @@ class CategoryCrudController extends BackpackCustomCrudController
         $this->crud->hasAccessOrFail('delete');
         $imagePath = $this->crud->getEntry($id)->image;
         $isDeleted = $this->crud->delete($id);
-        if ($isDeleted && ! empty($imagePath)) {
+        if ($isDeleted && !empty($imagePath)) {
             deleteFileFromPublicFolder($imagePath);
         }
 

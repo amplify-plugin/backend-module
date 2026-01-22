@@ -3,18 +3,27 @@
 namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class OrderList extends Model implements Auditable
 {
-    use CrudTrait, HasFactory;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
     const CUSTOMER_ORDER_LIST_TYPES = ['GLOBAL' => 'global', 'PERSONAL' => 'personal'];
 
     protected $fillable = ['name', 'list_type', 'description', 'contact_id', 'customer_id'];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (self $orderList) {
+            $orderList->orderListItems()->delete();
+        });
+    }
 
     /**
      * relations

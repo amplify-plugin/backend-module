@@ -11,9 +11,7 @@ class OrderList extends Model implements Auditable
     use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
-    const CUSTOMER_ORDER_LIST_TYPES = ['GLOBAL' => 'global', 'PERSONAL' => 'personal'];
-
-    protected $fillable = ['name', 'list_type', 'description', 'contact_id', 'customer_id'];
+    protected $guarded = ['id'];
 
     /**
      * The "booted" method of the model.
@@ -48,8 +46,8 @@ class OrderList extends Model implements Auditable
      */
     public function buttonOrderListItems()
     {
-        return '<a class="btn btn-sm btn-link" href="'.route('list-item.index')
-            .'?list_id='.$this->id.'" data-toggle="tooltip" title="List Items"><i class="la la-list mr-2"></i>View List Items</a>';
+        return '<a class="btn btn-sm btn-link" href="' . route('list-item.index')
+            . '?list_id=' . $this->id . '" data-toggle="tooltip" title="List Items"><i class="la la-list mr-2"></i>View List Items</a>';
     }
 
     public static function guessFavouriteModel()
@@ -64,7 +62,7 @@ class OrderList extends Model implements Auditable
             $title = 'Quick List';
         }
 
-        if (! $favourite) {
+        if (!$favourite) {
             abort(404, "{$title} Parameter is missing");
         }
 
@@ -74,6 +72,11 @@ class OrderList extends Model implements Auditable
     /**
      * Scopes
      */
+
+    protected function getListTypeLabelAttribute()
+    {
+        return  config("amplify.constant.favorite_list_type.{$this->attributes['list_type']}", ucwords($this->attributes['list_type']));
+    }
 
     /**
      * Model functions

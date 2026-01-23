@@ -594,51 +594,6 @@ class CustomerOrderController extends Controller
     }
 
     /**
-     * This function saves the order list
-     */
-    public function saveOrderList(Request $request)
-    {
-        $request->validate([
-            'list_name' => 'required_if:type,new_list',
-            'list_desc' => '',
-            'list_type' => 'required|in:personal,global',
-        ]);
-        global $success, $message, $redirect_to;
-        DB::transaction(function () use ($request, &$success, &$message, &$redirect_to) {
-            try {
-                $orderList = OrderList::firstOrCreate([
-                    'id' => $request->list_id,
-                ], [
-                    'name' => $request->list_name,
-                    'list_type' => $request->list_type,
-                    'description' => $request->list_desc,
-                    'contact_id' => customer(true)->id,
-                    'customer_id' => customer()->id,
-                ]
-                );
-                $orderListItems = $this->getOrderListItemsArray($request, $orderList);
-
-                OrderListItem::insert($orderListItems);
-
-                $success = $GLOBALS['success'] = true;
-                $message = $GLOBALS['message'] = 'List Successfully saved';
-                $customer_list_page = Page::published()->find(config('amplify.frontend.order_list_page_id'));
-                $redirect_to = $GLOBALS['redirect_to'] = url()->to(($customer_list_page->slug ?? 'customer-list'));
-            } catch (\Exception $exception) {
-                $success = $GLOBALS['success'] = false;
-                $message = $GLOBALS['message'] = 'Something went wrong!';
-                $redirect_to = $GLOBALS['redirect_to'] = null;
-            }
-        });
-
-        return response()->json([
-            'success' => $success,
-            'message' => $message,
-            'redirect_to' => $redirect_to,
-        ]);
-    }
-
-    /**
      * This function structures the order list items and returns an array that can be stored with insert method
      */
     private function getOrderListItemsArray($request, $orderList)
@@ -1112,56 +1067,6 @@ class CustomerOrderController extends Controller
         Session::flash('success', 'You have successfully submitted the draft as an order!');
 
         return back();
-    }
-
-    public function saveProductToOrderList(Request $request)
-    {
-        $request->validate([
-            'list_name' => 'required_if:type,new_list',
-            'product_id' => 'required',
-            'list_id' => 'required_if:type,existing',
-            'list_desc' => '',
-            'list_type' => 'required_if:type,new_list|in:personal,global',
-        ]);
-
-        global $success, $message, $orderList, $redirectTo;
-        DB::transaction(function () use ($request, &$success, &$message, &$orderList, &$redirectTo) {
-            try {
-                $orderList = OrderList::firstOrCreate([
-                    'id' => $request->list_id,
-                ], [
-                    'name' => $request->list_name,
-                    'list_type' => $request->list_type,
-                    'description' => $request->list_desc,
-                    'contact_id' => customer(true)->id,
-                    'customer_id' => customer()->id,
-                ]
-                );
-
-                OrderListItem::firstOrCreate([
-                    'list_id' => $orderList->id,
-                    'product_id' => $request->product_id,
-                ], [
-                    'product_id' => $request->product_id,
-                    'qty' => $request->product_qty ?? 0,
-                    'list_id' => $orderList->id,
-                ]);
-
-                $success = $GLOBALS['success'] = true;
-                $orderList = $GLOBALS['orderList'] = $orderList;
-                $message = $GLOBALS['message'] = 'List Successfully saved';
-            } catch (\Exception $exception) {
-                $success = $GLOBALS['success'] = false;
-                $message = $GLOBALS['message'] = 'Something went wrong!';
-            }
-        });
-
-        return response()->json([
-            'success' => $success,
-            'type' => $request->type,
-            'orderList' => $orderList,
-            'message' => $message,
-        ]);
     }
 
     public function getOrderPricing()

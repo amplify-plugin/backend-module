@@ -48,9 +48,9 @@ class FrontendContactRequest extends FormRequest
         // on update statement
         if ($this->isMethod('PUT')) {
             $this->rules['password'] = "nullable|min:$passLength|confirmed";
-            $this->rules['email'] = 'required|email|unique:contacts,email,'.request('contact')->id;
+            $this->rules['email'] = 'required|email:rfc,dns|unique:contacts,email,'.request('contact')->id;
         } else {
-            $this->rules['email'] = 'required|email|unique:contacts';
+            $this->rules['email'] = 'required|email:rfc,dns|unique:contacts';
             $this->rules['password'] = "required|min:$passLength|confirmed";
         }
 

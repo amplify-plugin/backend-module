@@ -278,11 +278,15 @@ class CustomerOrderController extends Controller
     //        ]);
     //    }
 
-    private function getERPInfo(string $productCode, string $warehouseString)
+    private function getERPInfo(string $productCode, string $productUom, string $warehouseString)
     {
         return ErpApi::getProductPriceAvailability([
             'items' => [
-                ['item' => $productCode],
+                [
+                    'item' => $productCode,
+                    "uom" => $productUom,
+                    "qty" => 1
+                ],
             ],
             'warehouse' => $warehouseString,
         ]);
@@ -295,13 +299,14 @@ class CustomerOrderController extends Controller
     {
         $product_code = request('product_code');
         $product_exist = Product::where('product_code', $product_code)->first();
+        $product_uom = $product_exist->UoM ?? 'EA';
         $data = [];
         $data['ERP'] = [];
 
         if ($product_exist) {
             $warehouses = \ErpApi::getWarehouses([['enabled', '=', true]]);
             $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
-            $ERP = $this->getERPInfo($product_code, $warehouseString);
+            $ERP = $this->getERPInfo($product_code, $product_uom, $warehouseString);
 
             foreach ($ERP as $productPriceAvailability) {
                 $productPriceAvailability['WarehouseName'] = optional($warehouses->firstWhere('WarehouseNumber', $productPriceAvailability['WarehouseID']))->WarehouseName ?? $productPriceAvailability['WarehouseID'];

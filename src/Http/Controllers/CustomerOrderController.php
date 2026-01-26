@@ -284,8 +284,8 @@ class CustomerOrderController extends Controller
             'items' => [
                 [
                     'item' => $productCode,
-                    "uom" => $productUom,
-                    "qty" => 1
+                    'uom' => $productUom,
+                    'qty' => 1,
                 ],
             ],
             'warehouse' => $warehouseString,

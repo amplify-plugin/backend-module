@@ -50,23 +50,22 @@ class OrderList extends Model implements Auditable
             .'?list_id='.$this->id.'" data-toggle="tooltip" title="List Items"><i class="la la-list mr-2"></i>View List Items</a>';
     }
 
-    public static function guessFavouriteModel()
+    public static function guessOrderListModel()
     {
-        $favourite = null;
+        $entry = null;
         $title = 'Favourite';
-
-        if (request()->route()->hasParameter('favourite')) {
-            $favourite = request()->route()->favourite;
+        if (request()->route()->hasParameter('order_list')) {
+            $entry = request()->route()->order_list;
         } elseif (request()->route()->hasParameter('quick_list')) {
-            $favourite = request()->route()->quick_list;
+            $entry = request()->route()->quick_list;
             $title = 'Quick List';
         }
 
-        if (! $favourite) {
+        if (! $entry) {
             abort(404, "{$title} Parameter is missing");
         }
 
-        return self::find($favourite);
+        return self::find($entry);
     }
 
     /**

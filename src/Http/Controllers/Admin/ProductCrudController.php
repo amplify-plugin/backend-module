@@ -297,6 +297,8 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
 
+        CRUD::enableExportButtons();
+
         if (! backpack_user()->can('product.create') && ! (is_super_admin())) {
             CRUD::removeButton('create');
         }

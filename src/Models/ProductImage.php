@@ -10,7 +10,6 @@ use Amplify\System\Backend\Traits\DynamicDBConnectionTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -29,7 +28,7 @@ class ProductImage extends Model implements Auditable
     ];
 
     protected $casts = [
-        'additional' => 'json',
+        'additional' => 'array',
     ];
 
     /*
@@ -49,11 +48,6 @@ class ProductImage extends Model implements Auditable
         return $this->belongsTo(Product::class);
     }
 
-    public function imageSizes(): HasMany
-    {
-        return $this->hasMany(ProductImageSize::class);
-    }
-
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -65,10 +59,6 @@ class ProductImage extends Model implements Auditable
     | ACCESSORS
     |--------------------------------------------------------------------------
     */
-    public function getAdditionalAttribute($value)
-    {
-        return json_decode($value);
-    }
 
     /*
     |--------------------------------------------------------------------------

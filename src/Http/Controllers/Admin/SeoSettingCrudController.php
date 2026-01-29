@@ -8,7 +8,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SeoSettingCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class SeoSettingCrudController extends BackpackCustomCrudController
@@ -24,7 +24,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/seo-setting');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/seo-setting');
         CRUD::setEntityNameStrings('SEO Setting', 'SEO Settings');
     }
 
@@ -32,6 +32,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -56,7 +57,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
                 'name' => 'updated_at',
                 'label' => 'Last Modified',
                 'type' => 'datetime',
-            ]
+            ],
         ]);
     }
 
@@ -64,6 +65,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -72,7 +74,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -83,7 +85,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
                 'name' => 'value',
                 'label' => 'Value',
                 'type' => 'text',
-            ]
+            ],
         ]);
     }
 
@@ -91,20 +93,20 @@ class SeoSettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $entry = $this->crud->getCurrentEntry();
 
-        $field = empty($entry->field) ? ["name" => "value", "label" => "Value", "type" => "text"] : $entry->field;
-
+        $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
 
         CRUD::addFields([
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -112,7 +114,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'attributes' => [
                     'readonly' => 'readonly',
-                ]
+                ],
             ],
         ]);
 

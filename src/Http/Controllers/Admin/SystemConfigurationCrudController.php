@@ -113,13 +113,11 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
         CRUD::field('option');
 
-        CRUD::field('value');
+        $entry = $this->crud->getCurrentEntry();
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        $field = empty($entry->field) ? ["name" => "value", "label" => "Value", "type" => "text"] : $entry->field;
+
+        CRUD::addField($field);
     }
 
     /**

@@ -74,14 +74,15 @@ class SystemConfiguration extends Model implements Auditable
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+
     // protected $fillable = [];
-     protected $hidden = ['field', 'created_at', 'updated_at'];
+    protected $hidden = ['field', 'created_at', 'updated_at'];
 
     protected $casts = [
         'field' => 'array',
     ];
 
-    protected $attributes= [
+    protected $attributes = [
         'field' => '{"name":"value","label":"Value","type":"text"}',
     ];
 

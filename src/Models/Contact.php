@@ -205,7 +205,11 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
     public function customer(): BelongsTo
     {
-        $key = is_numeric($this->active_customer_id) ? 'active_customer_id' : 'customer_id';
+        if (config('amplify.basic.enable_multi_customer_manage', false) && is_numeric($this->active_customer_id)) {
+            $key = 'active_customer_id';
+        } else {
+            $key = 'customer_id';
+        }
 
         return $this->belongsTo(Customer::class, $key, 'id');
     }

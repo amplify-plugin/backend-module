@@ -6,6 +6,7 @@ use Amplify\ErpApi\Traits\CustomerERPIDAttribute;
 use Amplify\System\Marketing\Models\Subscriber;
 use Amplify\System\OrderRule\Models\CustomerOrderRule;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @property Collection $addresses
+ */
 class Customer extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

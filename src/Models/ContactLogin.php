@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ContactLogin extends Model
 {
     use CrudTrait;
-    use HasFactory;
 
     /*
     |--------------------------------------------------------------------------
@@ -27,6 +26,12 @@ class ContactLogin extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+
+    protected $casts = [
+        'active' => 'boolean',
+        'last_logged_out' => 'datetime',
+        'last_logged_in' => 'datetime',
+    ];
 
     protected $appends = ['roles', 'permissions'];
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 /**
  * Class SeoSettingCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class SecuritySettingCrudController extends BackpackCustomCrudController
@@ -25,7 +25,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/security-setting');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/security-setting');
         CRUD::setEntityNameStrings('Security Setting', 'Security Settings');
     }
 
@@ -33,6 +33,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -57,7 +58,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
                 'name' => 'updated_at',
                 'label' => 'Last Modified',
                 'type' => 'datetime',
-            ]
+            ],
         ]);
     }
 
@@ -65,6 +66,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -73,7 +75,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -84,7 +86,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
                 'name' => 'value',
                 'label' => 'Value',
                 'type' => 'text',
-            ]
+            ],
         ]);
     }
 
@@ -92,20 +94,20 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $entry = $this->crud->getCurrentEntry();
 
-        $field = empty($entry->field) ? ["name" => "value", "label" => "Value", "type" => "text"] : $entry->field;
-
+        $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
 
         CRUD::addFields([
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -113,7 +115,7 @@ class SecuritySettingCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'attributes' => [
                     'readonly' => 'readonly',
-                ]
+                ],
             ],
         ]);
 

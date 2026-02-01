@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 /**
  * Class SeoSettingCrudController
- * @package App\Http\Controllers\Admin
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class Prop65SettingCrudController extends BackpackCustomCrudController
@@ -25,7 +25,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/prop65-setting');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/prop65-setting');
         CRUD::setEntityNameStrings('Prop65 Setting', 'Prop65 Settings');
     }
 
@@ -33,6 +33,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -57,7 +58,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
                 'name' => 'updated_at',
                 'label' => 'Last Modified',
                 'type' => 'datetime',
-            ]
+            ],
         ]);
     }
 
@@ -65,6 +66,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -75,7 +77,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -86,7 +88,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
                 'name' => 'value',
                 'label' => 'Value',
                 'type' => 'text',
-            ]
+            ],
         ]);
     }
 
@@ -94,20 +96,20 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $entry = $this->crud->getCurrentEntry();
 
-        $field = empty($entry->field) ? ["name" => "value", "label" => "Value", "type" => "text"] : $entry->field;
-
+        $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
 
         CRUD::addFields([
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo'
+                'default' => 'seo',
             ],
             [
                 'name' => 'option',
@@ -115,7 +117,7 @@ class Prop65SettingCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'attributes' => [
                     'readonly' => 'readonly',
-                ]
+                ],
             ],
         ]);
 

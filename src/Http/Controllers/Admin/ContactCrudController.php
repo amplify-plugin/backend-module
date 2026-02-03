@@ -882,17 +882,23 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
     }
 
-    public function setImpersonate(Contact $contact): RedirectResponse
+    public function setImpersonate(Contact $contact, Request $request): RedirectResponse
     {
+        if (!$contact->enabled) {
+            return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
+        }
+
         Auth::guard(Contact::AUTH_GUARD)->logout();
 
         // Clear application cache
         Cache::clear();
 
         // Clear specific session data (shipping address)
-        session()->forget('ship_to_address');
+        $request->session()->forget('ship_to_address');
 
         Auth::guard(Contact::AUTH_GUARD)->login($contact);
+
+        $request->session()->put('impersonate', true);
 
         event(new ContactLoggedIn($contact));
 

@@ -20,7 +20,7 @@ class CustomerAuthCheck
     /**
      * Answer to unauthorized access request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse|RedirectResponse
      */
     private function respondToUnauthorizedRequest($request)
@@ -38,14 +38,14 @@ class CustomerAuthCheck
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(Request): (Response|RedirectResponse) $next
+     * @param  \Closure(Request): (Response|RedirectResponse)  $next
      * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next)
     {
         if (customer_check()) {
 
-            if (! in_array($request->route()->getName(), $this->excluded_routes) && session()->has('impersonate') && !session('impersonate')) {
+            if (! in_array($request->route()->getName(), $this->excluded_routes) && session()->has('impersonate') && ! session('impersonate')) {
                 if ($request->user(Contact::AUTH_GUARD)->password_reset_required) {
                     if ($request->ajax() || $request->wantsJson()) {
                         return response()->json([

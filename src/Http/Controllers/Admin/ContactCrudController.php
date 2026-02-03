@@ -884,7 +884,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
     public function setImpersonate(Contact $contact, Request $request): RedirectResponse
     {
-        if (!$contact->enabled) {
+        if (! $contact->enabled) {
             return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
         }
 

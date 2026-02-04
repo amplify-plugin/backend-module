@@ -92,11 +92,7 @@ class CategoryCrudController extends BackpackCustomCrudController
                 return $this->crud->model
                     ->where('parent_id', null)
                     ->get()
-                    ->map(function ($item) {
-                        $item->name = $item->category_name;
-
-                        return $item;
-                    })->pluck('name', 'id')->toArray();
+                    ->pluck('category_name', 'id')->toArray();
             },
             function ($value) {
                 $this->crud->addClause('where', 'parent_id', '=', $value);

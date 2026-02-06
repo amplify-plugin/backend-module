@@ -31,6 +31,7 @@ class ProductSync extends Model implements Auditable
     protected $casts = [
         'is_processed' => 'boolean',
         'is_processing' => 'boolean',
+        'allow_backorder' => 'boolean',
     ];
 
     /*

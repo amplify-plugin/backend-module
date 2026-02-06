@@ -125,6 +125,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::column('description_1');
         CRUD::column('list_price')->type('text');
         CRUD::column('primary_vendor');
+        CRUD::column('allow_backorder')->type('boolean');
         CRUD::column('created_at');
     }
 
@@ -152,6 +153,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::field('unit_of_measure');
         CRUD::field('update_action');
         CRUD::field('is_processed')->type('boolean');
+        CRUD::column('allow_backorder')->type('boolean');
         CRUD::field('error')->type('textarea');
     }
 

@@ -11,12 +11,16 @@
     }
 
     $fieldType = match($entry->field['type']) {
-        'url' => 'text',
+        'ckeditor' => 'text',
+        'browse', 'url' => 'view',
         default => $entry->field['type'] ?? 'text'
     };
     $field = $entry->field ?? [];
     unset($field['value'], $field['default']);
     $column = array_merge($column, $field);
+    if ($fieldType == 'view') {
+        $column['view'] = 'backend::settings.link';
+    }
 @endphp
 
 @include("crud::columns.{$fieldType}")

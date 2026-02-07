@@ -11,8 +11,6 @@ trait SettingOperation
 
     /**
      * Configure the setting group name. Apply settings to all operations.
-     *
-     * @return string
      */
     abstract public function getSettingName(): string;
 

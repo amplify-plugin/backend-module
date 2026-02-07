@@ -91,6 +91,12 @@ class SystemConfiguration extends Model implements Auditable
         static::saved(function ($model) {
             Artisan::call('queue:restart');
         });
+
+        static::creating(function ($model) {
+            if (empty($model->type)) {
+                $model->type = self::checkType($model->value);
+            }
+        });
     }
 
     /*
@@ -151,7 +157,7 @@ class SystemConfiguration extends Model implements Auditable
     /**
      * @return bool|string
      */
-    private static function checkType($value, $type)
+    private static function checkType($value, $type = null)
     {
         if ($type != null) {
             return $type;

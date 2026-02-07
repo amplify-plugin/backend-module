@@ -1,32 +1,21 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin;
+namespace Amplify\System\Backend\Traits;
 
-use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Models\SystemConfiguration;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Str;
 
-/**
- * Class SeoSettingCrudController
- *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
-class SeoSettingCrudController extends BackpackCustomCrudController
+trait SettingOperation
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 
     /**
-     * Configure the CrudPanel object. Apply settings to all operations.
+     * Configure the setting group name. Apply settings to all operations.
      *
-     * @return void
+     * @return string
      */
-    public function setup()
-    {
-        CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/seo-setting');
-        CRUD::setEntityNameStrings('SEO Setting', 'SEO Settings');
-    }
+    abstract public function getSettingName(): string;
 
     /**
      * Define what happens when the List operation is loaded.
@@ -37,54 +26,26 @@ class SeoSettingCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::addClause('where', 'name', '=', 'seo');
+        CRUD::addClause('where', 'name', '=', $this->getSettingName());
 
         CRUD::addColumns([
             [
                 'name' => 'option',
                 'label' => 'Option',
-                'type' => 'custom_html',
-                'value' => function ($model) {
-                    return ucfirst($model->option);
-                },
+                'type' => 'view',
+                'view' => 'backend::settings.label',
             ],
             [
                 'name' => 'value',
                 'label' => 'Value',
-                'type' => 'text',
+                'type' => 'view',
+                'view' => 'backend::settings.value',
+                'orderable' => false,
             ],
             [
                 'name' => 'updated_at',
                 'label' => 'Last Modified',
                 'type' => 'datetime',
-            ],
-        ]);
-    }
-
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
-     * @return void
-     */
-    protected function setupCreateOperation()
-    {
-        CRUD::addFields([
-            [
-                'name' => 'name',
-                'type' => 'hidden',
-                'default' => 'seo',
-            ],
-            [
-                'name' => 'option',
-                'label' => 'Option',
-                'type' => 'text',
-            ],
-            [
-                'name' => 'value',
-                'label' => 'Value',
-                'type' => 'text',
             ],
         ]);
     }
@@ -106,7 +67,7 @@ class SeoSettingCrudController extends BackpackCustomCrudController
             [
                 'name' => 'name',
                 'type' => 'hidden',
-                'default' => 'seo',
+                'default' => $this->getSettingName(),
             ],
             [
                 'name' => 'option',

@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin;
+namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
  *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SecuritySettingCrudController extends BackpackCustomCrudController
+class SecuritySettingController extends BackpackCustomCrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;

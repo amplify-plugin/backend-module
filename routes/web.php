@@ -152,6 +152,15 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('catalog', 'CatalogCrudController');
     Route::crud('env-variable', 'EnvVariableController');
     Route::crud('notice', 'NoticeCrudController');
+    Route::crud('security-setting', 'Settings\SecuritySettingController');
+    Route::crud('google-setting', 'Settings\GoogleSettingController');
+    Route::crud('seo-setting', 'Settings\SeoSettingController');
+    Route::crud('prop65-setting', 'Settings\Prop65SettingController');
+    Route::crud('order-setting', 'Settings\OrderSettingController');
+    Route::crud('api-setting', 'Settings\ApiSettingController');
+    Route::crud('cms-setting', 'Settings\CmsSettingController');
+    Route::crud('invoice-setting', 'Settings\InvoiceSettingController');
+    Route::crud('frontend-setting', 'Settings\FrontendSettingController');
 });
 
 Route::get('failed-job/{id}/retry', [FailedJobCrudController::class, 'retry']);

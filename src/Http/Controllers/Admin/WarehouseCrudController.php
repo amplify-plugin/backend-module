@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\WarehouseRequest;
+use Amplify\System\Backend\Models\Warehouse;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -18,6 +19,7 @@ class WarehouseCrudController extends BackpackCustomCrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -148,5 +150,18 @@ class WarehouseCrudController extends BackpackCustomCrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    /**
+     * This method return all warehouse list for dropdown in frontend setting
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function fetchWarehouseDropdown()
+    {
+        return $this->fetch([
+            'paginate' => false,
+            'model' => Warehouse::class,
+        ]);
     }
 }

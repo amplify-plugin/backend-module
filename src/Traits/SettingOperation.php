@@ -3,7 +3,6 @@
 namespace Amplify\System\Backend\Traits;
 
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Str;
 
 trait SettingOperation
 {
@@ -19,8 +18,6 @@ trait SettingOperation
 
     /**
      * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
      */
@@ -52,8 +49,6 @@ trait SettingOperation
 
     /**
      * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
      *
      * @return void
      */

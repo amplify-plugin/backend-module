@@ -1,6 +1,10 @@
 {{-- regular object attribute --}}
 @php
-    $column['value'] = $column['value'] ?? data_get($entry, 'field.label', ucwords(Str::replace(['_', '-'], ' ',$entry->option)));
+    $default = ucwords(Str::replace(['_', '-'], ' ',$entry->option));
+    $column['value'] = $column['value'] ?? data_get($entry, 'field.label');
+    if (in_array($column['value'], ['Value', 'value'])) {
+        $column['value'] = $default;
+    }
     $column['text'] = $column['default'] ?? '-';
 
     if($column['value'] instanceof \Closure) {
@@ -18,6 +22,6 @@
 
 <span>
     @includeWhen(!empty($column['wrapper']), 'crud::columns.inc.wrapper_start')
-        {{ $column['text'] }}
+    {{ $column['text'] }}
     @includeWhen(!empty($column['wrapper']), 'crud::columns.inc.wrapper_end')
 </span>

@@ -6,7 +6,6 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Str;
 
 /**
  * Class SeoSettingCrudController
@@ -31,8 +30,6 @@ class SecuritySettingController extends BackpackCustomCrudController
 
     /**
      * Configure the setting group name. Apply settings to all operations.
-     *
-     * @return string
      */
     public function getSettingName(): string
     {

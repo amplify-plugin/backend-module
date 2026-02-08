@@ -23,7 +23,7 @@ trait SettingOperation
     {
         CRUD::addClause('where', 'name', '=', $this->getSettingName());
 
-//        CRUD::addButton('line', 'active', 'view', 'backend::settings.toggle_active', 'end');
+        //        CRUD::addButton('line', 'active', 'view', 'backend::settings.toggle_active', 'end');
 
         CRUD::addColumns([
             [

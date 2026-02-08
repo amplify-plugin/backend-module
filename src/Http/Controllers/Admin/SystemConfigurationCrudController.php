@@ -118,6 +118,13 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
 
         CRUD::addField($field);
+
+        CRUD::addField([
+            'name' => 'active',
+            'label' => 'Active?',
+            'type' => 'boolean',
+            'default' => true,
+        ]);
     }
 
     /**

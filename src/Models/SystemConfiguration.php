@@ -80,6 +80,7 @@ class SystemConfiguration extends Model implements Auditable
 
     protected $casts = [
         'field' => 'array',
+        'active' => 'boolean',
     ];
 
     protected $attributes = [

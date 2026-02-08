@@ -15,7 +15,7 @@ class AmplifyServiceProvider extends ServiceProvider
     {
         // Load All Configs to Config system from DB
         if (file_exists(storage_path('installed'))) {
-            foreach (\DB::table('system_configurations')->get() as $systemConfig) {
+            foreach (\DB::table('system_configurations')->where('active', true)->get() as $systemConfig) {
                 Config::set("amplify.{$systemConfig->name}.{$systemConfig->option}", UtilityHelper::typeCast($systemConfig->value, $systemConfig->type));
             }
         }

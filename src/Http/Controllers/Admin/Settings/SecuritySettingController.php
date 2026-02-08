@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Str;
 
@@ -14,8 +15,7 @@ use Illuminate\Support\Str;
  */
 class SecuritySettingController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use SettingOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -30,95 +30,12 @@ class SecuritySettingController extends BackpackCustomCrudController
     }
 
     /**
-     * Define what happens when the List operation is loaded.
+     * Configure the setting group name. Apply settings to all operations.
      *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     *
-     * @return void
+     * @return string
      */
-    protected function setupListOperation()
+    public function getSettingName(): string
     {
-        CRUD::addClause('where', 'name', '=', 'security');
-
-        CRUD::addColumns([
-            [
-                'name' => 'option',
-                'label' => 'Option',
-                'type' => 'custom_html',
-                'value' => function ($model) {
-                    return Str::title(Str::replace(['_', '-'], ' ', $model->option));
-                },
-            ],
-            [
-                'name' => 'value',
-                'label' => 'Value',
-                'type' => 'text',
-            ],
-            [
-                'name' => 'updated_at',
-                'label' => 'Last Modified',
-                'type' => 'datetime',
-            ],
-        ]);
-    }
-
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
-     * @return void
-     */
-    protected function setupCreateOperation()
-    {
-        CRUD::addFields([
-            [
-                'name' => 'name',
-                'type' => 'hidden',
-                'default' => 'seo',
-            ],
-            [
-                'name' => 'option',
-                'label' => 'Option',
-                'type' => 'text',
-            ],
-            [
-                'name' => 'value',
-                'label' => 'Value',
-                'type' => 'text',
-            ],
-        ]);
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
-     */
-    protected function setupUpdateOperation()
-    {
-        $entry = $this->crud->getCurrentEntry();
-
-        $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
-
-        CRUD::addFields([
-            [
-                'name' => 'name',
-                'type' => 'hidden',
-                'default' => 'seo',
-            ],
-            [
-                'name' => 'option',
-                'label' => 'Option',
-                'type' => 'text',
-                'attributes' => [
-                    'readonly' => 'readonly',
-                ],
-            ],
-        ]);
-
-        CRUD::addField($field);
+        return 'security';
     }
 }

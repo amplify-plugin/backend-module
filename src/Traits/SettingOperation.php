@@ -25,6 +25,8 @@ trait SettingOperation
     {
         CRUD::addClause('where', 'name', '=', $this->getSettingName());
 
+//        CRUD::addButton('line', 'active', 'view', 'backend::settings.toggle_active', 'end');
+
         CRUD::addColumns([
             [
                 'name' => 'option',
@@ -37,6 +39,12 @@ trait SettingOperation
                 'label' => 'Value',
                 'type' => 'view',
                 'view' => 'backend::settings.value',
+                'orderable' => false,
+            ],
+            [
+                'name' => 'active',
+                'label' => 'Active?',
+                'type' => 'boolean',
                 'orderable' => false,
             ],
             [

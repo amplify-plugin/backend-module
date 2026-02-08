@@ -33,7 +33,7 @@ class AmplifyApiSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'default' => false,
-                    'label' => 'Enable Contact Detail API'
+                    'label' => 'Enable Contact Detail API',
                 ],
             ],
             [
@@ -49,7 +49,7 @@ class AmplifyApiSettingSeeder extends Seeder
                         'contact_code' => 'Contact Erp Code',
                         'email' => 'Email Address',
                         'phone' => 'Phone Number',
-                    ]
+                    ],
                 ],
             ],
         ];

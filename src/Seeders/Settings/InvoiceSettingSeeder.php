@@ -35,7 +35,7 @@ class InvoiceSettingSeeder extends Seeder
                     'options' => [
                         'html' => 'HTML',
                         'image' => 'Image',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -66,7 +66,7 @@ class InvoiceSettingSeeder extends Seeder
                     'options' => [
                         'html' => 'HTML',
                         'image' => 'Image',
-                    ]
+                    ],
                 ],
             ],
             [

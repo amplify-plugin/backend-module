@@ -34,8 +34,8 @@ class FrontendSettingSeeder extends Seeder
                     'label' => 'Shop Page Default View',
                     'options' => [
                         'list' => 'List View',
-                        'grid' => 'Grid View'
-                    ]
+                        'grid' => 'Grid View',
+                    ],
                 ],
             ],
             [
@@ -45,8 +45,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'text',
                     'label' => 'Product Available Text',
-                    'hint' => 'This texts will appear if you don\'t want to show the exact quantity but explain stock available'
-                ]
+                    'hint' => 'This texts will appear if you don\'t want to show the exact quantity but explain stock available',
+                ],
             ],
             [
                 'option' => 'product_not_available_text',
@@ -55,8 +55,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'text',
                     'label' => 'Product Not Available Text',
-                    'hint' => 'This texts will appear if you don\'t want to zero quantity but explain Restock possibility'
-                ]
+                    'hint' => 'This texts will appear if you don\'t want to zero quantity but explain Restock possibility',
+                ],
             ],
             [
                 'option' => 'enable_language',
@@ -65,7 +65,7 @@ class FrontendSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'boolean',
-                    'label' => 'Display language switch option on site?'
+                    'label' => 'Display language switch option on site?',
                 ],
             ],
             [
@@ -75,8 +75,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'text',
                     'label' => 'Mega Menu Maximum Height',
-                    'hint' => 'Default Height calculation unit is pixel(px)'
-                ]
+                    'hint' => 'Default Height calculation unit is pixel(px)',
+                ],
             ],
             [
                 'option' => 'guest_default',
@@ -85,8 +85,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'text',
                     'label' => 'Guest Customer ID',
-                    'hint' => 'Guest ID that will be used to get public pricing from ERP'
-                ]
+                    'hint' => 'Guest ID that will be used to get public pricing from ERP',
+                ],
             ],
             [
                 'option' => 'guest_checkout_warehouse',
@@ -103,8 +103,8 @@ class FrontendSettingSeeder extends Seeder
                     'method' => 'POST',
                     'attribute' => 'name',
                     'model' => \Amplify\System\Backend\Models\Warehouse::class,
-                    'entity' => 'guestWarehouse'
-                ]
+                    'entity' => 'guestWarehouse',
+                ],
             ],
             [
                 'option' => 'guest_checkout',
@@ -114,8 +114,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Enable Guest Checkout?',
-                    'hint' => 'If enabled system will allow guest without login to checkout'
-                ]
+                    'hint' => 'If enabled system will allow guest without login to checkout',
+                ],
             ],
             [
                 'option' => 'guest_add_to_cart',
@@ -125,8 +125,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Enable Guest Add To Cart?',
-                    'hint' => 'If enabled system will allow guest to add item to cart without login'
-                ]
+                    'hint' => 'If enabled system will allow guest to add item to cart without login',
+                ],
             ],
             [
                 'option' => 'force_shipping_address_customer_id',
@@ -135,8 +135,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'text',
                     'label' => 'Force a Shipping Address',
-                    'hint' => 'Enter comma seperated the customer codes, those upon login will force to select a shipping address'
-                ]
+                    'hint' => 'Enter comma seperated the customer codes, those upon login will force to select a shipping address',
+                ],
             ],
             [
                 'option' => 'cart_item_badge_style',
@@ -147,8 +147,8 @@ class FrontendSettingSeeder extends Seeder
                     'label' => 'Item count Badge Style on Cart',
                     'options' => [
                         'items' => 'Number of items',
-                        'quantities' => 'Total Quantities'
-                    ]
+                        'quantities' => 'Total Quantities',
+                    ],
                 ],
             ],
             [
@@ -159,8 +159,8 @@ class FrontendSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Show Master Product Page from SKU link?',
-                    'hint' => 'If enabled system will redirect to master product page from ordered SKU'
-                ]
+                    'hint' => 'If enabled system will redirect to master product page from ordered SKU',
+                ],
             ],
         ];
     }

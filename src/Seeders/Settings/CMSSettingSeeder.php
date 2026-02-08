@@ -56,7 +56,7 @@ class CMSSettingSeeder extends Seeder
                         'nationalMode' => true,
                         'autoHideDialCode' => false,
                         'placeholderNumberType' => 'MOBILE',
-                    ]
+                    ],
                 ],
             ],
             [

@@ -31,7 +31,7 @@ class GoogleApiSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
-                    'label' => 'Google Map API Key'
+                    'label' => 'Google Map API Key',
                 ],
             ],
             [
@@ -40,7 +40,7 @@ class GoogleApiSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
-                    'label' => 'Google Analytics ID'
+                    'label' => 'Google Analytics ID',
                 ],
             ],
             [
@@ -49,7 +49,7 @@ class GoogleApiSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
-                    'label' => 'Google Tag Manager ID'
+                    'label' => 'Google Tag Manager ID',
                 ],
             ],
             [
@@ -58,9 +58,9 @@ class GoogleApiSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'url',
-                    'label' => 'Google Analytics URL'
+                    'label' => 'Google Analytics URL',
                 ],
-            ]
+            ],
         ];
     }
 }

@@ -33,7 +33,7 @@ class OrderSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Enable Order Rule Check?',
-                    'hint' => 'If enabled a system will validate order restriction rules, before it send to ERP.'
+                    'hint' => 'If enabled a system will validate order restriction rules, before it send to ERP.',
                 ],
             ],
             [
@@ -44,7 +44,7 @@ class OrderSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Send Email to Create Order from Quote',
-                    'hint' => 'If enabled System we can mail to salesperson when customer want an quote.'
+                    'hint' => 'If enabled System we can mail to salesperson when customer want an quote.',
                 ],
             ],
             [
@@ -55,7 +55,7 @@ class OrderSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Use Pickup Enable Warehouses as Shipping Methods',
-                    'hint' => 'If enabled a system display pickup enabled warehouses as one of shipping options under pickup shipping method.'
+                    'hint' => 'If enabled a system display pickup enabled warehouses as one of shipping options under pickup shipping method.',
                 ],
             ],
         ];

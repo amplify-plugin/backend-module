@@ -68,6 +68,7 @@ class Product extends Model implements ContractsAuditable
     private $singleProductIndex = [
         'id' => 'Product Id',
         'product_slug' => 'Product Slug',
+        'product_code' => 'Product Code',
     ];
 
     protected $table = 'products';

@@ -17,7 +17,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 /**
@@ -285,12 +284,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 $response = $this->updateSystemConfiguration($tab, $data);
             }
 
-            /* Remove easyAsk search configuration from session */
-            Session::forget(['ezshop-config']);
-
-            /* Set easyAsk search configuration at session */
-            Session::put('ezshop-config', eaShopConfig());
-
             return $response;
         }
     }
@@ -409,7 +402,11 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     {
         $config = [];
 
-        $inputs = $request->except(['excluded_page_types', 'tab', 'styles', 'scripts', 'fallback_image_path']);
+        $inputs = $request->except([
+            'excluded_page_types', 'tab', 'styles',
+            'scripts', 'fallback_image_path', 'shop_page_prefix',
+            'product_page_prefix',
+        ]);
 
         foreach ($inputs as $key => $value) {
             $config[$key] = $value;

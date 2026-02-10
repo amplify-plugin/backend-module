@@ -26,7 +26,7 @@ class InvoiceSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/invoice-setting');
-        CRUD::setEntityNameStrings('API Setting', 'API Settings');
+        CRUD::setEntityNameStrings('Invoice Setting', 'Invoice Settings');
     }
 
     /**

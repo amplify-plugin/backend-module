@@ -28,7 +28,7 @@ class CustomerAuthCheck
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized.',
+                'message' => 'You need to be logged in to access this feature.',
             ], 401);
         } else {
             return redirect()->route('frontend.login');

@@ -43,7 +43,13 @@ class EnvVariableController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         $this->crud->removeButton('create');
-        $this->crud->setListView('backend::pages.env-variable');
+        $this->crud->setListView('backend::pages.editor');
+        $this->data['header'] = <<<HTML
+                            <label class="text-right fw-bold">
+                                Caution: Any wrong/syntax change in (.env) may cause system failure.
+                                <code class="text-danger">--"With great power comes great responsibility"</code>.
+                            </label>
+HTML;
         $this->data['content'] = file_get_contents($this->envPath);
     }
 

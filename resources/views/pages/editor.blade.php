@@ -1,10 +1,13 @@
 @extends(backpack_view('blank'))
 
 @php
-    $breadcrumbs = [
+    $defaultBreadcrumbs = [
         'Admin' => backpack_url('dashboard'),
-        __('Env Variable') => false,
+        $crud->entity_name => url()->current(),
+        __('Edit') => false,
     ];
+
+    $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
 
 @section('header')
@@ -34,17 +37,16 @@
                     </div>
                     @enderror
                     <code-editor
-                        url="{{ url($crud->getRoute()) }}"
-                        content="{{ old('content', $content) }}"
-                        back-url="{{ backpack_url('/dashboard') }}"
-                        errors="{{$errors}}"
-                        csrf-token="{{ csrf_token() }}">
-                        <template #header>
-                            <label class="text-right fw-bold">
-                                Caution: Any wrong/syntax change in (.env) may cause system failure.
-                                <code class="text-danger">--"With great power comes great responsibility"</code>.
-                            </label>
-                        </template>
+                            url="{{ url($crud->getRoute()) }}"
+                            content="{{ old('content', $content) }}"
+                            back-url="{{ backpack_url('/dashboard') }}"
+                            errors="{{$errors}}"
+                            csrf-token="{{ csrf_token() }}">
+                        @if(!empty($header))
+                            <template #header>
+                                {!! $header !!}
+                            </template>
+                        @endif
                     </code-editor>
                 </div>
             </div>

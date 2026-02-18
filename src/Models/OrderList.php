@@ -23,6 +23,20 @@ class OrderList extends Model implements Auditable
         });
     }
 
+
+    /**
+     * @return static
+     */
+    public static function getFavoriteList()
+    {
+        return static::firstOrCreate([
+            'customer_id' => customer()->id,
+            'contact_id' => customer(true)->id,
+            'list_type' => 'favourite',
+            'name' => "Favourites of " . customer(true)->name,
+            'description' => "System managed favourite item list for " . customer(true)->name,
+        ]);
+    }
     /**
      * relations
      */

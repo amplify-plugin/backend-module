@@ -23,7 +23,6 @@ class OrderList extends Model implements Auditable
         });
     }
 
-
     /**
      * @return static
      */
@@ -33,10 +32,11 @@ class OrderList extends Model implements Auditable
             'customer_id' => customer()->id,
             'contact_id' => customer(true)->id,
             'list_type' => 'favourite',
-            'name' => "Favourites of " . customer(true)->name,
-            'description' => "System managed favourite item list for " . customer(true)->name,
+            'name' => 'Favourites of '.customer(true)->name,
+            'description' => 'System managed favourite item list for '.customer(true)->name,
         ]);
     }
+
     /**
      * relations
      */

@@ -536,6 +536,19 @@ class Product extends Model implements ContractsAuditable
         ); // eager load relationship type will be added later
     }
 
+    /**
+     * Get all relationship types for this product (optimized with JOIN for large datasets)
+     * Better than whereHas() for performance with large tables
+     */
+    public function getRelationshipTypes()
+    {
+        return ProductRelationshipType::join('product_relationships', 'product_relationship_types.id', '=', 'product_relationships.product_relationship_type_id')
+            ->where('product_relationships.product_id', $this->id)
+            ->distinct('product_relationship_types.id')
+            ->select('product_relationship_types.*')
+            ->get();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

@@ -28,7 +28,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\EventTemplate::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/event-template');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/event-template');
         CRUD::setEntityNameStrings('template', 'templates');
     }
 
@@ -41,8 +41,16 @@ class EventTemplateCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id')->type('number')->thousands_sep('');
-        CRUD::column('name');
+        $this->crud->query->orderBy('updated_at', 'desc');
+
+        CRUD::column('id')->type('text');
+
+        CRUD::addColumn([
+            'name' => 'name',
+            'type' => 'custom_html',
+            'value' => fn($model) => $model->name,
+        ]);
+
         $this->crud->addColumn([
             'name' => 'event.name',
             'label' => 'Trigger',
@@ -55,6 +63,12 @@ class EventTemplateCrudController extends BackpackCustomCrudController
             'value' => function ($entry) {
                 return ($entry->notification_type == 'emailable') ? 'Email' : 'Message';
             },
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'updated_at',
+            'label' => 'Updated',
+            'type' => 'datetime',
         ]);
 
         CRUD::addFilter(

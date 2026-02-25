@@ -34,6 +34,17 @@ class EventVariable extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            $reserves = ['__company_name__', '__timestamp__'];
+            if (in_array($model->name, $reserves)) {
+                throw new \InvalidArgumentException("Event Variable cannot be created for reserve keywords ". json_encode($reserves));
+                return false;
+            }
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

@@ -28,7 +28,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\EventTemplate::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/event-template');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/event-template');
         CRUD::setEntityNameStrings('template', 'templates');
     }
 
@@ -48,7 +48,7 @@ class EventTemplateCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'name',
             'type' => 'custom_html',
-            'value' => fn($model) => $model->name,
+            'value' => fn ($model) => $model->name,
         ]);
 
         $this->crud->addColumn([

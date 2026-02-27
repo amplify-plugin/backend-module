@@ -5,12 +5,12 @@ namespace Amplify\System\Backend\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Event extends Model implements Auditable
 {
     use CrudTrait;
-    use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     /*
@@ -72,6 +72,7 @@ class Event extends Model implements Auditable
     const WISHLIST_PRODUCT_RESTOCKED = 'wishlist_product_restocked';
 
     const TICKET_CREATED = 'ticket_created';
+    const CONTACT_ACCOUNT_REQUEST_VERIFICATION = 'contact_account_request_verification';
 
     /*
     |--------------------------------------------------------------------------
@@ -98,22 +99,22 @@ class Event extends Model implements Auditable
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function eventActions()
+    public function eventActions(): HasMany
     {
         return $this->hasMany(EventAction::class);
     }
 
-    public function eventVariables()
+    public function eventVariables(): HasMany
     {
         return $this->hasMany(EventVariable::class);
     }
 
-    public function eventRecipents()
+    public function eventRecipents(): HasMany
     {
         return $this->hasMany(EventRecipent::class);
     }
 
-    public function eventTemplate()
+    public function eventTemplate(): HasMany
     {
         return $this->hasMany(EventTemplate::class);
     }

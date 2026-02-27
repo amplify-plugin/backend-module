@@ -557,6 +557,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'cookie_title' => $request->input('cookie_title', null),
             'cookie_content' => $request->input('cookie_content', null),
             'skip_contact_approval' => $request->boolean('skip_contact_approval', false),
+            'verification_method' => $request->input('verification_method', 'backend'),
         ];
     }
 

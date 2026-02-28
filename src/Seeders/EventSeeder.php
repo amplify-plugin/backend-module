@@ -8,7 +8,6 @@ use Amplify\System\Backend\Models\EventTemplate;
 use Amplify\System\Backend\Models\EventVariable;
 use Amplify\System\Traits\EventSeedTrait;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
 
 class EventSeeder extends Seeder
 {

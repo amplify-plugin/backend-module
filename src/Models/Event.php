@@ -3,7 +3,6 @@
 namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -72,6 +71,7 @@ class Event extends Model implements Auditable
     const WISHLIST_PRODUCT_RESTOCKED = 'wishlist_product_restocked';
 
     const TICKET_CREATED = 'ticket_created';
+
     const CONTACT_ACCOUNT_REQUEST_VERIFICATION = 'contact_account_request_verification';
 
     /*

@@ -109,7 +109,7 @@ class OldEventSeeder extends Seeder
                     new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
                     new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
                 ],
-                'eventTemplates' => []
+                'eventTemplates' => [],
             ],
             [
                 'name' => 'Custom Coil Request Received',
@@ -148,7 +148,7 @@ class OldEventSeeder extends Seeder
                 'eventRecipents' => [
                     new EventRecipent(['name' => 'Salesperson', 'event_action_field' => 'is_get_salesperson', 'description' => 'Send email to salesperson', 'enabled' => true]),
                 ],
-                'eventTemplates' => []
+                'eventTemplates' => [],
             ],
             [
                 'name' => 'Model / Serial Number Research',
@@ -167,9 +167,8 @@ class OldEventSeeder extends Seeder
                 'eventRecipents' => [
                     new EventRecipent(['name' => 'Salesperson', 'event_action_field' => 'is_get_salesperson', 'description' => 'Send email to salesperson', 'enabled' => true]),
                 ],
-                'eventTemplates' => []
+                'eventTemplates' => [],
             ],
         ];
     }
-
 }

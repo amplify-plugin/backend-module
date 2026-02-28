@@ -51,7 +51,7 @@ class EventSeeder extends Seeder
                     new EventTemplate([
                         'name' => '[Admin] Registration Request Received',
                         'subject' => 'New Customer Registration Request Received',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
 
 <p>A new customer has registered on the __company_name__ platform and is currently awaiting account approval.</p>
@@ -92,7 +92,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Customer] Registration Received Notification',
                         'subject' => 'Your Account Registration is Under Review',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear <strong>__customer_name__</strong>,</p>
 
 <p>Thank you for registering on our <strong>__company_name__</strong> platform.</p>
@@ -109,8 +109,8 @@ HTML,
                         'show_button' => false,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ])
-                ]
+                    ]),
+                ],
             ],
             [
                 'name' => 'Registration Request Accepted',
@@ -132,7 +132,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Customer] Registration Request Approved',
                         'subject' => 'Your Account Has Been Approved – You May Now Login',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear __customer_name__,</p>
 
 <p>We are pleased to inform you that your account registration request has been approved.</p>
@@ -153,8 +153,8 @@ HTML,
                         'button_url' => route_uri('frontend.login'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ])
-                ]
+                    ]),
+                ],
             ],
             [
                 'name' => 'Order Received',
@@ -300,7 +300,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Admin] Product catalog Updated',
                         'subject' => 'Schedule Product Catalog Synced with ERP Completed.',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear Administrator,</p> 
 <p> This is to inform you that the scheduled catalog synchronization process for product 
 attributes has been successfully executed and completed on the system. </p> 
@@ -330,7 +330,7 @@ HTML,
                         'button_url' => route_uri('product-sync.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ])
+                    ]),
                 ],
             ],
             [
@@ -367,7 +367,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Admin] Request Online Access Received',
                         'subject' => 'New Account Request Online Access Received',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
 
 <p>A new customer has registered on the __company_name__ platform and is currently awaiting account approval.</p>
@@ -401,7 +401,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Customer] Request Online Access Received Notification',
                         'subject' => 'Your Request for Online Access is Under Review',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear <b>__full_name__</b>,</p>
 
 <p>Thank you for registering on our <b>__company_name__</b> platform.</p>
@@ -419,7 +419,7 @@ HTML,
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ]),
-                ]
+                ],
             ],
             [
                 'name' => 'Contact Account Request Accepted',
@@ -442,7 +442,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Customer] Request Online Access Approved',
                         'subject' => 'Your Account Has Been Approved – You May Now Login',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear __full_name__,</p>
 
 <p>We are pleased to inform you that your account registration request has been approved.</p>
@@ -463,8 +463,8 @@ HTML,
                         'button_url' => route_uri('frontend.login'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ])
-                ]
+                    ]),
+                ],
             ],
             [
                 'name' => 'Contact Account Request Verification',
@@ -487,7 +487,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Admin] Account Verification Requested',
                         'subject' => 'New Registered Account Requested Approval',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
 
 <p>A new customer has registered on the __company_name__ platform and is currently awaiting account approval.</p>
@@ -517,7 +517,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Customer] Account Verification Requested',
                         'subject' => 'Please Verify Your Email Address to Complete Registration',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear __full_name__,</p>
 <p>Thank you for registering with <b>__company_name__</b>.</p>
 <p>Your account registration request has been successfully received. <br/>
@@ -538,7 +538,7 @@ HTML,
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ]),
-                ]
+                ],
             ],
             [
                 'name' => 'Create Order From Quotation',
@@ -604,7 +604,7 @@ HTML,
                     new EventTemplate([
                         'name' => '[Admin] Customer Registered Report Generated',
                         'subject' => 'New Customer Count Report From __report_start_date__ To __report_end_date__',
-                        'email_body' => <<<HTML
+                        'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
 
 <p>This is an automated system generated mail to provide you a list of new customers that has registered to the system.</p>
@@ -622,7 +622,7 @@ __company_name__</p>
 HTML,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ])
+                    ]),
                 ],
             ],
             [

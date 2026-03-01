@@ -27,7 +27,6 @@ class EventSeeder extends Seeder
                 'enabled' => true,
                 'description' => 'This event get triggered when a new retail customer apply on registration form.',
                 'eventVariables' => [
-                    // Existing variables
                     new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the account', 'for_admin' => false]),
                     new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
                     new EventVariable(['name' => '__customer_code__', 'value' => '', 'description' => 'Customer Code of the customer', 'for_admin' => false]),
@@ -49,7 +48,7 @@ class EventSeeder extends Seeder
                 ],
                 'eventTemplates' => [
                     new EventTemplate([
-                        'name' => '[Admin] Registration Request Received',
+                        'name' => '[Admin] Registration Request Received Notification',
                         'subject' => 'New Customer Registration Request Received',
                         'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
@@ -130,7 +129,7 @@ HTML,
                 ],
                 'eventTemplates' => [
                     new EventTemplate([
-                        'name' => '[Customer] Registration Request Approved',
+                        'name' => '[Customer] Registration Request Approved Notification',
                         'subject' => 'Your Account Has Been Approved – You May Now Login',
                         'email_body' => <<<'HTML'
 <p>Dear __customer_name__,</p>
@@ -208,7 +207,101 @@ HTML,
                     new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
                     new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                    new EventTemplate([
+                        'name' => '[Admin] Order Confirmation Notification',
+                        'subject' => 'New Order Received',
+                        'email_body' => <<<'HTML'
+<p>Dear System Administrator,</p>
+<p>
+    System received an order successfully and is currently being processed.
+</p>
+
+<h3>Order Summary</h3>
+<table style="border-collapse: collapse; width:100%; max-width:500px;">
+    <tr>
+        <td><strong>Order Number:</strong></td>
+        <td>__erp_order_number__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Date:</strong></td>
+        <td>__entry_date__</td>
+    </tr>
+    <tr>
+        <td><strong>Total Amount:</strong></td>
+        <td>__total_amount__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Status:</strong></td>
+        <td>__order_status__</td>
+    </tr>
+</table>
+
+<p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
+
+<p>__customer_order_details_url__</p>
+
+<p>If you have any questions or require assistance, please contact the administrator.</p>
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => true,
+                        'button_text' => 'View Order Details',
+                        'button_url' => '/orders/:id',
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                    new EventTemplate([
+                        'name' => '[Customer] Order Confirmation Notification',
+                        'subject' => 'Order Confirmation – Thank You for Your Purchase',
+                        'email_body' => <<<'HTML'
+<p>Dear __customer_name__,</p>
+<p>
+    Thank you for your order with <strong>__company_name__</strong>.  
+    Your order has been successfully received and is currently being processed.
+</p>
+
+<h3>Order Summary</h3>
+<table style="border-collapse: collapse; width:100%; max-width:500px;">
+    <tr>
+        <td><strong>Order Number:</strong></td>
+        <td>__erp_order_number__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Date:</strong></td>
+        <td>__entry_date__</td>
+    </tr>
+    <tr>
+        <td><strong>Total Amount:</strong></td>
+        <td>__total_amount__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Status:</strong></td>
+        <td>__order_status__</td>
+    </tr>
+</table>
+
+<p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
+
+<p>__customer_order_details_url__</p>
+
+<p>If you have any questions or require assistance, please contact the administrator.</p>
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => true,
+                        'button_text' => 'View Order Details',
+                        'button_url' => '/orders/:id',
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                ],
             ],
             [
                 'name' => 'Draft Order Received',
@@ -232,7 +325,8 @@ HTML,
                     new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
                     new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                ],
             ],
             [
                 'name' => 'Order Notes Updated',
@@ -280,7 +374,101 @@ HTML,
                     new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
                     new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                    new EventTemplate([
+                        'name' => '[Admin] Quotation Confirmation Notification',
+                        'subject' => 'New Request For Quotation Received',
+                        'email_body' => <<<'HTML'
+<p>Dear System Administrator,</p>
+<p>
+    System received an request for quotation successfully and is currently being processed.
+</p>
+
+<h3>Order Summary</h3>
+<table style="border-collapse: collapse; width:100%; max-width:500px;">
+    <tr>
+        <td><strong>Quotation Number:</strong></td>
+        <td>__erp_order_number__</td>
+    </tr>
+    <tr>
+        <td><strong>Entry Date:</strong></td>
+        <td>__entry_date__</td>
+    </tr>
+    <tr>
+        <td><strong>Total Amount:</strong></td>
+        <td>__total_amount__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Status:</strong></td>
+        <td>__order_status__</td>
+    </tr>
+</table>
+
+<p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
+
+<p>__customer_order_details_url__</p>
+
+<p>If you have any questions or require assistance, please contact the administrator.</p>
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => true,
+                        'button_text' => 'View Details',
+                        'button_url' => '/orders/:id',
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                    new EventTemplate([
+                        'name' => '[Customer] Order Confirmation Notification',
+                        'subject' => 'Order Confirmation – Thank You for Your Purchase',
+                        'email_body' => <<<'HTML'
+<p>Dear __customer_name__,</p>
+<p>
+    Thank you for your order with <strong>__company_name__</strong>.  
+    Your order has been successfully received and is currently being processed.
+</p>
+
+<h3>Order Summary</h3>
+<table style="border-collapse: collapse; width:100%; max-width:500px;">
+    <tr>
+        <td><strong>Order Number:</strong></td>
+        <td>__erp_order_number__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Date:</strong></td>
+        <td>__entry_date__</td>
+    </tr>
+    <tr>
+        <td><strong>Total Amount:</strong></td>
+        <td>__total_amount__</td>
+    </tr>
+    <tr>
+        <td><strong>Order Status:</strong></td>
+        <td>__order_status__</td>
+    </tr>
+</table>
+
+<p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
+
+<p>__customer_order_details_url__</p>
+
+<p>If you have any questions or require assistance, please contact the administrator.</p>
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => true,
+                        'button_text' => 'View Order Details',
+                        'button_url' => '/orders/:id',
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                ],
             ],
             [
                 'name' => 'Catalog Changed',
@@ -299,7 +487,7 @@ HTML,
                 'eventTemplates' => [
                     new EventTemplate([
                         'name' => '[Admin] Product catalog Updated',
-                        'subject' => 'Schedule Product Catalog Synced with ERP Completed.',
+                        'subject' => 'Schedule Product Catalog Synced with ERP Completed',
                         'email_body' => <<<'HTML'
 <p>Dear Administrator,</p> 
 <p> This is to inform you that the scheduled catalog synchronization process for product 
@@ -326,7 +514,7 @@ attributes has been successfully executed and completed on the system. </p>
 __company_name__ System Notification</p>
 HTML,
                         'show_button' => true,
-                        'button_text' => 'Catalog Synchronization',
+                        'button_text' => 'Synchronization List',
                         'button_url' => route_uri('product-sync.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
@@ -340,11 +528,38 @@ HTML,
                 'description' => 'This even get triggered when from customer portal someone requests to reset their password.',
                 'eventVariables' => [
                     new EventVariable(['name' => '__otp__', 'value' => '', 'description' => 'One Time Password', 'for_admin' => false]),
+                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the contact/account holder', 'for_admin' => false]),
+                    new EventVariable(['name' => '__otp_duration__', 'value' => '30 minutes', 'description' => 'Duration after the OTP will expires', 'for_admin' => false]),
                 ],
                 'eventRecipents' => [
                     new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                    new EventTemplate([
+                        'name' => '[Customer] Password Reset OTP Notification',
+                        'subject' => 'Password Reset OTP Verification',
+                        'email_body' => <<<'HTML'
+<p>Dear __full_name__,</p>
+<p> We received a request to reset your password for your <strong>__company_name__</strong> account. </p> 
+<p> Please use the following One-Time Password (OTP) to proceed with your password reset: </p> 
+<p style="text-align:center; margin:25px 0;"> 
+<span style=" font-size:28px; font-weight:bold; letter-spacing:6px; background:#f4f4f4; padding:12px 20px; border-radius:6px; display:inline-block;"> __otp__</span></p> 
+<p> This OTP is valid for <strong>__otp_duration__</strong>. Please do not share this code with anyone for security reasons.</p>
+<p> If you did not request a password reset, you may safely ignore this email or contact the administrator immediately. </p> 
+<p> If you experience any difficulties, please contact the administrator for assistance. </p> 
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => false,
+                        'button_text' => null,
+                        'button_url' => null,
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                ],
             ],
             [
                 'name' => 'Contact Account Request Received',
@@ -585,7 +800,38 @@ HTML,
                     new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false]),
                     new EventRecipent(['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                    new EventTemplate([
+                        'name' => '[Admin] Customer Part Number Deleted Notification',
+                        'subject' => 'Customer Part Number is Removed',
+                        'email_body' => <<<'HTML'
+<p>Dear System Administrator,</p>
+<p>The customer part number code&nbsp; &quot;__customer_part_number__&quot; is deleted.</p>
+<p><strong>Product Information:</strong>&nbsp;</p>
+<ol>
+	<li><strong>Product Name</strong>:&nbsp;__product_name__</li>
+	<li><strong>Product Code:</strong>&nbsp;__product_code__</li>
+</ol>
+<p><strong>Customer Information:</strong></p>
+<ol>
+	<li><strong>Customer Code:&nbsp;</strong>__customer_code__</li>
+	<li><strong>Customer Name:&nbsp;</strong>__customer_name__</li>
+</ol>
+<p><strong>Deleted Customer Part Number:&nbsp;</strong>__customer_part_number__</p>
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__ System Notification</p>
+</p>
+HTML,
+                        'show_button' => false,
+                        'button_text' => null,
+                        'button_url' => route_uri('custom-part-number.index'),
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                ],
             ],
             [
                 'name' => 'Customer Registration Report Generated',
@@ -626,23 +872,93 @@ HTML,
                 ],
             ],
             [
-                'name' => 'Notify to department on new support ticket',
+                'name' => 'Ticket Created',
                 'code' => Event::TICKET_CREATED,
                 'enabled' => true,
-                'description' => 'These event get triggered when a customer creates a helpdesk ticker from customer portal.',
+                'description' => 'This event get triggered when a customer creates a helpdesk ticker from customer portal.',
                 'eventVariables' => [
+                    new EventVariable(['name' => '__ticket_number__', 'value' => '', 'description' => 'Support Ticket Number', 'for_admin' => false]),
                     new EventVariable(['name' => '__ticket_content__', 'value' => '', 'description' => 'Support Ticket Content', 'for_admin' => false]),
                     new EventVariable(['name' => '__ticket_subject__', 'value' => '', 'description' => 'Support Ticket Subject', 'for_admin' => false]),
                     new EventVariable(['name' => '__ticket_priority__', 'value' => '', 'description' => 'Support Ticket Priority', 'for_admin' => false]),
                     new EventVariable(['name' => '__ticket_department__', 'value' => '', 'description' => 'Support Ticket Department', 'for_admin' => false]),
                     new EventVariable(['name' => '__ticket_url__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
+                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
+                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
                 ],
                 'eventRecipents' => [
                     new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
                     new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
                     new EventRecipent(['name' => 'Ticket Department', 'event_action_field' => 'is_get_contact', 'description' => 'Ticket Department', 'enabled' => true]),
                 ],
-                'eventTemplates' => [],
+                'eventTemplates' => [
+                    new EventTemplate([
+                        'name' => '[Admin] Ticket Created notification',
+                        'subject' => 'New Support Ticket Created – Action Required',
+                        'email_body' => <<<'HTML'
+<p>Dear System Administrator,</p>
+
+<p>
+    A customer has created a new support ticket in the system.
+    Please review the ticket details below and take the necessary action as soon as possible.
+</p>
+
+<h3>Ticket Information</h3>
+
+<table style="border-collapse: collapse; width:100%; max-width:600px;">
+    <tr>
+        <td><strong>Ticket Number:</strong></td>
+        <td>__ticket_number__</td>
+    </tr>
+    <tr>
+        <td><strong>Customer Name:</strong></td>
+        <td>__customer_name__</td>
+    </tr>
+        <tr>
+        <td><strong>Account Holder Name:</strong></td>
+        <td>__full_name__</td>
+    </tr>
+    <tr>
+        <td><strong>Customer Email:</strong></td>
+        <td>__email_address__</td>
+    </tr>
+    <tr>
+        <td><strong>Department:</strong></td>
+        <td>__ticket_department__</td>
+    </tr>
+    <tr>
+        <td><strong>Priority:</strong></td>
+        <td>__ticket_priority__</td>
+    </tr>
+    <tr>
+        <td><strong>Subject:</strong></td>
+        <td>__ticket_subject__</td>
+    </tr>
+    <tr>
+        <td><strong>Created At:</strong></td>
+        <td>__timestamp__</td>
+    </tr>
+</table>
+
+<p style="margin: 25px 0;">
+    Please review and respond to this ticket at your earliest convenience.
+</p>
+
+<p>Kindly ensure the customer is notified and appropriate action is taken as soon as possible.</p>
+
+
+<p>&nbsp;</p>
+
+<p>Best regards,<br />
+__company_name__</p>
+HTML,
+                        'show_button' => true,
+                        'button_text' => 'View Ticket Details',
+                        'button_url' => str_replace('{id}', ':id', route_uri('ticket.show')),
+                        'notification_type' => 'emailable',
+                        'enabled' => true,
+                    ]),
+                ],
             ],
         ];
     }

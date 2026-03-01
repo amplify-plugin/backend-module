@@ -71,7 +71,7 @@
                                     Content
                                     <span class="text-danger">*</span>
                                 </label>
-
+                              <p><code>__company_name__</code> , <code>__timestamp__</code> is globally available on all templates.</p>
                                 <ckeditor v-if="email.notification_type == 'emailable'" v-model="email.email_body"
                                           @input="removeError('email_body')"
                                           :class="{ 'is-invalid': validationErrors.email_body }"></ckeditor>

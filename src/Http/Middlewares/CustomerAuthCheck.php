@@ -12,15 +12,14 @@ use Illuminate\Http\Response;
 class CustomerAuthCheck
 {
     private array $excluded_routes = [
-        'frontend.force-reset-password',
-        'frontend.force-reset-password-attempt',
-        'frontend.login',
+        'force-reset-password',
+        'login',
     ];
 
     /**
      * Answer to unauthorized access request.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse|RedirectResponse
      */
     private function respondToUnauthorizedRequest($request)
@@ -38,23 +37,23 @@ class CustomerAuthCheck
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(Request): (Response|RedirectResponse)  $next
+     * @param \Closure(Request): (Response|RedirectResponse) $next
      * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next)
     {
         if (customer_check()) {
 
-            if (! in_array($request->route()->getName(), $this->excluded_routes) && session()->has('impersonate') && ! session('impersonate')) {
-                if ($request->user(Contact::AUTH_GUARD)->password_reset_required) {
-                    if ($request->ajax() || $request->wantsJson()) {
-                        return response()->json([
-                            'message' => 'Required password reset.',
-                        ], 500);
-                    } else {
-                        return redirect()->route('frontend.force-reset-password');
-                    }
-                }
+            if (session('impersonate', false) === true) {
+                return $next($request);
+            }
+
+            if (!$request->is($this->excluded_routes) && $request->user(Contact::AUTH_GUARD)->password_reset_required) {
+                return ($request->ajax() || $request->wantsJson())
+                    ? response()->json([
+                        'message' => 'Required password reset.',
+                    ], 500)
+                    : redirect()->route('frontend.force-reset-password');
             }
 
             return $next($request);

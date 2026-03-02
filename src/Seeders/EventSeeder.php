@@ -3,9 +3,6 @@
 namespace Amplify\System\Backend\Seeders;
 
 use Amplify\System\Backend\Models\Event;
-use Amplify\System\Backend\Models\EventRecipent;
-use Amplify\System\Backend\Models\EventTemplate;
-use Amplify\System\Backend\Models\EventVariable;
 use Amplify\System\Traits\EventSeedTrait;
 use Illuminate\Database\Seeder;
 
@@ -27,58 +24,51 @@ class EventSeeder extends Seeder
                 'enabled' => true,
                 'description' => 'This event get triggered when a new retail customer apply on registration form.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the account', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_code__', 'value' => '', 'description' => 'Customer Code of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Email of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__phone_no__', 'value' => '', 'description' => 'Phone Number of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__industry_classification__', 'value' => '', 'description' => 'Industry Classification of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__address_name__', 'value' => '', 'description' => 'Name of the address', 'for_admin' => false]),
-                    new EventVariable(['name' => '__address_1__', 'value' => '', 'description' => 'Address Line 1', 'for_admin' => false]),
-                    new EventVariable(['name' => '__country_code__', 'value' => '', 'description' => 'Country Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__city__', 'value' => '', 'description' => 'City', 'for_admin' => false]),
-                    new EventVariable(['name' => '__state__', 'value' => '', 'description' => 'State', 'for_admin' => false]),
-                    new EventVariable(['name' => '__zip_code__', 'value' => '', 'description' => 'Zip Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_details_url_for_request_received__', 'value' => '', 'description' => '/admin/customer-registration/:id/show', 'for_admin' => true]),
-                    new EventVariable(['name' => '__customer_details_url_for_request_accepted__', 'value' => '', 'description' => '/admin/customer/:id/show', 'for_admin' => true]),
+                    ['name' => '__full_name__', 'description' => 'Name of the account'],
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__customer_code__', 'description' => 'Customer Code of the customer'],
+                    ['name' => '__customer_email__', 'description' => 'Email of the customer'],
+                    ['name' => '__customer_phone__', 'description' => 'Phone Number of the customer'],
+                    ['name' => '__industry_classification__', 'description' => 'Industry Classification of the customer'],
+                    ['name' => '__address_1__', 'description' => 'Address Line 1'],
+                    ['name' => '__address_2__', 'description' => 'Address Line 2'],
+                    ['name' => '__address_3__', 'description' => 'Address Line 3'],
+                    ['name' => '__country_code__', 'description' => 'Country Code'],
+                    ['name' => '__city__', 'description' => 'City'],
+                    ['name' => '__state__', 'description' => 'State'],
+                    ['name' => '__zip_code__', 'description' => 'Zip Code'],
+                    ['name' => '__customer_details_url_for_request_received__', 'description' => '/admin/customer-registration/:id/show'],
+                    ['name' => '__customer_details_url_for_request_accepted__', 'description' => '/admin/customer/:id/show'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Registration Request Received Notification',
                         'subject' => 'New Customer Registration Request Received',
                         'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
-
 <p>A new customer has registered on the __company_name__ platform and is currently awaiting account approval.</p>
-
 <p>Please find the customer details below:</p>
-
 <p>Account Name:&nbsp;__full_name__<br />
 ERP Customer Number:&nbsp;__customer_code__<br />
 Company Name:&nbsp;__customer_name__<br />
-Email Address:&nbsp;__email_address__<br />
-Phone Number:&nbsp;__phone_no__<br />
+Email Address:&nbsp;__customer_email__<br />
+Phone Number:&nbsp;__customer_phone__<br />
 Registered Date:&nbsp;__timestamp__</p>
-
 <p>Billing Address:</p>
-
-<p>Address Name:&nbsp;__address_name__<br />
-Street Address:&nbsp;__address_1__<br />
+Address Line 1:&nbsp;__address_1__<br />
+Address Line 2:&nbsp;__address_2__<br />
+Address Line 3:&nbsp;__address_3__<br />
 City:&nbsp;__city__<br />
-State:&nbsp;__state__<br />
+State:&nbsp;__state_name__ (__state_code__)<br />
 Postal Code:&nbsp;__zip_code__<br />
-Country:&nbsp;__country_code__</p>
-
+Country:&nbsp;__country_name__ (__country_code__)</p>
 <p>Kindly review the submitted information and proceed with the account approval process.</p>
-
 <p>Please let us know if any additional verification is required.</p>
-
 <p>&nbsp;</p>
-
 <p>Best regards,<br />
 __company_name__</p>
 HTML,
@@ -87,8 +77,8 @@ HTML,
                         'button_url' => str_replace('{id}', ':id', route_uri('customer-registration.edit')),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
-                    new EventTemplate([
+                    ],
+                    [
                         'name' => '[Customer] Registration Received Notification',
                         'subject' => 'Your Account Registration is Under Review',
                         'email_body' => <<<'HTML'
@@ -108,7 +98,7 @@ HTML,
                         'show_button' => false,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -117,18 +107,18 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when from backend or by email verification registration request get approved.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_details_url_for_request_received__', 'value' => '', 'description' => '/admin/customer-registration/:id/show', 'for_admin' => true]),
-                    new EventVariable(['name' => '__customer_details_url_for_request_accepted__', 'value' => '', 'description' => '/admin/customer/:id/show', 'for_admin' => true]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__customer_details_url_for_request_received__', 'description' => '/admin/customer-registration/:id/show'],
+                    ['name' => '__customer_details_url_for_request_accepted__', 'description' => '/admin/customer/:id/show'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Customer] Registration Request Approved Notification',
                         'subject' => 'Your Account Has Been Approved – You May Now Login',
                         'email_body' => <<<'HTML'
@@ -152,7 +142,7 @@ HTML,
                         'button_url' => route_uri('frontend.login'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -161,54 +151,54 @@ HTML,
                 'enabled' => true,
                 'description' => 'This events get triggered when we successfully received a order request on backend.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_name__', 'value' => '', 'description' => 'Name of the contact', 'for_admin' => false]),
-                    new EventVariable(['name' => '__logged_in_user_name__', 'value' => '', 'description' => 'Name of the logged in user', 'for_admin' => false]),
-                    new EventVariable(['name' => '__web_order_number__', 'value' => '', 'description' => 'Web Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__total_amount__', 'value' => '', 'description' => 'Order Total Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__notes__', 'value' => '', 'description' => 'Order Notes', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_order_details_url__', 'value' => '', 'description' => '/customer-profile-order-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_quotation_details_url__', 'value' => '', 'description' => '/customer-profile-quotation-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__admin_order_details_url__', 'value' => '', 'description' => '/admin/order-line?order_line_id=:id', 'for_admin' => true]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__contact_name__', 'description' => 'Name of the contact'],
+                    ['name' => '__logged_in_user_name__', 'description' => 'Name of the logged in user'],
+                    ['name' => '__web_order_number__', 'description' => 'Web Order Number'],
+                    ['name' => '__total_amount__', 'description' => 'Order Total Amount'],
+                    ['name' => '__notes__', 'description' => 'Order Notes'],
+                    ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
+                    ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
 
-                    new EventVariable(['name' => '__erp_order_number__', 'value' => '', 'description' => 'ERP Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_email__', 'value' => '', 'description' => 'Email of the contact', 'for_admin' => false]),
+                    ['name' => '__erp_order_number__', 'description' => 'ERP Order Number'],
+                    ['name' => '__contact_email__', 'description' => 'Email of the contact'],
 
-                    new EventVariable(['name' => '__billing_address_line_1__', 'value' => '', 'description' => 'Billing Address Line 1', 'for_admin' => false]),
-                    new EventVariable(['name' => '__billing_address_line_2__', 'value' => '', 'description' => 'Billing Address Line 2', 'for_admin' => false]),
-                    new EventVariable(['name' => '__billing_city__', 'value' => '', 'description' => 'Billing City', 'for_admin' => false]),
-                    new EventVariable(['name' => '__billing_state__', 'value' => '', 'description' => 'Billing State', 'for_admin' => false]),
-                    new EventVariable(['name' => '__billing_zip_code__', 'value' => '', 'description' => 'Billing Zip Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__billing_country__', 'value' => '', 'description' => 'Billing Country', 'for_admin' => false]),
+                    ['name' => '__billing_address_line_1__', 'description' => 'Billing Address Line 1'],
+                    ['name' => '__billing_address_line_2__', 'description' => 'Billing Address Line 2'],
+                    ['name' => '__billing_city__', 'description' => 'Billing City'],
+                    ['name' => '__billing_state__', 'description' => 'Billing State'],
+                    ['name' => '__billing_zip_code__', 'description' => 'Billing Zip Code'],
+                    ['name' => '__billing_country__', 'description' => 'Billing Country'],
 
-                    new EventVariable(['name' => '__shipping_address_line_1__', 'value' => '', 'description' => 'Shipping Address Line 1', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_address_line_2__', 'value' => '', 'description' => 'Shipping Address Line 2', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_city__', 'value' => '', 'description' => 'Shipping City', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_state__', 'value' => '', 'description' => 'Shipping State', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_zip_code__', 'value' => '', 'description' => 'Shipping Zip Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_country__', 'value' => '', 'description' => 'Shipping Country', 'for_admin' => false]),
+                    ['name' => '__shipping_address_line_1__', 'description' => 'Shipping Address Line 1'],
+                    ['name' => '__shipping_address_line_2__', 'description' => 'Shipping Address Line 2'],
+                    ['name' => '__shipping_city__', 'description' => 'Shipping City'],
+                    ['name' => '__shipping_state__', 'description' => 'Shipping State'],
+                    ['name' => '__shipping_zip_code__', 'description' => 'Shipping Zip Code'],
+                    ['name' => '__shipping_country__', 'description' => 'Shipping Country'],
 
-                    new EventVariable(['name' => '__order_suffix__', 'value' => '', 'description' => 'Order Suffix', 'for_admin' => false]),
-                    new EventVariable(['name' => '__po_number__', 'value' => '', 'description' => 'Purchase Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__order_status__', 'value' => '', 'description' => 'Order Status', 'for_admin' => false]),
-                    new EventVariable(['name' => '__order_type__', 'value' => '', 'description' => 'Order Type', 'for_admin' => false]),
-                    new EventVariable(['name' => '__invoice_amount__', 'value' => '', 'description' => 'Invoice Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__warehouse_code__', 'value' => '', 'description' => 'Warehouse Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__entry_date__', 'value' => '', 'description' => 'Order Entry Date', 'for_admin' => false]),
-                    new EventVariable(['name' => '__estimate_ship_date__', 'value' => '', 'description' => 'Estimated Ship Date', 'for_admin' => false]),
-                    new EventVariable(['name' => '__order_details__', 'value' => '', 'description' => 'Order Details Table', 'for_admin' => false]),
-                    new EventVariable(['name' => '__invoice_date__', 'value' => '', 'description' => 'Invoice Date', 'for_admin' => false]),
-                    new EventVariable(['name' => '__carrier_code__', 'value' => '', 'description' => 'Carrier Code', 'for_admin' => false]),
+                    ['name' => '__order_suffix__', 'description' => 'Order Suffix'],
+                    ['name' => '__po_number__', 'description' => 'Purchase Order Number'],
+                    ['name' => '__order_status__', 'description' => 'Order Status'],
+                    ['name' => '__order_type__', 'description' => 'Order Type'],
+                    ['name' => '__invoice_amount__', 'description' => 'Invoice Amount'],
+                    ['name' => '__warehouse_code__', 'description' => 'Warehouse Code'],
+                    ['name' => '__entry_date__', 'description' => 'Order Entry Date'],
+                    ['name' => '__estimate_ship_date__', 'description' => 'Estimated Ship Date'],
+                    ['name' => '__order_details__', 'description' => 'Order Details Table'],
+                    ['name' => '__invoice_date__', 'description' => 'Invoice Date'],
+                    ['name' => '__carrier_code__', 'description' => 'Carrier Code'],
 
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Order Confirmation Notification',
                         'subject' => 'New Order Received',
                         'email_body' => <<<'HTML'
@@ -253,8 +243,8 @@ HTML,
                         'button_url' => '/orders/:id',
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
-                    new EventTemplate([
+                    ],
+                    [
                         'name' => '[Customer] Order Confirmation Notification',
                         'subject' => 'Order Confirmation – Thank You for Your Purchase',
                         'email_body' => <<<'HTML'
@@ -300,7 +290,7 @@ HTML,
                         'button_url' => '/orders/:id',
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -309,21 +299,21 @@ HTML,
                 'enabled' => true,
                 'description' => 'This events get triggered When customer create a draft order or saved cart.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_name__', 'value' => '', 'description' => 'Name of the contact', 'for_admin' => false]),
-                    new EventVariable(['name' => '__logged_in_user_name__', 'value' => '', 'description' => 'Name of the logged in user', 'for_admin' => false]),
-                    new EventVariable(['name' => '__web_order_number__', 'value' => '', 'description' => 'Web Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__total_amount__', 'value' => '', 'description' => 'Order Total Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__notes__', 'value' => '', 'description' => 'Order Notes', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_order_details_url__', 'value' => '', 'description' => '/customer-profile-order-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_quotation_details_url__', 'value' => '', 'description' => '/customer-profile-quotation-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__admin_order_details_url__', 'value' => '', 'description' => '/admin/order-line?order_line_id=:id', 'for_admin' => true]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__contact_name__', 'description' => 'Name of the contact'],
+                    ['name' => '__logged_in_user_name__', 'description' => 'Name of the logged in user'],
+                    ['name' => '__web_order_number__', 'description' => 'Web Order Number'],
+                    ['name' => '__total_amount__', 'description' => 'Order Total Amount'],
+                    ['name' => '__notes__', 'description' => 'Order Notes'],
+                    ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
+                    ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Admcontactinistrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Admcontactinistrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
                 ],
@@ -334,21 +324,21 @@ HTML,
                 'enabled' => true,
                 'description' => 'This events get triggered when from customer portal someone add or update a existing note on order.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_name__', 'value' => '', 'description' => 'Name of the contact', 'for_admin' => false]),
-                    new EventVariable(['name' => '__logged_in_user_name__', 'value' => '', 'description' => 'Name of the logged in user', 'for_admin' => false]),
-                    new EventVariable(['name' => '__web_order_number__', 'value' => '', 'description' => 'Web Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__total_amount__', 'value' => '', 'description' => 'Order Total Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__notes__', 'value' => '', 'description' => 'Order Notes', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_order_details_url__', 'value' => '', 'description' => '/customer-profile-order-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_quotation_details_url__', 'value' => '', 'description' => '/customer-profile-quotation-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__admin_order_details_url__', 'value' => '', 'description' => '/admin/order-line?order_line_id=:id', 'for_admin' => true]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__contact_name__', 'description' => 'Name of the contact'],
+                    ['name' => '__logged_in_user_name__', 'description' => 'Name of the logged in user'],
+                    ['name' => '__web_order_number__', 'description' => 'Web Order Number'],
+                    ['name' => '__total_amount__', 'description' => 'Order Total Amount'],
+                    ['name' => '__notes__', 'description' => 'Order Notes'],
+                    ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
+                    ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [],
             ],
@@ -358,24 +348,24 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when someone make a request for quote from existing cart.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_name__', 'value' => '', 'description' => 'Name of the contact', 'for_admin' => false]),
-                    new EventVariable(['name' => '__logged_in_user_name__', 'value' => '', 'description' => 'Name of the logged in user', 'for_admin' => false]),
-                    new EventVariable(['name' => '__web_order_number__', 'value' => '', 'description' => 'Web Order Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__total_amount__', 'value' => '', 'description' => 'Order Total Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__notes__', 'value' => '', 'description' => 'Order Notes', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_order_details_url__', 'value' => '', 'description' => '/customer-profile-order-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_quotation_details_url__', 'value' => '', 'description' => '/customer-profile-quotation-list-items?order_id=:id', 'for_admin' => false]),
-                    new EventVariable(['name' => '__admin_order_details_url__', 'value' => '', 'description' => '/admin/order-line?order_line_id=:id', 'for_admin' => true]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__contact_name__', 'description' => 'Name of the contact'],
+                    ['name' => '__logged_in_user_name__', 'description' => 'Name of the logged in user'],
+                    ['name' => '__web_order_number__', 'description' => 'Web Order Number'],
+                    ['name' => '__total_amount__', 'description' => 'Order Total Amount'],
+                    ['name' => '__notes__', 'description' => 'Order Notes'],
+                    ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
+                    ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Quotation Confirmation Notification',
                         'subject' => 'New Request For Quotation Received',
                         'email_body' => <<<'HTML'
@@ -420,8 +410,8 @@ HTML,
                         'button_url' => '/orders/:id',
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
-                    new EventTemplate([
+                    ],
+                    [
                         'name' => '[Customer] Order Confirmation Notification',
                         'subject' => 'Order Confirmation – Thank You for Your Purchase',
                         'email_body' => <<<'HTML'
@@ -467,7 +457,7 @@ HTML,
                         'button_url' => '/orders/:id',
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -476,17 +466,17 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when scheduled program received changes the catalog/product.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__execution_date__', 'value' => '-', 'description' => 'The date of synchronization has been requested.', 'for_admin' => false]),
-                    new EventVariable(['name' => '__started_at__', 'value' => '-', 'description' => 'The datetime synchronization started.', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ended_at__', 'value' => '-', 'description' => 'The datetime when synchronization ended.', 'for_admin' => false]),
-                    new EventVariable(['name' => '__records__', 'value' => '-', 'description' => 'The list of product codes that has been synchronization.', 'for_admin' => false]),
+                    ['name' => '__execution_date__', 'value' => '-', 'description' => 'The date of synchronization has been requested.'],
+                    ['name' => '__started_at__', 'value' => '-', 'description' => 'The datetime synchronization started.'],
+                    ['name' => '__ended_at__', 'value' => '-', 'description' => 'The datetime when synchronization ended.'],
+                    ['name' => '__records__', 'value' => '-', 'description' => 'The list of product codes that has been synchronization.'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
-                        'name' => '[Admin] Product catalog Updated',
+                    [
+                        'name' => '[Admin] Product catalog Updated Notification',
                         'subject' => 'Schedule Product Catalog Synced with ERP Completed',
                         'email_body' => <<<'HTML'
 <p>Dear Administrator,</p> 
@@ -518,25 +508,25 @@ HTML,
                         'button_url' => route_uri('product-sync.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
                 'name' => 'Password Reset',
-                'code' => 'reset_password',
+                'code' => Event::RESET_PASSWORD,
                 'enabled' => true,
                 'description' => 'This even get triggered when from customer portal someone requests to reset their password.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__otp__', 'value' => '', 'description' => 'One Time Password', 'for_admin' => false]),
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the contact/account holder', 'for_admin' => false]),
-                    new EventVariable(['name' => '__otp_duration__', 'value' => '30 minutes', 'description' => 'Duration after the OTP will expires', 'for_admin' => false]),
+                    ['name' => '__otp__', 'description' => 'One Time Password'],
+                    ['name' => '__full_name__', 'description' => 'Name of the contact/account holder'],
+                    ['name' => '__otp_duration__', 'value' => '30 minutes', 'description' => 'Duration after the OTP will expires'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
-                        'name' => '[Customer] Password Reset OTP Notification',
+                    [
+                        'name' => '[Contact] Password Reset OTP Notification',
                         'subject' => 'Password Reset OTP Verification',
                         'email_body' => <<<'HTML'
 <p>Dear __full_name__,</p>
@@ -558,7 +548,7 @@ HTML,
                         'button_url' => null,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -567,20 +557,23 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when someone request for online access from customer portal.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__account_number__', 'value' => '', 'description' => 'Customer ERP Code of the contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Email Address for new contact login', 'for_admin' => false]),
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the Contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contacts_details_url_for_account_request_received__', 'value' => '', 'description' => '/admin/contact/:id/edit', 'for_admin' => false]),
+                    ['name' => '__account_number__', 'description' => 'Customer ERP Code of the contact asking for logins'],
+                    ['name' => '__customer_code__', 'description' => 'Customer/company code of ERP'],
+                    ['name' => '__customer_name__', 'description' => 'Customer/Company name in system'],
+                    ['name' => '__email_address__', 'description' => 'Email Address for new contact login'],
+                    ['name' => '__email_address__', 'description' => 'Email Address for new contact login'],
+                    ['name' => '__full_name__', 'description' => 'Name of the Contact asking for logins'],
+                    ['name' => '__contacts_details_url_for_account_request_received__', 'description' => '/admin/contact/:id/edit'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
-                        'name' => '[Admin] Request Online Access Received',
+                    [
+                        'name' => '[Admin] Request Online Access Received Notification',
                         'subject' => 'New Account Request Online Access Received',
                         'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
@@ -592,7 +585,7 @@ HTML,
 <p>Account Details:</p>
 
 <p>Account Name:&nbsp;__full_name__<br />
-ERP Customer Number:&nbsp;__customer_code__<br />
+Customer Number:&nbsp;__customer_code__<br />
 Company Name:&nbsp;__customer_name__<br />
 Email Address:&nbsp;__email_address__<br />
 Phone Number:&nbsp;__phone_no__<br />
@@ -612,8 +605,8 @@ HTML,
                         'button_url' => str_replace('{id}', ':id', route_uri('contact-registration.edit')),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
-                    new EventTemplate([
+                    ],
+                    [
                         'name' => '[Customer] Request Online Access Received Notification',
                         'subject' => 'Your Request for Online Access is Under Review',
                         'email_body' => <<<'HTML'
@@ -633,7 +626,7 @@ HTML,
                         'show_button' => false,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -642,19 +635,19 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when from admin panel or by email verification account got approved.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__account_number__', 'value' => '', 'description' => 'Customer ERP Code of the contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Email Address for new contact login', 'for_admin' => false]),
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the Contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contacts_details_url_for_account_request_accepted__', 'value' => '', 'description' => '/admin/contact/:id/show', 'for_admin' => false]),
+                    ['name' => '__account_number__', 'description' => 'Customer ERP Code of the contact asking for logins'],
+                    ['name' => '__email_address__', 'description' => 'Email Address for new contact login'],
+                    ['name' => '__full_name__', 'description' => 'Name of the Contact asking for logins'],
+                    ['name' => '__contacts_details_url_for_account_request_accepted__', 'description' => '/admin/contact/:id/show'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Customer] Request Online Access Approved',
                         'subject' => 'Your Account Has Been Approved – You May Now Login',
                         'email_body' => <<<'HTML'
@@ -678,7 +671,7 @@ HTML,
                         'button_url' => route_uri('frontend.login'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -687,20 +680,23 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when By configuration contexts are required to verify their email address before login.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__account_number__', 'value' => '', 'description' => 'Customer ERP Code of the contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Email Address for new contact login', 'for_admin' => false]),
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Name of the Contact asking for logins', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contacts_details_url_for_account_request_accepted__', 'value' => '', 'description' => '/admin/contact/:id/show', 'for_admin' => false]),
+                    ['name' => '__account_number__', 'description' => 'ERP Code of the contact asking for logins'],
+                    ['name' => '__customer_code__', 'description' => 'ERP Code of the Customer/Company asking for logins'],
+                    ['name' => '__customer_name__', 'description' => 'Name of account holder belongs to company'],
+                    ['name' => '__email_address__', 'description' => 'Email Address of requested account holder'],
+                    ['name' => '__phone_no__', 'description' => 'Phone Number of requested account holder'],
+                    ['name' => '__full_name__', 'description' => 'Name of the contact/account holder'],
+                    ['name' => '__contacts_details_url_for_account_request_accepted__', 'description' => '/admin/contact/:id/show'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
-                        'name' => '[Admin] Account Verification Requested',
+                    [
+                        'name' => '[Admin] Account Verification Requested Notification',
                         'subject' => 'New Registered Account Requested Approval',
                         'email_body' => <<<'HTML'
 <p>Dear System Administrator,</p>
@@ -727,10 +723,10 @@ HTML,
                         'button_text' => 'Account Details',
                         'button_url' => str_replace('{id}', ':id', route_uri('contact-registration.edit')),
                         'notification_type' => 'emailable',
-                        'enabled' => true,
-                    ]),
-                    new EventTemplate([
-                        'name' => '[Customer] Account Verification Requested',
+                        'enabled' => false,
+                    ],
+                    [
+                        'name' => '[Contact] Account Verification Notification',
                         'subject' => 'Please Verify Your Email Address to Complete Registration',
                         'email_body' => <<<'HTML'
 <p>Dear __full_name__,</p>
@@ -752,7 +748,7 @@ HTML,
                         'button_url' => str_replace(['{id}', '{hash}'], [':id', ':hash'], route_uri('frontend.verification.verify')),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -761,24 +757,24 @@ HTML,
                 'enabled' => true,
                 'description' => 'Create Order From Quotation',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__erp_quote_number__', 'value' => '', 'description' => 'Quote Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__contact_name__', 'value' => '', 'description' => 'Name of the contact', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_address__', 'value' => '', 'description' => 'ERP order number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__total_amount__', 'value' => '', 'description' => 'Quotation Total Amount', 'for_admin' => false]),
-                    new EventVariable(['name' => '__notes__', 'value' => '', 'description' => 'Customer notes', 'for_admin' => false]),
-                    new EventVariable(['name' => '__po_number__', 'value' => '', 'description' => 'PO Number provided by customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__shipping_method__', 'value' => '', 'description' => 'Shipping method selected', 'for_admin' => false]),
-                    new EventVariable(['name' => '__special_instruction__', 'value' => '', 'description' => 'Special instructions added by customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_quotation_details__', 'value' => '', 'description' => 'Details Table', 'for_admin' => false]),
+                    ['name' => '__erp_quote_number__', 'description' => 'Quote Number'],
+                    ['name' => '__contact_name__', 'description' => 'Name of the contact'],
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__shipping_address__', 'description' => 'ERP order number'],
+                    ['name' => '__total_amount__', 'description' => 'Quotation Total Amount'],
+                    ['name' => '__notes__', 'description' => 'Customer notes'],
+                    ['name' => '__po_number__', 'description' => 'PO Number provided by customer'],
+                    ['name' => '__shipping_method__', 'description' => 'Shipping method selected'],
+                    ['name' => '__special_instruction__', 'description' => 'Special instructions added by customer'],
+                    ['name' => '__customer_quotation_details__', 'description' => 'Details Table'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Quotation Sales Person', 'event_action_field' => 'is_quote_sales_person', 'description' => 'ERP Sales Person', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => false],
+                    ['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false],
+                    ['name' => 'Quotation Sales Person', 'event_action_field' => 'is_quote_sales_person', 'description' => 'ERP Sales Person'],
                 ],
                 'eventTemplates' => [],
             ],
@@ -788,20 +784,20 @@ HTML,
                 'enabled' => true,
                 'description' => 'Customer Part Number Deleted',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__customer_name__', 'value' => '', 'description' => 'Name of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_code__', 'value' => '', 'description' => 'ERP Code of the customer', 'for_admin' => false]),
-                    new EventVariable(['name' => '__product_code__', 'value' => '', 'description' => 'Product Real Code', 'for_admin' => false]),
-                    new EventVariable(['name' => '__product_name__', 'value' => '', 'description' => 'Product Name', 'for_admin' => false]),
-                    new EventVariable(['name' => '__customer_part_number__', 'value' => '', 'description' => 'Customer Part Number', 'for_admin' => false]),
+                    ['name' => '__customer_name__', 'description' => 'Name of the customer'],
+                    ['name' => '__customer_code__', 'description' => 'ERP Code of the customer'],
+                    ['name' => '__product_code__', 'description' => 'Product Real Code'],
+                    ['name' => '__product_name__', 'description' => 'Product Name'],
+                    ['name' => '__customer_part_number__', 'description' => 'Customer Part Number'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false]),
-                    new EventRecipent(['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false],
+                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer', 'enabled' => false],
+                    ['name' => 'Business_Contact', 'event_action_field' => 'is_get_customer_business_contact', 'description' => 'Customer Business Contact', 'enabled' => false],
+                    ['name' => 'Sales Person', 'event_action_field' => 'is_get_salesperson', 'description' => 'Contact', 'enabled' => false],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Customer Part Number Deleted Notification',
                         'subject' => 'Customer Part Number is Removed',
                         'email_body' => <<<'HTML'
@@ -830,7 +826,7 @@ HTML,
                         'button_url' => route_uri('custom-part-number.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -839,15 +835,15 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered on when system generate customer report created by system.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__interval_in_days__', 'value' => '', 'description' => 'Number of days report is generated', 'for_admin' => false]),
-                    new EventVariable(['name' => '__report_start_date__', 'value' => '', 'description' => 'Date from report started', 'for_admin' => false]),
-                    new EventVariable(['name' => '__report_end_date__', 'value' => 'Date from report end', 'description' => 'Product Real Code', 'for_admin' => false]),
+                    ['name' => '__interval_in_days__', 'description' => 'Number of days report is generated'],
+                    ['name' => '__report_start_date__', 'description' => 'Date from report started'],
+                    ['name' => '__report_end_date__', 'value' => 'Date from report end', 'description' => 'Product Real Code'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => false],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Customer Registered Report Generated',
                         'subject' => 'New Customer Count Report From __report_start_date__ To __report_end_date__',
                         'email_body' => <<<'HTML'
@@ -868,7 +864,7 @@ __company_name__</p>
 HTML,
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
             [
@@ -877,22 +873,22 @@ HTML,
                 'enabled' => true,
                 'description' => 'This event get triggered when a customer creates a helpdesk ticker from customer portal.',
                 'eventVariables' => [
-                    new EventVariable(['name' => '__ticket_number__', 'value' => '', 'description' => 'Support Ticket Number', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ticket_content__', 'value' => '', 'description' => 'Support Ticket Content', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ticket_subject__', 'value' => '', 'description' => 'Support Ticket Subject', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ticket_priority__', 'value' => '', 'description' => 'Support Ticket Priority', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ticket_department__', 'value' => '', 'description' => 'Support Ticket Department', 'for_admin' => false]),
-                    new EventVariable(['name' => '__ticket_url__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
-                    new EventVariable(['name' => '__full_name__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
-                    new EventVariable(['name' => '__email_address__', 'value' => '', 'description' => 'Support Ticket URL', 'for_admin' => true]),
+                    ['name' => '__ticket_number__', 'description' => 'Support Ticket Number'],
+                    ['name' => '__ticket_content__', 'description' => 'Support Ticket Content'],
+                    ['name' => '__ticket_subject__', 'description' => 'Support Ticket Subject'],
+                    ['name' => '__ticket_priority__', 'description' => 'Support Ticket Priority'],
+                    ['name' => '__ticket_department__', 'description' => 'Support Ticket Department'],
+                    ['name' => '__ticket_url__', 'description' => 'Support Ticket URL'],
+                    ['name' => '__full_name__', 'description' => 'Support Ticket URL'],
+                    ['name' => '__email_address__', 'description' => 'Support Ticket URL'],
                 ],
                 'eventRecipents' => [
-                    new EventRecipent(['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact', 'enabled' => true]),
-                    new EventRecipent(['name' => 'Ticket Department', 'event_action_field' => 'is_get_contact', 'description' => 'Ticket Department', 'enabled' => true]),
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
+                    ['name' => 'Ticket Department', 'event_action_field' => 'is_get_contact', 'description' => 'Ticket Department'],
                 ],
                 'eventTemplates' => [
-                    new EventTemplate([
+                    [
                         'name' => '[Admin] Ticket Created notification',
                         'subject' => 'New Support Ticket Created – Action Required',
                         'email_body' => <<<'HTML'
@@ -957,7 +953,7 @@ HTML,
                         'button_url' => str_replace('{id}', ':id', route_uri('ticket.show')),
                         'notification_type' => 'emailable',
                         'enabled' => true,
-                    ]),
+                    ],
                 ],
             ],
         ];

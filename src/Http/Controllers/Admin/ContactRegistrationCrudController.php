@@ -202,7 +202,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'label' => 'Address', // Table column heading
             'type' => 'select2_from_ajax',
             'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
-            'model' => 'Amplify\System\Backend\Models\CustomerAddress', // the method that defines the relationship in your Model
+            'model' => \Amplify\System\Backend\Models\CustomerAddress::class, // the method that defines the relationship in your Model
             'attribute' => 'display_name', // foreign key attribute that is shown to user
             'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
             'placeholder' => 'Select an address', // placeholder for the select
@@ -365,8 +365,8 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->save();
 
             // Trigger the notification
-            NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id,
+            NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
+                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
             ]);
         }
         $this->afterCreateUpdateOperation($request);

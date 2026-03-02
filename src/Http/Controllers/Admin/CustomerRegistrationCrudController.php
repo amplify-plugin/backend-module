@@ -52,7 +52,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Customer::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/customer-registration');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/customer-registration');
         CRUD::setEntityNameStrings('customer-registration', 'registration requests');
 
         CRUD::addClause('inactive');
@@ -61,8 +61,8 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::post($segment.'/fetch/customer_group', [
-            'uses' => $controller.'@fetchCustomerGroup',
+        Route::post($segment . '/fetch/customer_group', [
+            'uses' => $controller . '@fetchCustomerGroup',
         ]);
     }
 
@@ -347,6 +347,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
      * This function overrides the default store function of CustomerCrudController provided by backpack
      *
      * @return RedirectResponse
+     * @throws \Throwable
      */
     public function store(CustomerRegistrationRequest $request)
     {
@@ -379,7 +380,14 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                     'allow_backorder',
                     'carrier_code',
                     'business_contact',
-                    'customer_po_required'
+                    'customer_po_required',
+                    'address_1',
+                    'address_2',
+                    'address_3',
+                    'city',
+                    'state',
+                    'zip_code',
+                    'country_code',
                 )
             );
 
@@ -402,7 +410,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
 
             Alert::success(trans('backpack::crud.insert_success'))->flash();
         } catch (\Exception $exception) {
-            Log::error('Customer Create Exception: '.$exception->getMessage());
+            Log::error('Customer Create Exception: ' . $exception->getMessage());
             DB::rollBack();
             Alert::success(trans('crud.insert_failed', ['item' => 'Customer']))->flash();
         }
@@ -446,7 +454,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(CustomerRegistrationRequest::class);
 
-        if (! config('amplify.basic.enable_erp_customer_create')) {
+        if (!config('amplify.basic.enable_erp_customer_create')) {
             CRUD::field('customer_code')->type('text')->tab('Basic');
         }
 
@@ -707,7 +715,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                 ]);
 
                 if ($erpCus->CustomerNumber == null) {
-                    $this->cusCreateError('Unable to update Customer Data', 'Can not appvored customer : '.$customer->id);
+                    $this->cusCreateError('Unable to update Customer Data', 'Can not appvored customer : ' . $customer->id);
 
                     return redirect()->back();
                 }
@@ -737,16 +745,29 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                     'allow_backorder',
                     'carrier_code',
                     'business_contact',
-                    'customer_po_required'
+                    'customer_po_required',
+                    'address_1',
+                    'address_2',
+                    'address_3',
+                    'city',
+                    'state',
+                    'zip_code',
+                    'country_code',
                 ) + [
                     'customer_code' => $customer_code,
                 ]
             );
 
+            $contact = $customer->contact;
+
+            if ($contact) {
+                $contact->update(['enabled' => true, 'enabled_at' => now(), 'otp' => null]);
+            }
+
             CustomerProfileSyncJob::dispatch(['customer_id' => $customer->id]);
 
             NotificationFactory::call(Event::REGISTRATION_REQUEST_RECEIVED, [
-                'customer_id' => $customer->id,
+                'contact_id' => $contact->id, 'customer_id' => $customer->id
             ]);
 
             Alert::success(trans('backpack::crud.insert_success'))->flash();
@@ -787,27 +808,27 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             'value' => function ($entry) {
                 $str = '<div class="d-grid">';
                 foreach ($entry->addresses as $field => $value) {
-                    $str .= '<strong>Address '.++$field.':</strong>';
+                    $str .= '<strong>Address ' . ++$field . ':</strong>';
                     $str .= '<table class="table table-sm table-striped mb-0 table-bordered">
                                 <tr class="array-row">
                                     <th style="font-weight: 600!important;">Address Name</th>
-                                    <td>'.($value->address_name ?? '').'</td>
+                                    <td>' . ($value->address_name ?? '') . '</td>
                                 </tr>
                                  <tr class="array-row">
                                     <th style="font-weight: 600!important;">Address Details</th>
-                                    <td>'.($value->address ?? '').'</td>
+                                    <td>' . ($value->address ?? '') . '</td>
                                 </tr>
                                  <tr class="array-row">
                                     <th style="font-weight: 600!important;">Zip Code</th>
-                                    <td>'.($value->zip_code ?? '').'</td>
+                                    <td>' . ($value->zip_code ?? '') . '</td>
                                 </tr>
                                  <tr class="array-row">
                                     <th style="font-weight: 600!important;">Office Phone Number</th>
-                                    <td>'.($value->office_phone_number ?? '').'</td>
+                                    <td>' . ($value->office_phone_number ?? '') . '</td>
                                 </tr>
                                  <tr class="array-row">
                                     <th style="font-weight: 600!important;">Office Email</th>
-                                    <td>'.($value->office_email ?? '').'</td>
+                                    <td>' . ($value->office_email ?? '') . '</td>
                                 </tr>';
                     $str .= '</table>';
                 }
@@ -833,7 +854,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
 
     public function fetchCustomerGroup()
     {
-        return CustomerGroup::where('group_name', 'like', '%'.\request()->q.'%')->get();
+        return CustomerGroup::where('group_name', 'like', '%' . \request()->q . '%')->get();
     }
 
     /*public function store(CustomerRegistrationRequest $request)

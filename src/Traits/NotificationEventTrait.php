@@ -30,7 +30,7 @@ trait NotificationEventTrait
         $this->emailService = new EmailService;
 
         $this->messageService = new MessageService;
-        $this->eventInfo = Event::where(['enabled' => 1, 'code' => $this->eventCode])
+        $this->eventInfo = Event::where(['enabled' => true, 'code' => $this->eventCode])
             ->with('eventActions', 'eventActions.eventTemplate')
             ->first();
     }

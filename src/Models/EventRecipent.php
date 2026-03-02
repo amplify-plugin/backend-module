@@ -3,7 +3,6 @@
 namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -11,7 +10,6 @@ use OwenIt\Auditing\Contracts\Auditable;
 class EventRecipent extends Model implements Auditable
 {
     use CrudTrait;
-    use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     /*
@@ -21,9 +19,12 @@ class EventRecipent extends Model implements Auditable
     */
 
     public const EVENT_ACTION_FIELDS = [
-        'is_get_admin' => 'Admin',
-        'is_get_customer' => 'Customer',
-        'is_get_contact' => 'Customer Business Contact',
+        'is_get_admin' => 'System Admin',
+        'is_get_customer' => 'Customer/Company',
+        'is_get_contact' => 'Contact/Account Holder',
+        'is_get_customer_business_contact' => 'Customer/Company Business Contact',
+        'is_get_salesperson' => 'Customer/Company Salesperson',
+        'is_quote_sales_person' => 'Customer/Company Quote Salesperson',
     ];
 
     protected $table = 'event_recipents';
@@ -32,6 +33,13 @@ class EventRecipent extends Model implements Auditable
     // public $timestamps = false;
     protected $guarded = ['id'];
     // protected $hidden = [];
+
+    protected $attributes = [
+        'enabled' => true,
+    ];
+    protected $casts = [
+        'enabled' => 'boolean',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +55,11 @@ class EventRecipent extends Model implements Auditable
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function eventTemplate(): BelongsTo
+    {
+        return $this->belongsTo(EventTemplate::class);
     }
 
     /*

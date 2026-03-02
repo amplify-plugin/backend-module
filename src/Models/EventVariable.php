@@ -27,6 +27,10 @@ class EventVariable extends Model implements Auditable
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
+    protected $attributes = [
+        'value' => '',
+        'for_admin' => false
+    ];
 
     /*
     |--------------------------------------------------------------------------

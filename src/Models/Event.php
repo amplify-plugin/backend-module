@@ -26,8 +26,6 @@ class Event extends Model implements Auditable
 
     const ORDER_NOTES_UPDATED = 'order_notes_updated';
 
-    const ORDER_NOTES_UPDATED_ADMIN = 'order_notes_updated_admin';
-
     const REGISTRATION_REQUEST_ACCEPTED = 'registration_request_accepted';
 
     const ORDER_RECEIVED = 'order_received';
@@ -101,7 +99,7 @@ class Event extends Model implements Auditable
     */
     public function eventActions(): HasMany
     {
-        return $this->hasMany(EventAction::class);
+        return $this->hasMany(EventAction::class)->where('enabled', true);
     }
 
     public function eventVariables(): HasMany

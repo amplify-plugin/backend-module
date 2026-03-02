@@ -19,7 +19,7 @@ class CustomerAuthCheck
     /**
      * Answer to unauthorized access request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse|RedirectResponse
      */
     private function respondToUnauthorizedRequest($request)
@@ -37,7 +37,7 @@ class CustomerAuthCheck
     /**
      * Handle an incoming request.
      *
-     * @param \Closure(Request): (Response|RedirectResponse) $next
+     * @param  \Closure(Request): (Response|RedirectResponse)  $next
      * @return Response|RedirectResponse|JsonResponse
      */
     public function handle(Request $request, Closure $next)
@@ -48,7 +48,7 @@ class CustomerAuthCheck
                 return $next($request);
             }
 
-            if (!$request->is($this->excluded_routes) && $request->user(Contact::AUTH_GUARD)->password_reset_required) {
+            if (! $request->is($this->excluded_routes) && $request->user(Contact::AUTH_GUARD)->password_reset_required) {
                 return ($request->ajax() || $request->wantsJson())
                     ? response()->json([
                         'message' => 'Required password reset.',

@@ -37,6 +37,7 @@ class EventRecipent extends Model implements Auditable
     protected $attributes = [
         'enabled' => true,
     ];
+
     protected $casts = [
         'enabled' => 'boolean',
     ];

@@ -25,11 +25,12 @@ class EventVariable extends Model implements Auditable
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+
     // protected $fillable = [];
     // protected $hidden = [];
     protected $attributes = [
         'value' => '',
-        'for_admin' => false
+        'for_admin' => false,
     ];
 
     /*

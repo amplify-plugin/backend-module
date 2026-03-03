@@ -103,6 +103,7 @@ export default {
                 is_top_nav: 0,
                 featured: 0,
                 is_updated: false,
+                enabled: false,
                 products: []
             },
             selectedProducts: [],

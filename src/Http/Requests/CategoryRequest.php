@@ -31,7 +31,7 @@ class CategoryRequest extends FormRequest
             'parent_id' => 'nullable',
             'level' => 'nullable',
             'is_top_nav' => 'required',
-            'image' => 'required',
+            'image' => 'nullable|string|url',
         ];
 
         $rules['pim_category_id'] = (config('amplify.pim.categorization_required', false)) ? 'required' : 'nullable';

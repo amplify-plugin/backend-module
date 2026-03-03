@@ -371,33 +371,33 @@ class ContactCrudController extends BackpackCustomCrudController
             'type' => 'number',
             'attributes' => [
                 'step' => 'any',
-                'min' => 0
+                'min' => 0,
             ],
             'default' => '0',
             'label' => 'Order Limit',
-            'tab' => 'ERP'
+            'tab' => 'ERP',
         ]);
         CRUD::addField([
             'name' => 'daily_budget_limit',
             'type' => 'number',
             'attributes' => [
                 'step' => 'any',
-                'min' => 0
+                'min' => 0,
             ],
             'default' => '0',
             'label' => 'Daily Budget Limit',
-            'tab' => 'ERP'
+            'tab' => 'ERP',
         ]);
         CRUD::addField([
             'name' => 'monthly_budget_limit',
             'type' => 'number',
             'attributes' => [
                 'step' => 'any',
-                'min' => 0
+                'min' => 0,
             ],
             'default' => '0',
             'label' => 'Monthly Budget Limit',
-            'tab' => 'ERP'
+            'tab' => 'ERP',
         ]);
 
         if (config('amplify.basic.enable_multi_customer_manage')) {

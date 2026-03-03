@@ -33,7 +33,7 @@ class CategoryRequest extends FormRequest
             'is_top_nav' => 'required',
             'enabled' => 'required',
             'image' => 'nullable|string|url',
-            'pim_category_id' => (config('amplify.pim.categorization_required', false)) ? 'required' : 'nullable'
+            'pim_category_id' => (config('amplify.pim.categorization_required', false)) ? 'required' : 'nullable',
         ];
     }
 

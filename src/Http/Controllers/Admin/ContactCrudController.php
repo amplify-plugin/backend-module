@@ -366,9 +366,39 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::field('password_confirmation')->type('show_hide_password')->label('Confirm Password')->tab('Basic');
-        CRUD::field('order_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Order Limit')->tab('ERP');
-        CRUD::field('daily_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Daily Budget Limit')->tab('ERP');
-        CRUD::field('monthly_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Monthly Budget Limit')->tab('ERP');
+        CRUD::addField([
+            'name' => 'order_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0
+            ],
+            'default' => '0',
+            'label' => 'Order Limit',
+            'tab' => 'ERP'
+        ]);
+        CRUD::addField([
+            'name' => 'daily_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0
+            ],
+            'default' => '0',
+            'label' => 'Daily Budget Limit',
+            'tab' => 'ERP'
+        ]);
+        CRUD::addField([
+            'name' => 'monthly_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0
+            ],
+            'default' => '0',
+            'label' => 'Monthly Budget Limit',
+            'tab' => 'ERP'
+        ]);
 
         if (config('amplify.basic.enable_multi_customer_manage')) {
             CRUD::addField([

@@ -522,7 +522,8 @@ HTML,
                     ['name' => '__otp_duration__', 'value' => '30 minutes', 'description' => 'Duration after the OTP will expires'],
                 ],
                 'eventRecipents' => [
-                    ['name' => 'Customer', 'event_action_field' => 'is_get_customer', 'description' => 'Customer'],
+                    ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'Admin'],
+                    ['name' => 'Contact', 'event_action_field' => 'is_get_contact', 'description' => 'Contact'],
                 ],
                 'eventTemplates' => [
                     [

@@ -346,6 +346,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'use_minimum_order_quantity' => $request->boolean('use_minimum_order_quantity', false),
             'mandatory_fields' => $request->input('mandatory_fields', []),
             'document_type' => $request->input('document_type'),
+            'default_status' => $request->input('default_status', 'draft'),
             'unit_of_measurements' => $request->input('unit_of_measurements', [['code' => 'ea', 'label' => 'Each']]),
         ];
     }

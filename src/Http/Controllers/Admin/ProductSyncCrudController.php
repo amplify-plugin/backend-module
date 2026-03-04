@@ -5,7 +5,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\ErpApi\ProductSyncService;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ProductSyncRequest;
-use Amplify\System\Backend\Models\ProductSync;
+use Amplify\ErpApi\Jobs\PromptProductSyncJob;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
@@ -35,7 +35,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -114,7 +114,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'value' => function ($productSync) {
                 return match (true) {
-                    ! empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                    !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
                     $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
                     default => "<span>{$productSync->id}</span>"
                 };
@@ -173,37 +173,33 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     public function bulkProcess(Request $request)
     {
-        $response = [];
+        $status = null;
         try {
             if ($request->has('selection') && $request->input('selection') == 'selected') {
-                $productSyncList = $request->entries;
+                $productSyncList = array_values($request->entries);
+                $status = 'selected';
             } elseif ($request->has('selection') && $request->input('selection') == 'all') {
-                $productSyncList = ProductSync::where('is_processed', '=', false)
-                    ->get()
-                    ->pluck('id')
-                    ->toArray();
+                $productSyncList = [0 => 'all'];
             }
 
-            $user_id = backpack_user()->id;
+            if (!empty($productSyncList)) {
 
-            if (! empty($productSyncList)) {
-                foreach ($productSyncList as $id) {
-                    \ErpApi::dispatchProductSyncJob($id, $user_id);
-                }
+                PromptProductSyncJob::dispatch($productSyncList, backpack_user()->id)->onQueue('worker');
 
-                $response = [
+                return response()->json([
                     'type' => 'success',
-                    'message' => 'Total '.count($productSyncList).' item(s) has been added to catalog sync process.'];
+                    'message' => $status == 'selected'
+                        ? 'Selected item(s) has been added to catalog sync process queue.'
+                        : 'All Remaining item(s) have been added to catalog sync process queue.',
+                ]);
             } else {
                 throw new InvalidArgumentException('No Entries available to process');
             }
         } catch (Exception $exception) {
-            $response = [
+            return response()->json([
                 'type' => 'error',
                 'message' => $exception->getMessage(),
-            ];
-        } finally {
-            return response()->json($response);
+            ]);
         }
     }
 }

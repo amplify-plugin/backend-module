@@ -291,6 +291,7 @@ class ProductCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     *
      * @throws BackpackProRequiredException
      */
     protected function setupListOperation()
@@ -312,10 +313,10 @@ class ProductCrudController extends BackpackCustomCrudController
         }
 
         CRUD::addFilter([
-                'name' => 'status',
-                'type' => 'select2_multiple',
-                'label' => 'Status',
-            ],
+            'name' => 'status',
+            'type' => 'select2_multiple',
+            'label' => 'Status',
+        ],
             function () {
                 return config('amplify.pim.product_statuses');
             },

@@ -2,10 +2,10 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
+use Amplify\ErpApi\Jobs\PromptProductSyncJob;
 use Amplify\ErpApi\ProductSyncService;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ProductSyncRequest;
-use Amplify\ErpApi\Jobs\PromptProductSyncJob;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
@@ -35,7 +35,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -114,7 +114,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'value' => function ($productSync) {
                 return match (true) {
-                    !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                    ! empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
                     $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
                     default => "<span>{$productSync->id}</span>"
                 };
@@ -182,7 +182,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
                 $productSyncList = [0 => 'all'];
             }
 
-            if (!empty($productSyncList)) {
+            if (! empty($productSyncList)) {
 
                 PromptProductSyncJob::dispatch($productSyncList, backpack_user()->id)->onQueue('worker');
 

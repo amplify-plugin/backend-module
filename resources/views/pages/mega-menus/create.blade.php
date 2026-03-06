@@ -35,7 +35,9 @@
     </section>
 @endsection
 
+
 @section('content')
+    @php $entry->load('products'); @endphp
     <megamenu-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit' :
@@ -49,7 +51,7 @@
                         ? 'put'
                         : ($crud->getCurrentOperation() === 'show' ? 'get' : 'post')}}"
         menu="{{ $menu }}"
-        mega_menu='@json($mega_menu)'
+        mega_menu='@json($entry)'
         mega_menu_types='@json($mega_menu_types)'
         merchandising_zones='@json($merchandising_zones)'
         available_menu_column="{{ $available_menu_column }}"

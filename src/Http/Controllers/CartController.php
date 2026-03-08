@@ -6,7 +6,6 @@ use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
 use Amplify\System\Backend\Models\Cart;
 use Amplify\System\Backend\Models\CartItem;
-use Amplify\Widget\Components\CartSummary;
 use App\Http\Controllers\Controller;
 use ErrorException;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +37,7 @@ class CartController extends Controller
     public function getCartSummary()
     {
         return response()->json([
-            'html' => Blade::renderComponent(new CartSummary),
+            'html' => Blade::render('<x-cart-summary/>'),
         ], 200);
     }
 

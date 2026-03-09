@@ -32,7 +32,7 @@ class CustomerRegistrationRequest extends FormRequest
             'customer_name' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'punch_out' => 'required',
+            'punch_out' => 'nullable',
             'customer_type' => 'nullable',
             'is_suspended' => 'boolean|nullable',
             'warehouse_seq_code' => 'string|nullable',

@@ -30,7 +30,7 @@ class CustomerAuthCheck
                 'message' => 'You need to be logged in to access this feature.',
             ], 401);
         } else {
-            return redirect()->route('frontend.login');
+            return redirect()->route('frontend.login')->with('error', 'You are not authorized to open this page. Sign in with proper credentials.');
         }
     }
 

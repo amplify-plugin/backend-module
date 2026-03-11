@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
             'email' => ['required', Rule::unique(config('permission.table_names.users', 'users'), 'email')->ignore($id)],
             'name' => 'required|string|min:2|max:255',
             'password' => ((request()->route()->getName() == 'user.update') ? 'nullable' : 'required').'|confirmed|min:'.$passLength,
-            'password_reset_required' => 'nullable',
+            'password_reset_required' => 'nullable|boolean',
             'roles' => 'nullable',
             'permissions' => 'nullable',
             'type' => 'string|nullable',
@@ -53,5 +53,10 @@ class UserRequest extends FormRequest
             'roles' => $this->roles ?? [],
             'permissions' => $this->permissions ?? [],
         ]);
+
+        if (empty($this->input('password'))) {
+            $this->offsetUnset('password');
+            $this->offsetUnset('password_confirmation');
+        }
     }
 }

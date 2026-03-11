@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Requests;
 
 use Amplify\ErpApi\Facades\ErpApi;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerOrderRequest extends FormRequest
@@ -18,7 +19,7 @@ class CustomerOrderRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {

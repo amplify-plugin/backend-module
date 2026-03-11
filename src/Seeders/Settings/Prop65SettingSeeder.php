@@ -3,11 +3,12 @@
 namespace Amplify\System\Backend\Seeders\Settings;
 
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class Prop65SettingSeeder extends Seeder
 {
-    use \Illuminate\Database\Console\Seeds\WithoutModelEvents;
+    use WithoutModelEvents;
 
     /**
      * Run the database seeds.

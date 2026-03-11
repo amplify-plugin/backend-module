@@ -2,12 +2,14 @@
 
 namespace Amplify\System\Backend\Traits;
 
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 trait SettingOperation
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     /**
      * Configure the setting group name. Apply settings to all operations.
@@ -21,7 +23,7 @@ trait SettingOperation
      */
     protected function setupListOperation()
     {
-        CRUD::addClause('where', 'name', '=', $this->getSettingName());
+        CRUD::addBaseClause('where', 'name', '=', $this->getSettingName());
 
         //        CRUD::addButton('line', 'active', 'view', 'backend::settings.toggle_active', 'end');
 

@@ -22,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
@@ -37,7 +38,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Class ContactCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ContactCrudController extends BackpackCustomCrudController
 {
@@ -325,7 +326,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         CRUD::field('phone')->type('text')->tab('Basic');
 
-        Crud::addField([
+        CRUD::addField([
             'name' => 'roles',
             'label' => 'Role(s)',
             'type' => 'select2_from_ajax_multiple',
@@ -877,7 +878,7 @@ class ContactCrudController extends BackpackCustomCrudController
     public function fetchCustomer()
     {
         return $this->fetch([
-            'model' => \Amplify\System\Backend\Models\Customer::class,
+            'model' => Customer::class,
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
@@ -904,7 +905,7 @@ class ContactCrudController extends BackpackCustomCrudController
         }
 
         return $this->fetch([
-            'model' => \Amplify\System\Backend\Models\Customer::class,
+            'model' => Customer::class,
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',

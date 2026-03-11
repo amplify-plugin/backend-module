@@ -4,19 +4,25 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\EventRequest;
+use Amplify\System\Backend\Models\Event;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class EventCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class TriggerCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -25,7 +31,7 @@ class TriggerCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\Event::class);
+        CRUD::setModel(Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/trigger');
         CRUD::setEntityNameStrings('trigger', 'triggers');
 

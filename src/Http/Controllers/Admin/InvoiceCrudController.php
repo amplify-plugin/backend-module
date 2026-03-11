@@ -4,16 +4,18 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Customer;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class InvoiceCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class InvoiceCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use ListOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -22,7 +24,7 @@ class InvoiceCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\Customer::class);
+        CRUD::setModel(Customer::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/invoice');
         CRUD::setEntityNameStrings('invoice', 'invoices');
     }

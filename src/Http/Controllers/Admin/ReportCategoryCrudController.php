@@ -4,20 +4,27 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ReportCategoryRequest;
+use Amplify\System\Backend\Models\ReportCategory;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class ReportCategoryCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ReportCategoryCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -26,7 +33,7 @@ class ReportCategoryCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\ReportCategory::class);
+        CRUD::setModel(ReportCategory::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/query-category');
         CRUD::setEntityNameStrings('query-category', 'query categories');
     }

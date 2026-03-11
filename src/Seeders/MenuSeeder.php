@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
+use Amplify\System\Cms\Models\MenuGroup;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -14,7 +15,7 @@ class MenuSeeder extends Seeder
     public function run()
     {
         foreach ($this->data() as $menuGroup) {
-            \Amplify\System\Cms\Models\MenuGroup::create($menuGroup);
+            MenuGroup::create($menuGroup);
         }
     }
 

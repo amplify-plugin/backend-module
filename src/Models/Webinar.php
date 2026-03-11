@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Models;
 
 use Amplify\System\Cms\Models\BannerZone;
+use Amplify\System\Cms\Models\Page;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,7 +43,7 @@ class Webinar extends Model implements Auditable
 
     public function page()
     {
-        return $this->belongsTo(\Amplify\System\Cms\Models\Page::class);
+        return $this->belongsTo(Page::class);
     }
 
     public function bannerZone()

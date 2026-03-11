@@ -5,7 +5,9 @@ namespace Amplify\System\Backend\Models;
 use Amplify\System\Ticket\Interfaces\TicketInterface;
 use Amplify\System\Ticket\Models\TicketThread;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -92,7 +94,7 @@ class Ticket extends Model implements Auditable, TicketInterface
     /**
      * Get sender.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function sender()
     {
@@ -102,7 +104,7 @@ class Ticket extends Model implements Auditable, TicketInterface
     /**
      * Get thread.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function thread()
     {
@@ -119,7 +121,7 @@ class Ticket extends Model implements Auditable, TicketInterface
      * Scope by sender.
      *
      * @param  int  $sender  User ID
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeFromSender($query, $sender)
     {

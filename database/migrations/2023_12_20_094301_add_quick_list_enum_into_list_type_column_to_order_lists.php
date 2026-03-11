@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order_lists', function (Blueprint $table) {
-            \DB::statement("ALTER TABLE `order_lists` CHANGE `list_type` `list_type` ENUM('personal','global','quick-list') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL");
+            DB::statement("ALTER TABLE `order_lists` CHANGE `list_type` `list_type` ENUM('personal','global','quick-list') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL");
         });
     }
 

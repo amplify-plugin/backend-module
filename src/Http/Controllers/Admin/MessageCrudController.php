@@ -5,21 +5,27 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\User;
+use Amplify\System\Message\Exceptions\MessengerException;
 use Amplify\System\Message\Facades\Messenger;
 use Amplify\System\Message\Http\Requests\MessageRequest;
 use Amplify\System\Message\Models\Message;
 use Amplify\System\Message\Models\MessageThread;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MessageCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     public function setup()
     {
@@ -85,7 +91,7 @@ class MessageCrudController extends BackpackCustomCrudController
             return ($message instanceof Message)
                 ? redirect($url)
                 : redirect()->back()->with('error', 'Something went wrong');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             \Alert::error($exception->getMessage());
 
             return redirect()->back()->with('error', $exception->getMessage());
@@ -95,7 +101,7 @@ class MessageCrudController extends BackpackCustomCrudController
     /**
      * @return RedirectResponse
      *
-     * @throws \Amplify\System\Message\Exceptions\MessengerException
+     * @throws MessengerException
      */
     public function update(Request $request, $id)
     {

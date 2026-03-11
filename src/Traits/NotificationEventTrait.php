@@ -11,17 +11,17 @@ trait NotificationEventTrait
     private $eventCode;
 
     /**
-     * @var \Amplify\System\Services\EmailService
+     * @var EmailService
      */
     private $emailService;
 
     /**
-     * @var \Amplify\System\Services\MessageService
+     * @var MessageService
      */
     private $messageService;
 
     /**
-     * @var \Amplify\System\Backend\Models\Event
+     * @var Event
      */
     private $eventInfo;
 

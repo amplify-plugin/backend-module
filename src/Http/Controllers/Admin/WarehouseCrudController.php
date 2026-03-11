@@ -5,21 +5,29 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\WarehouseRequest;
 use Amplify\System\Backend\Models\Warehouse;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class WarehouseCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class WarehouseCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use FetchOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -28,7 +36,7 @@ class WarehouseCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\Warehouse::class);
+        CRUD::setModel(Warehouse::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/warehouse');
         CRUD::setEntityNameStrings('warehouse', 'warehouses');
     }
@@ -155,7 +163,7 @@ class WarehouseCrudController extends BackpackCustomCrudController
     /**
      * This method return all warehouse list for dropdown in frontend setting
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function fetchWarehouseDropdown()
     {

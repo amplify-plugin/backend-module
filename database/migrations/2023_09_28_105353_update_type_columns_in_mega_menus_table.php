@@ -1,5 +1,6 @@
 <?php
 
+use Amplify\System\Cms\Models\MegaMenu;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('mega_menus', function (Blueprint $table) {
-            $table->enum('type', array_keys(\Amplify\System\Cms\Models\MegaMenu::TYPES));
+            $table->enum('type', array_keys(MegaMenu::TYPES));
         });
     }
 };

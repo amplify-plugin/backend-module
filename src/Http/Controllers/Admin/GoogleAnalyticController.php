@@ -4,12 +4,14 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\AccountTitleRequest;
+use Amplify\System\Backend\Models\AccountTitle;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class AccountTitleCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class GoogleAnalyticController extends BackpackCustomCrudController
 {
@@ -20,7 +22,7 @@ class GoogleAnalyticController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\AccountTitle::class);
+        CRUD::setModel(AccountTitle::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/account-title');
         CRUD::setEntityNameStrings('account title', 'account titles');
     }

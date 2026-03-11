@@ -2,12 +2,13 @@
 
 namespace Amplify\System\Backend\Facades;
 
+use Amplify\System\Payment\Services\CenPosPaymentGateway;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * CenPosPaymentGateway Facade
  *
- * @see \Amplify\System\Payment\Services\CenPosPaymentGateway
+ * @see CenPosPaymentGateway
  *
  * @method static mixed getVerifyingPost(string $email = "s", ?float $amount = 0.00, ?string $token = null, ?string $invoiceNumber = null, ?string $type = null)
  * @method static mixed getCards(string $email = "s")

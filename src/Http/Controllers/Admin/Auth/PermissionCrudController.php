@@ -1,8 +1,12 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin;
+namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
 use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
 
@@ -10,10 +14,10 @@ use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as 
 
 class PermissionCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     public array $permissions = [];
 
@@ -36,7 +40,7 @@ class PermissionCrudController extends BackpackCustomCrudController
     {
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
     }
@@ -63,7 +67,7 @@ class PermissionCrudController extends BackpackCustomCrudController
     {
         $this->crud->addField([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
         $this->crud->addField([

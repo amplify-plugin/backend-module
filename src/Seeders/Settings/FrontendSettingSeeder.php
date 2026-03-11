@@ -3,11 +3,13 @@
 namespace Amplify\System\Backend\Seeders\Settings;
 
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Amplify\System\Backend\Models\Warehouse;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FrontendSettingSeeder extends Seeder
 {
-    use \Illuminate\Database\Console\Seeds\WithoutModelEvents;
+    use WithoutModelEvents;
 
     /**
      * Run the database seeds.
@@ -102,7 +104,7 @@ class FrontendSettingSeeder extends Seeder
                     'minimum_input_length' => 0,
                     'method' => 'POST',
                     'attribute' => 'name',
-                    'model' => \Amplify\System\Backend\Models\Warehouse::class,
+                    'model' => Warehouse::class,
                     'entity' => 'guestWarehouse',
                 ],
             ],

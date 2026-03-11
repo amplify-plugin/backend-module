@@ -5,11 +5,18 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\OrderRequest;
 use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Models\CustomerOrder;
 use Amplify\System\Backend\Models\CustomerOrderNote;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Backend\Models\Warehouse;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\Services\MessageService;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,15 +24,15 @@ use Illuminate\Http\Request;
 /**
  * Class DraftOrderCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class DraftOrderCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation {
         update as traitUpdate;
     }
 
@@ -38,7 +45,7 @@ class DraftOrderCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\CustomerOrder::class);
+        CRUD::setModel(CustomerOrder::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/draft-order');
         CRUD::setEntityNameStrings('draft-order', 'draft orders');
 
@@ -167,20 +174,20 @@ class DraftOrderCrudController extends BackpackCustomCrudController
     {
         $this->addShowColumns();
 
-        Crud::addColumn([
+        CRUD::addColumn([
             'name' => 'created_at',
             'label' => 'Created At',
         ]);
-        Crud::addColumn([
+        CRUD::addColumn([
             'name' => 'updated_at',
             'label' => 'Last Changed',
         ]);
-        Crud::addColumn([
+        CRUD::addColumn([
             'name' => 'quote_price_update',
             'type' => 'boolean',
             'label' => 'Quote Price Update',
         ]);
-        Crud::addColumn([
+        CRUD::addColumn([
             'name' => 'order_status',
             'label' => 'Status',
             'type' => 'select2_from_array',

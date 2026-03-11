@@ -497,7 +497,7 @@ class Product extends Model implements ContractsAuditable
             try {
                 $original_data = json_decode(($this->attributes[$original_field_name] ?? '{}'),
                     true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 // Handle the exception (e.g., log, provide a default value, etc.)
                 $original_data = [];
             }
@@ -516,7 +516,7 @@ class Product extends Model implements ContractsAuditable
             try {
                 $original_data = json_decode(($this->attributes[$original_field_name] ?? '{}'),
                     true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 // Handle the exception (e.g., log, provide a default value, etc.)
                 $original_data = [];
             }

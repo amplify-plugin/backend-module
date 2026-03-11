@@ -1,9 +1,11 @@
 <?php
 
+use Amplify\System\Backend\Models\Category;
+
 if (! function_exists('eaDefaultCategories')) {
     function eaDefaultCategories($requestFromModule): array
     {
-        $categories = \Amplify\System\Backend\Models\Category::query()
+        $categories = Category::query()
             ->whereNull('parent_id')
             ->withCount('products')
             ->get();

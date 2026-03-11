@@ -198,7 +198,7 @@ class CustomerOrder extends Model implements Auditable
 
                 if (config('amplify.client_code') === 'MW') {
                     $data['ActualSellPrice'] = $price;
-                }else{
+                } else {
                     $data['Price'] = $price;
                 }
 

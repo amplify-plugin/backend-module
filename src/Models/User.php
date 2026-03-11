@@ -104,7 +104,7 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
 
     public function isAdmin(): bool
     {
-        return (bool)$this->is_admin;
+        return (bool) $this->is_admin;
     }
 
     public function avatarImage()

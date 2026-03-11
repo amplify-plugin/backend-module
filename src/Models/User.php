@@ -57,7 +57,8 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'enabled' => 'bool',
+        'enabled' => 'boolean',
+        'is_admin' => 'boolean',
     ];
 
     public static function booted()
@@ -103,7 +104,7 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
 
     public function isAdmin(): bool
     {
-        return $this->is_admin === 1;
+        return (bool)$this->is_admin;
     }
 
     public function avatarImage()

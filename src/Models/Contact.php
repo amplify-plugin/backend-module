@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\PermissionRegistrar;
@@ -85,7 +86,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
         static::saving(function ($model) {
 
             if (! empty($model->password) && $model->isDirty('password')) {
-                $model->password = \Illuminate\Support\Facades\Hash::make($model->password);
+                $model->password = Hash::make($model->password);
 
                 if (request()->is('admin/*') && request()->route()->named('contacts.store', 'contacts.update')) {
                     $model->password_reset_required = true;

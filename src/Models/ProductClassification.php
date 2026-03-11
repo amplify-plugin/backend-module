@@ -129,7 +129,7 @@ class ProductClassification extends Model implements AuditableContract
     /**
      * Get the productClassification products
      */
-    public function classificationProducts(): hasMany
+    public function classificationProducts(): HasMany
     {
         return $this->hasMany(Product::class);
     }

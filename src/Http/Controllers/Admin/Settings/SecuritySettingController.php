@@ -5,12 +5,13 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Backend\Traits\SettingOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SeoSettingCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class SecuritySettingController extends BackpackCustomCrudController
 {

@@ -4,13 +4,14 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Charts;
 
 use Amplify\System\Backend\Models\CustomerOrder;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Carbon\Carbon;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
 /**
  * Class MonthlyOrderAmountChartController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class MonthlyOrderAmountChartController extends ChartController
 {

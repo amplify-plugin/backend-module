@@ -32,7 +32,7 @@ class UserRequest extends FormRequest
         return [
             'email' => ['required', Rule::unique(config('permission.table_names.users', 'users'), 'email')->ignore($id)],
             'name' => 'required|string|min:2|max:255',
-            'password' => ((request()->route()->getName() == 'user.update') ? 'nullable' : 'required') . '|confirmed|min:' . $passLength,
+            'password' => ((request()->route()->getName() == 'user.update') ? 'nullable' : 'required').'|confirmed|min:'.$passLength,
             'password_reset_required' => 'nullable|boolean',
             'roles' => 'nullable',
             'permissions' => 'nullable',

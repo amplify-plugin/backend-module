@@ -136,7 +136,7 @@ class ProductCrudController extends BackpackCustomCrudController
     /**
      * @return RedirectResponse
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function store(ProductRequest $request)
     {
@@ -193,9 +193,9 @@ class ProductCrudController extends BackpackCustomCrudController
     }
 
     /**
-     * @return array|\Illuminate\Http\RedirectResponse
+     * @return array|RedirectResponse
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function update(ProductRequest $request)
     {

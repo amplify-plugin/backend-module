@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('customer_orders', function (Blueprint $table) {
-            \DB::statement("ALTER TABLE `customer_orders` CHANGE `order_status` `order_status` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'Approved'");
+            DB::statement("ALTER TABLE `customer_orders` CHANGE `order_status` `order_status` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'Approved'");
 
         });
     }

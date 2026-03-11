@@ -5,23 +5,31 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\EventActionRequest;
 use Amplify\System\Backend\Models\Event;
+use Amplify\System\Backend\Models\EventAction;
 use Amplify\System\Backend\Models\EventRecipent;
 use Amplify\System\Backend\Models\EventTemplate;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
  * Class EventActionCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class EventActionCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -30,7 +38,7 @@ class EventActionCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\EventAction::class);
+        CRUD::setModel(EventAction::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event-action');
         CRUD::setEntityNameStrings('event-action', 'notifications');
     }
@@ -170,7 +178,7 @@ class EventActionCrudController extends BackpackCustomCrudController
         ]);
     }
 
-    public function getTemplates(Request $request): \Illuminate\Http\JsonResponse
+    public function getTemplates(Request $request): JsonResponse
     {
         $templates = EventTemplate::where(['event_id' => $request->input('event_id')])
             ->get();
@@ -178,7 +186,7 @@ class EventActionCrudController extends BackpackCustomCrudController
         return response()->json($templates);
     }
 
-    public function getRecipents(Request $request): \Illuminate\Http\JsonResponse
+    public function getRecipents(Request $request): JsonResponse
     {
         $recipents = EventRecipent::where(['event_id' => $request->input('event_id')])
             ->get();

@@ -2,10 +2,11 @@
 
 namespace Amplify\System\Backend\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property-read CartItem[]|\Illuminate\Database\Eloquent\Collection $cartItems
+ * @property-read CartItem[]|Collection $cartItems
  */
 class Cart extends Model
 {

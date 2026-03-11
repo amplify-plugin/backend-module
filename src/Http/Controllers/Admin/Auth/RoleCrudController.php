@@ -7,22 +7,29 @@ use Amplify\System\Backend\Http\Requests\RoleCrudRequest;
 use Amplify\System\Backend\Models\Permission;
 use Amplify\System\Backend\Models\Role;
 use Amplify\System\Backend\Models\User;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
 
 /**
  * Class RoleCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class RoleCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     /**
-     * @var \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     * @var Repository|Application|mixed
      */
     private $permission_model;
 
@@ -55,10 +62,10 @@ class RoleCrudController extends BackpackCustomCrudController
                 'name' => 'users_count',
                 'wrapper' => [
                     'href' => function ($crud, $column, $entry, $related_key) {
-                        return backpack_url('user?role=' . $entry->getKey());
+                        return backpack_url('user?role='.$entry->getKey());
                     },
                 ],
-                'suffix' => " users",
+                'suffix' => ' users',
             ],
             [
                 'label' => 'Entry Date',
@@ -103,7 +110,7 @@ class RoleCrudController extends BackpackCustomCrudController
                 'options' => function () {
                     return $this->permission_model::where('guard_name', 'web')->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
                 },
-            ]
+            ],
         ]);
 
         // otherwise, changes won't have effect

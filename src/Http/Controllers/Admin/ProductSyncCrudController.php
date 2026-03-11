@@ -6,6 +6,11 @@ use Amplify\ErpApi\Jobs\PromptProductSyncJob;
 use Amplify\ErpApi\ProductSyncService;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ProductSyncRequest;
+use Amplify\System\Backend\Models\ProductSync;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
@@ -20,10 +25,10 @@ use InvalidArgumentException;
  */
 class ProductSyncCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -34,7 +39,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
+        CRUD::setModel(ProductSync::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }

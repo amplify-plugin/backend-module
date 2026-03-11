@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Controllers;
 
+use Amplify\ErpApi\Collections\ProductPriceAvailabilityCollection;
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
 use Amplify\System\Backend\Models\Cart;
@@ -165,7 +166,7 @@ class CartController extends Controller
     }
 
     /**
-     * @return \Amplify\ErpApi\Collections\ProductPriceAvailabilityCollection
+     * @return ProductPriceAvailabilityCollection
      */
     public static function getERPInfo(array|string $codes, int $quantity = 1, $warehouse = null)
     {

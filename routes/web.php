@@ -20,7 +20,9 @@ use Amplify\System\Backend\Http\Controllers\AlexusmaiFileManagerController;
 use Amplify\System\Cms\Http\Controllers\PageCrudController;
 use Amplify\System\Marketing\Http\Controllers\CampaignCrudController;
 use Amplify\System\Utility\Http\Controllers\FailedJobCrudController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -182,14 +184,14 @@ Route::controller(SiteCrudController::class)->prefix('site')->group(function () 
 | Site cache clear
 |--------------------------------------------------------------------------
 */
-Route::post('clear-cache', function (Illuminate\Http\Request $request) {
+Route::post('clear-cache', function (Request $request) {
     try {
 
         Artisan::call('optimize:clear');
 
         Log::debug(Artisan::output());
 
-        \Illuminate\Support\Facades\Auth::guard(backpack_guard_name())->logout();
+        Auth::guard(backpack_guard_name())->logout();
 
         $request->session()->invalidate();
 
@@ -199,7 +201,7 @@ Route::post('clear-cache', function (Illuminate\Http\Request $request) {
 
         return response()->json(['message' => 'Cache clear successfully. You may need to re-logged in.', 'success' => true]);
 
-    } catch (\Exception $exception) {
+    } catch (Exception $exception) {
 
         return response()->json(['message' => $exception->getMessage(), 'success' => false]);
     }

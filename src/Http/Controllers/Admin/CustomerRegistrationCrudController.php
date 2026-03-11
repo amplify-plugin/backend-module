@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Jobs\CustomerProfileSyncJob;
+use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\CustomerRegistrationRequest;
 use Amplify\System\Backend\Models\Contact;
@@ -12,6 +13,7 @@ use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerGroup;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Factories\NotificationFactory;
+use Amplify\System\Helpers\UtilityHelper;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -289,7 +291,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             'name' => 'default_currency',
             'label' => 'Customer Default Currency',
             'type' => 'select2_from_array',
-            'options' => \Amplify\System\Helpers\UtilityHelper::currencyDropdown(),
+            'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
             'tab' => 'ERP Information',
         ]);
@@ -307,7 +309,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
         // TODO handle data from API as well important
         $options = [];
 
-        \ErpApi::getWarehouses()->each(function (\Amplify\ErpApi\Wrappers\Warehouse $warehouse) use (&$options) {
+        \ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
             $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
         });
 
@@ -618,7 +620,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             'name' => 'default_currency',
             'label' => 'Customer Default Currency',
             'type' => 'select2_from_array',
-            'options' => \Amplify\System\Helpers\UtilityHelper::currencyDropdown(),
+            'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
             'tab' => 'ERP Information',
         ]);

@@ -7,19 +7,24 @@ use Amplify\System\Backend\Http\Requests\CustomerRoleRequest;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\Permission;
 use Amplify\System\Backend\Models\Role;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class CustomerRoleCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class CustomerRoleCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use UpdateOperation;
 
     private string $permission_model;
 
@@ -55,7 +60,7 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
                 'name' => 'contacts_count',
                 'wrapper' => [
                     'href' => function ($crud, $column, $entry, $related_key) {
-                        return backpack_url('contact?role=' . $entry->getKey());
+                        return backpack_url('contact?role='.$entry->getKey());
                     },
                 ],
                 'suffix' => ' contacts',
@@ -130,7 +135,7 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
                         ->pluck('name', 'id')
                         ->toArray();
                 },
-            ]
+            ],
         ]);
 
         // otherwise, changes won't have effect

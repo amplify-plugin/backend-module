@@ -8,6 +8,7 @@ use Amplify\System\Backend\Http\Requests\ContactRequest;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\ContactLogin;
 use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerGroup;
 use Amplify\System\Backend\Models\CustomerPermission;
 use Amplify\System\Backend\Models\Event;
@@ -186,7 +187,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
         CRUD::field('phone')->type('text')->tab('Basic');
 
-        Crud::addField([
+        CRUD::addField([
             'name' => 'roles',
             'label' => 'Role(s)',
             'type' => 'select2_from_ajax_multiple',
@@ -202,7 +203,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'label' => 'Address', // Table column heading
             'type' => 'select2_from_ajax',
             'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
-            'model' => \Amplify\System\Backend\Models\CustomerAddress::class, // the method that defines the relationship in your Model
+            'model' => CustomerAddress::class, // the method that defines the relationship in your Model
             'attribute' => 'display_name', // foreign key attribute that is shown to user
             'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
             'placeholder' => 'Select an address', // placeholder for the select

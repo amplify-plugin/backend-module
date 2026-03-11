@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Payment service Facade
  *
- * @see \Amplify\System\Services\PunchOutApiService
+ * @see PunchOutApiService
  */
 class PunchOutApi extends Facade
 {

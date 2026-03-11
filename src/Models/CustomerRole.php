@@ -20,5 +20,4 @@ class CustomerRole extends Role
             config('permission.column_names.model_morph_key')
         );
     }
-
 }

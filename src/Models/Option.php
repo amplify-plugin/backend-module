@@ -60,7 +60,7 @@ class Option extends Model implements Auditable
     |--------------------------------------------------------------------------
     */
 
-    public function productClassification(): belongsTo
+    public function productClassification(): BelongsTo
     {
         return $this->belongsTo(ProductClassification::class);
     }
@@ -76,7 +76,7 @@ class Option extends Model implements Auditable
             ->withTimestamps();
     }
 
-    public function product(): belongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

@@ -13,8 +13,8 @@ use OwenIt\Auditing\Auditable;
  */
 class AccountTitle extends Model implements \OwenIt\Auditing\Contracts\Auditable
 {
+    use Auditable;
     use Auditable, CrudTrait;
-    use \OwenIt\Auditing\Auditable;
 
     /*
     |--------------------------------------------------------------------------

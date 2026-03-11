@@ -4,10 +4,12 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Jobs\CustomerProfileSyncJob;
+use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\CustomerRequest;
 use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\CustomerGroup;
+use Amplify\System\Helpers\UtilityHelper;
 use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -170,7 +172,7 @@ class CustomerCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         $options = [];
-        ErpApi::getWarehouses()->each(function (\Amplify\ErpApi\Wrappers\Warehouse $warehouse) use (&$options) {
+        ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
             $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
         });
         CRUD::setValidation(CustomerRequest::class);
@@ -213,7 +215,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'customer_group_id',
             'type' => 'select2',
             'entity' => 'customer_group',
-            'model' => \Amplify\System\Backend\Models\CustomerGroup::class,
+            'model' => CustomerGroup::class,
             'attribute' => 'group_name',
             'ajax' => true,
             'tab' => 'Basic',
@@ -501,7 +503,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'default_currency',
             'label' => 'Customer Default Currency',
             'type' => 'select2_from_array',
-            'options' => \Amplify\System\Helpers\UtilityHelper::currencyDropdown(),
+            'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
             'tab' => 'ERP Information',
         ]);

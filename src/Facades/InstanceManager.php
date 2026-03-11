@@ -2,12 +2,13 @@
 
 namespace Amplify\System\Backend\Facades;
 
+use Amplify\System\Services\InstanceManagerService;
 use Illuminate\Support\Facades\Facade;
 
 /**
  * InstanceManager Facade
  *
- * @see \Amplify\System\Services\InstanceManagerService
+ * @see InstanceManagerService
  *
  * @method static mixed get($key, $setter = "__optional__")
  * @method static mixed set ($key, $setter, $force = false)

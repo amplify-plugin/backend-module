@@ -21,7 +21,7 @@ trait SettingOperation
      */
     protected function setupListOperation()
     {
-        CRUD::addClause('where', 'name', '=', $this->getSettingName());
+        CRUD::addBaseClause('where', 'name', '=', $this->getSettingName());
 
         //        CRUD::addButton('line', 'active', 'view', 'backend::settings.toggle_active', 'end');
 

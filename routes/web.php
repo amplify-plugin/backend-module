@@ -116,7 +116,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('notification', 'NotificationCrudController');
     Route::crud('report', 'ReportCrudController');
     Route::crud('customer-permission', 'CustomerPermissionCrudController');
-    Route::crud('customer-role', 'CustomerRoleCrudController');
     Route::crud('tag', 'TagCrudController');
     Route::crud('message', 'MessageCrudController');
     Route::crud('event', 'WebinarCrudController');
@@ -125,6 +124,10 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('threshold-range', 'ThresholdRangeCrudController');
     Route::crud('industry-classification', 'IndustryClassificationCrudController');
     Route::crud('customer-address', 'CustomerAddressCrudController');
+    Route::crud('customer-role', 'Auth\CustomerRoleCrudController');
+    Route::crud('user', 'Auth\UserCrudController');
+    Route::crud('role', 'Auth\RoleCrudController');
+    Route::crud('permission', 'Auth\PermissionCrudController');
 
     // ---- Reports ----
     Route::prefix('charts')->group(function () {

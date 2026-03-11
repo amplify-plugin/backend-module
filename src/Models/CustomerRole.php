@@ -7,11 +7,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 class CustomerRole extends Role
 {
-    public function teams()
-    {
-        return $this->belongsTo(Customer::class, 'team_id', 'id');
-    }
-
     /**
      * A role belongs to some users of the model associated with its guard.
      */
@@ -26,14 +21,4 @@ class CustomerRole extends Role
         );
     }
 
-    public static function guessCurrentModel()
-    {
-        $role = request('role');
-
-        if (! $role) {
-            abort(404, 'Role Parameter is missing');
-        }
-
-        return self::find($role);
-    }
 }

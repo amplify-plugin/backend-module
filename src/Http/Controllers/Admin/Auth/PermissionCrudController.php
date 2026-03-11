@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin;
+namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
@@ -36,7 +36,7 @@ class PermissionCrudController extends BackpackCustomCrudController
     {
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
     }
@@ -63,7 +63,7 @@ class PermissionCrudController extends BackpackCustomCrudController
     {
         $this->crud->addField([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
         $this->crud->addField([

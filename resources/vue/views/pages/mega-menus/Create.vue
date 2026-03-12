@@ -142,9 +142,9 @@ export default {
                 number_of_column_merchandising_zone: this.megaMenu.number_of_column_merchandising_zone,
                 products: this.megaMenu.products.map(product => {
                     return {
-                        product_id: product.product_id,
-                        attribute_access: product.attribute_access,
-                        product_column_size: product.product_column_size
+                        product_id: product.id,
+                        attribute_access: product.pivot.attribute_access,
+                        product_column_size: product.pivot.product_column_size
                     };
                 }),
                 html_content: this.megaMenu.html_content,

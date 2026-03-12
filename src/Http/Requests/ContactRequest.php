@@ -18,7 +18,7 @@ class ContactRequest extends FormRequest
         'spend_today' => 'nullable',
         'spend_this_month' => 'nullable',
         'password_reset_required' => 'nullable',
-        'redirect_route' => 'nullable',
+        'redirect_route' => 'required',
         'roles' => 'nullable',
         'permissions' => 'nullable',
         'warehouse_id' => 'nullable|integer',

@@ -132,13 +132,16 @@ class EventActionCrudController extends BackpackCustomCrudController
         CRUD::setValidation(EventActionRequest::class);
         $this->crud->setRequiredFields(EventActionRequest::class);
         $this->data['events'] = Event::get()->toArray();
+
         $this->crud->setCreateView('backend::pages.events.action');
 
         CRUD::field('name');
+        CRUD::field('enabled');
         CRUD::field('event_id');
         CRUD::field('event_template_id');
         CRUD::field('is_get_admin');
         CRUD::field('is_get_customer');
+        CRUD::field('is_get_customer_business_contact');
         CRUD::field('is_get_contact');
         CRUD::field('is_get_salesperson');
         CRUD::field('is_quote_sales_person');

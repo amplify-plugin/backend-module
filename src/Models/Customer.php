@@ -49,6 +49,14 @@ class Customer extends Model implements Auditable
         'credit_card_only' => 'boolean',
     ];
 
+    public const LIST_PRICES = [
+        'list_price_1' => 'List Price 1',
+        'list_price_2' => 'List Price 2',
+        'list_price_3' => 'List Price 3',
+        'list_price_4' => 'List Price 4',
+        'list_price_5' => 'List Price 5',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

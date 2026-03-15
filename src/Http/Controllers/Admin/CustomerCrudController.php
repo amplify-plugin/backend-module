@@ -491,7 +491,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         ]);
         CRUD::addField([
             'name' => 'ar_number',
-            'label' => 'Customer AR Number',
+            'label' => 'AR Number',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
@@ -501,20 +501,29 @@ class CustomerCrudController extends BackpackCustomCrudController
         ]);
         CRUD::addField([
             'name' => 'default_currency',
-            'label' => 'Customer Default Currency',
+            'label' => 'Default Currency',
             'type' => 'select2_from_array',
             'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
             'tab' => 'ERP Information',
         ]);
+
+        CRUD::addField([
+            'name' => 'list_price',
+            'label' => 'Default List Price (Your Price)',
+            'type' => 'select_from_array',
+            'options' => Customer::LIST_PRICES,
+            'allows_null' => true,
+            'tab' => 'ERP Information',
+        ]);
         CRUD::addField([
             'name' => 'shipto_address_code',
-            'label' => 'Customer Default Ship to Address Code',
+            'label' => 'Default Ship to Address Code',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
             'name' => 'suspend_code',
-            'label' => 'Customer Suspend Code',
+            'label' => 'Suspend Code',
             'type' => 'text',
             'tab' => 'ERP Information',
         ]);
@@ -528,14 +537,14 @@ class CustomerCrudController extends BackpackCustomCrudController
         ]);
         CRUD::addField([
             'name' => 'carrier_code',
-            'label' => 'Customer Carrier Code',
+            'label' => 'Carrier Code',
             'type' => 'text',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
             'name' => 'business_contact',
-            'label' => 'Customer Business Contact',
-            'type' => 'text',
+            'label' => 'Business Contact',
+            'type' => 'email',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
@@ -546,19 +555,19 @@ class CustomerCrudController extends BackpackCustomCrudController
         ]);
         CRUD::addField([
             'name' => 'customer_po_required',
-            'label' => 'Customer PO Required',
+            'label' => 'PO Required',
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
             'name' => 'allow_backorder',
-            'label' => 'Customer Allow Backorder',
+            'label' => 'Allow Backorder',
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([
             'name' => 'credit_card_only',
-            'label' => 'Customer Credit Card Only',
+            'label' => 'Credit Card Only',
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);

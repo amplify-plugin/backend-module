@@ -150,6 +150,7 @@ class SystemConfiguration extends Model implements Auditable
             ]);
         }
         $model->value = (string) UtilityHelper::stringify($model->type, $value);
+        $model->active = true;
 
         $model->save();
 

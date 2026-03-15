@@ -146,6 +146,7 @@ export default {
         is_get_contact: false,
         is_get_salesperson: false,
         is_quote_sales_person: false,
+        is_get_customer_business_contact: false,
       },
       saveAction: JSON.parse(this.save_action),
       selectedRecipents: []
@@ -170,6 +171,7 @@ export default {
         is_get_contact: eventAction.is_get_contact,
         is_get_salesperson: eventAction.is_get_salesperson,
         is_quote_sales_person: eventAction.is_quote_sales_person,
+        is_get_customer_business_contact: eventAction.is_get_customer_business_contact,
         recipient_emails: eventAction.recipient_emails,
         enabled: eventAction.enabled,
       };
@@ -178,6 +180,7 @@ export default {
       this.allRecipents.is_get_contact = this.event_action.is_get_contact;
       this.allRecipents.is_get_salesperson = this.event_action.is_get_salesperson;
       this.allRecipents.is_quote_sales_person = this.event_action.is_quote_sales_person;
+      this.allRecipents.is_get_customer_business_contact = this.event_action.is_get_customer_business_contact;
 
       this.onEventChange();
     },

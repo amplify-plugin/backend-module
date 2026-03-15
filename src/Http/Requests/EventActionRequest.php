@@ -28,7 +28,14 @@ class EventActionRequest extends FormRequest
             'name' => 'required|min:3|max:255',
             'event_id' => 'required',
             'event_template_id' => 'required',
-            'is_get_customer' => ['nullable'/* new AtLeastOneTrue(['is_get_admin', 'is_get_contact']) */],
+            'enabled' => ['nullable', 'boolean'],
+            'is_get_admin' => ['nullable', 'boolean'],
+            'is_get_customer' => ['nullable', 'boolean'],
+            'is_get_customer_business_contact' => ['nullable', 'boolean'],
+            'is_get_contact' => ['nullable', 'boolean'],
+            'is_get_salesperson' => ['nullable', 'boolean'],
+            'is_quote_sales_person' => ['nullable', 'boolean'],
+            'recipient_emails' => ['nullable'],
         ];
     }
 

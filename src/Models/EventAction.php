@@ -78,8 +78,8 @@ class EventAction extends Model implements Auditable
 
     protected static function booted()
     {
-//        static::saving(function ($eventAction) {
-//            dd(request()->all(), $eventAction->getAttributes());
-//        });
+        //        static::saving(function ($eventAction) {
+        //            dd(request()->all(), $eventAction->getAttributes());
+        //        });
     }
 }

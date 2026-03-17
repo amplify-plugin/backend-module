@@ -16,4 +16,5 @@
     }
 
     dd($data);
+
 @endphp

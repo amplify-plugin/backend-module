@@ -7,17 +7,21 @@ use Amplify\ErpApi\Jobs\CustomerProfileSyncJob;
 use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\CustomerRequest;
+use Amplify\System\Backend\Models\Country;
 use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\CustomerGroup;
+use Amplify\System\Backend\Models\IndustryClassification;
 use Amplify\System\Helpers\UtilityHelper;
 use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +35,7 @@ class CustomerCrudController extends BackpackCustomCrudController
 {
     use CreateOperation;
     use DeleteOperation;
+    use FetchOperation;
     use ListOperation;
     use ShowOperation;
     use UpdateOperation;
@@ -55,10 +60,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'as' => $routeName.'.bulk-profile-sync',
             'uses' => $controller.'@bulkProfileSync',
             'operation' => 'bulkProfileSync',
-        ]);
-
-        Route::post($segment.'/fetch/customer_group', [
-            'uses' => $controller.'@fetchCustomerGroup',
         ]);
     }
 
@@ -176,6 +177,8 @@ class CustomerCrudController extends BackpackCustomCrudController
             $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
         });
         CRUD::setValidation(CustomerRequest::class);
+        Widget::add()->type('script')->content('vendor/backend/js/forms/customer.js');
+
         // BASIC
         CRUD::field('customer_code')->type('text')->tab('Basic')->label('Company Code');
         CRUD::field('customer_name')->type('text')->tab('Basic')->label('Company Name');
@@ -190,9 +193,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'options' => [
                 0 => 'No',
                 1 => 'Yes',
-            ],
-            'hide_when' => [
-                0 => ['punch_out_configuration'],
             ],
             'default' => 0,
             'tab' => 'Basic',
@@ -236,7 +236,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'industry_classification_id',
             'type' => 'select2',
             'entity' => 'IndustryClassification',
-            'model' => "Amplify\System\Backend\Models\IndustryClassification",
+            'model' => IndustryClassification::class,
             'attribute' => 'name',
             'tab' => 'Basic',
             'placeholder' => 'Select a industry classification',
@@ -245,6 +245,8 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::field('free_shipment_amount')->type('number')->tab('Basic');
         CRUD::field('is_suspended')->type('boolean')->tab('Basic');
         // ADDRESS
+        $countries = Country::enabled()->get()->pluck('name', 'iso2')->toArray();
+
         CRUD::addFields([
             [
                 'name' => 'address_1',
@@ -285,7 +287,8 @@ class CustomerCrudController extends BackpackCustomCrudController
             ],
             [
                 'name' => 'country_code',
-                'type' => 'text',
+                'type' => 'select2_from_array',
+                'options' => $countries,
                 'label' => 'Country',
                 'tab' => 'Addresses',
                 'wrapper' => [
@@ -356,7 +359,8 @@ class CustomerCrudController extends BackpackCustomCrudController
                 ],
                 [
                     'name' => 'country_code',
-                    'type' => 'text',
+                    'type' => 'select2_from_array',
+                    'options' => $countries,
                     'label' => 'Country',
                     'wrapper' => [
                         'class' => 'form-group col-md-6',
@@ -773,9 +777,9 @@ class CustomerCrudController extends BackpackCustomCrudController
     /**
      * @return mixed
      */
-    public function fetchCustomerGroup()
+    protected function fetchCustomerGroup()
     {
-        return CustomerGroup::where('group_name', 'like', '%'.\request()->q.'%')->get();
+        return $this->fetch(CustomerGroup::class);
     }
 
     /**

@@ -35,10 +35,10 @@ class CustomerCrudController extends BackpackCustomCrudController
 {
     use CreateOperation;
     use DeleteOperation;
+    use FetchOperation;
     use ListOperation;
     use ShowOperation;
     use UpdateOperation;
-    use FetchOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.

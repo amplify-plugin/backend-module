@@ -58,9 +58,9 @@ class CustomerRegistrationRequest extends FormRequest
             'contact.*.spend_this_month' => 'required|numeric|min:0',
         ];
 
-        if (config('amplify.erp.auto_create_cash_customer')){
+        if (config('amplify.erp.auto_create_cash_customer')) {
             $rules['customer_code'][] = 'nullable';
-        }else{
+        } else {
             $rules['customer_code'][] = 'required';
         }
 

@@ -158,8 +158,35 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::field('unit_of_measure');
         CRUD::field('update_action');
         CRUD::field('is_processed')->type('boolean');
-        CRUD::column('allow_backorder')->type('boolean');
+        CRUD::field('allow_backorder')->type('boolean');
         CRUD::field('error')->type('textarea');
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     *
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::column('item_number');
+        CRUD::column('description_1');
+        CRUD::column('description_2');
+        CRUD::column('item_class');
+        CRUD::column('list_price')->type('text');
+        CRUD::column('manufacturer');
+        CRUD::column('brand');
+        CRUD::column('price_class');
+        CRUD::column('pricing_unit_of_measure');
+        CRUD::column('primary_vendor');
+        CRUD::column('unit_of_measure');
+        CRUD::column('update_action');
+        CRUD::column('is_processed')->type('boolean');
+        CRUD::column('allow_backorder')->type('boolean');
+        CRUD::column('error')->type('textarea');
+        CRUD::column('payload')->type('json');
     }
 
     /**

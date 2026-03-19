@@ -9,10 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create payload JSON
+        run: |
+          cat <<EOF > payload.json
+          {
+            "repo": "${{ github.repository }}",
+            "release": ${{ toJson(github.event.release) }}
+          }
+          EOF
+
       - name: Send release data to server
         run: |
-          echo '{"repo": "${{ github.repository }}", "release": ${{ toJson(github.event.release) }} }' > payload.json
-          
-          curl -X POST https://example.com \
+          curl -X POST https://support.amplify-b2b.com/api/changelog \
             -H "Content-Type: application/json" \
             -d @payload.json

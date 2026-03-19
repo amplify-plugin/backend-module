@@ -63,6 +63,7 @@ class ContactCrudController extends BackpackCustomCrudController
         CRUD::setModel(Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
+        CRUD::addBaseClause('approved');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -100,9 +101,6 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        // @todo enable this before contact registration request
-        // $this->crud->addClause('whereNull', 'enabled_at');
-
         $this->crud->enableExportButtons();
 
         if (config('amplify.erp.auto_create_contact')) {

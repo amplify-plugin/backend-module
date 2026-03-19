@@ -52,6 +52,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::setModel(Customer::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer');
         CRUD::setEntityNameStrings('customer', 'customers');
+        CRUD::addBaseClause('active');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)

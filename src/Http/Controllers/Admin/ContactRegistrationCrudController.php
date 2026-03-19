@@ -49,6 +49,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         CRUD::setEntityNameStrings('contact-registration', 'contact register requests');
 
         CRUD::denyAccess('create');
+        CRUD::addBaseClause('unapproved');
     }
 
     /**
@@ -60,9 +61,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addClause('where', 'enabled', false);
-        $this->crud->addClause('whereNull', 'enabled_at');
-
         // Filtering with customer
         CRUD::addFilter(
             [

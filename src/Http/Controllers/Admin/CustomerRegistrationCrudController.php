@@ -21,7 +21,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
-use ErrorException;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class CustomerRegistrationCrudController
@@ -491,45 +491,57 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
          */
         $request = $this->crud->getRequest();
 
-        try {
+        if (config('amplify.erp.auto_create_cash_customer')) {
+            $industryClassification = IndustryClassification::find($request->input('industry_classification_id'));
 
-            if (config('amplify.erp.auto_create_cash_customer')) {
-                $industryClassification = IndustryClassification::find($request->input('industry_classification_id'));
+            $erpCus = ErpApi::createCustomer([
+                'template_customer_number' => config('amplify.frontend.guest_default'),
+                'email_address' => $request->input('email'),
+                'phone_number' => $request->input('phone'),
+                'customer_name' => $request->input('customer_name'),
+                'contact' => null,
+                'address_1' => $request->input('address_1'),
+                'address_2' => $request->input('address_2'),
+                'address_3' => $request->input('address_3'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'zip_code' => $request->input('zip_code'),
+                'country_code' => $request->input('country_code'),
+                'branch' => null,
+                'customer_industry' => $industryClassification?->name,
+            ]);
 
-                $erpCus = ErpApi::createCustomer([
-                    'template_customer_number' => config('amplify.frontend.guest_default'),
-                    'email_address' => $request->input('email'),
-                    'phone_number' => $request->input('phone'),
-                    'customer_name' => $request->input('customer_name'),
-                    'contact' => null,
-                    'address_1' => $request->input('address_1'),
-                    'address_2' => $request->input('address_2'),
-                    'address_3' => $request->input('address_3'),
-                    'city' => $request->input('city'),
-                    'state' => $request->input('state'),
-                    'zip_code' => $request->input('zip_code'),
-                    'country_code' => $request->input('country_code'),
-                    'branch' => null,
-                    'customer_industry' => $industryClassification?->name,
+            if (! empty($erpCus->Message)) {
+                throw ValidationException::withMessages([
+                    'customer_code' => __('Customer Approval Failed. Error: '.$erpCus->Message),
                 ]);
-
-                if (! empty($erpCus->Message)) {
-                    throw new ErrorException('Customer Approval fFiled. Error: '.$erpCus->Message);
-                }
-
-                if ($erpCus->CustomerNumber == null) {
-                    throw new ErrorException('Customer Approval fFiled. Error: '.$erpCus->Message);
-                }
-
-                $request->offsetSet('customer_code', $erpCus->CustomerNumber);
-
-                $this->crud->setRequest($request);
             }
-        } catch (ErrorException $e) {
 
-            \Alert::error($e->getMessage());
+            if ($erpCus->CustomerNumber == null) {
+                throw ValidationException::withMessages([
+                    'customer_code' => __('The company code does not exist in ERP system. Please provide a valid company code or contact support.'),
+                ]);
+            }
 
-            return redirect()->back();
+            $request->offsetSet('customer_code', $erpCus->CustomerNumber);
+
+            $this->crud->setRequest($request);
+        } else {
+            $erpCus = ErpApi::getCustomerDetail([
+                'customer_number' => $request->input('customer_code'),
+            ]);
+
+            if (! empty($erpCus->Message)) {
+                throw ValidationException::withMessages([
+                    'customer_code' => __('Customer Approval Failed. Error: '.$erpCus->Message),
+                ]);
+            }
+
+            if ($erpCus->CustomerNumber == null) {
+                throw ValidationException::withMessages([
+                    'customer_code' => __('The company code does not exist in ERP system. Please provide a valid company code or contact support.'),
+                ]);
+            }
         }
 
         $response = $this->traitUpdate();

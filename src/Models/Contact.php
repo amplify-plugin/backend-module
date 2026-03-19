@@ -304,9 +304,16 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
     */
     public function scopeApproved($query)
     {
-        $query->whereHas('customer', function (Builder $q) {
+        return $query->whereHas('customer', function (Builder $q) {
             $q->where('approved', Customer::APPROVED);
-        })->get();
+        });
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->whereHas('customer', function (Builder $q) {
+            $q->where('approved', Customer::UNAPPROVED);
+        });
     }
 
     /*

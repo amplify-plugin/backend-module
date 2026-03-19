@@ -50,7 +50,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer-registration');
         CRUD::setEntityNameStrings('customer-registration', 'registration requests');
 
-        CRUD::addClause('inactive');
+        CRUD::addBaseClause('inactive');
     }
 
     /**
@@ -524,11 +524,6 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                 $request->offsetSet('customer_code', $erpCus->CustomerNumber);
 
                 $this->crud->setRequest($request);
-
-            } else {
-                CustomerProfileSyncJob::dispatch([
-                    'customer_id' => $this->crud->getCurrentEntryId(),
-                ]);
             }
         } catch (ErrorException $e) {
 
@@ -540,6 +535,10 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
         $response = $this->traitUpdate();
 
         $customer = $this->crud->getCurrentEntry();
+
+        CustomerProfileSyncJob::dispatch([
+            'customer_id' => $this->crud->getCurrentEntryId(),
+        ]);
 
         NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
             'contact_id' => $customer->contact->getKey(), 'customer_id' => $customer->getKey(),

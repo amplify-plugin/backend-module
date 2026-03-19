@@ -1,5 +1,9 @@
 name: Send release notes to Support
 
+on:
+  release:
+    types: [published]
+
 jobs:
   notify:
     runs-on: ubuntu-latest

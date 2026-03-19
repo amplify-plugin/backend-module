@@ -21,7 +21,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
-use ErrorException;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -515,7 +514,8 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             if (! empty($erpCus->Message)) {
                 throw ValidationException::withMessages([
                     'customer_code' => __('Customer Approval Failed. Error: '.$erpCus->Message),
-                ]);                }
+                ]);
+            }
 
             if ($erpCus->CustomerNumber == null) {
                 throw ValidationException::withMessages([
@@ -526,7 +526,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             $request->offsetSet('customer_code', $erpCus->CustomerNumber);
 
             $this->crud->setRequest($request);
-        }else{
+        } else {
             $erpCus = ErpApi::getCustomerDetail([
                 'customer_number' => $request->input('customer_code'),
             ]);

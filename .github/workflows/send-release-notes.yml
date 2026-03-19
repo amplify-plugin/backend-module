@@ -11,9 +11,8 @@ jobs:
     steps:
       - name: Send release data to server
         run: |
-          curl -X POST https://support.amplify-b2b.com/api/changelog \
-          -H "Content-Type: application/json" \
-          -d '{
-            "release": ${{ toJson(github.event.release) }},
-            "repo": "${{ github.repository }}"
-          }'
+          echo '{"repo": "${{ github.repository }}", "release": ${{ toJson(github.event.release) }} }' > payload.json
+          
+          curl -X POST https://example.com \
+            -H "Content-Type: application/json" \
+            -d @payload.json

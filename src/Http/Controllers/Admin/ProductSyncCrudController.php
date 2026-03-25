@@ -40,7 +40,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -119,7 +119,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'value' => function ($productSync) {
                 return match (true) {
-                    ! empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                    !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
                     $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
                     default => "<span>{$productSync->id}</span>"
                 };
@@ -128,8 +128,9 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::column('item_number');
         CRUD::column('update_action');
         CRUD::column('description_1');
+        CRUD::column('description_2');
         CRUD::column('list_price')->type('text');
-        CRUD::column('primary_vendor');
+        CRUD::column('brand');
         CRUD::column('allow_backorder')->type('boolean');
         CRUD::column('created_at');
     }
@@ -171,33 +172,42 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     protected function setupShowOperation()
     {
+        CRUD::column('created_at')->type('datetime');
+        CRUD::column('updated_at')->type('datetime');
+        CRUD::column('error')->type('textarea');
         CRUD::column('item_number');
+        CRUD::column('update_action');
         CRUD::column('description_1');
         CRUD::column('description_2');
         CRUD::column('item_class');
-        CRUD::column('list_price')->type('text');
-        CRUD::column('manufacturer');
-        CRUD::column('brand');
         CRUD::column('price_class');
-        CRUD::column('pricing_unit_of_measure');
-        CRUD::column('primary_vendor');
+        CRUD::column('list_price')->type('text');
         CRUD::column('unit_of_measure');
-        CRUD::column('update_action');
+        CRUD::column('pricing_unit_of_measure');
+        CRUD::column('manufacturer');
+        CRUD::column('primary_vendor')->label('Vendor');
+        CRUD::column('standard_part_number')->type('text')->label('Standard/ Manufacturer Part Number');
+        CRUD::column('brand');
+        CRUD::column('is_processing')->type('boolean');
         CRUD::column('is_processed')->type('boolean');
         CRUD::column('allow_backorder')->type('boolean');
-        CRUD::column('error')->type('textarea');
+        if (config('amplify.client_code') == 'RHS') {
+            CRUD::column('rhs_parts_note')->type('textarea')->label('RHS Parts Note');
+        }
         CRUD::column('payload')->type('json');
     }
 
     /**
-     * @return void
+     * @return JsonResponse
      */
     public function process($id)
     {
-        $user_id = backpack_user()->id;
+        \ErpApi::dispatchProductSyncJob($id, backpack_user()->id);
 
-        \ErpApi::dispatchProductSyncJob($id, $user_id);
-
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Selected item(s) has been added to catalog sync process queue.'
+        ]);
     }
 
     /**
@@ -214,7 +224,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
                 $productSyncList = [0 => 'all'];
             }
 
-            if (! empty($productSyncList)) {
+            if (!empty($productSyncList)) {
 
                 PromptProductSyncJob::dispatch($productSyncList, backpack_user()->id)->onQueue('worker');
 

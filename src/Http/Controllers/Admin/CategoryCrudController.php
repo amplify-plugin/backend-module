@@ -263,6 +263,12 @@ class CategoryCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addField([
+            'name' => 'enabled',
+            'label' => 'Enabled',
+            'tab' => 'Basic Info',
+        ]);
+
+        CRUD::addField([
             'name' => 'is_new',
         ]);
 

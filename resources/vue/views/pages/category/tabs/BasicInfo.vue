@@ -251,8 +251,8 @@
             </div>
             <div class="form-group col-sm-12">
                 <div class="checkbox">
-                    <input id="featured" type="checkbox" v-model="$parent.category.enabled" />
-                    <label for="featured" class="form-check-label font-weight-normal">Enabled?</label>
+                    <input id="enabled" type="checkbox" v-model="$parent.category.enabled" />
+                    <label for="enabled" class="form-check-label font-weight-normal">Enabled?</label>
                 </div>
             </div>
 

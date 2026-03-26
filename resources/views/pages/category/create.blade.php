@@ -30,7 +30,6 @@
 @endsection
 
 @section('content')
-{{-- @dd(get_defined_vars(), $saveAction) --}}
     <category-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'

@@ -202,7 +202,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     public function process($id)
     {
-        \ErpApi::dispatchProductSyncJob($id, backpack_user()->id);
+        PromptProductSyncJob::dispatch([$id], backpack_user()->id)->onQueue('worker');
 
         return response()->json([
             'type' => 'success',

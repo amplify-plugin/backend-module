@@ -50,16 +50,16 @@ class CustomerCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Customer::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/customer');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
         CRUD::setEntityNameStrings('customer', 'customers');
         CRUD::addBaseClause('active');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::post($segment.'/bulk-profile-sync', [
-            'as' => $routeName.'.bulk-profile-sync',
-            'uses' => $controller.'@bulkProfileSync',
+        Route::post($segment . '/bulk-profile-sync', [
+            'as' => $routeName . '.bulk-profile-sync',
+            'uses' => $controller . '@bulkProfileSync',
             'operation' => 'bulkProfileSync',
         ]);
     }
@@ -77,7 +77,7 @@ class CustomerCrudController extends BackpackCustomCrudController
     {
         $this->crud->enableExportButtons();
 
-        if (backpack_user()->can($this->crud->entity_name.'.erp-bulk-sync')) {
+        if (backpack_user()->can($this->crud->entity_name . '.erp-bulk-sync')) {
             $this->crud->enableBulkActions();
             $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'crud::buttons.bulk_erp_sync');
             $this->crud->addFilter([
@@ -117,7 +117,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         ], false, function ($value) {
             $dates = json_decode($value);
             $this->crud->addClause('where', 'created_at', '>=', $dates->from);
-            $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
+            $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
         });
 
         CRUD::addColumn([
@@ -125,10 +125,10 @@ class CustomerCrudController extends BackpackCustomCrudController
             'label' => 'ID',
             'type' => 'custom_html',
             'value' => function ($customer) {
-                if (backpack_user()->can($this->crud->entity_name.'.erp-bulk-sync')) {
+                if (backpack_user()->can($this->crud->entity_name . '.erp-bulk-sync')) {
                     return "<span>{$customer->id} "
-                        .(($customer->synced_at != null) ? "<sup class='badge text-success px-0 font-weight-bold'>Synced</sup>" : '')
-                        .'</span>';
+                        . (($customer->synced_at != null) ? "<sup class='badge text-success px-0 font-weight-bold'>Synced</sup>" : '')
+                        . '</span>';
                 } else {
                     return "<span>{$customer->id}</span>";
                 }
@@ -146,7 +146,21 @@ class CustomerCrudController extends BackpackCustomCrudController
         ]);
         CRUD::column('email');
 
-        CRUD::column('phone');
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($customer) {
+
+                $phone = $customer->phone;
+
+                if (!empty($customer->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $customer->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
 
         CRUD::addColumn([
             'name' => 'punch_out',
@@ -184,7 +198,22 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::field('customer_code')->type('text')->tab('Basic')->label('Company Code');
         CRUD::field('customer_name')->type('text')->tab('Basic')->label('Company Name');
         CRUD::field('email')->type('email')->tab('Basic')->label('Company Email');
-        CRUD::field('phone')->type('text')->tab('Basic')->label('Company Phone');
+        CRUD::addFields([
+            [
+                'name' => 'phone',
+                'label' => 'Company Phone',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-9'],
+            ],
+            [
+                'name' => 'phone_ext',
+                'label' => 'Phone Extension',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-3'],
+            ]
+        ]);
         CRUD::addField([
             'name' => 'punch_out',
             'label' => 'Punch Out',
@@ -221,7 +250,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'ajax' => true,
             'tab' => 'Basic',
             'placeholder' => 'Select a customer group',
-            'options' => (fn ($query) => $query->orderBy('group_name')->get()),
+            'options' => (fn($query) => $query->orderBy('group_name')->get()),
         ]);
         CRUD::addField([
             'name' => 'warehouse_seq_code',
@@ -241,7 +270,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'attribute' => 'name',
             'tab' => 'Basic',
             'placeholder' => 'Select a industry classification',
-            'options' => (fn ($query) => $query->orderBy('name')->get()),
+            'options' => (fn($query) => $query->orderBy('name')->get()),
         ]);
         CRUD::field('free_shipment_amount')->type('number')->tab('Basic');
         CRUD::field('is_suspended')->type('boolean')->tab('Basic');
@@ -422,7 +451,7 @@ class CustomerCrudController extends BackpackCustomCrudController
                     'type' => 'relationship',
                     'label' => 'Default Warehouse',
                     'entity' => 'ownWarehouse',
-                    'options' => (fn ($query) => $query->orderBy('name')->get()),
+                    'options' => (fn($query) => $query->orderBy('name')->get()),
                 ],
                 [
                     'name' => 'password',
@@ -612,7 +641,21 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::column('customer_code');
         CRUD::column('customer_name');
         CRUD::column('email');
-        CRUD::column('phone');
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($customer) {
+
+                $phone = $customer->phone;
+
+                if (!empty($customer->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $customer->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
         CRUD::column('punch_out')->type('boolean');
         CRUD::column('customer_type');
         CRUD::column('customer_group_id');
@@ -786,7 +829,7 @@ class CustomerCrudController extends BackpackCustomCrudController
     /**
      * bulkPublish
      *
-     * @param  mixed  $request
+     * @param mixed $request
      * @return JsonResponse
      */
     public function bulkProfileSync(Request $request)
@@ -794,7 +837,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         try {
             $selectedItems = $request->input('entries');
 
-            if (! empty($selectedItems)) {
+            if (!empty($selectedItems)) {
                 foreach ($selectedItems as $customer_id) {
                     CustomerProfileSyncJob::dispatch(['customer_id' => $customer_id]);
                 }

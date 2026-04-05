@@ -365,8 +365,8 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->save();
 
             // Trigger the notification
-            NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id
+            NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
+                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
             ]);
         }
         $this->afterCreateUpdateOperation($request);

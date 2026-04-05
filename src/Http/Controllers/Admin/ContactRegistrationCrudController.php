@@ -21,6 +21,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class ContactRegistrationCrudController
@@ -49,7 +50,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         CRUD::setEntityNameStrings('contact-registration', 'contact register requests');
 
         CRUD::denyAccess('create');
-        CRUD::addBaseClause('unapproved');
         CRUD::addBaseClause('orWhereNull', 'enabled_at');
     }
 
@@ -358,23 +358,23 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         $traitRes = $this->traitUpdate();
         // Get the contact entry
         $contact = Contact::findOrFail($request->id);
+
+        if ((bool)$contact->customer->approved == Customer::UNAPPROVED) {
+            throw ValidationException::withMessages([
+                'customer_id' => __('The contact\'s customer is not approved. Please approve the customer before enabling the contact.'),
+            ]);
+        }
+
         // Check if 'enabled' is set to true and 'enabled_at' is empty
         if ($request->enabled == 1 && empty($contact->enabled_at)) {
             // Set 'enabled_at' to the current timestamp
             $contact->enabled_at = now();
             $contact->save();
 
-            if (config('amplify.client_code' == 'ALR')){
-                // Trigger the notification
-                NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
-                    'contact_id' => $contact->id
-                ]);
-            }{
-                // Trigger the notification
-                NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
-                    'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
-                ]);
-            }
+            // Trigger the notification
+            NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
+                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
+            ]);
         }
         $this->afterCreateUpdateOperation($request);
         $this->crud->entry->updateContactLoginAsPerEntry();

@@ -364,10 +364,17 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->enabled_at = now();
             $contact->save();
 
-            // Trigger the notification
-            NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
-            ]);
+            if (config('amplify.client_code' == 'ALR')){
+                // Trigger the notification
+                NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
+                    'contact_id' => $contact->id
+                ]);
+            }{
+                // Trigger the notification
+                NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
+                    'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
+                ]);
+            }
         }
         $this->afterCreateUpdateOperation($request);
         $this->crud->entry->updateContactLoginAsPerEntry();

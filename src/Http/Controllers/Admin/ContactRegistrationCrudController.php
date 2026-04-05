@@ -50,6 +50,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
         CRUD::denyAccess('create');
         CRUD::addBaseClause('unapproved');
+        CRUD::addBaseClause('orWhereNull', 'enabled_at');
     }
 
     /**
@@ -364,8 +365,8 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->save();
 
             // Trigger the notification
-            NotificationFactory::call(Event::REGISTRATION_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
+            NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
+                'contact_id' => $contact->id
             ]);
         }
         $this->afterCreateUpdateOperation($request);

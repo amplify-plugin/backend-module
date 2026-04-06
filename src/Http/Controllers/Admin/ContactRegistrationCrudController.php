@@ -352,18 +352,18 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
     public function update(ContactRequest $request)
     {
-        $this->crud->removeFields(['roles', 'contactLogins']);
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->unsetValidation();
-        $traitRes = $this->traitUpdate();
         // Get the contact entry
         $contact = Contact::findOrFail($request->id);
-
         if ((bool)$contact->customer->approved == Customer::UNAPPROVED) {
             throw ValidationException::withMessages([
                 'customer_id' => __('The contact\'s customer is not approved. Please approve the customer before enabling the contact.'),
             ]);
         }
+
+        $this->crud->removeFields(['roles', 'contactLogins']);
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->unsetValidation();
+        $traitRes = $this->traitUpdate();
 
         // Check if 'enabled' is set to true and 'enabled_at' is empty
         if ($request->enabled == 1 && empty($contact->enabled_at)) {

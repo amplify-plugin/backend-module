@@ -36,7 +36,7 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(CustomerAddress::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer-address');
-        CRUD::setEntityNameStrings('customer address', 'customer addresses');
+        CRUD::setEntityNameStrings('customer-address', 'customer addresses');
     }
 
     /**

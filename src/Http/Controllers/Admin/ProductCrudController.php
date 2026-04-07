@@ -302,7 +302,7 @@ class ProductCrudController extends BackpackCustomCrudController
 
         CRUD::enableExportButtons();
 
-        if (! backpack_user()->can('product.create') && ! (is_super_admin())) {
+        if (!backpack_user()->can('product.create') && !(is_super_admin())) {
             CRUD::removeButton('create');
         }
         if (backpack_user()->can('product.publish')) {
@@ -331,34 +331,36 @@ class ProductCrudController extends BackpackCustomCrudController
             $this->crud->addClause('whereNotIn', 'status', ['archived']);
         }
 
-        CRUD::addFilter(
-            [
-                'name' => 'product_classification_id',
-                'type' => 'select_tree',
-                'label' => 'Classification',
-                'isMultiple' => false,
-                'styles' => [
-                    'width' => 'width: 250px !important;',
+        if (config('amplify.pim.use_classifications')) {
+            CRUD::addFilter(
+                [
+                    'name' => 'product_classification_id',
+                    'type' => 'select_tree',
+                    'label' => 'Classification',
+                    'isMultiple' => false,
+                    'styles' => [
+                        'width' => 'width: 250px !important;',
+                    ],
                 ],
-            ],
-            function () {
-                $productClassification = ProductClassification::with('children')
-                    ->where('parent_id', null)
-                    ->get()
-                    ->sortBy(fn ($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
-                    ->values()
-                    ->toArray();
-                array_unset_recursive($productClassification, 'children');
-                array_rename_recursive($productClassification, 'children', 'subs');
-                array_rename_recursive($productClassification, 'label', 'title');
+                function () {
+                    $productClassification = ProductClassification::with('children')
+                        ->where('parent_id', null)
+                        ->get()
+                        ->sortBy(fn($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
+                        ->values()
+                        ->toArray();
+                    array_unset_recursive($productClassification, 'children');
+                    array_rename_recursive($productClassification, 'children', 'subs');
+                    array_rename_recursive($productClassification, 'label', 'title');
 
-                return $productClassification;
-            },
-            function ($value) {
-                // if the filter is active
-                $this->crud->addClause('where', 'product_classification_id', $value);
-            }
-        );
+                    return $productClassification;
+                },
+                function ($value) {
+                    // if the filter is active
+                    $this->crud->addClause('where', 'product_classification_id', $value);
+                }
+            );
+        }
 
         CRUD::addFilter(
             [
@@ -459,6 +461,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 $this->crud->addClause('where', 'has_sku', '=', $value);
             }
         );
+
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',
@@ -520,20 +523,20 @@ class ProductCrudController extends BackpackCustomCrudController
                 $query->orWhere('status', 'like', '%'.$searchTerm.'%');
             },
         ]);
-
-        CRUD::addColumn([
-            'name' => 'product_classification_id',
-            'label' => 'Product Classification',
-            'entity' => 'productClassification',
-            'attribute' => 'title',
-            'model' => ProductClassification::class,
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
-                    $q->where('title', 'like', '%'.$searchTerm.'%');
-                });
-            },
-        ]);
-
+        if (config('amplify.pim.use_classifications')) {
+            CRUD::addColumn([
+                'name' => 'product_classification_id',
+                'label' => 'Product Classification',
+                'entity' => 'productClassification',
+                'attribute' => 'title',
+                'model' => ProductClassification::class,
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
+                        $q->where('title', 'like', '%' . $searchTerm . '%');
+                    });
+                },
+            ]);
+        }
         CRUD::addColumn([
             'name' => 'categories',
             'label' => 'Categories',
@@ -547,18 +550,20 @@ class ProductCrudController extends BackpackCustomCrudController
             },
         ]);
 
-        CRUD::addColumn([
-            'name' => 'modelCodes',
-            'label' => 'Model Codes',
-            'attribute' => 'code',
-            'model' => ModelCode::class,
-            'entity' => 'modelCodes',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
-                    $q->where('code', 'like', '%'.$searchTerm.'%');
-                });
-            },
-        ]);
+        if (config('amplify.client_code') == 'RHS') {
+            CRUD::addColumn([
+                'name' => 'modelCodes',
+                'label' => 'Model Codes',
+                'attribute' => 'code',
+                'model' => ModelCode::class,
+                'entity' => 'modelCodes',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
+                        $q->where('code', 'like', '%' . $searchTerm . '%');
+                    });
+                },
+            ]);
+        }
 
         CRUD::column('selling_price')->label('Selling Price');
 

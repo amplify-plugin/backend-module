@@ -221,10 +221,28 @@ class ContactCrudController extends BackpackCustomCrudController
             },
         ]);
         CRUD::column('name');
+
         CRUD::addColumn([
             'name' => 'email',
             'label' => 'Email',
         ]);
+
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($contact) {
+
+                $phone = $contact->phone;
+
+                if (!empty($contact->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $contact->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
+
         CRUD::column('order_limit');
 
         CRUD::addColumn([
@@ -322,7 +340,22 @@ class ContactCrudController extends BackpackCustomCrudController
             ],
         ]);
 
-        CRUD::field('phone')->type('text')->tab('Basic');
+        CRUD::addFields([
+            [
+                'name' => 'phone',
+                'label' => 'Company Phone',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-9'],
+            ],
+            [
+                'name' => 'phone_ext',
+                'label' => 'Phone Extension',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-3'],
+            ]
+        ]);
 
         CRUD::addField([
             'name' => 'roles',
@@ -716,7 +749,23 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
         CRUD::column('name');
         CRUD::column('email');
-        CRUD::column('phone');
+
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($contact) {
+
+                $phone = $contact->phone;
+
+                if (!empty($contact->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $contact->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
+
         CRUD::addColumn([
             'name' => 'address',
             'label' => 'Address',

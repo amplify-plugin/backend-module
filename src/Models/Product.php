@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pipeline\Pipeline;
 use JsonException;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as ContractsAuditable;
@@ -123,12 +124,16 @@ class Product extends Model implements ContractsAuditable
             abort('404', 'Product is not available.');
         }
 
-        return Product::select('id', 'product_name', 'flags', 'has_sku', 'description', 'short_description', 'manufacturer_id',
-            'single_product_page_id', 'sku_default_attributes', 'features', 'specifications', 'min_order_qty', 'vendornum',
-            'qty_interval', 'product_code', 'in_stock', 'is_ncnr', 'gtin_number', 'product_slug', 'manufacturer', 'sku_id', 'uom')
-            ->with('attributes', 'productImage', 'manufacturerRelation', 'singleProductPage', 'brand')
-            ->where(config('amplify.frontend.easyask_single_product_index', 'id'), $parameter)
-            ->first();
+        $query = Product::query();
+
+        return app(Pipeline::class)
+            ->send($query)
+            ->through(config('amplify.product_detail_pipeline', []))
+            ->then(function(Builder $query) use ($parameter) {
+                return $query
+                    ->where(config('amplify.frontend.easyask_single_product_index', 'id'), $parameter)
+                    ->first();
+            });
     }
 
     public function scopeGetEaProductsData()

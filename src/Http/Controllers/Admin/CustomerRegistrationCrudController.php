@@ -498,6 +498,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                 'template_customer_number' => config('amplify.frontend.guest_default'),
                 'email_address' => $request->input('email'),
                 'phone_number' => $request->input('phone'),
+                'phone_ext' => $request->input('phone_ext'),
                 'customer_name' => $request->input('customer_name'),
                 'contact' => null,
                 'address_1' => $request->input('address_1'),

@@ -15,7 +15,7 @@ class ContactResourceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Amplify\System\Backend\Http\Resources\DataTableCollectionResource
+     * @return DataTableCollectionResource
      */
     public function index(Request $request)
     {

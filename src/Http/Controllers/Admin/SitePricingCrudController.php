@@ -5,20 +5,28 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\SitePricingRequest;
 use Amplify\System\Backend\Models\Site;
+use Amplify\System\Backend\Models\SitePricing;
+use Amplify\System\Helpers\UtilityHelper;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SitePricingCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class SitePricingCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -27,7 +35,7 @@ class SitePricingCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\SitePricing::class);
+        CRUD::setModel(SitePricing::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/site-pricing');
         CRUD::setEntityNameStrings('site-pricing', 'pricings');
     }
@@ -79,7 +87,7 @@ class SitePricingCrudController extends BackpackCustomCrudController
             'name' => 'currency',
             'label' => 'Currency',
             'type' => 'select2_from_array',
-            'options' => \Amplify\System\Helpers\UtilityHelper::currencyDropdown(),
+            'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
             'default' => config('amplify.basic.global_currency'),
         ]);

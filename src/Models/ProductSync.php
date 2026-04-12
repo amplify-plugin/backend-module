@@ -4,15 +4,11 @@ namespace Amplify\System\Backend\Models;
 
 use Amplify\System\Utility\Models\FailedJob;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class ProductSync extends Model implements Auditable
+class ProductSync extends Model
 {
     use CrudTrait;
-    use HasFactory;
-    use \OwenIt\Auditing\Auditable;
 
     /*
     |--------------------------------------------------------------------------
@@ -31,6 +27,8 @@ class ProductSync extends Model implements Auditable
     protected $casts = [
         'is_processed' => 'boolean',
         'is_processing' => 'boolean',
+        'allow_backorder' => 'boolean',
+        'payload' => 'array',
     ];
 
     /*

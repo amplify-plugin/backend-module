@@ -2,10 +2,15 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
+use Amplify\ErpApi\Jobs\PromptProductSyncJob;
 use Amplify\ErpApi\ProductSyncService;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ProductSyncRequest;
 use Amplify\System\Backend\Models\ProductSync;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
@@ -20,10 +25,10 @@ use InvalidArgumentException;
  */
 class ProductSyncCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -34,8 +39,8 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/product-sync');
+        CRUD::setModel(ProductSync::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
         CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
     }
 
@@ -114,7 +119,7 @@ class ProductSyncCrudController extends BackpackCustomCrudController
             'type' => 'custom_html',
             'value' => function ($productSync) {
                 return match (true) {
-                    ! empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
+                    !empty($productSync->error) => "<span>{$productSync->id} <sup class='badge text-danger px-0 font-weight-bold'>Failed</sup></span>",
                     $productSync->is_processed => "<span>{$productSync->id} <sup class='badge text-success px-0 font-weight-bold'>Processed</sup></span>",
                     default => "<span>{$productSync->id}</span>"
                 };
@@ -123,8 +128,10 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::column('item_number');
         CRUD::column('update_action');
         CRUD::column('description_1');
+        CRUD::column('description_2');
         CRUD::column('list_price')->type('text');
-        CRUD::column('primary_vendor');
+        CRUD::column('brand');
+        CRUD::column('allow_backorder')->type('boolean');
         CRUD::column('created_at');
     }
 
@@ -152,18 +159,55 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::field('unit_of_measure');
         CRUD::field('update_action');
         CRUD::field('is_processed')->type('boolean');
+        CRUD::field('allow_backorder')->type('boolean');
         CRUD::field('error')->type('textarea');
     }
 
     /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     *
      * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::column('created_at')->type('datetime');
+        CRUD::column('updated_at')->type('datetime');
+        CRUD::column('error')->type('textarea');
+        CRUD::column('item_number');
+        CRUD::column('update_action');
+        CRUD::column('description_1');
+        CRUD::column('description_2');
+        CRUD::column('item_class');
+        CRUD::column('price_class');
+        CRUD::column('list_price')->type('text');
+        CRUD::column('unit_of_measure');
+        CRUD::column('pricing_unit_of_measure');
+        CRUD::column('manufacturer');
+        CRUD::column('primary_vendor')->label('Vendor');
+        CRUD::column('standard_part_number')->type('text')->label('Standard/ Manufacturer Part Number');
+        CRUD::column('brand');
+        CRUD::column('is_processing')->type('boolean');
+        CRUD::column('is_processed')->type('boolean');
+        CRUD::column('allow_backorder')->type('boolean');
+        if (config('amplify.client_code') == 'RHS') {
+            CRUD::column('rhs_parts_note')->type('textarea')->label('RHS Parts Note');
+        }
+        CRUD::column('payload')->type('json');
+    }
+
+    /**
+     * @return JsonResponse
      */
     public function process($id)
     {
-        $user_id = backpack_user()->id;
+        PromptProductSyncJob::dispatch([$id], backpack_user()->id)->onQueue('worker');
 
-        \ErpApi::dispatchProductSyncJob($id, $user_id);
-
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Selected item(s) has been added to catalog sync process queue.'
+        ]);
     }
 
     /**
@@ -171,37 +215,33 @@ class ProductSyncCrudController extends BackpackCustomCrudController
      */
     public function bulkProcess(Request $request)
     {
-        $response = [];
+        $status = null;
         try {
             if ($request->has('selection') && $request->input('selection') == 'selected') {
-                $productSyncList = $request->entries;
+                $productSyncList = array_values($request->entries);
+                $status = 'selected';
             } elseif ($request->has('selection') && $request->input('selection') == 'all') {
-                $productSyncList = ProductSync::where('is_processed', '=', false)
-                    ->get()
-                    ->pluck('id')
-                    ->toArray();
+                $productSyncList = [0 => 'all'];
             }
 
-            $user_id = backpack_user()->id;
+            if (!empty($productSyncList)) {
 
-            if (! empty($productSyncList)) {
-                foreach ($productSyncList as $id) {
-                    \ErpApi::dispatchProductSyncJob($id, $user_id);
-                }
+                PromptProductSyncJob::dispatch($productSyncList, backpack_user()->id)->onQueue('worker');
 
-                $response = [
+                return response()->json([
                     'type' => 'success',
-                    'message' => 'Total '.count($productSyncList).' item(s) has been added to catalog sync process.'];
+                    'message' => $status == 'selected'
+                        ? 'Selected item(s) has been added to catalog sync process queue.'
+                        : 'All Remaining item(s) have been added to catalog sync process queue.',
+                ]);
             } else {
                 throw new InvalidArgumentException('No Entries available to process');
             }
         } catch (Exception $exception) {
-            $response = [
+            return response()->json([
                 'type' => 'error',
                 'message' => $exception->getMessage(),
-            ];
-        } finally {
-            return response()->json($response);
+            ]);
         }
     }
 }

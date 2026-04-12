@@ -23,6 +23,7 @@ use Amplify\System\Backend\Traits\ProductTrait;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\ProductHelper;
 use Amplify\System\Utility\Services\DataTransformation\ExecuteScriptService;
+use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -135,7 +136,7 @@ class ProductCrudController extends BackpackCustomCrudController
     /**
      * @return RedirectResponse
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function store(ProductRequest $request)
     {
@@ -192,9 +193,9 @@ class ProductCrudController extends BackpackCustomCrudController
     }
 
     /**
-     * @return array|\Illuminate\Http\RedirectResponse
+     * @return array|RedirectResponse
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function update(ProductRequest $request)
     {
@@ -290,6 +291,8 @@ class ProductCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     *
+     * @throws BackpackProRequiredException
      */
     protected function setupListOperation()
     {
@@ -297,7 +300,9 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
 
-        if (! backpack_user()->can('product.create') && ! (is_super_admin())) {
+        CRUD::enableExportButtons();
+
+        if (!backpack_user()->can('product.create') && !(is_super_admin())) {
             CRUD::removeButton('create');
         }
         if (backpack_user()->can('product.publish')) {
@@ -307,19 +312,13 @@ class ProductCrudController extends BackpackCustomCrudController
             CRUD::addButtonFromModelFunction('line', 'status_unpublish', 'statusUnpublish', 'end');
         }
 
-        CRUD::addFilter(
-            [
-                'name' => 'status',
-                'type' => 'select2_multiple',
-                'label' => 'Status',
-            ],
+        CRUD::addFilter([
+            'name' => 'status',
+            'type' => 'select2_multiple',
+            'label' => 'Status',
+        ],
             function () {
-                return [
-                    'incomplete' => 'Incomplete',
-                    'draft' => 'Draft',
-                    'published' => 'Published',
-                    'archived' => 'Archived',
-                ];
+                return config('amplify.pim.product_statuses');
             },
             function ($values) {
                 // if the filter is active
@@ -332,34 +331,36 @@ class ProductCrudController extends BackpackCustomCrudController
             $this->crud->addClause('whereNotIn', 'status', ['archived']);
         }
 
-        CRUD::addFilter(
-            [
-                'name' => 'product_classification_id',
-                'type' => 'select_tree',
-                'label' => 'Classification',
-                'isMultiple' => false,
-                'styles' => [
-                    'width' => 'width: 250px !important;',
+        if (config('amplify.pim.use_classifications')) {
+            CRUD::addFilter(
+                [
+                    'name' => 'product_classification_id',
+                    'type' => 'select_tree',
+                    'label' => 'Classification',
+                    'isMultiple' => false,
+                    'styles' => [
+                        'width' => 'width: 250px !important;',
+                    ],
                 ],
-            ],
-            function () {
-                $productClassification = ProductClassification::with('children')
-                    ->where('parent_id', null)
-                    ->get()
-                    ->sortBy(fn ($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
-                    ->values()
-                    ->toArray();
-                array_unset_recursive($productClassification, 'children');
-                array_rename_recursive($productClassification, 'children', 'subs');
-                array_rename_recursive($productClassification, 'label', 'title');
+                function () {
+                    $productClassification = ProductClassification::with('children')
+                        ->where('parent_id', null)
+                        ->get()
+                        ->sortBy(fn($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
+                        ->values()
+                        ->toArray();
+                    array_unset_recursive($productClassification, 'children');
+                    array_rename_recursive($productClassification, 'children', 'subs');
+                    array_rename_recursive($productClassification, 'label', 'title');
 
-                return $productClassification;
-            },
-            function ($value) {
-                // if the filter is active
-                $this->crud->addClause('where', 'product_classification_id', $value);
-            }
-        );
+                    return $productClassification;
+                },
+                function ($value) {
+                    // if the filter is active
+                    $this->crud->addClause('where', 'product_classification_id', $value);
+                }
+            );
+        }
 
         CRUD::addFilter(
             [
@@ -460,6 +461,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 $this->crud->addClause('where', 'has_sku', '=', $value);
             }
         );
+
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',
@@ -521,20 +523,20 @@ class ProductCrudController extends BackpackCustomCrudController
                 $query->orWhere('status', 'like', '%'.$searchTerm.'%');
             },
         ]);
-
-        CRUD::addColumn([
-            'name' => 'product_classification_id',
-            'label' => 'Product Classification',
-            'entity' => 'productClassification',
-            'attribute' => 'title',
-            'model' => ProductClassification::class,
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
-                    $q->where('title', 'like', '%'.$searchTerm.'%');
-                });
-            },
-        ]);
-
+        if (config('amplify.pim.use_classifications')) {
+            CRUD::addColumn([
+                'name' => 'product_classification_id',
+                'label' => 'Product Classification',
+                'entity' => 'productClassification',
+                'attribute' => 'title',
+                'model' => ProductClassification::class,
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
+                        $q->where('title', 'like', '%' . $searchTerm . '%');
+                    });
+                },
+            ]);
+        }
         CRUD::addColumn([
             'name' => 'categories',
             'label' => 'Categories',
@@ -548,18 +550,20 @@ class ProductCrudController extends BackpackCustomCrudController
             },
         ]);
 
-        CRUD::addColumn([
-            'name' => 'modelCodes',
-            'label' => 'Model Codes',
-            'attribute' => 'code',
-            'model' => ModelCode::class,
-            'entity' => 'modelCodes',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
-                    $q->where('code', 'like', '%'.$searchTerm.'%');
-                });
-            },
-        ]);
+        if (config('amplify.client_code') == 'RHS') {
+            CRUD::addColumn([
+                'name' => 'modelCodes',
+                'label' => 'Model Codes',
+                'attribute' => 'code',
+                'model' => ModelCode::class,
+                'entity' => 'modelCodes',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
+                        $q->where('code', 'like', '%' . $searchTerm . '%');
+                    });
+                },
+            ]);
+        }
 
         CRUD::column('selling_price')->label('Selling Price');
 

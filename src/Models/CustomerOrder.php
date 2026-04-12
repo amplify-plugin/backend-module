@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Models;
 
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Factories\NotificationFactory;
+use Amplify\System\OrderRule\Models\CustomerOrderRuleTrack;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -68,7 +69,7 @@ class CustomerOrder extends Model implements Auditable
 
     public function orderRule()
     {
-        return $this->hasOne(\Amplify\System\OrderRule\Models\CustomerOrderRuleTrack::class, 'customer_order_id', 'id');
+        return $this->hasOne(CustomerOrderRuleTrack::class, 'customer_order_id', 'id');
     }
 
     /**
@@ -183,7 +184,7 @@ class CustomerOrder extends Model implements Auditable
                     $price = $orderLine->customer_price;
                 }
 
-                return [
+                $data = [
                     'ItemNumber' => $orderLine->product_code,
                     'WarehouseID' => $orderLine?->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
                     // @TODO: warehouse set from customer default
@@ -191,10 +192,17 @@ class CustomerOrder extends Model implements Auditable
                     'OrderQty' => $orderLine->qty,
                     'SourceType' => $orderLine->source_type ?? null,
                     'Source' => $orderLine->source ?? null,
-                    'Price' => $price,
                     'ItemComment' => ! empty($additionalInfo) && ! empty($additionalInfo?->OrderSpec) ? $additionalInfo?->OrderSpec : '',
                     'UnitOfMeasure' => $orderLine->unit_code ?? null,
                 ];
+
+                if (config('amplify.client_code') === 'MW') {
+                    $data['ActualSellPrice'] = $price;
+                } else {
+                    $data['Price'] = $price;
+                }
+
+                return $data;
             });
 
             if (! empty($data['shipping_option']) && config('amplify.client_code') === 'RHS') {

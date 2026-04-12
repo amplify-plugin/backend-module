@@ -5,13 +5,14 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Charts;
 use Amplify\System\Backend\Http\Controllers\Admin\Charts\Traits\OrderDataQuarterlyTrait;
 use App\Http\Controllers\Admin\Charts\json;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 use Illuminate\Support\Facades\Cache;
 
 /**
  * Class WeeklyOrderByQuarterlyChartController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class WeeklyOrderByQuarterlyChartController extends ChartController
 {

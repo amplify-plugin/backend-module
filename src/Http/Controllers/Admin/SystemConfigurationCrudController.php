@@ -3,21 +3,29 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Models\Category;
 use Amplify\System\Backend\Models\Country;
 use Amplify\System\Backend\Models\DocumentType;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
+use Amplify\System\Helpers\UtilityHelper;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\Pro\Http\Controllers\Operations\BulkDeleteOperation;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 /**
@@ -27,12 +35,12 @@ use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
  */
 class SystemConfigurationCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\Pro\Http\Controllers\Operations\BulkDeleteOperation;
+    use BulkDeleteOperation;
+    use CreateOperation;
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
+    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -43,7 +51,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\SystemConfiguration::class);
+        CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/system-configuration');
         CRUD::setEntityNameStrings('system-configuration', 'system configurations');
     }
@@ -113,13 +121,18 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
         CRUD::field('option');
 
-        CRUD::field('value');
+        $entry = $this->crud->getCurrentEntry();
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        $field = empty($entry->field) ? ['name' => 'value', 'label' => 'Value', 'type' => 'text'] : $entry->field;
+
+        CRUD::addField($field);
+
+        CRUD::addField([
+            'name' => 'active',
+            'label' => 'Active?',
+            'type' => 'boolean',
+            'default' => true,
+        ]);
     }
 
     /**
@@ -146,7 +159,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     }
 
     /**
-     * @return Application|Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      *
      * @throws \Exception
      */
@@ -156,7 +169,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->crud->setUpdateContentClass('col-md-12');
 
         $this->data['title'] = 'System Configuration';
-        $this->data['currencies'] = \Amplify\System\Helpers\UtilityHelper::currencyDropdown();
+        $this->data['currencies'] = UtilityHelper::currencyDropdown();
         $this->data['coreConfigurationData'] = config('amplify') ?? [];
         $this->data['hierarchies'] = getModelNames(app_path('Models').'/*.php') ?? [];
         $this->data['countries'] = Country::select('name', 'id')->orderBy('name')->get();
@@ -164,7 +177,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['mail_configuration_data'] = config('mail');
         $this->data['pageTypes'] = Page::getConfigurableTypes();
         $this->data['menuGroups'] = MenuGroup::select('name', 'short_code')->get()->toArray();
-        $this->data['catalogs'] = \Amplify\System\Backend\Models\Category::select('category_name', 'id')
+        $this->data['catalogs'] = Category::select('category_name', 'id')
             ->whereNull('parent_id')
             ->get()
             ->map(function ($item) {
@@ -280,12 +293,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 $response = $this->updateSystemConfiguration($tab, $data);
             }
 
-            /* Remove easyAsk search configuration from session */
-            Session::forget(['ezshop-config']);
-
-            /* Set easyAsk search configuration at session */
-            Session::put('ezshop-config', eaShopConfig());
-
             return $response;
         }
     }
@@ -348,6 +355,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'use_minimum_order_quantity' => $request->boolean('use_minimum_order_quantity', false),
             'mandatory_fields' => $request->input('mandatory_fields', []),
             'document_type' => $request->input('document_type'),
+            'default_status' => $request->input('default_status', 'draft'),
             'unit_of_measurements' => $request->input('unit_of_measurements', [['code' => 'ea', 'label' => 'Each']]),
         ];
     }
@@ -404,7 +412,11 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     {
         $config = [];
 
-        $inputs = $request->except(['excluded_page_types', 'tab', 'styles', 'scripts', 'fallback_image_path']);
+        $inputs = $request->except([
+            'excluded_page_types', 'tab', 'styles',
+            'scripts', 'fallback_image_path', 'shop_page_prefix',
+            'product_page_prefix',
+        ]);
 
         foreach ($inputs as $key => $value) {
             $config[$key] = $value;
@@ -555,6 +567,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'cookie_title' => $request->input('cookie_title', null),
             'cookie_content' => $request->input('cookie_content', null),
             'skip_contact_approval' => $request->boolean('skip_contact_approval', false),
+            'verification_method' => $request->input('verification_method', 'backend'),
         ];
     }
 
@@ -592,6 +605,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'log_payment' => $request->boolean('log_payment', false),
             'log_erp_api' => $request->boolean('log_erp_api', false),
             'log_email' => $request->boolean('log_email', false),
+            'log_trace_parts_api' => $request->boolean('log_trace_parts_api', false),
             'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
         ];
     }

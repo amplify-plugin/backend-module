@@ -31,8 +31,8 @@ class EventAction extends Model implements Auditable
         'is_get_admin' => 'boolean',
         'is_get_customer' => 'boolean',
         'is_get_contact' => 'boolean',
-        'is_get_salesperson' => 'boolean',
         'is_get_customer_business_contact' => 'boolean',
+        'is_get_salesperson' => 'boolean',
         'is_quote_sales_person' => 'boolean',
         'enabled' => 'boolean',
     ];

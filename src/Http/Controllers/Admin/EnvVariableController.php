@@ -4,6 +4,9 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\EnvVariableUpdateRequest;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Artisan;
@@ -11,12 +14,12 @@ use Illuminate\Support\Facades\Artisan;
 /**
  * Class AccountTitleCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class EnvVariableController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use CreateOperation;
+    use ListOperation;
 
     private string $envPath;
 
@@ -43,7 +46,13 @@ class EnvVariableController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         $this->crud->removeButton('create');
-        $this->crud->setListView('backend::pages.env-variable');
+        $this->crud->setListView('backend::pages.editor');
+        $this->data['header'] = <<<'HTML'
+                            <label class="text-right fw-bold">
+                                Caution: Any wrong/syntax change in (.env) may cause system failure.
+                                <code class="text-danger">--"With great power comes great responsibility"</code>.
+                            </label>
+HTML;
         $this->data['content'] = file_get_contents($this->envPath);
     }
 

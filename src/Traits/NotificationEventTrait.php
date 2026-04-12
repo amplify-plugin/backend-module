@@ -11,17 +11,17 @@ trait NotificationEventTrait
     private $eventCode;
 
     /**
-     * @var \Amplify\System\Services\EmailService
+     * @var EmailService
      */
     private $emailService;
 
     /**
-     * @var \Amplify\System\Services\MessageService
+     * @var MessageService
      */
     private $messageService;
 
     /**
-     * @var \Amplify\System\Backend\Models\Event
+     * @var Event
      */
     private $eventInfo;
 
@@ -30,7 +30,7 @@ trait NotificationEventTrait
         $this->emailService = new EmailService;
 
         $this->messageService = new MessageService;
-        $this->eventInfo = Event::where(['enabled' => 1, 'code' => $this->eventCode])
+        $this->eventInfo = Event::where(['enabled' => true, 'code' => $this->eventCode])
             ->with('eventActions', 'eventActions.eventTemplate')
             ->first();
     }

@@ -22,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
@@ -37,7 +38,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * Class ContactCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class ContactCrudController extends BackpackCustomCrudController
 {
@@ -62,6 +63,7 @@ class ContactCrudController extends BackpackCustomCrudController
         CRUD::setModel(Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
+        CRUD::addBaseClause('approved');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -99,9 +101,6 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        // @todo enable this before contact registration request
-        // $this->crud->addClause('whereNull', 'enabled_at');
-
         $this->crud->enableExportButtons();
 
         if (config('amplify.erp.auto_create_contact')) {
@@ -222,10 +221,28 @@ class ContactCrudController extends BackpackCustomCrudController
             },
         ]);
         CRUD::column('name');
+
         CRUD::addColumn([
             'name' => 'email',
             'label' => 'Email',
         ]);
+
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($contact) {
+
+                $phone = $contact->phone;
+
+                if (!empty($contact->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $contact->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
+
         CRUD::column('order_limit');
 
         CRUD::addColumn([
@@ -323,9 +340,24 @@ class ContactCrudController extends BackpackCustomCrudController
             ],
         ]);
 
-        CRUD::field('phone')->type('text')->tab('Basic');
+        CRUD::addFields([
+            [
+                'name' => 'phone',
+                'label' => 'Company Phone',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-9'],
+            ],
+            [
+                'name' => 'phone_ext',
+                'label' => 'Phone Extension',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-3'],
+            ]
+        ]);
 
-        Crud::addField([
+        CRUD::addField([
             'name' => 'roles',
             'label' => 'Role(s)',
             'type' => 'select2_from_ajax_multiple',
@@ -366,9 +398,39 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::field('password_confirmation')->type('show_hide_password')->label('Confirm Password')->tab('Basic');
-        CRUD::field('order_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Order Limit')->tab('ERP');
-        CRUD::field('daily_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Daily Budget Limit')->tab('ERP');
-        CRUD::field('monthly_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Monthly Budget Limit')->tab('ERP');
+        CRUD::addField([
+            'name' => 'order_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Order Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'daily_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Daily Budget Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'monthly_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Monthly Budget Limit',
+            'tab' => 'ERP',
+        ]);
 
         if (config('amplify.basic.enable_multi_customer_manage')) {
             CRUD::addField([
@@ -687,7 +749,23 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
         CRUD::column('name');
         CRUD::column('email');
-        CRUD::column('phone');
+
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($contact) {
+
+                $phone = $contact->phone;
+
+                if (!empty($contact->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $contact->phone_ext;
+                }
+
+                return $phone;
+            }
+        ]);
+
         CRUD::addColumn([
             'name' => 'address',
             'label' => 'Address',
@@ -847,7 +925,7 @@ class ContactCrudController extends BackpackCustomCrudController
     public function fetchCustomer()
     {
         return $this->fetch([
-            'model' => \Amplify\System\Backend\Models\Customer::class,
+            'model' => Customer::class,
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
@@ -874,7 +952,7 @@ class ContactCrudController extends BackpackCustomCrudController
         }
 
         return $this->fetch([
-            'model' => \Amplify\System\Backend\Models\Customer::class,
+            'model' => Customer::class,
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
@@ -882,17 +960,23 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
     }
 
-    public function setImpersonate(Contact $contact): RedirectResponse
+    public function setImpersonate(Contact $contact, Request $request): RedirectResponse
     {
+        if (! $contact->enabled) {
+            return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
+        }
+
         Auth::guard(Contact::AUTH_GUARD)->logout();
 
         // Clear application cache
         Cache::clear();
 
         // Clear specific session data (shipping address)
-        session()->forget('ship_to_address');
+        $request->session()->forget('ship_to_address');
 
         Auth::guard(Contact::AUTH_GUARD)->login($contact);
+
+        $request->session()->put('impersonate', true);
 
         event(new ContactLoggedIn($contact));
 

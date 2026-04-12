@@ -6,6 +6,7 @@ use Amplify\ErpApi\Traits\CustomerERPIDAttribute;
 use Amplify\System\Marketing\Models\Subscriber;
 use Amplify\System\OrderRule\Models\CustomerOrderRule;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @property Collection $addresses
+ * @property Country $billingCountry
+ * @property State $billingState
+ */
 class Customer extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -43,6 +49,14 @@ class Customer extends Model implements Auditable
         'credit_card_only' => 'boolean',
     ];
 
+    public const LIST_PRICES = [
+        'list_price_1' => 'List Price 1',
+        'list_price_2' => 'List Price 2',
+        'list_price_3' => 'List Price 3',
+        'list_price_4' => 'List Price 4',
+        'list_price_5' => 'List Price 5',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -61,11 +75,23 @@ class Customer extends Model implements Auditable
         });
 
     }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function billingState(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state', 'iso2')
+            ->where('country_code', $this->country_code);
+    }
+
+    public function billingCountry(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_code', 'iso2');
+    }
 
     /**
      * Finding the admin

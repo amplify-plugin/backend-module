@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\PermissionRegistrar;
@@ -85,7 +86,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
         static::saving(function ($model) {
 
             if (! empty($model->password) && $model->isDirty('password')) {
-                $model->password = \Illuminate\Support\Facades\Hash::make($model->password);
+                $model->password = Hash::make($model->password);
 
                 if (request()->is('admin/*') && request()->route()->named('contacts.store', 'contacts.update')) {
                     $model->password_reset_required = true;
@@ -205,7 +206,11 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
     public function customer(): BelongsTo
     {
-        $key = is_numeric($this->active_customer_id) ? 'active_customer_id' : 'customer_id';
+        if (config('amplify.basic.enable_multi_customer_manage', false) && is_numeric($this->active_customer_id)) {
+            $key = 'active_customer_id';
+        } else {
+            $key = 'customer_id';
+        }
 
         return $this->belongsTo(Customer::class, $key, 'id');
     }
@@ -299,9 +304,16 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
     */
     public function scopeApproved($query)
     {
-        $query->whereHas('customer', function (Builder $q) {
+        return $query->whereHas('customer', function (Builder $q) {
             $q->where('approved', Customer::APPROVED);
-        })->get();
+        });
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->whereHas('customer', function (Builder $q) {
+            $q->where('approved', Customer::UNAPPROVED);
+        });
     }
 
     /*

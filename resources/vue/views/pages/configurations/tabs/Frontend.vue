@@ -157,6 +157,20 @@
                 </small>
             </div>
 
+            <div class="form-group custom-control custom-checkbox pl-0">
+                <input
+                    type="checkbox"
+                    name="redirect_to_product_detail_page_on_search"
+                    id="redirect_to_product_detail_page_on_search"
+                    v-model="coreConfigurationData.redirect_to_product_detail_page_on_search"
+                    :class="{ 'is-invalid': $parent.validationErrors.redirect_to_product_detail_page_on_search }"
+                />
+                <label for="redirect_to_product_detail_page_on_search">Redirect to Product Details Page if Search Return 1 Product for Searching by Product Code</label>
+                <small v-if="$parent.validationErrors.redirect_to_product_detail_page_on_search" class="text-danger mt-3">
+                    {{ $parent.validationErrors.redirect_to_product_detail_page_on_search[0] }}
+                </small>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

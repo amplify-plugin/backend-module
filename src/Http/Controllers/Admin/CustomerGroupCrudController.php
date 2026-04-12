@@ -19,17 +19,19 @@ use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 /**
  * Class CustomerGroupCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class CustomerGroupCrudController extends BackpackCustomCrudController
 {
@@ -51,7 +53,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setModel(\Amplify\System\Backend\Models\CustomerGroup::class);
+        CRUD::setModel(CustomerGroup::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer-group');
         CRUD::setEntityNameStrings('customer-group', 'customer groups');
         $this->data['categories'] = Category::select(['id', 'category_name'])->get()->toArray();
@@ -210,7 +212,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
     }
 
     /**
-     * @return \Illuminate\Http\Response|string
+     * @return Response|string
      */
     public function update(CustomerGroupRequest $request)
     {

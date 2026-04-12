@@ -8,6 +8,7 @@ use Amplify\System\Backend\Http\Requests\ContactRequest;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\ContactLogin;
 use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerGroup;
 use Amplify\System\Backend\Models\CustomerPermission;
 use Amplify\System\Backend\Models\Event;
@@ -20,6 +21,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class ContactRegistrationCrudController
@@ -48,6 +50,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         CRUD::setEntityNameStrings('contact-registration', 'contact register requests');
 
         CRUD::denyAccess('create');
+        CRUD::addBaseClause('orWhereNull', 'enabled_at');
     }
 
     /**
@@ -59,9 +62,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addClause('where', 'enabled', false);
-        $this->crud->addClause('whereNull', 'enabled_at');
-
         // Filtering with customer
         CRUD::addFilter(
             [
@@ -186,7 +186,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
         CRUD::field('phone')->type('text')->tab('Basic');
 
-        Crud::addField([
+        CRUD::addField([
             'name' => 'roles',
             'label' => 'Role(s)',
             'type' => 'select2_from_ajax_multiple',
@@ -202,7 +202,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'label' => 'Address', // Table column heading
             'type' => 'select2_from_ajax',
             'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
-            'model' => 'Amplify\System\Backend\Models\CustomerAddress', // the method that defines the relationship in your Model
+            'model' => CustomerAddress::class, // the method that defines the relationship in your Model
             'attribute' => 'display_name', // foreign key attribute that is shown to user
             'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
             'placeholder' => 'Select an address', // placeholder for the select
@@ -352,12 +352,19 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
     public function update(ContactRequest $request)
     {
+        // Get the contact entry
+        $contact = Contact::findOrFail($request->id);
+        if ((bool)$contact->customer->approved == Customer::UNAPPROVED) {
+            throw ValidationException::withMessages([
+                'customer_id' => __('The contact\'s customer is not approved. Please approve the customer before enabling the contact.'),
+            ]);
+        }
+
         $this->crud->removeFields(['roles', 'contactLogins']);
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->unsetValidation();
         $traitRes = $this->traitUpdate();
-        // Get the contact entry
-        $contact = Contact::findOrFail($request->id);
+
         // Check if 'enabled' is set to true and 'enabled_at' is empty
         if ($request->enabled == 1 && empty($contact->enabled_at)) {
             // Set 'enabled_at' to the current timestamp
@@ -366,7 +373,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
             // Trigger the notification
             NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id,
+                'contact_id' => $contact->id, 'customer_id' => $contact->customer_id,
             ]);
         }
         $this->afterCreateUpdateOperation($request);

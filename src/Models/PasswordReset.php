@@ -6,12 +6,13 @@
 
 namespace Amplify\System\Backend\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class PasswordReset extends Model implements Auditable
 {
-    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
     protected $table = 'password_resets';

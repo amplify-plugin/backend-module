@@ -202,7 +202,9 @@ export default {
                                 this.isSelectAllProductsFromCategoryBtnClicked = false;
                             }
 
-                            let matching_string = new RegExp(`-${data?.product_search_by_id_prefix}=`, 'g');
+                            // EasyAsk JSON does not include product_search_by_id_prefix; use prop (same as URL build above).
+                            const idSearchPrefix = data?.product_search_by_id_prefix ?? this.product_search_by_id_prefix;
+                            let matching_string = new RegExp(`-${idSearchPrefix}=`, 'g');
                             if (!!matching_string.exec(site_search) && data.products.items.length > 0) {
                                 let productID = data.products.items[0].isSkuProduct
                                                 ? JSON.parse(data.products.items[0].Sku_List)[0][0]

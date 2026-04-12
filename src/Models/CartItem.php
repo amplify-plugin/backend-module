@@ -2,16 +2,11 @@
 
 namespace Amplify\System\Backend\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class CartItem extends Model implements Auditable
+class CartItem extends Model
 {
-    use HasFactory;
-    use \OwenIt\Auditing\Auditable;
-
     protected $guarded = ['id'];
 
     protected $casts = [

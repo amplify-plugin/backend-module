@@ -8,18 +8,17 @@ use Amplify\System\Message\Traits\Messageable;
 use Amplify\System\Ticket\Interfaces\TicketableInterface;
 use Amplify\System\Ticket\Traits\TicketableTrait;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
+use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements Auditable, MessageableInterface, TicketableInterface
 {
-    use CrudTrait, HasFactory, HasRoles, Messageable, Notifiable, TicketableTrait;
+    use CrudTrait, HasRoles, Messageable, Notifiable, TicketableTrait;
     use \OwenIt\Auditing\Auditable;
 
     protected $table = 'users';
@@ -59,12 +58,11 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'enabled' => 'boolean',
+        'is_admin' => 'boolean',
     ];
 
-    public static function boot()
+    public static function booted()
     {
-        parent::boot();
-
         static::deleting(function ($model) {
             $rootUrl = array_unique([Storage::disk('uploads')->url('/'), config('app.url').'/uploads/']);
 
@@ -80,9 +78,33 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
         });
     }
 
+    /**
+     * A model may have multiple roles.
+     */
+    public function roles(): BelongsToMany
+    {
+        $relation = $this->morphToMany(
+            config('permission.models.role'),
+            'model',
+            config('permission.table_names.model_has_roles'),
+            config('permission.column_names.model_morph_key'),
+            PermissionRegistrar::$pivotRole
+        );
+
+        if (! PermissionRegistrar::$teams) {
+            return $relation;
+        }
+
+        return $relation->wherePivot(PermissionRegistrar::$teamsKey, getPermissionsTeamId())
+            ->where(function ($q) {
+                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
+                $q->whereNull($teamField)->orWhere($teamField, getPermissionsTeamId());
+            });
+    }
+
     public function isAdmin(): bool
     {
-        return $this->is_admin === 1;
+        return (bool) $this->is_admin;
     }
 
     public function avatarImage()
@@ -90,15 +112,6 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
         return ($this->image)
             ? $this->image
             : generateUserAvatar($this->name, false);
-    }
-
-    public function setPasswordAttribute($value)
-    {
-        if (optional(Route::getCurrentRoute())->getName() === 'admin.force-password.reset') {
-            $this->attributes['password'] = Hash::make($value);
-        } else {
-            $this->attributes['password'] = $value;
-        }
     }
 
     public function setImageAttribute($value)

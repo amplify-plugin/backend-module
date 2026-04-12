@@ -60,7 +60,7 @@ class Attribute extends Model implements ContractsAuditable
     |--------------------------------------------------------------------------
     */
 
-    public function productClassification(): belongsTo
+    public function productClassification(): BelongsTo
     {
         return $this->belongsTo(ProductClassification::class);
     }

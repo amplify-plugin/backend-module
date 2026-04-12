@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pipeline\Pipeline;
 use JsonException;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as ContractsAuditable;
@@ -68,6 +69,7 @@ class Product extends Model implements ContractsAuditable
     private $singleProductIndex = [
         'id' => 'Product Id',
         'product_slug' => 'Product Slug',
+        'product_code' => 'Product Code',
     ];
 
     protected $table = 'products';
@@ -122,12 +124,16 @@ class Product extends Model implements ContractsAuditable
             abort('404', 'Product is not available.');
         }
 
-        return Product::select('id', 'product_name', 'flags', 'has_sku', 'description', 'short_description', 'manufacturer_id',
-            'single_product_page_id', 'sku_default_attributes', 'features', 'specifications', 'min_order_qty', 'vendornum',
-            'qty_interval', 'product_code', 'in_stock', 'is_ncnr', 'gtin_number', 'product_slug', 'manufacturer', 'sku_id', 'uom')
-            ->with('attributes', 'productImage', 'manufacturerRelation', 'singleProductPage')
-            ->where(config('amplify.frontend.easyask_single_product_index', 'id'), $parameter)
-            ->first();
+        $query = Product::query();
+
+        return app(Pipeline::class)
+            ->send($query)
+            ->through(config('amplify.product_detail_pipeline', []))
+            ->then(function(Builder $query) use ($parameter) {
+                return $query
+                    ->where(config('amplify.frontend.easyask_single_product_index', 'id'), $parameter)
+                    ->first();
+            });
     }
 
     public function scopeGetEaProductsData()
@@ -496,7 +502,7 @@ class Product extends Model implements ContractsAuditable
             try {
                 $original_data = json_decode(($this->attributes[$original_field_name] ?? '{}'),
                     true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 // Handle the exception (e.g., log, provide a default value, etc.)
                 $original_data = [];
             }
@@ -515,7 +521,7 @@ class Product extends Model implements ContractsAuditable
             try {
                 $original_data = json_decode(($this->attributes[$original_field_name] ?? '{}'),
                     true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (JsonException $e) {
                 // Handle the exception (e.g., log, provide a default value, etc.)
                 $original_data = [];
             }
@@ -533,6 +539,19 @@ class Product extends Model implements ContractsAuditable
             'product_id', // Foreign key on pivot for this model
             'related_product_id' // Foreign key on pivot for the related model
         ); // eager load relationship type will be added later
+    }
+
+    /**
+     * Get all relationship types for this product (optimized with JOIN for large datasets)
+     * Better than whereHas() for performance with large tables
+     */
+    public function getRelationshipTypes()
+    {
+        return ProductRelationshipType::join('product_relationships', 'product_relationship_types.id', '=', 'product_relationships.product_relationship_type_id')
+            ->where('product_relationships.product_id', $this->id)
+            ->distinct('product_relationship_types.id')
+            ->select('product_relationship_types.*')
+            ->get();
     }
 
     /*

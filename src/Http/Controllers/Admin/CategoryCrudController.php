@@ -92,11 +92,7 @@ class CategoryCrudController extends BackpackCustomCrudController
                 return $this->crud->model
                     ->where('parent_id', null)
                     ->get()
-                    ->map(function ($item) {
-                        $item->name = $item->category_name;
-
-                        return $item;
-                    })->pluck('name', 'id')->toArray();
+                    ->pluck('category_name', 'id')->toArray();
             },
             function ($value) {
                 $this->crud->addClause('where', 'parent_id', '=', $value);
@@ -267,6 +263,12 @@ class CategoryCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addField([
+            'name' => 'enabled',
+            'label' => 'Enabled',
+            'tab' => 'Basic Info',
+        ]);
+
+        CRUD::addField([
             'name' => 'is_new',
         ]);
 
@@ -295,14 +297,9 @@ class CategoryCrudController extends BackpackCustomCrudController
     protected function setupReorderOperation()
     {
         $this->crud->set('reorder.label', 'category_name');
-        // define which model attribute will be shown on draggable elements
-        // $this->crud->set('reorder.label', 'category_name');
-        // define how deep the admin is allowed to nest the items
-        // for infinite levels, set it to 0
         $this->crud->set('reorder.max_level', 0);
-
-        // $this->crud->disableReorder();
-        // $this->crud->isReorderEnabled();
+        $this->crud->addClause('orderBy', 'lft', 'ASC');
+        $this->crud->addClause('select', ['id', 'category_name', 'lft', 'parent_id']);
     }
 
     /**
@@ -414,6 +411,8 @@ class CategoryCrudController extends BackpackCustomCrudController
             'slug' => getCategorySlug($slug, $id),
         ]);
     }
+
+    protected function fetchCategoryTree() {}
 
     /**
      * @return bool|string

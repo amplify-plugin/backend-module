@@ -2,12 +2,13 @@
 
 namespace Amplify\System\Backend\Factories;
 
+use Amplify\System\Backend\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Amplify\System\Backend\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {

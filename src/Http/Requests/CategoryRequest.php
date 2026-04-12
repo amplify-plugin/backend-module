@@ -24,19 +24,17 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return [
             'category_code' => 'required|unique:categories,category_code,'.request('id').',id,deleted_at,NULL|regex:/^[a-zA-Z0-9-]+$/',
             'category_name' => 'required|string',
             'category_slug' => 'required|unique:categories,category_slug,'.request('id').',id,deleted_at,NULL',
             'parent_id' => 'nullable',
             'level' => 'nullable',
             'is_top_nav' => 'required',
-            'image' => 'required',
+            'enabled' => 'required',
+            'image' => 'nullable|string|url',
+            'pim_category_id' => (config('amplify.pim.categorization_required', false)) ? 'required' : 'nullable',
         ];
-
-        $rules['pim_category_id'] = (config('amplify.pim.categorization_required', false)) ? 'required' : 'nullable';
-
-        return $rules;
     }
 
     protected function prepareForValidation()

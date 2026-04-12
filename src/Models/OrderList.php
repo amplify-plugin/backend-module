@@ -3,18 +3,39 @@
 namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class OrderList extends Model implements Auditable
 {
-    use CrudTrait, HasFactory;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
-    const CUSTOMER_ORDER_LIST_TYPES = ['GLOBAL' => 'global', 'PERSONAL' => 'personal'];
+    protected $guarded = ['id'];
 
-    protected $fillable = ['name', 'list_type', 'description', 'contact_id', 'customer_id'];
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (self $orderList) {
+            $orderList->orderListItems()->delete();
+        });
+    }
+
+    /**
+     * @return static
+     */
+    public static function getFavoriteList()
+    {
+        return static::firstOrCreate([
+            'customer_id' => customer()->id,
+            'contact_id' => customer(true)->id,
+            'list_type' => 'favourite',
+            'name' => 'Favourites of '.customer(true)->name,
+            'description' => 'System managed favourite item list for '.customer(true)->name,
+        ]);
+    }
 
     /**
      * relations
@@ -43,28 +64,31 @@ class OrderList extends Model implements Auditable
             .'?list_id='.$this->id.'" data-toggle="tooltip" title="List Items"><i class="la la-list mr-2"></i>View List Items</a>';
     }
 
-    public static function guessFavouriteModel()
+    public static function guessOrderListModel()
     {
-        $favourite = null;
+        $entry = null;
         $title = 'Favourite';
-
-        if (request()->route()->hasParameter('favourite')) {
-            $favourite = request()->route()->favourite;
+        if (request()->route()->hasParameter('order_list')) {
+            $entry = request()->route()->order_list;
         } elseif (request()->route()->hasParameter('quick_list')) {
-            $favourite = request()->route()->quick_list;
+            $entry = request()->route()->quick_list;
             $title = 'Quick List';
         }
 
-        if (! $favourite) {
+        if (! $entry) {
             abort(404, "{$title} Parameter is missing");
         }
 
-        return self::find($favourite);
+        return self::find($entry);
     }
 
     /**
      * Scopes
      */
+    protected function getListTypeLabelAttribute()
+    {
+        return config("amplify.constant.favorite_list_type.{$this->attributes['list_type']}", ucwords($this->attributes['list_type']));
+    }
 
     /**
      * Model functions

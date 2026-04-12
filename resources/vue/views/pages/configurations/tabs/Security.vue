@@ -1,127 +1,147 @@
 <template>
-    <div role="tabpanel" class="tab-pane active" id="tab_basic-info">
-        <fieldset>
-            <div class="d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
-                <legend>
-                    <i class="la la-exclamation-triangle mr-2"></i>
-                    Security Configuration
-                </legend>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
-                        name="force_password_reset_enabled"
-                        id="force_password_reset_enabled"
-                        v-model="coreConfigurationData.force_password_reset_enabled"
-                        :class="{
+  <div role="tabpanel" class="tab-pane active" id="tab_basic-info">
+    <fieldset>
+      <div class="d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
+        <legend>
+          <i class="la la-exclamation-triangle mr-2"></i>
+          Security Configuration
+        </legend>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input
+              type="checkbox"
+              name="force_password_reset_enabled"
+              id="force_password_reset_enabled"
+              v-model="coreConfigurationData.force_password_reset_enabled"
+              :class="{
                             'is-invalid': $parent.validationErrors.force_password_reset_enabled,
                             'form-check-input': true,
                         }"
-                    />
-                    <label for="force_password_reset_enabled"> Enable Force Password Reset</label>
-                    <small v-if="$parent.validationErrors.force_password_reset_enabled" class="text-danger mt-3">{{
-                            $parent.validationErrors.force_password_reset_enabled[0]
-                        }}</small>
-                </div>
-                <small class="text-muted d-block"
-                >If enabled system will ask user to reset password, if changed by admin.</small
-                >
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input
-                            type="checkbox"
-                            name="skip_contact_approval"
-                            id="skip_contact_approval"
-                            v-model="coreConfigurationData.skip_contact_approval"
-                            :class="{
+          />
+          <label for="force_password_reset_enabled"> Enable Force Password Reset</label>
+          <small v-if="$parent.validationErrors.force_password_reset_enabled" class="text-danger mt-3">{{
+              $parent.validationErrors.force_password_reset_enabled[0]
+            }}</small>
+        </div>
+        <small class="text-muted d-block"
+        >If enabled system will ask user to reset password, if changed by admin.</small
+        >
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-check">
+            <input
+                type="checkbox"
+                name="skip_contact_approval"
+                id="skip_contact_approval"
+                v-model="coreConfigurationData.skip_contact_approval"
+                :class="{
                                 'is-invalid': $parent.validationErrors.skip_contact_approval,
                                 'form-check-input': true,
                             }"
-                        />
-                        <label for="skip_contact_approval"
-                            >Allow Contact to login after request account without Approval</label
-                        >
-                        <small v-if="$parent.validationErrors.skip_contact_approval" class="text-danger">{{
-                            $parent.validationErrors.skip_contact_approval[0]
-                        }}</small>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>System Password Minimum Length</label>
-                        <input
-                            type="number"
-                            name="password_length"
-                            placeholder="Password Length"
-                            v-model="coreConfigurationData.password_length"
-                            class="form-control"
-                            :class="{ 'is-invalid': $parent.validationErrors.password_length }"
-                        />
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset class="mt-3">
-            <legend>
-                <i class="la la-cookie mr-2"></i>
-                GDPR Compliance Policy
-            </legend>
-            <div class="form-group">
-                <label
-                    >Cookie Consent Title
-                    <span class="text-danger">*</span>
-                </label>
-                <input
-                    type="text"
-                    name="cookie_title"
-                    placeholder="Cookie consent message title"
-                    v-model="coreConfigurationData.cookie_title"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.cookie_title }"
-                />
-            </div>
-            <div class="form-group">
-                <label>
-                    Cookie Consent Content
-                    <span class="text-danger">*</span>
-                </label>
-                <ckeditor
-                    v-model="coreConfigurationData.cookie_content"
-                    :class="{ 'is-invalid': coreConfigurationData.cookie_content }"
-                ></ckeditor>
-            </div>
-        </fieldset>
-
-        <div id="saveActions" class="form-group">
-            <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
-                <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                <span data-value="save_and_edit"> Save</span>
-            </button>
-
-            <button @click="$parent.saveAndAction()" type="button" class="btn btn-default">
-                <span class="la la-ban"></span> Cancel
-            </button>
+            />
+            <label for="skip_contact_approval"
+            >Allow Contact to login after request account without Approval</label
+            >
+            <small v-if="$parent.validationErrors.skip_contact_approval" class="text-danger">{{
+                $parent.validationErrors.skip_contact_approval[0]
+              }}</small>
+          </div>
         </div>
+        <div class="col-md-6" v-if="!coreConfigurationData.skip_contact_approval">
+          <div class="form-group">
+            <label>Account Verification Method</label>
+            <select
+                name="verification_method"
+                v-model="coreConfigurationData.verification_method"
+                :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.verification_method }">
+              <option value="email" :selected="coreConfigurationData.verification_method === 'email'">
+                Email Verification
+              </option>
+              <option value="backend" :selected="coreConfigurationData.verification_method === 'backend'">
+                Admin Verification
+              </option>
+            </select>
+            <small v-if="$parent.validationErrors.verification_method" class="text-danger">{{
+                $parent.validationErrors.verification_method[0]
+              }}</small>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>System Password Minimum Length</label>
+            <input
+                type="number"
+                name="password_length"
+                placeholder="Password Length"
+                v-model="coreConfigurationData.password_length"
+                class="form-control"
+                :class="{ 'is-invalid': $parent.validationErrors.password_length }"
+            />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="mt-3">
+      <legend>
+        <i class="la la-cookie mr-2"></i>
+        GDPR Compliance Policy
+      </legend>
+      <div class="form-group">
+        <label
+        >Cookie Consent Title
+          <span class="text-danger">*</span>
+        </label>
+        <input
+            type="text"
+            name="cookie_title"
+            placeholder="Cookie consent message title"
+            v-model="coreConfigurationData.cookie_title"
+            class="form-control"
+            :class="{ 'is-invalid': $parent.validationErrors.cookie_title }"
+        />
+      </div>
+      <div class="form-group">
+        <label>
+          Cookie Consent Content
+          <span class="text-danger">*</span>
+        </label>
+        <ckeditor
+            v-model="coreConfigurationData.cookie_content"
+            :class="{ 'is-invalid': coreConfigurationData.cookie_content }"
+        ></ckeditor>
+      </div>
+    </fieldset>
+
+    <div id="saveActions" class="form-group">
+      <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
+        <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+        <span data-value="save_and_edit"> Save</span>
+      </button>
+
+      <button @click="$parent.saveAndAction()" type="button" class="btn btn-default">
+        <span class="la la-ban"></span> Cancel
+      </button>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'Security',
-    data() {
-        return {
-            coreConfigurationData: {
-                tab: 'security',
-                password_length: this.$parent.coreConfigurationData.security.password_length,
-                cookie_title: this.$parent.coreConfigurationData.security.cookie_title,
-                cookie_content: this.$parent.coreConfigurationData.security.cookie_content,
-                skip_contact_approval: this.$parent.coreConfigurationData.security.skip_contact_approval,
-                force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
-            },
-        };
-    },
+  name: 'Security',
+  data() {
+    return {
+      coreConfigurationData: {
+        tab: 'security',
+        password_length: this.$parent.coreConfigurationData.security.password_length,
+        cookie_title: this.$parent.coreConfigurationData.security.cookie_title,
+        cookie_content: this.$parent.coreConfigurationData.security.cookie_content,
+        skip_contact_approval: this.$parent.coreConfigurationData.security.skip_contact_approval,
+        verification_method: this.$parent.coreConfigurationData.security.verification_method,
+        force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
+      },
+    };
+  },
 };
 </script>

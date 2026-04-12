@@ -103,6 +103,7 @@ export default {
                 is_top_nav: 0,
                 featured: 0,
                 is_updated: false,
+                enabled: false,
                 products: []
             },
             selectedProducts: [],
@@ -153,6 +154,7 @@ export default {
                 image: local_category.image,
                 is_top_nav: local_category.is_top_nav,
                 featured: local_category.featured,
+                enabled: local_category.enabled,
                 is_updated: false
             }
 

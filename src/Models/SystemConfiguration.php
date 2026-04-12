@@ -74,15 +74,29 @@ class SystemConfiguration extends Model implements Auditable
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+
     // protected $fillable = [];
-    // protected $hidden = [];
+    protected $hidden = ['field', 'created_at', 'updated_at'];
 
-    public static function boot()
+    protected $casts = [
+        'field' => 'array',
+        'active' => 'boolean',
+    ];
+
+    protected $attributes = [
+        'field' => '{"name":"value","label":"Value","type":"text"}',
+    ];
+
+    protected static function booted(): void
     {
-        parent::boot();
-
         static::saved(function ($model) {
             Artisan::call('queue:restart');
+        });
+
+        static::creating(function ($model) {
+            if (empty($model->type)) {
+                $model->type = self::checkType($model->value);
+            }
         });
     }
 
@@ -136,6 +150,7 @@ class SystemConfiguration extends Model implements Auditable
             ]);
         }
         $model->value = (string) UtilityHelper::stringify($model->type, $value);
+        $model->active = true;
 
         $model->save();
 
@@ -144,7 +159,7 @@ class SystemConfiguration extends Model implements Auditable
     /**
      * @return bool|string
      */
-    private static function checkType($value, $type)
+    private static function checkType($value, $type = null)
     {
         if ($type != null) {
             return $type;

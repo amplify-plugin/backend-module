@@ -34,7 +34,7 @@ class CustomerRequest extends FormRequest
             'customer_name' => 'required|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|numeric',
-            'punch_out' => 'required',
+            'punch_out' => 'nullable',
             'customer_type' => 'nullable',
             'is_suspended' => 'boolean|nullable',
             'warehouse_seq_code' => 'string|nullable',
@@ -45,6 +45,7 @@ class CustomerRequest extends FormRequest
             'state' => 'nullable|string',
             'country_code' => 'nullable|string',
             'zip_code' => 'nullable|string',
+            'list_price' => 'nullable|string|in:'. implode(array_keys(Customer::LIST_PRICES)),
 
             // contact validate
             'contact' => 'required|array|min:1',

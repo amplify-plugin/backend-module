@@ -13,7 +13,7 @@ class TeamsPermission
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(Request): (Response|RedirectResponse)  $next
+     * @param  Closure(Request): (Response|RedirectResponse)  $next
      * @return Response|RedirectResponse
      */
     public function handle(Request $request, Closure $next)

@@ -6,6 +6,8 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\AdhocPromptSuggestion;
 use Amplify\System\Backend\Models\ReportCategory;
 use Amplify\System\Backend\Models\SavedDynamicReport;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 /**
  * Class AdhocReportCrudController
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class AdhocReportCrudController extends BackpackCustomCrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+    use ListOperation;
 
     protected $baseUrl = '';
 

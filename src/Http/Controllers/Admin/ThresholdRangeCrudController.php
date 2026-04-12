@@ -35,7 +35,7 @@ class ThresholdRangeCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ThresholdRange::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/threshold-range');
-        CRUD::setEntityNameStrings('threshold range', 'threshold ranges');
+        CRUD::setEntityNameStrings('threshold-range', 'threshold-ranges');
     }
 
     /**

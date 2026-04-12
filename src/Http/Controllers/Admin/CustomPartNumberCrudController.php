@@ -40,7 +40,7 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(CustomPartNumber::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/custom-part-number');
-        CRUD::setEntityNameStrings('custom part number', 'custom part numbers');
+        CRUD::setEntityNameStrings('custom-part-number', 'custom-part-numbers');
     }
 
     /**

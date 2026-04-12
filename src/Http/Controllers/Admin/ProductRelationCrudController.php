@@ -37,7 +37,7 @@ class ProductRelationCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ProductRelation::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/product-relation');
-        CRUD::setEntityNameStrings('product relation', 'product relations');
+        CRUD::setEntityNameStrings('product-relation', 'product-relations');
     }
 
     /**

@@ -31,7 +31,7 @@ class EnvVariableController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setRoute(config('backpack.base.route_prefix').'/env-variable');
-        CRUD::setEntityNameStrings('env variable', 'env variables');
+        CRUD::setEntityNameStrings('env-variable', 'env-variables');
 
         $this->envPath = app()->environmentFilePath();
     }

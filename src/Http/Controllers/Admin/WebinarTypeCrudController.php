@@ -35,7 +35,7 @@ class WebinarTypeCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(WebinarType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event-type');
-        CRUD::setEntityNameStrings('event type', 'event types');
+        CRUD::setEntityNameStrings('event-type', 'event types');
     }
 
     /**

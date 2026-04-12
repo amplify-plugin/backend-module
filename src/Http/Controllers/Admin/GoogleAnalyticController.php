@@ -24,7 +24,7 @@ class GoogleAnalyticController extends BackpackCustomCrudController
     {
         CRUD::setModel(AccountTitle::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/account-title');
-        CRUD::setEntityNameStrings('account title', 'account titles');
+        CRUD::setEntityNameStrings('account-title', 'account titles');
     }
 
     /**

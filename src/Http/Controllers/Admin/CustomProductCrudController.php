@@ -29,7 +29,7 @@ class CustomProductCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(CustomProduct::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/custom-product');
-        CRUD::setEntityNameStrings('custom product', 'custom products');
+        CRUD::setEntityNameStrings('custom-product', 'custom-products');
 
         CRUD::denyAccess('create');
     }

@@ -35,7 +35,7 @@ class AttributeValueCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(AttributeValue::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/attributevalue');
-        CRUD::setEntityNameStrings('attributevalue', 'attribute values');
+        CRUD::setEntityNameStrings('attribute-value', 'attribute-values');
     }
 
     /**

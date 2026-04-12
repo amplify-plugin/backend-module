@@ -36,7 +36,7 @@ class LocalizationCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Localization::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/localization');
-        CRUD::setEntityNameStrings('Localization', 'Localizations');
+        CRUD::setEntityNameStrings('localization', 'localizations');
     }
 
     /**

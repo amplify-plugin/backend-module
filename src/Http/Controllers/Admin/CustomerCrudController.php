@@ -334,6 +334,24 @@ class CustomerCrudController extends BackpackCustomCrudController
                     'class' => 'form-group col-md-6',
                 ],
             ],
+            [
+                'name' => 'phone',
+                'type' => 'text',
+                'label' => 'Phone',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'phone_ext',
+                'type' => 'text',
+                'label' => 'Phone Ext',
+                'tab' => 'Addresses',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ]
         ]);
 
         CRUD::addField([
@@ -400,6 +418,14 @@ class CustomerCrudController extends BackpackCustomCrudController
                     'name' => 'zip_code',
                     'type' => 'text',
                     'label' => 'Zip Code',
+                    'wrapper' => [
+                        'class' => 'form-group col-md-6',
+                    ],
+                ],
+                [
+                    'name' => 'phone',
+                    'type' => 'text',
+                    'label' => 'Phone',
                     'wrapper' => [
                         'class' => 'form-group col-md-6',
                     ],
@@ -710,6 +736,11 @@ class CustomerCrudController extends BackpackCustomCrudController
                 [
                     'name' => 'zip_code',
                     'label' => 'Zip Code',
+                    'type' => 'text',
+                ],
+                [
+                    'name' => 'phone',
+                    'label' => 'Phone',
                     'type' => 'text',
                 ],
             ],

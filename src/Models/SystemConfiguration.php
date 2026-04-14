@@ -100,6 +100,23 @@ class SystemConfiguration extends Model implements Auditable
         });
     }
 
+    public function transformAudit(array $data): array
+    {
+        $newValues = $data['new_values'] ?? [];
+        $oldValues = $data['old_values'] ?? [];
+
+        $option = $newValues['option'] ?? $oldValues['option'] ?? null;
+
+        if (in_array($option, [
+            'configurations.csd-erp.access_token',
+            'configurations.csd-erp.expires_at',
+            'nxt_available_web_order_number'])) {
+            return [];
+        }
+
+        return $data;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -142,14 +159,14 @@ class SystemConfiguration extends Model implements Auditable
                 return $query->where('type', '=', $type);
             })->first();
 
-        if (! $model) {
+        if (!$model) {
             $model = self::create([
                 'name' => $name,
                 'option' => $option,
                 'type' => self::checkType($value, $type),
             ]);
         }
-        $model->value = (string) UtilityHelper::stringify($model->type, $value);
+        $model->value = (string)UtilityHelper::stringify($model->type, $value);
         $model->active = true;
 
         $model->save();

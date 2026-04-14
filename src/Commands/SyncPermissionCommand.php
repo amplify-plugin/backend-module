@@ -16,7 +16,7 @@ class SyncPermissionCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'amplify:permission-sync';
+    protected $signature = 'amplify:bkd-permission-sync';
 
     /**
      * The console command description.

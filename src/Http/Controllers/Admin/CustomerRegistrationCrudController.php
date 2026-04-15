@@ -82,11 +82,19 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
             [
                 'name' => 'phone',
                 'label' => 'Phone',
+                'type' => 'custom_html',
+                'value' => function ($customer) {
+
+                    $phone = $customer->phone;
+
+                    if (!empty($customer->phone_ext)) {
+                        $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $customer->phone_ext;
+                    }
+
+                    return $phone;
+                }
             ],
             [
-                'name' => 'phone',
-                'label' => 'Phone',
-            ], [
                 'name' => 'punch_out',
                 'label' => 'Punch Out',
                 'type' => 'boolean',
@@ -128,7 +136,22 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
         // BASIC
         CRUD::field('customer_name')->type('text')->tab('Basic')->label('Company Name');
         CRUD::field('email')->type('email')->tab('Basic')->label('Company Email');
-        CRUD::field('phone')->type('text')->tab('Basic')->label('Company Phone');
+
+        CRUD::addField([
+            'name' => 'phone',
+            'label' => 'Company Phone',
+            'type' => 'text',
+            'tab' => 'Basic',
+            'wrapper' => ['class' => 'form-group col-md-9'],
+        ]);
+        CRUD::addField([
+            'name' => 'phone_ext',
+            'label' => 'Phone Extension',
+            'type' => 'text',
+            'tab' => 'Basic',
+            'wrapper' => ['class' => 'form-group col-md-3'],
+        ]);
+
         CRUD::addField([
             'name' => 'punch_out',
             'label' => 'Punch Out',

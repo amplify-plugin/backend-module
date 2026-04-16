@@ -82,7 +82,19 @@ class BackendServiceProvider extends ServiceProvider
                         ->withoutOverlapping()
                         ->onOneServer();
 
-                    $schedule->command(BackupRunCommand::class)
+                    $schedule->command(CleanAuditCommand::class)
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->daily()
+                        ->withoutOverlapping()
+                        ->onOneServer();
+
+                    $schedule->command(CleanApiLogCommand::class)
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->daily()
+                        ->withoutOverlapping()
+                        ->onOneServer();
+
+                    $schedule->command(CleanEmailLogCommand::class)
                         ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
                         ->daily()
                         ->withoutOverlapping()
@@ -90,28 +102,16 @@ class BackendServiceProvider extends ServiceProvider
 
                     $schedule->command(AddProductSlugCommand::class)
                         ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                        ->daily()
+                        ->dailyAt('00:20')
+                        ->withoutOverlapping()
+                        ->onOneServer();
+
+                    $schedule->command(BackupRunCommand::class)
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->dailyAt('02:00')
                         ->withoutOverlapping()
                         ->onOneServer();
                 }
-
-                $schedule->command(CleanAuditCommand::class)
-                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                    ->daily()
-                    ->withoutOverlapping()
-                    ->onOneServer();
-
-                $schedule->command(CleanApiLogCommand::class)
-                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                    ->daily()
-                    ->withoutOverlapping()
-                    ->onOneServer();
-
-                $schedule->command(CleanEmailLogCommand::class)
-                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                    ->daily()
-                    ->withoutOverlapping()
-                    ->onOneServer();
             }
         });
     }

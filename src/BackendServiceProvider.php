@@ -4,6 +4,7 @@ namespace Amplify\System\Backend;
 
 use Amplify\System\Backend\Commands\CleanApiLogCommand;
 use Amplify\System\Backend\Commands\CleanAuditCommand;
+use Amplify\System\Backend\Commands\CleanEmailLogCommand;
 use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
@@ -21,7 +22,7 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
 
         $this->app->register(SingletonServiceProvider::class);
 
@@ -35,21 +36,24 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'backend');
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/backend'),
+            __DIR__ . '/../public' => public_path('vendor/backend'),
         ], 'backend-asset');
 
-        if($this->app->runningInConsole()) {
+        $this->loadObservers();
+
+        if ($this->app->runningInConsole()) {
 
             $this->commands([
                 SyncPermissionCommand::class,
                 BackupRunCommand::class,
                 CleanApiLogCommand::class,
                 CleanAuditCommand::class,
+                CleanEmailLogCommand::class,
                 CustomerRegisteredReportCommand::class,
                 AddProductSlugCommand::class
             ]);
@@ -64,10 +68,10 @@ class BackendServiceProvider extends ServiceProvider
 
             Config::set([
                 'backpack.base.styles' => $backpackStyles,
-                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
+                'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
             ]);
 
-            if($this->app->runningInConsole()) {
+            if ($this->app->runningInConsole()) {
 
                 $schedule = app(\Illuminate\Console\Scheduling\Schedule::class);
 
@@ -84,28 +88,32 @@ class BackendServiceProvider extends ServiceProvider
                         ->withoutOverlapping()
                         ->onOneServer();
 
-                    $schedule->command(CleanAuditCommand::class)
-                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                        ->daily()
-                        ->withoutOverlapping()
-                        ->onOneServer();
-
-                    $schedule->command(CleanApiLogCommand::class)
-                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
-                        ->daily()
-                        ->withoutOverlapping()
-                        ->onOneServer();
-
                     $schedule->command(AddProductSlugCommand::class)
                         ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
                         ->daily()
                         ->withoutOverlapping()
                         ->onOneServer();
                 }
+
+                $schedule->command(CleanAuditCommand::class)
+                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                    ->daily()
+                    ->withoutOverlapping()
+                    ->onOneServer();
+
+                $schedule->command(CleanApiLogCommand::class)
+                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                    ->daily()
+                    ->withoutOverlapping()
+                    ->onOneServer();
+
+                $schedule->command(CleanEmailLogCommand::class)
+                    ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                    ->daily()
+                    ->withoutOverlapping()
+                    ->onOneServer();
             }
         });
-
-        $this->loadObservers();
     }
 
     private function loadObservers(): void

@@ -124,6 +124,10 @@ class Product extends Model implements ContractsAuditable
             abort('404', 'Product is not available.');
         }
 
+        if (config('amplify.frontend.easyask_single_product_index') == 'product_code') {
+            $parameter = product_code_url_map($parameter, true);
+        }
+
         $query = Product::query();
 
         return app(Pipeline::class)

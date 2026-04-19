@@ -343,14 +343,14 @@ class ContactCrudController extends BackpackCustomCrudController
         CRUD::addFields([
             [
                 'name' => 'phone',
-                'label' => 'Company Phone',
+                'label' => 'Phone',
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-9'],
             ],
             [
                 'name' => 'phone_ext',
-                'label' => 'Phone Extension',
+                'label' => 'Extension',
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],

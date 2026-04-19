@@ -35,7 +35,7 @@ class CategoryProductCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(CategoryProduct::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/categoryproduct');
-        CRUD::setEntityNameStrings('categoryproduct', 'category_products');
+        CRUD::setEntityNameStrings('category-product', 'category-products');
     }
 
     /**

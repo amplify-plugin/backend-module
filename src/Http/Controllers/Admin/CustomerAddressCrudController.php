@@ -132,6 +132,7 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
         CRUD::field('state');
         CRUD::field('zip_code');
         CRUD::field('city');
+        CRUD::field('phone');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

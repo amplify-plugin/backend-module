@@ -198,22 +198,20 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::field('customer_code')->type('text')->tab('Basic')->label('Company Code');
         CRUD::field('customer_name')->type('text')->tab('Basic')->label('Company Name');
         CRUD::field('email')->type('email')->tab('Basic')->label('Company Email');
-        CRUD::addFields([
-            [
+        CRUD::addField([
                 'name' => 'phone',
                 'label' => 'Company Phone',
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-9'],
-            ],
-            [
+            ]);
+        CRUD::addField([
                 'name' => 'phone_ext',
                 'label' => 'Phone Extension',
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
-            ]
-        ]);
+            ]);
         CRUD::addField([
             'name' => 'punch_out',
             'label' => 'Punch Out',
@@ -333,7 +331,7 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'wrapper' => [
                     'class' => 'form-group col-md-6',
                 ],
-            ],
+            ]
         ]);
 
         CRUD::addField([
@@ -400,6 +398,14 @@ class CustomerCrudController extends BackpackCustomCrudController
                     'name' => 'zip_code',
                     'type' => 'text',
                     'label' => 'Zip Code',
+                    'wrapper' => [
+                        'class' => 'form-group col-md-6',
+                    ],
+                ],
+                [
+                    'name' => 'phone',
+                    'type' => 'text',
+                    'label' => 'Phone',
                     'wrapper' => [
                         'class' => 'form-group col-md-6',
                     ],
@@ -541,7 +547,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'allows_null' => false,
             'tab' => 'ERP Information',
         ]);
-
         CRUD::addField([
             'name' => 'list_price',
             'label' => 'Default List Price (Your Price)',
@@ -710,6 +715,11 @@ class CustomerCrudController extends BackpackCustomCrudController
                 [
                     'name' => 'zip_code',
                     'label' => 'Zip Code',
+                    'type' => 'text',
+                ],
+                [
+                    'name' => 'phone',
+                    'label' => 'Phone',
                     'type' => 'text',
                 ],
             ],

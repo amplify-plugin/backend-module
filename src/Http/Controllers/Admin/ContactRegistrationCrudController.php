@@ -107,23 +107,21 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'name' => 'email',
             'label' => 'Email',
         ]);
-    }
-
-    /**
-     * Define what happens when a single raw is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     *
-     * @return void
-     */
-    protected function setupShowOperation()
-    {
         CRUD::addColumn([
-            'label' => 'Customer', // Table column heading
-            'name' => 'customer.customer_name', // the column that contains the I
+            'name' => 'phone',
+            'label' => 'Phone',
+            'type' => 'custom_html',
+            'value' => function ($contact) {
+
+                $phone = $contact->phone;
+
+                if (!empty($contact->phone_ext)) {
+                    $phone .= config("amplify.constant.phone_ext_delimiter", "ext") . $contact->phone_ext;
+                }
+
+                return $phone;
+            }
         ]);
-        CRUD::column('name');
-        CRUD::column('email');
     }
 
     /**
@@ -174,17 +172,39 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         CRUD::field('name')->type('text')->tab('Basic');
 
         CRUD::addField([
-            'name' => 'email',
-            'label' => 'Email',
+            'name' => 'accountTitle',
+            'label' => 'Account Title',
             'tab' => 'Basic',
-            'type' => 'email',
+            'type' => 'relationship',
+        ]);
+
+        CRUD::addField([
+            'name' => 'login_id',
+            'label' => 'Login ID',
+            'tab' => 'Basic',
+            'type' => 'text',
             'attributes' => [
                 'autocomplete' => 'off',
-                'id' => 'new-email-address',
+                'id' => 'new-account',
             ],
         ]);
 
-        CRUD::field('phone')->type('text')->tab('Basic');
+        CRUD::addFields([
+            [
+                'name' => 'phone',
+                'label' => 'Phone',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-9'],
+            ],
+            [
+                'name' => 'phone_ext',
+                'label' => 'Extension',
+                'type' => 'text',
+                'tab' => 'Basic',
+                'wrapper' => ['class' => 'form-group col-md-3'],
+            ]
+        ]);
 
         CRUD::addField([
             'name' => 'roles',

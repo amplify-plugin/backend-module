@@ -493,7 +493,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     private function scheduleTabFormat($request): array
     {
         $schedule_config['timezone'] = $request->input('timezone', 'UTC');
-        $schedule_config['logger_enabled'] = $request->boolean('logger_enabled', false);
         $schedule_config['commands.'.$request->input('default_command').'.enabled'] = $request->boolean('enabled',
             false);
         $schedule_config['commands.'.$request->input('default_command').'.interval'] = $request->input('interval',
@@ -514,9 +513,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             '*');
         $schedule_config['commands.'.$request->input('default_command').'.time.weekday'] = $request->input('time.weekday',
             '*');
-        $schedule_config['commands.'.$request->input('default_command').'.auto_update_enabled'] = $request->input('auto_update_enabled',
-            false);
-
         return $schedule_config;
     }
 

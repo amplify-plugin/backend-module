@@ -261,18 +261,6 @@
                     $parent.validationErrors.logger_enabled[0]
                 }}</small>
             </div>
-            <div class="form-group" v-if="scheduleConfigurationData.default_command == 'product_sync'">
-                <input
-                    type="checkbox"
-                    name="logger_enabled"
-                    v-model="scheduleConfigurationData.auto_update_enabled"
-                    :class="{ 'is-invalid': $parent.validationErrors.auto_update_enabled }"
-                />
-                <span>Enable Auto Update</span>
-                <small v-if="$parent.validationErrors.auto_update_enabled" class="text-danger mt-3">{{
-                    $parent.validationErrors.auto_update_enabled[0]
-                }}</small>
-            </div>
         </fieldset>
         <div id="saveActions" class="form-group">
             <button
@@ -316,7 +304,6 @@ export default {
                 variables: JSON.stringify({}),
                 timezone: this.$parent.coreConfigurationData.schedule.timezone ?? 'UTC',
                 logger_enabled: this.$parent.coreConfigurationData.schedule.logger_enabled ?? false,
-                auto_update_enabled: false,
                 time: {
                     minute: '',
                     hour: '',
@@ -382,8 +369,6 @@ export default {
                     this.scheduleConfigurationData.interval = value.interval ?? false;
                     this.scheduleConfigurationData.variables = JSON.stringify(value.variables ?? {});
                     this.scheduleConfigurationData.time = value.time ?? {};
-                    this.scheduleConfigurationData.auto_update_enabled = value.auto_update_enabled ?? false;
-                    console.log(value);
                     if (value.interval !== 'cron') {
                         this.scheduleConfigurationData.time = {};
                     }

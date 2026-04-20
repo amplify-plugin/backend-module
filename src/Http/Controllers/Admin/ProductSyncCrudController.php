@@ -128,12 +128,9 @@ class ProductSyncCrudController extends BackpackCustomCrudController
         CRUD::column('item_number');
         CRUD::column('update_action');
         CRUD::column('description_1');
+        CRUD::column('description_2');
         CRUD::column('list_price')->type('text');
-        if (config('amplify.client_code') == 'MW') {
-            CRUD::column('manufacturer');
-        }else{
-            CRUD::column('brand');
-        }
+        CRUD::column('brand');
         CRUD::column('allow_backorder')->type('boolean');
         CRUD::column('created_at');
     }

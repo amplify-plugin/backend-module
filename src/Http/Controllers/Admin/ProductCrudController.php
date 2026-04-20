@@ -1371,7 +1371,9 @@ class ProductCrudController extends BackpackCustomCrudController
                 break;
             default:
                 $product->product_code = $product_code;
-                $existingProduct = Product::where('product_code', $product->product_code)->first();
+                $existingProduct = Product::where('product_code', $product->product_code)
+                    ->where('id', '!=', $product->id)
+                    ->first();
                 if ($existingProduct) {
                     Alert::warning('Product code already exists')->flash();
 

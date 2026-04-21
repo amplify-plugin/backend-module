@@ -302,7 +302,7 @@ class ProductCrudController extends BackpackCustomCrudController
 
         CRUD::enableExportButtons();
 
-        if (!backpack_user()->can('product.create') && !(is_super_admin())) {
+        if (! backpack_user()->can('product.create') && ! (is_super_admin())) {
             CRUD::removeButton('create');
         }
         if (backpack_user()->can('product.publish')) {
@@ -311,6 +311,18 @@ class ProductCrudController extends BackpackCustomCrudController
         if (backpack_user()->can('product.unpublish')) {
             CRUD::addButtonFromModelFunction('line', 'status_unpublish', 'statusUnpublish', 'end');
         }
+
+        $rootId = config('amplify.sayt.default_catalog');
+
+        $root = Category::query()->select('lft', 'rgt')
+            ->findOrFail($rootId);
+
+        $this->crud->query->where(function ($q) use ($root) {
+            $q->whereHas('categories', function ($query) use ($root) {
+                $query->whereBetween('categories.lft', [$root->lft, $root->rgt]);
+            })
+                ->orWhereDoesntHave('categories');
+        });
 
         CRUD::addFilter([
             'name' => 'status',
@@ -346,7 +358,7 @@ class ProductCrudController extends BackpackCustomCrudController
                     $productClassification = ProductClassification::with('children')
                         ->where('parent_id', null)
                         ->get()
-                        ->sortBy(fn($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
+                        ->sortBy(fn ($item) => $item->getLabelAttribute(), SORT_NATURAL | SORT_FLAG_CASE)
                         ->values()
                         ->toArray();
                     array_unset_recursive($productClassification, 'children');
@@ -532,7 +544,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 'model' => ProductClassification::class,
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('productClassification', function ($q) use ($searchTerm) {
-                        $q->where('title', 'like', '%' . $searchTerm . '%');
+                        $q->where('title', 'like', '%'.$searchTerm.'%');
                     });
                 },
             ]);
@@ -559,7 +571,7 @@ class ProductCrudController extends BackpackCustomCrudController
                 'entity' => 'modelCodes',
                 'searchLogic' => function ($query, $column, $searchTerm) {
                     $query->orWhereHas('modelCodes', function ($q) use ($searchTerm) {
-                        $q->where('code', 'like', '%' . $searchTerm . '%');
+                        $q->where('code', 'like', '%'.$searchTerm.'%');
                     });
                 },
             ]);

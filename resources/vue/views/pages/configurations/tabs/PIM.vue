@@ -241,72 +241,84 @@
       </div>
       <div class="form-group">
         <label>UOM – Unit of Measurements</label>
-        <table class="table table-striped table-hover table-sm">
-          <thead>
-          <tr class="text-center align-baseline">
-            <th>Code</th>
-            <th>Label</th>
-            <th width="35">
-              <button
-                  type="button"
-                  style="width: 35px; height: 35px"
-                  role="button"
-                  @click.prevent="() => pimConfigurationData.unit_of_measurements.push({code: '', label: ''})"
-                  class="btn btn-sm btn-primary">
-                <b>+</b>
-              </button>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(uom, index) in pimConfigurationData.unit_of_measurements" :key="index">
-            <td>
-              <input class="form-control"
-                     type="text"
-                     required
-                     min="5"
-                     max="255"
-                     v-model="uom.code"
-              >
-            </td>
-            <td>
-              <input class="form-control"
-                     type="text"
-                     required
-                     min="5"
-                     max="255"
-                     v-model="uom.label"
-              >
-            </td>
-            <td width="35">
-              <button
-                  type="button"
-                  role="button"
-                  style="width: 35px; height: 35px"
-                  @click.prevent="() => pimConfigurationData.unit_of_measurements.splice(index,1)"
-                  class="btn btn-sm btn-danger">
-                <b>-</b>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr class="text-center align-baseline">
-            <th>Code</th>
-            <th>Label</th>
-            <th width="35">
-              <button
-                  type="button"
-                  style="width: 35px; height: 35px"
-                  role="button"
-                  @click.prevent="() => pimConfigurationData.unit_of_measurements.push({code: '', label: ''})"
-                  class="btn btn-sm btn-primary">
-                <b>+</b>
-              </button>
-            </th>
-          </tr>
-          </tfoot>
-        </table>
+        <div class="table-responsive table-uom">
+          <table class="table table-striped table-hover table-sm">
+            <thead>
+            <tr class="text-center align-baseline">
+              <th>Code</th>
+              <th>Label</th>
+              <th>Quantity</th>
+              <th width="35">
+                <button
+                    type="button"
+                    style="width: 35px; height: 35px"
+                    role="button"
+                    @click.prevent="() => pimConfigurationData.unit_of_measurements.push({code: '', label: '', quantity: 1})"
+                    class="btn btn-sm btn-primary">
+                  <b>+</b>
+                </button>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(uom, index) in pimConfigurationData.unit_of_measurements" :key="index">
+              <td>
+                <input class="form-control"
+                       type="text"
+                       required
+                       min="5"
+                       max="255"
+                       v-model="uom.code"
+                >
+              </td>
+              <td>
+                <input class="form-control"
+                       type="text"
+                       required
+                       min="5"
+                       max="255"
+                       v-model="uom.label"
+                >
+              </td>
+              <td>
+                <input class="form-control"
+                       type="number"
+                       required
+                       step="any"
+                       v-model="uom.quantity"
+                >
+              </td>
+              <td width="35">
+                <button
+                    type="button"
+                    role="button"
+                    style="width: 35px; height: 35px"
+                    @click.prevent="() => pimConfigurationData.unit_of_measurements.splice(index,1)"
+                    class="btn btn-sm btn-danger">
+                  <b>-</b>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr class="text-center align-baseline">
+              <th>Code</th>
+              <th>Label</th>
+              <th>Quantity</th>
+              <th width="35">
+                <button
+                    type="button"
+                    style="width: 35px; height: 35px"
+                    role="button"
+                    @click.prevent="() => pimConfigurationData.unit_of_measurements.push({code: '', label: '', quantity: 1})"
+                    class="btn btn-sm btn-primary">
+                  <b>+</b>
+                </button>
+              </th>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </fieldset>
     <div id="saveActions" class="form-group">
@@ -328,7 +340,7 @@ export default {
   components: {},
   data() {
     return {
-      productStatues : this.$parent.coreConfigurationData.pim.product_statuses ?? {},
+      productStatues: this.$parent.coreConfigurationData.pim.product_statuses ?? {},
       pimConfigurationData: {
         tab: 'pim',
         mandatory_fields: this.$parent.coreConfigurationData.pim.mandatory_fields ?? [],
@@ -343,10 +355,34 @@ export default {
         default_status: this.$parent.coreConfigurationData.pim.default_status ?? '',
         unit_of_measurements: this.$parent.coreConfigurationData.pim.unit_of_measurements ?? [{
           code: 'EA',
-          label: 'Each'
+          label: 'Each',
+          quantity: 1
         }]
       },
     };
   },
 };
 </script>
+<style scoped lang="css">
+.table-uom {
+  max-height: 500px;
+  overflow: auto;
+  position: relative;
+}
+
+table > thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 40, 100, 0.12);
+}
+
+table > tfoot th {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background-color: #fff;
+  border-top: 1px solid rgba(0, 40, 100, 0.12);
+}
+</style>

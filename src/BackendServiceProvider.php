@@ -12,6 +12,7 @@ use Amplify\System\Backend\Commands\AddProductSlugCommand;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,6 +59,8 @@ class BackendServiceProvider extends ServiceProvider
                 AddProductSlugCommand::class
             ]);
         }
+
+        Blade::componentNamespace('Amplify\\System\\Backend\\Components', 'backend');
 
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');

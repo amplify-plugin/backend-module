@@ -1383,7 +1383,11 @@ class ProductCrudController extends BackpackCustomCrudController
                 break;
             default:
                 $product->product_code = $product_code;
-                $existingProduct = Product::where('product_code', $product->product_code)->first();
+                $existingProduct = Product::where('product_code', $product->product_code)
+                    ->when(config('amplify.pim.use_product_code_unique_check', true), function ($query) use ($product) {
+                        $query->where('id', '!=', $product->id);
+                    })
+                    ->first();
                 if ($existingProduct) {
                     Alert::warning('Product code already exists')->flash();
 

@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use stdClass;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait ProductTrait
 {
@@ -542,7 +543,26 @@ trait ProductTrait
         $product = Product::query()
             ->select($select)
             ->with($with)
-            ->findOrFail(request()->id);
+            ->when(filled(request('id')), function ($query) {
+                $query->where('id', request('id'));
+            })
+            ->when(filled(request('search_key')), function ($query) {
+                $key = trim((string) request('search_key'));
+
+                $query->where(function ($q) use ($key) {
+                    // only treat as ID if it's strictly digits (e.g. "40"), not "40-0001"
+                    if (ctype_digit($key)) {
+                        $q->where('id', (int) $key);
+                    }
+
+                    $q->orWhere('product_code', $key);
+                });
+            })
+            ->first();
+
+        if (empty($product)) {
+            throw new NotFoundHttpException('Product not found.');
+        }
 
         if (request()->productClassificationId) {
             $product->product_classification_id = request()->productClassificationId;

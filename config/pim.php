@@ -32,4 +32,24 @@ return [
     'unit_of_measurements' => [
         ['code' => 'ea', 'label' => 'Each', 'quantity' => 1],
     ],
+    'product_images' => [
+        // staging images are here (relative to disk root)
+        'scanning_folder' => env('AMPLIFY_PRODUCT_IMAGE_SCANNING_FOLDER'),
+
+        // both staging and output will use this disk (your uploads disk)
+        'disk' => env('AMPLIFY_PRODUCT_IMAGE_DISK', 'uploads'),
+
+        // output base folder inside uploads disk
+        'output_base_folder' => env('AMPLIFY_PRODUCT_IMAGE_OUTPUT_BASE', 'image/product'),
+
+        // which product field to match with file code
+        'product_code_column' => env('AMPLIFY_PRODUCT_IMAGE_PRODUCT_CODE_COLUMN', 'product_code'),
+
+        // file extensions allowed
+        'allowed_ext' => ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+
+        // queue / chunk settings
+        'scan_file_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_SCAN_FILE_CHUNK', 2000),
+        'code_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_CODE_CHUNK', 500),
+    ],
 ];

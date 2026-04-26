@@ -9,6 +9,7 @@ use Amplify\System\Backend\Commands\CleanAuditCommand;
 use Amplify\System\Backend\Commands\CleanEmailLogCommand;
 use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
+use Amplify\System\Backend\Commands\UpdateProductImageFromStorage;
 use Amplify\System\Backend\Models\Attribute;
 use Amplify\System\Backend\Models\Category;
 use Amplify\System\Backend\Models\Product;
@@ -64,6 +65,7 @@ class BackendServiceProvider extends ServiceProvider
                 CleanEmailLogCommand::class,
                 CustomerRegisteredReportCommand::class,
                 AddProductSlugCommand::class,
+                UpdateProductImageFromStorage::class,
             ]);
         }
 
@@ -117,6 +119,12 @@ class BackendServiceProvider extends ServiceProvider
                     $schedule->command(BackupRunCommand::class)
                         ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
                         ->dailyAt('02:00')
+                        ->withoutOverlapping()
+                        ->onOneServer();
+
+                    $schedule->command(UpdateProductImageFromStorage::class, ['--rescan' => true])
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->dailyAt('02:30')
                         ->withoutOverlapping()
                         ->onOneServer();
                 }

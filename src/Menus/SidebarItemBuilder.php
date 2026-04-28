@@ -9,11 +9,12 @@ class SidebarItemBuilder
     protected array $data = [
         'label' => '',
         'url' => null,
-        'icon' => '',
+        'icon' => 'la la-question',
         'children' => [],
         'permission' => null,
         'canAny' => [],
         'is_group' => false,
+        'condition' => null,
     ];
 
     public function __construct(Sidebar $parent, string $label, bool $isGroup = false)
@@ -41,7 +42,7 @@ class SidebarItemBuilder
         return $this;
     }
 
-    public function canAny(array $permissions): self
+    public function canAny(...$permissions): self
     {
         $this->data['canAny'] = $permissions;
         return $this;
@@ -50,9 +51,11 @@ class SidebarItemBuilder
     public function items($callback): self
     {
         $menu = new static($this->parent, '');
+        
         $callback($menu);
 
-        $this->data['children'] = $menu->collectChildren();
+        $this->data['children'] = array_merge($this->data['children'], $menu->data['children']);
+
         return $this;
     }
 
@@ -63,15 +66,25 @@ class SidebarItemBuilder
         return $child;
     }
 
-    protected function collectChildren(): array
+    public function group(string $label): self
     {
-        return collect($this->data['children'])
-            ->map(fn($child) => $child->toArray())
-            ->all();
+        $child = new static($this->parent, $label, true);
+        $this->data['children'][] = $child;
+        return $child;
     }
 
     public function resolve(): ?array
     {
+        if ($this->data['condition'] !== null) {
+            $condition = $this->data['condition'];
+            if (is_callable($condition)) {
+                $condition = call_user_func($condition);
+            }
+            if (!$condition) {
+                return null;
+            }
+        }
+
         if ($this->data['permission'] && !auth()->user()?->can($this->data['permission'])) {
             return null;
         }
@@ -102,6 +115,29 @@ class SidebarItemBuilder
 
     public function toArray(): array
     {
-        return $this->data;
+        $data = $this->data;
+        $data['children'] = collect($this->data['children'])->map(fn($child) => $child->toArray())->all();
+        return $data;
+    }
+
+    public function getChildren(): array
+    {
+        return $this->data['children'];
+    }
+
+    public function isGroup(): bool
+    {
+        return $this->data['is_group'];
+    }
+
+    public function getLabel(): string
+    {
+        return $this->data['label'];
+    }
+
+    public function if($condition): self
+    {
+        $this->data['condition'] = $condition;
+        return $this;
     }
 }

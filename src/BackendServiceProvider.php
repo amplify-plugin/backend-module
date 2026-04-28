@@ -9,15 +9,21 @@ use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
 use Amplify\System\Backend\Commands\AddProductSlugCommand;
+use Amplify\System\Backend\Menus\Sidebar;
+use Amplify\System\Backend\Menus\SidebarItemBuilder;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
+use Amplify\System\Backend\Traits\HasBackendMenu;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
 {
+    use HasBackendMenu;
+
     /**
      * Register services.
      */
@@ -34,6 +40,7 @@ class BackendServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {
@@ -116,7 +123,10 @@ class BackendServiceProvider extends ServiceProvider
                         ->onOneServer();
                 }
             }
+
         });
+
+            $this->registerMenus();
     }
 
     private function loadObservers(): void

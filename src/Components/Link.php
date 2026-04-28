@@ -71,6 +71,6 @@ class Link extends Component
 
     public function render()
     {
-        return view('components.sidebar-item');
+        return view('backend::sidebar.link');
     }
 }

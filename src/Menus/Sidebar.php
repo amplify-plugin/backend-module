@@ -10,7 +10,7 @@ class Sidebar
 
     public static function make(): self
     {
-        return new self();
+        return new static();
     }
 
     public function __construct()
@@ -27,9 +27,29 @@ class Sidebar
 
     public function group(string $label): SidebarItemBuilder
     {
-        $item = new SidebarItemBuilder($this, $label, true);
-        $this->items->push($item);
-        return $item;
+        $parts = explode('.', $label);
+        $current = null;
+        $container = $this->items;
+
+        foreach ($parts as $part) {
+            $found = null;
+            foreach ($container as $item) {
+                if ($item->getLabel() === $part && $item->isGroup()) {
+                    $found = $item;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $found = new SidebarItemBuilder($this, $part, true);
+                $container->push($found);
+            }
+
+            $current = $found;
+            $container = collect($current->getChildren());
+        }
+
+        return $current;
     }
 
     public function all(): Collection
@@ -45,23 +65,27 @@ class Sidebar
             ->values();
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function render(): string
     {
-        $userId = auth()->id() ?? session()->getId();
-        $cacheKey = "sidebar.{$userId}";
+//        $userId = auth()->id() ?? session()->getId();
+//
+//        $cacheKey = "sidebar.{$userId}";
 
-        if (session()->has($cacheKey)) {
-            return session($cacheKey);
-        }
+//        if (session()->has($cacheKey)) {
+//            return session($cacheKey);
+//        }
 
         $items = $this->build();
 
-        $html = view('components.sidebar', [
+        $html = view('backend::sidebar.index', [
             'links' => $items,
             'grouped' => false,
         ])->render();
 
-        session([$cacheKey => $html]);
+//        session([$cacheKey => $html]);
 
         return $html;
     }

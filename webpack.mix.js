@@ -1,5 +1,8 @@
 const mix = require('laravel-mix');
 const webpack = require('webpack');
+const path = require("path");
+const fs = require("fs");
+const {exec} = require("child_process");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,6 +14,28 @@ const webpack = require('webpack');
  |
  */
 
+class PublishBackendAssets {
+    apply(compiler) {
+        compiler.hooks.done.tap('RunCommandIfArtisanExists', (stats) => {
+            if (stats.hasErrors()) return;
+
+            // adjust path relative to your webpack.mix.js
+            const artisanPath = path.resolve(__dirname, '../../artisan');
+
+            if (fs.existsSync(artisanPath)) {
+                exec('php ../../artisan vendor:publish --tag=backend-asset --ansi --force', (err, stdout, stderr) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    console.log(stdout);
+                });
+            } else {
+                console.log('artisan file not found, skipping...');
+            }
+        });
+    }
+}
 
 mix.options({
     processCssUrls: false,
@@ -43,6 +68,7 @@ mix.options({
             new webpack.ProvidePlugin({
                 Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
             }),
+            new PublishBackendAssets(),
         ],
         output: {
             chunkFilename: 'js/[name].js',

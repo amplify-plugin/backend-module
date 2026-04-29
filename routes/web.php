@@ -6,6 +6,7 @@
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
 
+use Amplify\System\Backend\Http\Controllers\Admin\BulkProductImageUpdateController;
 use Amplify\System\Backend\Http\Controllers\Admin\ContactCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\CustomerGroupCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventActionCrudController;
@@ -316,3 +317,8 @@ Route::post('campaign-store', [CampaignCrudController::class, 'store'])->name('a
 Route::put('campaign-update/{campaign?}', [CampaignCrudController::class, 'update'])->name('admin.campaign.update');
 
 Route::view('google-analytic', 'backend::google-analytics.index');
+
+// Image add to bulk-products
+Route::get('products/bulk-image-update', [BulkProductImageUpdateController::class, 'imageForBulkProducts']);
+Route::post('products/bulk-image-update', [BulkProductImageUpdateController::class, 'updateProductImages'])
+    ->name('products.bulk-image.update');

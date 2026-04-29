@@ -13,7 +13,6 @@ use Amplify\System\Backend\Http\Controllers\Admin\EventActionCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventVariableCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ClassificationCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ProductCrudController;
-use Amplify\System\Backend\Http\Controllers\Admin\ProductSyncCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ServerInfoController;
 use Amplify\System\Backend\Http\Controllers\Admin\SiteCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\SystemConfigurationCrudController;
@@ -294,13 +293,6 @@ Route::get('disks', function () {
     return config('filesystems.disks');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Product Sync routes
-|--------------------------------------------------------------------------
-*/
-Route::get('product-sync/{id}/process', [ProductSyncCrudController::class, 'process'])->name('product-sync.process');
-Route::post('product-sync/bulk-process', [ProductSyncCrudController::class, 'bulkProcess'])->name('admin.product-sync.bulk');
 
 /*
 |----------------------------------------------------------------------------

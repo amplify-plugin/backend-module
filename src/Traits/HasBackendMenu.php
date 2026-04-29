@@ -230,10 +230,9 @@ trait HasBackendMenu
                     ->if(fn() => backpack_user()->isAdmin())
                     ->url(backpack_url('mail-log'));
 
-                $utilities->item('Catalog Synchronization')
+                $utilities->item('Synchronization')
                     ->icon('la la-sync')
                     ->can('synchronization.list')
-                    ->if(fn() => !config('amplify.schedule.commands.product_sync.auto_update_enabled'))
                     ->url(backpack_url('synchronization'));
             });
 

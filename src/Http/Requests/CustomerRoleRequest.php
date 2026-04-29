@@ -29,10 +29,11 @@ class CustomerRoleRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('roles')->ignore(request()->route('id'))->where(function ($query) {
-                    return $query->where('team_id', '=', request('team_id'));
+                Rule::unique('roles')->ignore($this->route('id'))->where(function ($query) {
+                    return $query->where('team_id', '=', $this->input('team_id'));
                 }),
             ],
+            'team_id' => ['required', "exists:customers,id", 'integer'],
         ];
 
         return $rules;

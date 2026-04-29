@@ -55,6 +55,7 @@ mix.options({
     .sass('resources/scss/backend.scss', 'public/css/backend.css')
     .copyDirectory('resources/js', 'public/js/')
     .copyDirectory('resources/css', 'public/css/')
+    .copyDirectory('resources/img', 'public/img/')
     .js('resources/vue/app.js', 'public/js/backend.js')
     .vue()
     .copy('resources/js/crud.js', 'public/js/crud.js')

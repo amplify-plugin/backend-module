@@ -35,7 +35,7 @@ class ShippingCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Shipping::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/shipping');
-        CRUD::setEntityNameStrings('shippings', 'shippings');
+        CRUD::setEntityNameStrings('shipping-option', 'shipping-options');
     }
 
     /**

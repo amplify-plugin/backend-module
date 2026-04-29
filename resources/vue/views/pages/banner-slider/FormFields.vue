@@ -403,7 +403,7 @@ export default {
                     name: "Left",
                     value: "left",
                     icon: "la la-align-left",
-                    image: '/img/img-right.png'
+                    image: '/vendor/backend/img/img-right.png'
                 },
                 {
                     name: "Center",
@@ -416,7 +416,7 @@ export default {
                     name: "Right",
                     value: "right",
                     icon: "la la-align-right",
-                    image: '/img/img-left.png'
+                    image: '/vendor/backend/img/img-left.png'
 
                 },
             ],

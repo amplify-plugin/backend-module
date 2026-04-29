@@ -19,11 +19,11 @@ use Illuminate\Http\Request;
 use InvalidArgumentException;
 
 /**
- * Class ProductSyncCrudController
+ * Class SynchronizationCrudController
  *
  * @property-read CrudPanel $crud
  */
-class ProductSyncCrudController extends BackpackCustomCrudController
+class SynchronizationCrudController extends BackpackCustomCrudController
 {
     use DeleteOperation;
     use ListOperation;

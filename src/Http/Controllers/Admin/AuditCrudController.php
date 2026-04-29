@@ -5,6 +5,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\User;
+use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
@@ -30,7 +31,7 @@ class AuditCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Audit::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/audit');
-        CRUD::setEntityNameStrings('audit', 'activity logs');
+        CRUD::setEntityNameStrings('activity-log', 'activity logs');
     }
 
     /**
@@ -39,6 +40,7 @@ class AuditCrudController extends BackpackCustomCrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      *
      * @return void
+     * @throws BackpackProRequiredException
      */
     protected function setupListOperation()
     {

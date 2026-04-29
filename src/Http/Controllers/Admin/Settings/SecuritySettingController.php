@@ -26,7 +26,7 @@ class SecuritySettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/security-setting');
-        CRUD::setEntityNameStrings('Security Setting', 'Security Settings');
+        CRUD::setEntityNameStrings('security-setting', 'Security Settings');
     }
 
     /**

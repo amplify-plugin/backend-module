@@ -26,7 +26,7 @@ class GoogleSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/google-setting');
-        CRUD::setEntityNameStrings('Google API Setting', 'Google API Settings');
+        CRUD::setEntityNameStrings('google-api-setting', 'Google API Settings');
     }
 
     /**

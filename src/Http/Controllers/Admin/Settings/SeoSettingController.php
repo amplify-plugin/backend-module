@@ -26,7 +26,7 @@ class SeoSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/seo-setting');
-        CRUD::setEntityNameStrings('SEO Setting', 'SEO Settings');
+        CRUD::setEntityNameStrings('seo-setting', 'SEO Settings');
     }
 
     public function getSettingName(): string

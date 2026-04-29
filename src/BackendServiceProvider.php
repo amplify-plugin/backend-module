@@ -2,13 +2,13 @@
 
 namespace Amplify\System\Backend;
 
-use Amplify\System\Backend\Commands\AddProductSlugCommand;
-use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\CleanApiLogCommand;
 use Amplify\System\Backend\Commands\CleanAuditCommand;
 use Amplify\System\Backend\Commands\CleanEmailLogCommand;
 use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
+use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
+use Amplify\System\Backend\Commands\AddProductSlugCommand;
 use Amplify\System\Backend\Commands\UpdateProductImageFromStorage;
 use Amplify\System\Backend\Models\Attribute;
 use Amplify\System\Backend\Models\Category;
@@ -19,12 +19,16 @@ use Amplify\System\Backend\Observers\ProductObserver;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
+use Amplify\System\Backend\Traits\HasBackendMenu;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
 {
+    use HasBackendMenu;
+
     /**
      * Register services.
      */
@@ -42,6 +46,7 @@ class BackendServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {
@@ -69,6 +74,8 @@ class BackendServiceProvider extends ServiceProvider
             ]);
         }
 
+        Blade::componentNamespace('Amplify\\System\\Backend\\Components', 'backend');
+
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');
@@ -83,7 +90,7 @@ class BackendServiceProvider extends ServiceProvider
 
             if ($this->app->runningInConsole()) {
 
-                $schedule = app(Schedule::class);
+                $schedule = app(\Illuminate\Console\Scheduling\Schedule::class);
 
                 if (config('app.env') === 'production') {
                     $schedule->command(SyncPermissionCommand::class)
@@ -129,7 +136,10 @@ class BackendServiceProvider extends ServiceProvider
                         ->onOneServer();
                 }
             }
+
         });
+
+            $this->registerMenus();
     }
 
     private function loadObservers(): void

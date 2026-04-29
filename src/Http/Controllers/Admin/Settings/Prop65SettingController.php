@@ -26,7 +26,7 @@ class Prop65SettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/prop65-setting');
-        CRUD::setEntityNameStrings('Prop65 Setting', 'Prop65 Settings');
+        CRUD::setEntityNameStrings('prop65-setting', 'Prop65 Settings');
     }
 
     /**

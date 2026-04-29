@@ -14,26 +14,18 @@ class SingletonServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
+    public function register(): void
     {
-        $this->app->singleton('instanceManager', function ($app) {
-            return new InstanceManagerService;
-        });
+        $this->app->singleton('instanceManager', fn() => new InstanceManagerService);
 
-        $this->app->singleton('msg', function () {
-            return new Messenger;
-        });
+        $this->app->singleton('msg', fn () => new Messenger);
 
-        $this->app->singleton('CenPos', function () {
-            return new CenPosPaymentGateway;
-        });
+        $this->app->singleton('CenPos', fn () => new CenPosPaymentGateway);
 
-        $this->app->singleton(PayApiService::class, function () {
-            return new PayApiService;
-        });
+        $this->app->singleton(PayApiService::class, fn () => new PayApiService);
 
-        $this->app->singleton(PunchOutApiService::class, function () {
-            return new PunchOutApiService;
-        });
+        $this->app->singleton(PunchOutApiService::class, fn () =>new PunchOutApiService);
+
+        $this->app->singleton('sidebar', fn() => \Amplify\System\Backend\Menus\Sidebar::make());
     }
 }

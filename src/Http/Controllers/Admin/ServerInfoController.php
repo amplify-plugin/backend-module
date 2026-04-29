@@ -7,16 +7,24 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Number;
 use PDO;
 
 class ServerInfoController extends Controller
 {
     public function __invoke(): View|Application|Factory|array|\Illuminate\Contracts\Foundation\Application
     {
-        $storage = preg_split('/\s+/', exec('df -h --output=source,size,used,avail,pcent /'));
+        $path = base_path(); // Laravel project root
+
+        $total = disk_total_space($path);
+        $free  = disk_free_space($path);
+        $used  = $total - $free;
+        $percent = round(($used / $total) * 100);
+        $total = Number::fileSize($total);
+        $used = Number::fileSize($used);
 
         $statistics = [
-            ['Server Storage', "{$storage[2]}/{$storage[1]} ($storage[4])"],
+            ['Server Storage', "{$used}/{$total} ($percent%)"],
             ['OS', php_uname()],
             ['Web Server', match (php_sapi_name()) {
                 'apache2handler' => 'Apache2',

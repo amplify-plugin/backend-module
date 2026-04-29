@@ -11,6 +11,7 @@ use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\UtilityHelper;
+use Backpack\CRUD\app\Exceptions\AccessDeniedException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -165,6 +166,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
      */
     public function showConfig()
     {
+        if(!backpack_user()->can('system-configuration.list')) {
+            throw new AccessDeniedException(trans('backpack::crud.unauthorized_access', ['access' => 'system-configuration.list']));
+        }
+
         $this->crud->setHeading('System Configuration', 'edit');
         $this->crud->setUpdateContentClass('col-md-12');
 

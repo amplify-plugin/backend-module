@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use InvalidArgumentException;
 
 /**
@@ -40,8 +41,23 @@ class SynchronizationCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(ProductSync::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/product-sync');
-        CRUD::setEntityNameStrings('product-sync', 'catalog synchronizations');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/synchronization');
+        CRUD::setEntityNameStrings('synchronization', 'synchronizations');
+    }
+
+    protected function setupCustomRoutes($segment, $routeName, $controller): void
+    {
+        Route::get($segment.'/{id}/process', [
+            'as' => $routeName.'.process',
+            'uses' => $controller.'@process',
+            'operation' => 'process',
+        ]);
+
+        Route::get($segment.'/bulk-process', [
+            'as' => $routeName.'.bulk-process',
+            'uses' => $controller.'@bulkProcess',
+            'operation' => 'bulkProcess',
+        ]);
     }
 
     /**
@@ -107,11 +123,11 @@ class SynchronizationCrudController extends BackpackCustomCrudController
 
         $this->crud->enableBulkActions();
 
-        $this->crud->addButtonFromView('top', 'bulk_process', 'bulk_sync_process', 'beginning');
+        $this->crud->addButton('top', 'bulk_process', 'view', 'backend::buttons.bulk_sync_process', 'beginning');
 
         $this->crud->removeButton('update');
 
-        $this->crud->addButtonFromView('line', 'process', 'sync_process', 'beginning');
+        $this->crud->addButton('line', 'process', 'view', 'backend::buttons.sync_process', 'beginning');
 
         CRUD::addColumn([
             'name' => 'id',

@@ -53,7 +53,7 @@ class SynchronizationCrudController extends BackpackCustomCrudController
             'operation' => 'process',
         ]);
 
-        Route::get($segment.'/bulk-process', [
+        Route::post($segment.'/bulk-process', [
             'as' => $routeName.'.bulk-process',
             'uses' => $controller.'@bulkProcess',
             'operation' => 'bulkProcess',

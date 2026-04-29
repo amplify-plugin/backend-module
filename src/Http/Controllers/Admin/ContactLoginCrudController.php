@@ -35,7 +35,7 @@ class ContactLoginCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ContactLogin::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/contact-login');
-        CRUD::setEntityNameStrings('contact-login', 'contact-logins');
+        CRUD::setEntityNameStrings('contact-login', 'contact logins');
     }
 
     /**

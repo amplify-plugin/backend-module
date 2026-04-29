@@ -26,7 +26,7 @@ class OrderSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/order-setting');
-        CRUD::setEntityNameStrings('Order Setting', 'Order Settings');
+        CRUD::setEntityNameStrings('order-setting', 'Order Settings');
     }
 
     /**

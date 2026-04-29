@@ -26,7 +26,7 @@ class CmsSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/cms-setting');
-        CRUD::setEntityNameStrings('CMS Setting', 'CMS Settings');
+        CRUD::setEntityNameStrings('cms-setting', 'CMS Settings');
     }
 
     /**

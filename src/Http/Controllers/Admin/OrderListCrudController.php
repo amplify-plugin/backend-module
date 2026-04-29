@@ -13,11 +13,11 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ListsCrudController
+ * Class OrderListCrudController
  *
  * @property-read CrudPanel $crud
  */
-class CustomerListCrudController extends BackpackCustomCrudController
+class OrderListCrudController extends BackpackCustomCrudController
 {
     use DeleteOperation;
     use ListOperation;
@@ -32,8 +32,8 @@ class CustomerListCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(OrderList::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/customer-list');
-        CRUD::setEntityNameStrings('customer-list', 'customer lists');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/order-list');
+        CRUD::setEntityNameStrings('order-list', 'order lists');
     }
 
     /**

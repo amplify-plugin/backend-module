@@ -47,7 +47,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/contact-registration');
-        CRUD::setEntityNameStrings('contact-registration', 'contact register requests');
+        CRUD::setEntityNameStrings('account-request', 'account requests');
 
         CRUD::denyAccess('create');
         CRUD::addBaseClause('orWhereNull', 'enabled_at');

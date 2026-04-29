@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\DB;
  * @property array $units
  * @property array $types
  */
-class ProductClassificationCrudController extends BackpackCustomCrudController
+class ClassificationCrudController extends BackpackCustomCrudController
 {
     use CreateOperation;
     use DeleteOperation;
@@ -76,7 +76,7 @@ class ProductClassificationCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ProductClassification::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/classification');
-        CRUD::setEntityNameStrings('product-classification', 'product classifications');
+        CRUD::setEntityNameStrings('classification', 'classifications');
     }
 
     /**

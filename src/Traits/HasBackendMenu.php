@@ -23,111 +23,157 @@ trait HasBackendMenu
 
         $sidebar->group('Catalog')
             ->icon('la la-clipboard')
-            ->canAny()
+            ->canAny('category.list', 'classification.list', 'product.list',
+                'custom-product.list', 'attribute.list', 'option.list', 'document-type.list',
+                'product-image.list', 'catalog.list', 'brand.list', 'model-code.list',
+                'manufacturer.list', 'custom-part-number.list', 'relationship-type.list',
+                'product.bulk-image-update', 'product-relation.list'
+            )
             ->items(function ($catalog) {
                 $catalog->item('Catalogs')
+                    ->can('catalog.list')
                     ->icon('la la-tree')
                     ->url(backpack_url('catalog'));
 
                 $catalog->item('Categories')
+                    ->can('category.list')
                     ->icon('la la-list-alt')
                     ->url(backpack_url('category'));
 
                 $catalog->item('Classifications')
+                    ->can('classification.list')
                     ->icon('la la-medkit')
                     ->url(backpack_url('classification'));
 
                 $catalog->item('Products')
+                    ->can('product.list')
                     ->icon('la la-dropbox')
                     ->url(backpack_url('product'));
 
+                $catalog->item('Custom Products')
+                    ->can('custom-product.list')
+                    ->if(fn() => config('amplify.client_code') == 'RHS')
+                    ->icon('la la-dropbox')
+                    ->url(backpack_url('custom-product'));
+
                 $catalog->item('Attributes')
+                    ->can('attribute.list')
                     ->icon('la la-bolt')
                     ->url(backpack_url('attribute'));
 
+                $catalog->item('Model Codes')
+                    ->can('model-code.list')
+                    ->if(fn() => config('amplify.client_code') == 'RHS')
+                    ->icon('la la-code')
+                    ->url(backpack_url('model-code'));
+
                 $catalog->item('Options')
+                    ->can('option.list')
                     ->icon('la la-tasks')
                     ->url(backpack_url('option'));
 
                 $catalog->item('Document Types')
+                    ->can('document-type.list')
                     ->icon('la la-file-excel')
                     ->url(backpack_url('document-type'));
 
                 $catalog->item('Brands')
+                    ->can('brand.list')
                     ->icon('la la-image')
                     ->url(backpack_url('brand'));
 
                 $catalog->item('Manufacturers')
+                    ->can('manufacturer.list')
                     ->icon('las la-warehouse')
                     ->can('manufacturer.list')
                     ->url(backpack_url('manufacturer'));
 
                 $catalog->item('Custom Part Numbers')
+                    ->can('custom-part-number.list')
+                    ->if(fn() => config('amplify.client_code') == 'STV')
                     ->icon('la la-question')
                     ->url(backpack_url('custom-part-number'));
 
                 $catalog->item('Relationship Types')
+                    ->can('relationship-type.list')
                     ->icon('la la-question')
                     ->url(backpack_url('relationship-type'));
 
                 $catalog->item('Product Relations')
+                    ->can('product-relation.list')
                     ->icon('la la-question')
                     ->url(backpack_url('product-relation'));
 
-                $catalog->item('Bulk Image Update')
+                $catalog->item('Add Image to Products')
+                    ->can('product.add-image-to-products')
                     ->icon('la la-upload')
                     ->url(backpack_url('products/bulk-image-update'));
             });
 
         $sidebar->group('Customers')
             ->icon('las la-users')
+            ->canAny('industry-classification.list', 'customer.list', 'registration-request.list',
+                'contact.list', 'account-request.list', 'customer-group.list', 'customer-role.list',
+                'customer-permission.list', 'customer-address.list')
             ->items(function ($customers) {
                 $customers->item('Industry Classifications')
-                ->icon('las la-industry')
-                ->url(backpack_url('industry-classification'));
+                    ->can('industry-classification.list')
+                    ->icon('las la-industry')
+                    ->url(backpack_url('industry-classification'));
 
                 $customers->item('Account Titles')
-                ->icon('las la-file')
-                ->url(backpack_url('account-title'));
+                    ->can('account-title.list')
+                    ->icon('las la-file')
+                    ->url(backpack_url('account-title'));
 
                 $customers->item('Customers')
-                ->icon('las la-building')
-                ->url(backpack_url('customer'));
+                    ->can('customer.list')
+                    ->icon('las la-building')
+                    ->url(backpack_url('customer'));
 
                 $customers->item('Registration Requests')
-                ->icon('la la-file-archive-o')
-                ->url(backpack_url('customer-registration'));
+                    ->can('registration-request.list')
+                    ->if(fn() => !config('amplify.erp.auto_create_cash_customer'))
+                    ->icon('la la-file-archive-o')
+                    ->url(backpack_url('customer-registration'));
 
                 $customers->item('Contacts')
-                ->icon('la la-users')
-                ->url(backpack_url('contact'));
+                    ->can('contact.list')
+                    ->icon('la la-users')
+                    ->url(backpack_url('contact'));
 
                 $customers->item('Account Requests')
-                ->icon('la la-user-plus')
-                ->url(backpack_url('contact-registration'));
+                    ->can('account-request.list')
+                    ->icon('la la-user-plus')
+                    ->url(backpack_url('contact-registration'));
 
 
                 $customers->item('Customer Groups')
-                ->icon('las la-users')
-                ->url(backpack_url('customer-group'));
+                    ->can('customer-group.list')
+                    ->icon('las la-users')
+                    ->url(backpack_url('customer-group'));
 
                 $customers->item('Customer Roles')
-                ->icon('las la-id-card')
-                ->url(backpack_url('customer-role'));
+                    ->can('customer-role.list')
+                    ->icon('las la-id-card')
+                    ->url(backpack_url('customer-role'));
 
                 $customers->item('Customer Permissions')
-                ->icon('las la-user-slash')
-                ->url(backpack_url('customer-permission'));
+                    ->can('customer-permission.list')
+                    ->icon('las la-user-slash')
+                    ->url(backpack_url('customer-permission'));
 
                 $customers->item('Customer Address')
-                ->icon('la la-address-book')
-                ->url(backpack_url('customer-address'));
+                    ->can('customer-address.list')
+                    ->icon('la la-address-book')
+                    ->url(backpack_url('customer-address'));
             });
 
         $sidebar->group('Utilities')
             ->icon('las la-tools')
-            ->canAny('data-transformation.list', 'import-definition.list', 'import-job.list', 'icecat-definition.list',
-                'icecat-transformation.list', 'export.list', 'scheduled-job.list', 'backup.list')
+            ->canAny('data-transformation.list', 'import-definition.list',
+                'import-job.list', 'icecat-definition.list', 'export.list',
+                'icecat-transformation.list', 'scheduled-job.list', 'backup.list')
             ->items(function ($utilities) {
                 $utilities->item('Data Transformations')
                     ->icon('las la-exchange-alt')
@@ -149,30 +195,61 @@ trait HasBackendMenu
                     ->can('export.list')
                     ->url(backpack_url('export'));
 
-                $utilities->item('Scheduled Jobs')
-                    ->icon('lar la-clock')
-                    ->can('scheduled-job.list')
-                    ->url(backpack_url('scheduled-job'));
+//                $utilities->item('Scheduled Jobs')
+//                    ->icon('lar la-clock')
+//                    ->can('scheduled-job.list')
+//                    ->url(backpack_url('scheduled-job'));
 
                 $utilities->item('Backups')
                     ->icon('la la-hdd-o')
                     ->can('backup.list')
                     ->url(backpack_url('backup'));
 
-                $utilities->item('Queue Jobs')
-                    ->icon('las la-layer-group')
-                    ->if(fn() => config('amplify.schedule.logger_enabled'))
+                $utilities->item('Jobs')
+                    ->icon('las la-tasks')
+                    ->if(fn() => backpack_user()->isAdmin())
                     ->url(backpack_url('job'));
 
                 $utilities->item('Failed Jobs')
                     ->icon('las la-exclamation-triangle')
-                    ->can('failed-job.list')
+                    ->if(fn() => backpack_user()->isAdmin())
                     ->url(backpack_url('failed-job'));
 
                 $utilities->item('Server Info')
                     ->icon('la la-gears')
-                    ->can('server-info')
+                    ->if(fn() => backpack_user()->isAdmin())
                     ->url(backpack_url('server-info'));
+
+                $utilities->item('API Logs')
+                    ->icon('la la-hdd-o')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->url(backpack_url('api-log'));
+
+                $utilities->item('Mail Logs')
+                    ->icon('la la-envelope')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->url(backpack_url('mail-log'));
+
+                $utilities->item('Catalog Synchronization')
+                    ->icon('la la-sync')
+                    ->can('synchronization.list')
+                    ->if(fn() => !config('amplify.schedule.commands.product_sync.auto_update_enabled'))
+                    ->url(backpack_url('synchronization'));
+            });
+
+        $sidebar->group('Icecat')
+            ->if(fn() => !empty(config('amplify.icecat.icecat_username', '')))
+            ->icon('las la-code-branch')
+            ->canAny('icecat-definition.list', 'icecat-transformation.list')
+            ->items(function ($icecat) {
+                $icecat->item('Icecat Definitions')
+                    ->icon('la la-file-import')
+                    ->can('icecat-definition.list')
+                    ->url(backpack_url('icecat-definition'));
+
+                $icecat->item('Icecat Transformations')
+                    ->can('icecat-transformation.list')
+                    ->url(backpack_url('icecat-transformation'));
             });
 
         $sidebar->group('Orders')
@@ -200,10 +277,10 @@ trait HasBackendMenu
                     ->can('invoice.list')
                     ->url(backpack_url('invoice'));
 
-                $orders->item('Favorites')
+                $orders->item('Order List')
                     ->icon('las la-file-contract')
-                    ->can('customer-list.list')
-                    ->url(backpack_url('customer-list'));
+                    ->can('order-list.list')
+                    ->url(backpack_url('order-list'));
             });
 
         $sidebar->group('Locations')
@@ -228,8 +305,10 @@ trait HasBackendMenu
 
         $sidebar->group('CMS')
             ->icon('las la-toolbox')
-            ->canAny('template.list', 'menu-group.list', 'content.list', 'content-category.list', 'page.list', 'banner.list',
-                'banner-zone.list', 'footer.list', 'faq-category.list', 'faq.list', 'script-manager.list', 'robots-text.list', 'custom-style.list')
+            ->canAny('template.list', 'menu.list', 'menu-item.list', 'content.list',
+                'content-category.list', 'page.list', 'banner-item.list', 'banner-zone.list',
+                'footer.list', 'faq-category.list', 'faq.list', 'script.list', 'robots-text.list',
+                'custom-style.list', 'sitemap.list', 'localization.list')
             ->items(function ($cms) {
                 $cms->item('Templates')
                     ->icon('lar la-clipboard')
@@ -250,7 +329,7 @@ trait HasBackendMenu
                             ->can('content-category.list')
                             ->url(backpack_url('content-category'));
 
-                        $content->item('Content Items')
+                        $content->item('Contents')
                             ->icon('las la-edit')
                             ->can('content.list')
                             ->url(backpack_url('content'));
@@ -268,7 +347,7 @@ trait HasBackendMenu
 
                 $cms->group('Banners')
                     ->icon('las la-file-powerpoint')
-                    ->canAny('banner.list', 'banner-zone.list')
+                    ->canAny('banner-item.list', 'banner-zone.list')
                     ->items(function ($banners) {
                         $banners->item('Banner Zone')
                             ->icon('las la-file-image')
@@ -277,7 +356,7 @@ trait HasBackendMenu
 
                         $banners->item('Banner Item')
                             ->icon('las la-images')
-                            ->can('banner.list')
+                            ->can('banner-item.list')
                             ->url(backpack_url('banner'));
 
                     });
@@ -299,13 +378,13 @@ trait HasBackendMenu
 
                 $cms->item('Scripts')
                     ->icon('las la-scroll')
-                    ->can('script-manager.list')
-                    ->url(backpack_url('script-manager'));
+                    ->can('script.list')
+                    ->url(backpack_url('script'));
 
-                $cms->item('Google Analytics')
-                    ->icon('las la-chart-bar')
-                    ->can('script-manager.list')
-                    ->url(backpack_url('google-analytic'));
+//                $cms->item('Google Analytics')
+//                    ->icon('las la-chart-bar')
+//                    ->can('script-manager.list')
+//                    ->url(backpack_url('google-analytic'));
 
                 $cms->item('Robots Text')
                     ->icon('la la-robot')
@@ -323,7 +402,7 @@ trait HasBackendMenu
                     ->url(backpack_url('localization'));
             });
 
-        $sidebar->group('Ticketing')
+        $sidebar->group('Help Desk')
             ->icon('las la-ticket-alt')
             ->canAny('ticket.list', 'ticket-department.list')
             ->items(function ($ticketing) {
@@ -347,7 +426,7 @@ trait HasBackendMenu
                     ->can('form.list')
                     ->url(backpack_url('form'));
 
-                $forms->item('Form Responses')
+                $forms->item('Responses')
                     ->icon('las la-chart-area')
                     ->can('form-response.list')
                     ->url(backpack_url('form-response'));
@@ -355,7 +434,7 @@ trait HasBackendMenu
 
         $sidebar->group('Marketing')
             ->icon('las la-chalkboard')
-            ->canAny('campaign.list', 'landing-page.list', 'merchandising-zone.list', 'email.list', 'subscriber.list')
+            ->canAny('campaign.list', 'merchandising-zone.list', 'subscriber.list')
             ->items(function ($marketing) {
                 $marketing->item('Campaigns')
                     ->icon('las la-bullhorn')
@@ -375,54 +454,75 @@ trait HasBackendMenu
 
         $sidebar->group('Settings')
             ->icon('la la-cog')
+            ->canAny('shipping-option.list', 'threshold-range.list', 'system-configuration.list',
+                'cms-setting.list', 'security-setting.list', 'order-setting.list', 'invoice-setting.list',
+                'seo-setting.list', 'prop65-setting.list', 'google-api-setting.list', 'api-setting.list'
+            )
             ->items(function ($settings) {
-                $settings->item('Configuration')
+                $settings->item('System Configuration')
                     ->icon('las la-sliders-h')
                     ->url(backpack_url('system-config'));
 
                 $settings->group('Shipping')
                     ->icon('las la-shipping-fast')
-                    ->items(function ($shipping) use ($settings) {
+                    ->canAny('shipping-option.list', 'threshold-range.list')
+                    ->items(function ($shipping) {
                         $shipping->item('Shipping Options')
                             ->icon('la la-ship')
+                            ->can('shipping-option.list')
                             ->url(backpack_url('shipping'));
 
                         $shipping->item('Threshold Ranges')
                             ->icon('las la-sliders-h')
+                            ->can('threshold-range.list')
                             ->url(backpack_url('threshold-range'));
                     });
 
                 $settings->item('CMS')
+                    ->can('cms-setting.list')
                     ->icon('la la-file-contract')
                     ->url(backpack_url('cms-setting'));
 
                 $settings->item('Security')
+                    ->can('security-setting.list')
                     ->icon('la la-shield')
                     ->url(backpack_url('security-setting'));
 
                 $settings->item('Order')
+                    ->can('order-setting.list')
                     ->icon('la la-shopping-cart')
                     ->url(backpack_url('order-setting'));
 
                 $settings->item('Invoice')
+                    ->can('invoice-setting.list')
                     ->icon('la la-file')
                     ->url(backpack_url('invoice-setting'));
 
                 $settings->item('SEO')
+                    ->can('seo-setting.list')
                     ->icon('lab la-searchengin')
                     ->url(backpack_url('seo-setting'));
 
                 $settings->item('Prop65')
+                    ->can('prop65-setting.list')
                     ->icon('la la-exclamation-triangle')
                     ->url(backpack_url('prop65-setting'));
 
                 $settings->item('Google API')
+                    ->can('google-api-setting.list')
                     ->icon('la la-google')
                     ->url(backpack_url('google-setting'));
 
-                $settings->item('Amplify API')
+                $settings->item('API')
+                    ->can('api-setting.list')
                     ->icon('la la-android')
                     ->url(backpack_url('api-setting'));
+
+                $settings->item('Companies')
+                    ->can('company.list')
+                    ->icon('la la-building')
+                    ->url(backpack_url('company'));
+
             });
 
         $sidebar->group('Notification')
@@ -441,7 +541,7 @@ trait HasBackendMenu
 
                 $notification->item('Notifications')
                     ->icon('las la-share')
-                    ->can('event-action.list')
+                    ->can('notification.list')
                     ->url(backpack_url('event-action'));
             });
 
@@ -480,10 +580,18 @@ trait HasBackendMenu
             ->can('file-manager.list')
             ->url(backpack_url('filemanager'));
 
-        $sidebar->item('Catalog Synchronization')
-            ->icon('la la-sync')
-            ->can('product-sync.list')
-            ->if(fn() => !config('amplify.schedule.commands.product_sync.auto_update_enabled'))
-            ->url(backpack_url('product-sync'));
+        $sidebar->group('Event')
+            ->icon('las la-calendar')
+            ->canAny('event.list', 'event-type.list')
+            ->items(function ($event) {
+                $event->item('Event Types')
+                    ->icon('las la-list')
+                    ->can('event-type.list')
+                    ->url(backpack_url('event-type'));
+
+                $event->item('Event')
+                    ->icon('las la-calender-plus')
+                    ->can('event.list');
+            });
     }
 }

@@ -48,7 +48,7 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(Customer::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer-registration');
-        CRUD::setEntityNameStrings('customer-registration', 'registration requests');
+        CRUD::setEntityNameStrings('registration-request', 'registration requests');
 
         CRUD::addBaseClause('inactive');
     }

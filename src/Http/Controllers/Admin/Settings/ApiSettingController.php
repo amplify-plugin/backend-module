@@ -26,7 +26,7 @@ class ApiSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/api-setting');
-        CRUD::setEntityNameStrings('API Setting', 'API Settings');
+        CRUD::setEntityNameStrings('api-setting', 'API Settings');
     }
 
     /**

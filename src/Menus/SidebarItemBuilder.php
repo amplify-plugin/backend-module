@@ -85,13 +85,13 @@ class SidebarItemBuilder
             }
         }
 
-        if ($this->data['permission'] && !auth()->user()?->can($this->data['permission'])) {
+        if ($this->data['permission'] && !backpack_user()->can($this->data['permission'])) {
             return null;
         }
 
         if (!empty($this->data['canAny'])) {
             $allowed = collect($this->data['canAny'])
-                ->contains(fn($p) => auth()->user()?->can($p));
+                ->contains(fn($p) => backpack_user()->can($p));
 
             if (!$allowed) return null;
         }

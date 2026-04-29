@@ -5,8 +5,12 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\ProductImage;
+use Backpack\CRUD\app\Exceptions\AccessDeniedException;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,11 +25,20 @@ class BulkProductImageUpdateController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setEntityNameStrings('image-to-bulk-products', 'image to bulk products');
+        CRUD::setEntityNameStrings('add-image-to-products', 'add image to products');
     }
 
+    /**
+     * @return Application|Factory|View
+     *
+     * @throws AccessDeniedException
+     */
     public function imageForBulkProducts()
     {
+        if (! backpack_user()->can('product.add-image-to-products')) {
+            throw new AccessDeniedException(trans('backpack::crud.unauthorized_access', ['access' => 'product.add-image-to-products']));
+        }
+
         $this->crud->setHeading('Add Image to Products', 'edit');
         $this->crud->setUpdateContentClass('col-md-12');
 

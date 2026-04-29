@@ -359,6 +359,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'categorization_required' => $request->boolean('categorization_required', true),
             'use_minimum_order_quantity' => $request->boolean('use_minimum_order_quantity', false),
             'use_product_code_unique_check' => $request->boolean('use_product_code_unique_check', true),
+            'allow_back_order_on_catalog_sync' => $request->boolean('allow_back_order_on_catalog_sync', false),
             'mandatory_fields' => $request->input('mandatory_fields', []),
             'document_type' => $request->input('document_type'),
             'default_status' => $request->input('default_status', 'draft'),

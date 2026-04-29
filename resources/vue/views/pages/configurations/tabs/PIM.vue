@@ -188,6 +188,22 @@
         >
       </div>
       <div class="form-group">
+        <div class="form-check">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              v-model="pimConfigurationData.allow_back_order_on_catalog_sync"
+              id="allow_back_order_on_catalog_sync"
+          />
+          <label class="form-check-label" for="allow_back_order_on_catalog_sync">
+            Allow Back Order while processing catalog sync
+          </label>
+        </div>
+        <small class="text-muted mt-2 d-block"
+        >If enabled, products created or updated by catalog synchronization will allow back orders. If disabled, the ERP Allow Back Order value is used.</small
+        >
+      </div>
+      <div class="form-group">
         <div>
           <label>Categorization Required</label><br/>
           <input
@@ -367,6 +383,8 @@ export default {
             this.$parent.coreConfigurationData.pim.use_product_specific_detail_page ?? false,
         use_minimum_order_quantity: this.$parent.coreConfigurationData.pim.use_minimum_order_quantity ?? false,
         use_product_code_unique_check: this.$parent.coreConfigurationData.pim.use_product_code_unique_check ?? true,
+        allow_back_order_on_catalog_sync:
+            this.$parent.coreConfigurationData.pim.allow_back_order_on_catalog_sync ?? false,
         categorization_required: this.$parent.coreConfigurationData.pim.categorization_required ?? false,
         document_type: this.$parent.coreConfigurationData.pim.document_type ?? '',
         default_status: this.$parent.coreConfigurationData.pim.default_status ?? '',

@@ -64,3 +64,4 @@ Vue.component('CalToolCheckout', () => import('./modules/clients/cal-tool/checko
 Vue.component('DkLokCheckout', () => import('./modules/clients/dk-lok/checkout/index.vue'));
 Vue.component('NudraulixCheckout', () => import('./modules/clients/nudraulix/checkout/index.vue'));
 Vue.component('CodeEditor', () => import('./views/pages/code-editor.vue'));
+Vue.component('ImageBulkProduct', () => import('./views/pages/product/ImageBulkProduct.vue'));

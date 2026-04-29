@@ -29,7 +29,8 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__.'/../config/pim.php', 'amplify.pim');
 
         $this->app->register(SingletonServiceProvider::class);
 
@@ -44,12 +45,12 @@ class BackendServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'backend');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/backend'),
+            __DIR__.'/../public' => public_path('vendor/backend'),
         ], 'backend-asset');
 
         $this->loadObservers();
@@ -63,7 +64,8 @@ class BackendServiceProvider extends ServiceProvider
                 CleanAuditCommand::class,
                 CleanEmailLogCommand::class,
                 CustomerRegisteredReportCommand::class,
-                AddProductSlugCommand::class
+                AddProductSlugCommand::class,
+                UpdateProductImageFromStorage::class,
             ]);
         }
 
@@ -78,7 +80,7 @@ class BackendServiceProvider extends ServiceProvider
 
             Config::set([
                 'backpack.base.styles' => $backpackStyles,
-                'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
+                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
             ]);
 
             if ($this->app->runningInConsole()) {
@@ -119,6 +121,12 @@ class BackendServiceProvider extends ServiceProvider
                     $schedule->command(BackupRunCommand::class)
                         ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
                         ->dailyAt('02:00')
+                        ->withoutOverlapping()
+                        ->onOneServer();
+
+                    $schedule->command(UpdateProductImageFromStorage::class, ['--rescan' => true])
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->dailyAt('02:30')
                         ->withoutOverlapping()
                         ->onOneServer();
                 }

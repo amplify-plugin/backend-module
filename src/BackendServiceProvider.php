@@ -9,8 +9,13 @@ use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
 use Amplify\System\Backend\Commands\AddProductSlugCommand;
-use Amplify\System\Backend\Menus\Sidebar;
-use Amplify\System\Backend\Menus\SidebarItemBuilder;
+use Amplify\System\Backend\Commands\UpdateProductImageFromStorage;
+use Amplify\System\Backend\Models\Attribute;
+use Amplify\System\Backend\Models\Category;
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Backend\Observers\AttributeObserver;
+use Amplify\System\Backend\Observers\CategoryObserver;
+use Amplify\System\Backend\Observers\ProductObserver;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
@@ -139,8 +144,8 @@ class BackendServiceProvider extends ServiceProvider
 
     private function loadObservers(): void
     {
-        \Amplify\System\Backend\Models\Product::observe(\Amplify\System\Backend\Observers\ProductObserver::class);
-        \Amplify\System\Backend\Models\Category::observe(\Amplify\System\Backend\Observers\CategoryObserver::class);
-        \Amplify\System\Backend\Models\Attribute::observe(\Amplify\System\Backend\Observers\AttributeObserver::class);
+        Product::observe(ProductObserver::class);
+        Category::observe(CategoryObserver::class);
+        Attribute::observe(AttributeObserver::class);
     }
 }

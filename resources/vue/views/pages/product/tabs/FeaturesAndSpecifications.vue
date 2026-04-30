@@ -16,17 +16,30 @@
                 <div
                     class="card bg-secondary shadow shadow-sm mb-2"
                     v-for="(feature, index) in $parent.productData.features"
+                    :key="`feature-group-${index}`"
                 >
                     <div class="card-header">
-                        <div class="row">
-                            <label :for="`group-${index}`" class="col-sm-2 col-form-label">Group Name</label>
-                            <div class="col-sm-10">
+                        <div class="row align-items-center">
+                            <label :for="`feature-group-name-${index}`" class="col-sm-2 col-form-label"
+                                >Group Name</label
+                            >
+                            <div class="col-sm-9">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    :id="`group-${index}`"
-                                    :value="feature?.group_name ?? ''"
+                                    :id="`feature-group-name-${index}`"
+                                    v-model="feature.group_name"
                                 />
+                            </div>
+                            <div class="col-sm-1 text-right">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    title="Remove group"
+                                    @click="removeGroup($parent.productData.features, index)"
+                                >
+                                    <i class="la la-trash font-weight-bold"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -40,21 +53,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(attribute, attrIndex) in feature.group_items">
+                                <tr
+                                    v-for="(attribute, attrIndex) in feature.group_items || []"
+                                    :key="`feature-${index}-attr-${attrIndex}`"
+                                >
                                     <td>
                                         <input
                                             type="text"
                                             class="form-control form-control-sm"
-                                            :id="`group-${index}-attr-${attrIndex}`"
-                                            :value="attribute?.name ?? ''"
+                                            :id="`feature-group-${index}-attr-${attrIndex}-name`"
+                                            v-model="attribute.name"
                                         />
                                     </td>
                                     <td>
                                         <input
                                             type="text"
                                             class="form-control form-control-sm"
-                                            :id="`group-${index}-attr-${attrIndex}`"
-                                            :value="attribute?.value ?? ''"
+                                            :id="`feature-group-${index}-attr-${attrIndex}-value`"
+                                            v-model="attribute.value"
                                         />
                                     </td>
                                     <th width="40">
@@ -103,17 +119,30 @@
                 <div
                     class="card bg-secondary shadow shadow-sm mb-2"
                     v-for="(specs, index) in $parent.productData.specifications"
+                    :key="`spec-group-${index}`"
                 >
                     <div class="card-header">
-                        <div class="row">
-                            <label :for="`group-${index}`" class="col-sm-2 col-form-label">Group Name</label>
-                            <div class="col-sm-10">
+                        <div class="row align-items-center">
+                            <label :for="`spec-group-name-${index}`" class="col-sm-2 col-form-label"
+                                >Group Name</label
+                            >
+                            <div class="col-sm-9">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    :id="`group-${index}`"
-                                    :value="specs?.group_name ?? ''"
+                                    :id="`spec-group-name-${index}`"
+                                    v-model="specs.group_name"
                                 />
+                            </div>
+                            <div class="col-sm-1 text-right">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    title="Remove group"
+                                    @click="removeGroup($parent.productData.specifications, index)"
+                                >
+                                    <i class="la la-trash font-weight-bold"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -127,21 +156,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(attribute, attrIndex) in specs.group_items">
+                                <tr
+                                    v-for="(attribute, attrIndex) in specs.group_items || []"
+                                    :key="`spec-${index}-attr-${attrIndex}`"
+                                >
                                     <td>
                                         <input
                                             type="text"
                                             class="form-control form-control-sm"
-                                            :id="`group-${index}-attr-${attrIndex}`"
-                                            :value="attribute?.name ?? ''"
+                                            :id="`spec-group-${index}-attr-${attrIndex}-name`"
+                                            v-model="attribute.name"
                                         />
                                     </td>
                                     <td>
                                         <input
                                             type="text"
                                             class="form-control form-control-sm"
-                                            :id="`group-${index}-attr-${attrIndex}`"
-                                            :value="attribute?.value ?? ''"
+                                            :id="`spec-group-${index}-attr-${attrIndex}-value`"
+                                            v-model="attribute.value"
                                         />
                                     </td>
                                     <th width="40">
@@ -199,12 +231,18 @@ export default {
             source.splice(index, 1);
         },
         addNewAttr(source) {
+            if (!Array.isArray(source)) {
+                return;
+            }
             source.push({
                 name: '',
                 value: '',
             });
         },
         addNewGroup(source) {
+            if (!Array.isArray(source)) {
+                return;
+            }
             source.push({
                 group_name: '',
                 group_items: [
@@ -216,7 +254,10 @@ export default {
             });
         },
         removeGroup(source, index) {
-            source.slice(index, 1);
+            if (!Array.isArray(source)) {
+                return;
+            }
+            source.splice(index, 1);
         },
     },
 };

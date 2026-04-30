@@ -72,7 +72,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('quote', 'QuoteCrudController');
     Route::crud('invoice', 'InvoiceCrudController');
     Route::crud('payment', 'PaymentCrudController');
-    Route::crud('faq', 'FaqCrudController');
+
 
     Route::crud('merchandising-zone', 'MerchandisingZoneCrudController');
     Route::crud('subscriber', 'SubscriberCrudController');
@@ -89,7 +89,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('contact-registration', 'ContactRegistrationCrudController');
     Route::crud('localization', 'LocalizationCrudController');
     Route::crud('document-type', 'DocumentTypeCrudController');
-    Route::crud('faq-category', 'FaqCategoryCrudController');
+
     Route::crud('order-list', 'OrderListCrudController');
     Route::crud('list-item', 'ListItemCrudController');
     Route::crud('trigger', 'TriggerCrudController');
@@ -307,8 +307,6 @@ Route::get('get-page-data', [SystemConfigurationCrudController::class, 'getPageD
 
 Route::post('campaign-store', [CampaignCrudController::class, 'store'])->name('admin.campaign.store');
 Route::put('campaign-update/{campaign?}', [CampaignCrudController::class, 'update'])->name('admin.campaign.update');
-
-Route::view('google-analytic', 'backend::google-analytics.index');
 
 // Image add to bulk-products
 Route::get('products/bulk-image-update', [BulkProductImageUpdateController::class, 'imageForBulkProducts']);

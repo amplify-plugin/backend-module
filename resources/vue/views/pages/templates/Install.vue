@@ -66,10 +66,10 @@ export default {
     mixins: [saveActionMixin],
     data() {
         return {
-            backUrl: '/admin/template',
-            chunkFileUploadUrl: '/admin/template/chunk-upload',
-            getInstallationInfoUrl: '/admin/template/installation-info',
-            installTemplateUrl: '/admin/template/install-template',
+            backUrl: '/admin/theme',
+            chunkFileUploadUrl: '/admin/theme/chunk-upload',
+            getInstallationInfoUrl: '/admin/theme/installation-info',
+            installTemplateUrl: '/admin/theme/install-template',
             templateInfo: null,
             uploader: {},
             filename: 'Browse files',

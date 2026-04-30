@@ -33,7 +33,9 @@ use Illuminate\Support\Facades\Route;
  */
 class CustomerCrudController extends BackpackCustomCrudController
 {
-    use CreateOperation;
+    use CreateOperation {
+        store as traitStore;
+    }
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
@@ -616,6 +618,18 @@ class CustomerCrudController extends BackpackCustomCrudController
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);
+    }
+
+
+    public function store()
+    {
+        $traitResponse = $this->traitStore();
+
+        if (config('amplify.erp.auto_create_cash_customer')) {
+            CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
+        }
+
+        return $traitResponse;
     }
 
     /**

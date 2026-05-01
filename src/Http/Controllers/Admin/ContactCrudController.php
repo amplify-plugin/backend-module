@@ -594,6 +594,10 @@ class ContactCrudController extends BackpackCustomCrudController
         $this->afterCreateUpdateOperation($request);
         $this->crud->entry->updateContactLoginAsPerEntry();
 
+        if(config('amplify.erp.auto_create_contact')) {
+            ContactProfileSyncJob::dispatch($this->data['entry']->toArray());
+        }
+
         return $traitRes;
     }
 

@@ -74,8 +74,8 @@ export default {
                 is_new          : (this.method !== 'put'),
                 is_updated      : false,
             },
-            backUrl         : '/admin/template',
-            newUrl          : '/admin/template/create',
+            backUrl         : '/admin/theme',
+            newUrl          : '/admin/theme/create',
             actionType      : 'save_and_back',
             saveAction      : JSON.parse(this.save_action),
             validationErrors: {},
@@ -104,7 +104,7 @@ export default {
 
         saveAndAction(argument) {
             if (argument === 'cancel') {
-                window.location = '/admin/template';
+                window.location = '/admin/theme';
             }
         },
 
@@ -151,7 +151,7 @@ export default {
             }
             params.slug = slug;
 
-            axios.post(`/admin/template/fetch/template-slug`, params)
+            axios.post(`/admin/theme/fetch/template-slug`, params)
                 .then(response => {
                     this.template.slug = response.data.slug;
                 })

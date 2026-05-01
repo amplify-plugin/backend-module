@@ -7,7 +7,6 @@ Vue.component('OptionCreate', () => import('./views/pages/options/Create.vue'));
 Vue.component('CustomerGroupCreate', () => import('./views/pages/customer-group/Create.vue'));
 Vue.component('ImportDefinition', () => import('./views/pages/import/definition/ImportDefinitionCreate.vue'));
 Vue.component('Import', () => import('./views/pages/import/Create.vue'));
-Vue.component('FaqCreate', () => import('./views/pages/faq/Create.vue'));
 Vue.component('DataTransformationCreate', () => import('./views/pages/data-transformation/Create.vue'));
 
 Vue.component('CampaignCreate', () => import('./views/pages/campaign/Create.vue'));
@@ -64,4 +63,5 @@ Vue.component('CalToolCheckout', () => import('./modules/clients/cal-tool/checko
 Vue.component('DkLokCheckout', () => import('./modules/clients/dk-lok/checkout/index.vue'));
 Vue.component('NudraulixCheckout', () => import('./modules/clients/nudraulix/checkout/index.vue'));
 Vue.component('CodeEditor', () => import('./views/pages/code-editor.vue'));
+Vue.component('CodeField', () => import('./views/components/CodeField.vue'));
 Vue.component('ImageBulkProduct', () => import('./views/pages/product/ImageBulkProduct.vue'));

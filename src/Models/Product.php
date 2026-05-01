@@ -63,6 +63,7 @@ class Product extends Model implements ContractsAuditable
         'is_ncnr' => 'bool',
         'flags' => 'array',
         'sku_default_attributes' => 'array',
+        'features' => 'array',
         'specifications' => 'array',
     ];
 

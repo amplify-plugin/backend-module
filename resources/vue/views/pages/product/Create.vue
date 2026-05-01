@@ -516,8 +516,8 @@ export default {
                 this.productData.products_list = this.productData.products_list;
             }
 
-            this.productData.features = JSON.parse(this.productData.features ?? '[]');
-            this.productData.specifications = JSON.parse(this.productData.specifications ?? '[]');
+            this.productData.features = this.normalizeFeaturesSpecifications(this.productData.features);
+            this.productData.specifications = this.normalizeFeaturesSpecifications(this.productData.specifications);
 
             this.processQueryString();
 
@@ -525,6 +525,33 @@ export default {
                 this.flags = { ...this.flags, ...this.productData.flags };
             }
 
+        },
+
+        normalizeFeaturesSpecifications(raw) {
+            let parsed = raw;
+            if (typeof parsed === 'string') {
+                const trimmed = parsed.trim();
+                if (trimmed === '') {
+                    return [];
+                }
+                try {
+                    parsed = JSON.parse(trimmed);
+                } catch (e) {
+                    return [];
+                }
+            }
+            if (!Array.isArray(parsed)) {
+                return [];
+            }
+            return parsed.map((group) => ({
+                group_name: group.group_name ?? '',
+                group_items: Array.isArray(group.group_items)
+                    ? group.group_items.map((item) => ({
+                          name: item.name ?? '',
+                          value: item.value ?? '',
+                      }))
+                    : [],
+            }));
         },
 
         fetchProductClassification(id = null) {

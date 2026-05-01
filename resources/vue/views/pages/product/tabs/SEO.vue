@@ -26,7 +26,7 @@
                     <label :class="{'text-danger': $parent.validationErrors.meta_description}">
                         Meta Description
                         <i class="las la-info-circle pull-right" style="margin-top: 3px;"
-                           title="Minimum meta description length is 50 characters and Maximum meta description length is 160 characters"></i>
+                           title="Optional. If set, minimum length is 10 characters; maximum matches database limits."></i>
                     </label>
                 </div>
                 <textarea v-model="$parent.productData.meta_description"
@@ -34,7 +34,7 @@
                           placeholder="Enter meta description"
                           class="form-control"
                           :class="{'is-invalid': $parent.validationErrors.meta_description}"
-                          rows="4"> </textarea>
+                          rows="4"></textarea>
                 <small v-if="$parent.validationErrors.meta_description"
                        class="text-danger mt-3">{{ $parent.validationErrors.meta_description[0] }}</small>
             </div>
@@ -52,7 +52,7 @@
                           placeholder="Enter meta keywords"
                           class="form-control"
                           :class="{'is-invalid': $parent.validationErrors.meta_keywords}"
-                          rows="4"> </textarea>
+                          rows="4"></textarea>
                 <small v-if="$parent.validationErrors.meta_keywords"
                        class="text-danger mt-3">{{ $parent.validationErrors.meta_keywords[0] }}</small>
             </div>
@@ -70,7 +70,7 @@
                           placeholder="Enter OG description"
                           class="form-control"
                           :class="{'is-invalid': $parent.validationErrors.og_description}"
-                          rows="4"> </textarea>
+                          rows="4"></textarea>
                 <small v-if="$parent.validationErrors.og_description"
                        class="text-danger mt-3">{{ $parent.validationErrors.og_description[0] }}</small>
             </div>

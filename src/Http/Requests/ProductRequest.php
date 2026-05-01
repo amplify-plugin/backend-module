@@ -121,7 +121,9 @@ class ProductRequest extends FormRequest
         if ($this->method() === 'PUT') {
             $rules['product_slug'] = Rule::unique('products', 'product_slug')->ignore(request()->route('id'), 'id');
         }
-        $rules['meta_description'] = 'nullable|min:10|max:160';
+        $rules['meta_description'] = 'nullable|string|min:10|max:65535';
+        $rules['features'] = 'nullable|array';
+        $rules['specifications'] = 'nullable|array';
         $rules['meta_keywords'] = 'nullable|min:10|max:255';
         $rules['in_stock'] = 'nullable|boolean';
         $rules['is_ncnr'] = 'nullable|boolean';

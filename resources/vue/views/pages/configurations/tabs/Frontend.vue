@@ -456,7 +456,6 @@ export default {
     --focus: #2f7dd8;
     --focus-shadow: rgba(47, 125, 216, 0.16);
 
-    background: linear-gradient(180deg, #f8fbff 0%, #f2f6fb 100%);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 1rem;

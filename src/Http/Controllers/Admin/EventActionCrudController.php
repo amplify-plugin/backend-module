@@ -40,7 +40,7 @@ class EventActionCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(EventAction::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/event-action');
-        CRUD::setEntityNameStrings('event-action', 'notifications');
+        CRUD::setEntityNameStrings('notification', 'notifications');
     }
 
     /**

@@ -23,25 +23,7 @@ class SyncPermissionCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Sync Permissions with the route names';
-
-    /**
-     * Do not create permissions for these route names
-     *
-     * @var array
-     */
-    protected $ignoreByName = [
-        // 'fm.content',
-    ];
-
-    /**
-     * Do not create permissions for these route URIs
-     *
-     * @var array
-     */
-    protected $ignoreByUri = [
-        // 'admin/force-reset-password/{user}',
-    ];
+    protected $description = 'Sync permissions for admin panel';
 
     /**
      * Execute the console command.

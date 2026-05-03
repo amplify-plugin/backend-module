@@ -606,7 +606,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['product'] = $this->crud->model->with('productImage', 'productClassification', 'categories', 'options', 'CustomerGroupPrice')->find(request()->id);
         $this->data['productClassification'] = $this->data['product']->productClassification ?? new stdClass;
-        $this->data['attributes'] = json_decode($data['productClassification']->attributes ?? '[]', true);
+        $this->data['attributes'] = json_decode($this->data['productClassification']->attributes ?? '[]', true);
         $this->data['customer_groups'] = CustomerGroup::where('group_pricing_type', 'group-price-per-product')->get();
         $this->data['options'] = json_decode($this->data['productClassification']->options ?? '[]', true);
         $this->data['core_configs'] = config('amplify.pim');
@@ -684,7 +684,8 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::field('flags[price]')->tab('ExtraData');
         CRUD::field('flags[special]')->tab('ExtraData');
 
-        CRUD::field('specifications')->tab('FeaturesAndSpecifications');
+        CRUD::field('features')->type('hidden')->tab('FeaturesAndSpecifications');
+        CRUD::field('specifications')->type('hidden')->tab('FeaturesAndSpecifications');
 
         // Product images in product__images table
         CRUD::addField([
@@ -1383,7 +1384,11 @@ class ProductCrudController extends BackpackCustomCrudController
                 break;
             default:
                 $product->product_code = $product_code;
-                $existingProduct = Product::where('product_code', $product->product_code)->first();
+                $existingProduct = Product::where('product_code', $product->product_code)
+                    ->when(config('amplify.pim.use_product_code_unique_check', true), function ($query) use ($product) {
+                        $query->where('id', '!=', $product->id);
+                    })
+                    ->first();
                 if ($existingProduct) {
                     Alert::warning('Product code already exists')->flash();
 

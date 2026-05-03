@@ -25,6 +25,7 @@ class ProductImage extends Model implements Auditable
         'main',
         'thumbnail',
         'additional',
+        'updated_at',
     ];
 
     protected $casts = [

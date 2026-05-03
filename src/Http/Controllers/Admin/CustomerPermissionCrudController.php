@@ -28,24 +28,13 @@ class CustomerPermissionCrudController extends BackpackCustomCrudController
 
         $this->guard_name = 'customer';
         $this->crud->addClause('where', 'guard_name', $this->guard_name);
-
-        // deny access according to configuration file
-        if (config('backpack.permissionmanager.allow_permission_create') == false) {
-            $this->crud->denyAccess('create');
-        }
-        if (config('backpack.permissionmanager.allow_permission_update') == false) {
-            $this->crud->denyAccess('update');
-        }
-        if (config('backpack.permissionmanager.allow_permission_delete') == false) {
-            $this->crud->denyAccess('delete');
-        }
     }
 
     public function setupListOperation()
     {
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
     }
@@ -72,7 +61,7 @@ class CustomerPermissionCrudController extends BackpackCustomCrudController
     {
         $this->crud->addField([
             'name' => 'name',
-            'label' => trans('backpack::permissionmanager.name'),
+            'label' => 'Name',
             'type' => 'text',
         ]);
 

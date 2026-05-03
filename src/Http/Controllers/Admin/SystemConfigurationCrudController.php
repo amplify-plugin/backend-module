@@ -11,6 +11,7 @@ use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\UtilityHelper;
+use Backpack\CRUD\app\Exceptions\AccessDeniedException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -165,6 +166,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
      */
     public function showConfig()
     {
+        if(!backpack_user()->can('system-configuration.list')) {
+            throw new AccessDeniedException(trans('backpack::crud.unauthorized_access', ['access' => 'system-configuration.list']));
+        }
+
         $this->crud->setHeading('System Configuration', 'edit');
         $this->crud->setUpdateContentClass('col-md-12');
 
@@ -353,6 +358,8 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'use_product_specific_detail_page' => $request->boolean('use_product_specific_detail_page', true),
             'categorization_required' => $request->boolean('categorization_required', true),
             'use_minimum_order_quantity' => $request->boolean('use_minimum_order_quantity', false),
+            'use_product_code_unique_check' => $request->boolean('use_product_code_unique_check', true),
+            'allow_back_order_on_catalog_sync' => $request->boolean('allow_back_order_on_catalog_sync', false),
             'mandatory_fields' => $request->input('mandatory_fields', []),
             'document_type' => $request->input('document_type'),
             'default_status' => $request->input('default_status', 'draft'),

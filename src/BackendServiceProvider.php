@@ -9,20 +9,33 @@ use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
 use Amplify\System\Backend\Commands\AddProductSlugCommand;
+use Amplify\System\Backend\Commands\UpdateProductImageFromStorage;
+use Amplify\System\Backend\Models\Attribute;
+use Amplify\System\Backend\Models\Category;
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Backend\Observers\AttributeObserver;
+use Amplify\System\Backend\Observers\CategoryObserver;
+use Amplify\System\Backend\Observers\ProductObserver;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
+use Amplify\System\Backend\Traits\HasBackendMenu;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
 {
+    use HasBackendMenu;
+
     /**
      * Register services.
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
+        $this->mergeConfigFrom(__DIR__.'/../config/pim.php', 'amplify.pim');
 
         $this->app->register(SingletonServiceProvider::class);
 
@@ -33,15 +46,16 @@ class BackendServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'backend');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/backend'),
+            __DIR__.'/../public' => public_path('vendor/backend'),
         ], 'backend-asset');
 
         $this->loadObservers();
@@ -55,9 +69,12 @@ class BackendServiceProvider extends ServiceProvider
                 CleanAuditCommand::class,
                 CleanEmailLogCommand::class,
                 CustomerRegisteredReportCommand::class,
-                AddProductSlugCommand::class
+                AddProductSlugCommand::class,
+                UpdateProductImageFromStorage::class,
             ]);
         }
+
+        Blade::componentNamespace('Amplify\\System\\Backend\\Components', 'backend');
 
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
@@ -68,7 +85,7 @@ class BackendServiceProvider extends ServiceProvider
 
             Config::set([
                 'backpack.base.styles' => $backpackStyles,
-                'backpack.base.project_logo' => '<img class="img-fluid" src="' . config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png') . '" alt="Amplify Admin Panel">',
+                'backpack.base.project_logo' => '<img class="img-fluid" src="'.config('amplify.basic.navbar_brand', '/img/Amplify Logo 280 tagline.png').'" alt="Amplify Admin Panel">',
             ]);
 
             if ($this->app->runningInConsole()) {
@@ -111,15 +128,24 @@ class BackendServiceProvider extends ServiceProvider
                         ->dailyAt('02:00')
                         ->withoutOverlapping()
                         ->onOneServer();
+
+                    $schedule->command(UpdateProductImageFromStorage::class, ['--rescan' => true])
+                        ->timezone(\config('amplify.schedule.timezone', \config('app.timezone', 'UTC')))
+                        ->dailyAt('02:30')
+                        ->withoutOverlapping()
+                        ->onOneServer();
                 }
             }
+
         });
+
+            $this->registerMenus();
     }
 
     private function loadObservers(): void
     {
-        \Amplify\System\Backend\Models\Product::observe(\Amplify\System\Backend\Observers\ProductObserver::class);
-        \Amplify\System\Backend\Models\Category::observe(\Amplify\System\Backend\Observers\CategoryObserver::class);
-        \Amplify\System\Backend\Models\Attribute::observe(\Amplify\System\Backend\Observers\AttributeObserver::class);
+        Product::observe(ProductObserver::class);
+        Category::observe(CategoryObserver::class);
+        Attribute::observe(AttributeObserver::class);
     }
 }

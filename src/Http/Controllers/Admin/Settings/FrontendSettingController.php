@@ -26,7 +26,7 @@ class FrontendSettingController extends BackpackCustomCrudController
     {
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/frontend-setting');
-        CRUD::setEntityNameStrings('Frontend Setting', 'Frontend Settings');
+        CRUD::setEntityNameStrings('frontend-setting', 'Frontend Settings');
     }
 
     /**

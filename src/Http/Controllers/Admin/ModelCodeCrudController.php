@@ -35,7 +35,7 @@ class ModelCodeCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ModelCode::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/model-code');
-        CRUD::setEntityNameStrings('model-code', 'model-codes');
+        CRUD::setEntityNameStrings('model-code', 'model codes');
     }
 
     /**

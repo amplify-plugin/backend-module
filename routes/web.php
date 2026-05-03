@@ -6,13 +6,13 @@
 // This route file is loaded automatically by Backpack\Base.
 // Routes you generate using Backpack\Generators will be placed here.
 
+use Amplify\System\Backend\Http\Controllers\Admin\BulkProductImageUpdateController;
 use Amplify\System\Backend\Http\Controllers\Admin\ContactCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\CustomerGroupCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventActionCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventVariableCrudController;
-use Amplify\System\Backend\Http\Controllers\Admin\ProductClassificationCrudController;
+use Amplify\System\Backend\Http\Controllers\Admin\ClassificationCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ProductCrudController;
-use Amplify\System\Backend\Http\Controllers\Admin\ProductSyncCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ServerInfoController;
 use Amplify\System\Backend\Http\Controllers\Admin\SiteCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\SystemConfigurationCrudController;
@@ -50,7 +50,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('product', 'ProductCrudController');
     Route::crud('custom-product', 'CustomProductCrudController');
     Route::post('product/sku/remove/{parent_id}/{sku_id}', 'ProductCrudController@removeSku')->name('product.removeSku');
-    Route::crud('classification', 'ProductClassificationCrudController');
+    Route::crud('classification', 'ClassificationCrudController');
     Route::post('product/bulk-archive', 'ProductCrudController@bulkArchive')->name('bulk-archive');
     Route::post('product/bulk-publish', 'ProductCrudController@bulkPublish')->name('bulk-publish');
     Route::crud('search', 'SearchCrudController');
@@ -72,7 +72,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('quote', 'QuoteCrudController');
     Route::crud('invoice', 'InvoiceCrudController');
     Route::crud('payment', 'PaymentCrudController');
-    Route::crud('faq', 'FaqCrudController');
+
 
     Route::crud('merchandising-zone', 'MerchandisingZoneCrudController');
     Route::crud('subscriber', 'SubscriberCrudController');
@@ -89,8 +89,8 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('contact-registration', 'ContactRegistrationCrudController');
     Route::crud('localization', 'LocalizationCrudController');
     Route::crud('document-type', 'DocumentTypeCrudController');
-    Route::crud('faq-category', 'FaqCategoryCrudController');
-    Route::crud('customer-list', 'CustomerListCrudController');
+
+    Route::crud('order-list', 'OrderListCrudController');
     Route::crud('list-item', 'ListItemCrudController');
     Route::crud('trigger', 'TriggerCrudController');
     Route::crud('event-action', 'EventActionCrudController');
@@ -98,7 +98,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('system-configuration', 'SystemConfigurationCrudController');
     Route::crud('event-variable', 'EventVariableCrudController');
     Route::crud('event-recipent', 'EventRecipentCrudController');
-    Route::crud('product-sync', 'ProductSyncCrudController');
+    Route::crud('synchronization', 'SynchronizationCrudController');
     Route::crud('account-title', 'AccountTitleCrudController');
     Route::get('invoice/invoice-summary/{customerCode}', 'InvoiceCrudController@invoiceSummary');
     Route::get('invoice/invoice-details/{invoiceNumber}/{customerCode}',
@@ -212,7 +212,7 @@ Route::post('clear-cache', function (Request $request) {
 | Product classification related routes
 |--------------------------------------------------------------------------
 */
-Route::controller(ProductClassificationCrudController::class)->prefix('product-classification')->group(function () {
+Route::controller(ClassificationCrudController::class)->prefix('product-classification')->group(function () {
     Route::get('check-use-product/{product_classification}', 'checkUseInProducts');
     Route::post('update-pivot-table', 'updatePivotTable');
 });
@@ -293,13 +293,6 @@ Route::get('disks', function () {
     return config('filesystems.disks');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Product Sync routes
-|--------------------------------------------------------------------------
-*/
-Route::get('product-sync/{id}/process', [ProductSyncCrudController::class, 'process'])->name('product-sync.process');
-Route::post('product-sync/bulk-process', [ProductSyncCrudController::class, 'bulkProcess'])->name('admin.product-sync.bulk');
 
 /*
 |----------------------------------------------------------------------------
@@ -315,4 +308,7 @@ Route::get('get-page-data', [SystemConfigurationCrudController::class, 'getPageD
 Route::post('campaign-store', [CampaignCrudController::class, 'store'])->name('admin.campaign.store');
 Route::put('campaign-update/{campaign?}', [CampaignCrudController::class, 'update'])->name('admin.campaign.update');
 
-Route::view('google-analytic', 'backend::google-analytics.index');
+// Image add to bulk-products
+Route::get('products/bulk-image-update', [BulkProductImageUpdateController::class, 'imageForBulkProducts']);
+Route::post('products/bulk-image-update', [BulkProductImageUpdateController::class, 'updateProductImages'])
+    ->name('products.bulk-image.update');

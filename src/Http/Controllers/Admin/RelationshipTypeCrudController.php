@@ -35,7 +35,7 @@ class RelationshipTypeCrudController extends BackpackCustomCrudController
     {
         CRUD::setModel(ProductRelationshipType::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/relationship-type');
-        CRUD::setEntityNameStrings('relationship-type', 'relationship-types');
+        CRUD::setEntityNameStrings('relationship-type', 'relationship types');
     }
 
     /**

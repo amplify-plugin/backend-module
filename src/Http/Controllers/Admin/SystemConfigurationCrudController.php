@@ -454,6 +454,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $erp_config['default'] = $request->input('default_erp', config('amplify.erp.default'));
         $erp_config['auto_create_cash_customer'] = $request->boolean('auto_create_cash_customer', false);
         $erp_config['auto_create_contact'] = $request->boolean('auto_create_contact', false);
+        $erp_config['auto_create_ship_to'] = $request->boolean('auto_create_ship_to', false);
         $erp_config['use_amplify_shipping'] = $request->boolean('use_amplify_shipping', false);
         $erp_config['add_ship_will_call_option'] = $request->boolean('add_ship_will_call_option', false);
         $erp_config['configurations.'.$erp_config['default'].'.username'] = $request->input('username', null);

@@ -21,7 +21,10 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  */
 class CustomerAddressCrudController extends BackpackCustomCrudController
 {
-    use CreateOperation;
+    use CreateOperation {
+        store as traitStore;
+    }
+
     use DeleteOperation;
     use ListOperation;
     use ShowOperation;
@@ -35,7 +38,7 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(CustomerAddress::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/customer-address');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/customer-address');
         CRUD::setEntityNameStrings('customer-address', 'customer addresses');
     }
 
@@ -85,6 +88,10 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
             }
         );
 
+        if (!config('amplify.erp.auto_create_ship_to')) {
+            $this->crud->removeButton('create');
+        }
+
         CRUD::column('id');
         CRUD::column('address_code');
         CRUD::column('address_name');
@@ -109,37 +116,89 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
     {
         CRUD::setValidation(CustomerAddressRequest::class);
 
-        CRUD::addField([
-            'label' => 'Customer', // Table column heading
-            'type' => 'select2_from_ajax',
-            'name' => 'customer_id', // the column that contains the ID of that connected entity;
-            'attribute' => 'display_name', // foreign key attribute that is shown to user
-            'data_source' => backpack_url('contact/fetch/customer'),
-            'method' => 'POST',
-            'default' => old('customer_id', $this->crud->entry->customer_id ?? null),
-        ]);
-        CRUD::field('address_code');
-        CRUD::field('address_name');
-        CRUD::field('address_1');
-        CRUD::field('address_2');
-        CRUD::field('address_3');
-        CRUD::addField([
-            'label' => 'Country',
-            'type' => 'select2_from_array',
-            'name' => 'country_code',
-            'options' => Country::enabled()->get()->pluck('name', 'iso2')->toArray(),
-        ]);
-        CRUD::field('state');
-        CRUD::field('zip_code');
-        CRUD::field('city');
-        CRUD::field('phone');
+        $countries = Country::enabled()->get()->pluck('name', 'iso2')->toArray();
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        CRUD::addFields([
+            [
+                'label' => 'Customer', // Table column heading
+                'type' => 'select2_from_ajax',
+                'name' => 'customer_id', // the column that contains the ID of that connected entity;
+                'attribute' => 'display_name', // foreign key attribute that is shown to user
+                'data_source' => backpack_url('contact/fetch/customer'),
+                'method' => 'POST',
+                'default' => old('customer_id', $this->crud->entry->customer_id ?? null),
+            ],
+            [
+                'name' => 'address_code',
+                'type' => 'text',
+                'label' => 'Address Code',
+                'allows_null' => false,
+            ],
+            [
+                'name' => 'address_1',
+                'type' => 'text',
+                'label' => 'Address Line 1',
+                'allows_null' => false,
+            ],
+            [
+                'name' => 'address_2',
+                'type' => 'text',
+                'label' => 'Address Line 2',
+            ],
+            [
+                'name' => 'address_3',
+                'type' => 'text',
+                'label' => 'Address Line 3',
+            ],
+            [
+                'name' => 'city',
+                'type' => 'text',
+                'label' => 'City',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'country_code',
+                'type' => 'select2_from_array',
+                'options' => $countries,
+                'label' => 'Country',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'model' => \Amplify\System\Backend\Models\State::class,
+                'attribute' => 'name',
+                'data_source' => backpack_url('state/fetch/state-by-country-code'),
+                'placeholder' => 'Select an state',
+                'include_all_form_fields' => true,
+                'method' => 'POST',
+                'minimum_input_length' => 0,
+                'dependencies' => ['country_code'],
+                'name' => 'state',
+                'type' => 'select2_from_ajax',
+                'label' => 'State',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'zip_code',
+                'type' => 'text',
+                'label' => 'Zip Code',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'phone',
+                'type' => 'text',
+                'label' => 'Phone',
+            ],
+        ]);
     }
+
 
     /**
      * Define what happens when the Update operation is loaded.

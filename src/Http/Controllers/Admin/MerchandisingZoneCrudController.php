@@ -39,6 +39,8 @@ class MerchandisingZoneCrudController extends BackpackCustomCrudController
         CRUD::setModel(MerchandisingZone::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/merchandising-zone');
         CRUD::setEntityNameStrings('merchandising-zone', 'merchandising zones');
+
+        CRUD::button('delete')->remove();
     }
 
     /**
@@ -55,12 +57,6 @@ class MerchandisingZoneCrudController extends BackpackCustomCrudController
         CRUD::column('description');
         CRUD::column('easyask_key');
         CRUD::column('updated_at');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     public function setupShowOperation()
@@ -70,7 +66,6 @@ class MerchandisingZoneCrudController extends BackpackCustomCrudController
         CRUD::column('description');
         CRUD::column('easyask_key');
         CRUD::column('updated_at');
-        CRUD::button('delete')->remove();
     }
 
     /**
@@ -83,19 +78,9 @@ class MerchandisingZoneCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(MerchandisingZoneRequest::class);
-
-        $this->data['merchandising_zone'] = $this->crud->model->find(request()->id);
-
-        CRUD::field('name');
-        CRUD::field('description');
-        CRUD::field('easyask_key');
-
-        $this->crud->setCreateView('backend::pages.merchandising_zone.create');
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        CRUD::field('name')->type('text')->label('Name');
+        CRUD::field('easyask_key')->type('text')->label('EasyAsk Key');
+        CRUD::field('description')->type('textarea')->label('Description');
     }
 
     /**
@@ -107,18 +92,6 @@ class MerchandisingZoneCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->crud->setUpdateView('backend::pages.merchandising_zone.create');
-
         $this->setupCreateOperation();
-    }
-
-    public function fetchMerchandisingZoneSlug(): JsonResponse
-    {
-        $easyask_key = request()->easyask_key;
-        $id = request()->id ?? null;
-
-        return response()->json([
-            'easyask_key' => getMerchandisingZoneSlug($easyask_key, $id),
-        ]);
     }
 }

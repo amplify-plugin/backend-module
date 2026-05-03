@@ -20,10 +20,6 @@
 @php
     $widgets['before_content'][] = [
         'type'  => 'jumbotron',
-        'image' => '<img width="100%" src="'.assets_image('/img/Under-Construction-Transparent-Background.png').'">',
+        'image' => '<img width="100%" src="'. mix('img/under-construction.png', 'vendor/backend').'">',
     ];
 @endphp
-
-@section('after_scripts')
-    <script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
-@endsection

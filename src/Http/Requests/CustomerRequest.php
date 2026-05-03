@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Requests;
 
 use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Rules\ErpCustomerExist;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,7 +31,7 @@ class CustomerRequest extends FormRequest
 
         $rules = [
             // customer validate
-            'customer_code' => 'required|string',
+            'customer_code' => ['string', (config('amplify.erp.auto_create_cash_customer')) ? 'nullable' : 'required', new ErpCustomerExist],
             'customer_name' => 'required|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|numeric',
@@ -45,41 +46,8 @@ class CustomerRequest extends FormRequest
             'state' => 'nullable|string',
             'country_code' => 'nullable|string',
             'zip_code' => 'nullable|string',
-            'list_price' => 'nullable|string|in:'. implode(array_keys(Customer::LIST_PRICES)),
-
-            // contact validate
-            'contact' => 'required|array|min:1',
-            'contact.*.name' => 'required|string',
-            'contact.*.phone' => 'required|string',
-            'contact.*.profile_image' => 'nullable|string',
-            'contact.*.password' => "required|min:$minPassLen|same:contact.*.password_confirmation",
-            'contact.*.password_confirmation' => "required|min:$minPassLen",
-            'contact.*.order_limit' => 'required|numeric|min:0',
-            'contact.*.daily_budget_limit' => 'required|numeric|min:0',
-            'contact.*.monthly_budget_limit' => 'required|numeric|min:0',
-            'contact.*.spend_today' => 'required|numeric|min:0',
-            'contact.*.spend_this_month' => 'required|numeric|min:0',
-            'addresses' => 'nullable|array',
-            'addresses.*.address_name' => 'required|string',
-            'addresses.*.address_code' => 'required|string',
-            'addresses.*.address_1' => 'required|string',
-            'addresses.*.address_2' => 'nullable|string',
-            'addresses.*.address_3' => 'nullable|string',
-            'addresses.*.city' => 'required|string',
-            'addresses.*.state' => 'required|string',
-            'addresses.*.country_code' => 'nullable|string',
-            'addresses.*.zip_code' => 'required|string',
+            'list_price' => 'nullable|string|in:' . implode(array_keys(Customer::LIST_PRICES)),
         ];
-
-        // on update statement
-        if ($this->method() == 'PUT') {
-            $rules['contact.*.password'] = "nullable|min:$minPassLen|same:contact.*.password_confirmation";
-            $rules['contact.*.password_confirmation'] = "nullable|min:$minPassLen";
-            $contactId = Customer::find(request()->route('id'))->contact->id ?? 'null';
-            $rules['contact.*.email'] = 'required|email|unique:contacts,email,'.$contactId;
-        } else {
-            $rules['contact.*.email'] = 'required|email|unique:contacts,email';
-        }
 
         return $rules;
     }

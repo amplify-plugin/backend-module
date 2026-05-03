@@ -8,6 +8,7 @@ use Amplify\Frontend\Events\ContactLoggedIn;
 use Amplify\Frontend\Helpers\CustomerHelper;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ContactRequest;
+use Amplify\System\Backend\Models\AccountTitle;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\ContactLogin;
 use Amplify\System\Backend\Models\Customer;
@@ -34,6 +35,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class ContactCrudController
@@ -61,31 +63,31 @@ class ContactCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Contact::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/contact');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
         CRUD::addBaseClause('approved');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::match(['get', 'post'], $segment.'/roles', [
-            'as' => $routeName.'.roles',
-            'uses' => $controller.'@getRoles',
+        Route::match(['get', 'post'], $segment . '/roles', [
+            'as' => $routeName . '.roles',
+            'uses' => $controller . '@getRoles',
         ]);
 
-        Route::get($segment.'/{contact}/impersonate', [
-            'as' => $routeName.'.impersonate',
-            'uses' => $controller.'@setImpersonate',
+        Route::get($segment . '/{contact}/impersonate', [
+            'as' => $routeName . '.impersonate',
+            'uses' => $controller . '@setImpersonate',
         ]);
 
-        Route::post($segment.'/assignable-validation', [
-            'as' => $routeName.'.assignable-validation',
-            'uses' => $controller.'@verifyAssignableContact',
+        Route::post($segment . '/assignable-validation', [
+            'as' => $routeName . '.assignable-validation',
+            'uses' => $controller . '@verifyAssignableContact',
         ]);
 
-        Route::post($segment.'/bulk-profile-sync', [
-            'as' => $routeName.'.bulk-profile-sync',
-            'uses' => $controller.'@bulkProfileSync',
+        Route::post($segment . '/bulk-profile-sync', [
+            'as' => $routeName . '.bulk-profile-sync',
+            'uses' => $controller . '@bulkProfileSync',
             'operation' => 'bulkProfileSync',
         ]);
     }
@@ -173,7 +175,7 @@ class ContactCrudController extends BackpackCustomCrudController
         if (request()->has('role')) {
             [$role_id, $team_id] = explode('-', request('role'));
             set_customer_team_id($team_id);
-            $this->crud->addClause('whereHas', 'ownRoles', fn ($q) => $q->id = $role_id);
+            $this->crud->addClause('whereHas', 'ownRoles', fn($q) => $q->id = $role_id);
         }
 
         $this->crud->modifyButton('create', ['content' => 'crud::buttons.contact-create-old']);
@@ -211,12 +213,12 @@ class ContactCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($contact) {
-                return '<a href="'.route('customer.show', $contact->customer->id).'" target="_blank" class="text-dark">'.$contact->customer->customer_name.' - '.$contact->customer->customer_code.'</a>';
+                return '<a href="' . route('customer.show', $contact->customer->id) . '" target="_blank" class="text-dark">' . $contact->customer->customer_name . ' - ' . $contact->customer->customer_code . '</a>';
             },
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('customer', function ($query) use ($searchTerm) {
-                    $query->where('customer_name', 'like', '%'.$searchTerm.'%')
-                        ->orWhere('customer_code', 'like', '%'.$searchTerm.'%');
+                    $query->where('customer_name', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('customer_code', 'like', '%' . $searchTerm . '%');
                 });
             },
         ]);
@@ -269,7 +271,7 @@ class ContactCrudController extends BackpackCustomCrudController
         ], false, function ($value) {
             $dates = json_decode($value);
             $this->crud->addClause('where', 'created_at', '>=', $dates->from);
-            $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
+            $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
         });
     }
 
@@ -283,6 +285,7 @@ class ContactCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         $this->crud->hasUploadFields();
+
         CRUD::setValidation(ContactRequest::class);
 
         $attributes = request()->query()['category_name'] ?? false
@@ -300,47 +303,42 @@ class ContactCrudController extends BackpackCustomCrudController
             'default' => old('customer_id', $this->crud->entry->customer_id ?? null),
         ]);
 
-        if (config('amplify.api.contact_detail', false)) {
-            CRUD::addField([
-                'name' => 'contact_code',
-                'label' => 'Contact Code',
-                'type' => 'text',
-                'tab' => 'ERP',
-            ]);
-        }
+        CRUD::addField([
+            'name' => 'contact_code',
+            'label' => 'Contact Code',
+            'type' => 'text',
+            'tab' => 'Basic',
+        ]);
 
         CRUD::field('name')->type('text')->tab('Basic');
 
-        CRUD::addField([
-            'name' => 'accountTitle',
-            'label' => 'Account Title',
-            'tab' => 'Basic',
-            'type' => 'relationship',
-        ]);
-
-        CRUD::addField([
-            'name' => 'email',
-            'label' => 'Email',
-            'tab' => 'Basic',
-            'type' => 'email',
-            'attributes' => [
-                'autocomplete' => 'off',
-                'id' => 'new-email-address',
-            ],
-        ]);
-
-        CRUD::addField([
-            'name' => 'login_id',
-            'label' => 'Login ID',
-            'tab' => 'Basic',
-            'type' => 'text',
-            'attributes' => [
-                'autocomplete' => 'off',
-                'id' => 'new-account',
-            ],
-        ]);
-
         CRUD::addFields([
+            [
+                'name' => 'account_title_id',
+                'label' => 'Account Title',
+                'tab' => 'Basic',
+                'type' => 'relationship',
+                'entity' => 'accountTitle',
+                'attribute' => 'name',
+            ], [
+                'name' => 'email',
+                'label' => 'Email',
+                'tab' => 'Basic',
+                'type' => 'email',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-email-address',
+                ],
+            ], [
+                'name' => 'login_id',
+                'label' => 'Login ID',
+                'tab' => 'Basic',
+                'type' => 'text',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-account',
+                ],
+            ],
             [
                 'name' => 'phone',
                 'label' => 'Phone',
@@ -354,82 +352,55 @@ class ContactCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
+            ], [
+                'name' => 'roles',
+                'label' => 'Role(s)',
+                'type' => 'select2_from_ajax_multiple',
+                'placeholder' => 'Select Roles',
+                'minimum_input_length' => 0,
+                'data_source' => route('contact.roles'),
+                'include_all_form_fields' => true,
+                'dependencies' => ['customer_id'],
+                'tab' => 'Basic',
+            ], [ // select2_from_ajax: 1-n relationship
+                'label' => 'Address', // Table column heading
+                'type' => 'select2_from_ajax',
+                'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
+                'model' => 'Amplify\System\Backend\Models\CustomerAddress', // the method that defines the relationship in your Model
+                'attribute' => 'display_name', // foreign key attribute that is shown to user
+                'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
+                'placeholder' => 'Select an address', // placeholder for the select
+                'include_all_form_fields' => true, // sends the other form fields along with the request so it can be filtered.
+                'minimum_input_length' => 0, // minimum characters to type before querying results
+                'dependencies' => ['customer_id'], // when a dependency changes, this select2 is reset to null
+                'pivot' => false,
+                'tab' => 'Basic',
+                'options' => (fn($query) => $query->orderBy('address_name')->get()),
+                'default' => old('customer_address_id', $this->crud->entry->customer_address_id ?? null),
+            ],
+            [
+                'name' => 'password',
+                'type' => 'toggle_password',
+                'view_namespace' => 'backend::fields',
+                'showButton' => 'true',
+                'tab' => 'Basic',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-password',
+                ],
+            ],
+            [
+                'name' => 'password_confirmation',
+                'type' => 'toggle_password',
+                'view_namespace' => 'backend::fields',
+                'label' => 'Retype Password',
+                'showButton' => 'true',
+                'tab' => 'Basic',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-password',
+                ],
             ]
-        ]);
-
-        CRUD::addField([
-            'name' => 'roles',
-            'label' => 'Role(s)',
-            'type' => 'select2_from_ajax_multiple',
-            'placeholder' => 'Select Roles',
-            'minimum_input_length' => 0,
-            'data_source' => route('contact.roles'),
-            'include_all_form_fields' => true,
-            'dependencies' => ['customer_id'],
-            'tab' => 'Basic',
-        ]);
-
-        CRUD::addField([ // select2_from_ajax: 1-n relationship
-            'label' => 'Address', // Table column heading
-            'type' => 'select2_from_ajax',
-            'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
-            'model' => 'Amplify\System\Backend\Models\CustomerAddress', // the method that defines the relationship in your Model
-            'attribute' => 'display_name', // foreign key attribute that is shown to user
-            'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
-            'placeholder' => 'Select an address', // placeholder for the select
-            'include_all_form_fields' => true, // sends the other form fields along with the request so it can be filtered.
-            'minimum_input_length' => 0, // minimum characters to type before querying results
-            'dependencies' => ['customer_id'], // when a dependency changes, this select2 is reset to null
-            'pivot' => false,
-            'tab' => 'Basic',
-            'options' => (fn ($query) => $query->orderBy('address_name')->get()),
-            'default' => old('customer_address_id', $this->crud->entry->customer_address_id ?? null),
-        ]);
-
-        CRUD::addField([
-            'name' => 'password',
-            'type' => 'show_hide_password',
-            'showButton' => 'true',
-            'tab' => 'Basic',
-            'attributes' => [
-                'autocomplete' => 'off',
-                'id' => 'new-password',
-            ],
-        ]);
-
-        CRUD::field('password_confirmation')->type('show_hide_password')->label('Confirm Password')->tab('Basic');
-        CRUD::addField([
-            'name' => 'order_limit',
-            'type' => 'number',
-            'attributes' => [
-                'step' => 'any',
-                'min' => 0,
-            ],
-            'default' => '0',
-            'label' => 'Order Limit',
-            'tab' => 'ERP',
-        ]);
-        CRUD::addField([
-            'name' => 'daily_budget_limit',
-            'type' => 'number',
-            'attributes' => [
-                'step' => 'any',
-                'min' => 0,
-            ],
-            'default' => '0',
-            'label' => 'Daily Budget Limit',
-            'tab' => 'ERP',
-        ]);
-        CRUD::addField([
-            'name' => 'monthly_budget_limit',
-            'type' => 'number',
-            'attributes' => [
-                'step' => 'any',
-                'min' => 0,
-            ],
-            'default' => '0',
-            'label' => 'Monthly Budget Limit',
-            'tab' => 'ERP',
         ]);
 
         if (config('amplify.basic.enable_multi_customer_manage')) {
@@ -439,7 +410,7 @@ class ContactCrudController extends BackpackCustomCrudController
                 'label' => 'Default Warehouse',
                 'entity' => 'ownWarehouse',
                 'tab' => 'ERP',
-                'options' => (fn ($query) => $query->orderBy('name')->get()),
+                'options' => (fn($query) => $query->orderBy('name')->get()),
             ]);
 
             CRUD::addField([
@@ -477,7 +448,7 @@ class ContactCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn ($query) => $query->orderBy('name')->get()),
+                        'options' => (fn($query) => $query->orderBy('name')->get()),
                     ],
                     [
                         'name' => 'customer_address_id',
@@ -488,7 +459,7 @@ class ContactCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn ($query) => $query->orderBy('address_name')->get()),
+                        'options' => (fn($query) => $query->orderBy('address_name')->get()),
                     ],
                     [
                         'name' => 'roles',
@@ -573,30 +544,94 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        // Load the Contact model with the customer relationship
         $contact = Contact::with('customer')->findOrFail(request()->id);
-        // Set the customer ID in the form for the select2 field to pre-select the correct value
+
         $this->crud->entry = $contact; // Ensure the data is correctly set for the form
 
-        // This will set the customer team ID, just as you are already doing
-        set_customer_team_id($contact->customer->id);
+        set_customer_team_id($contact->customer_id);
 
-        // Call the setupCreateOperation method to apply the field configuration for the edit operation
         $this->setupCreateOperation();
+
+        CRUD::addField([
+            'name' => 'order_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Order Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'daily_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Daily Budget Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'monthly_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Monthly Budget Limit',
+            'tab' => 'ERP',
+        ]);
     }
 
     public function store(ContactRequest $request)
     {
         $this->crud->removeFields(['roles', 'contactLogins']);
+
         $this->crud->setRequest($this->crud->validateRequest());
+
         $this->crud->unsetValidation();
+
+        if (config('amplify.erp.auto_create_contact')
+            && !$request->filled('contact_code')) {
+
+            $attributes = $request->all();
+
+            $customer = Customer::find($attributes['customer_id']);
+
+            $accountTitle = AccountTitle::find($attributes['account_title_id']);
+
+            $attributes['action'] = 'add';
+            $attributes['customer_number'] = $customer->erp_id;
+            $attributes['account_title_code'] = $accountTitle?->code ?? null;
+
+            $erpContact = ErpApi::createUpdateContact($attributes);
+
+            if (!empty($erpContact->Message)) {
+                throw ValidationException::withMessages([
+                    'contact_code' => $erpContact->Message,
+                ]);
+            }
+
+            if ($erpContact->ContactNumber == null) {
+
+                \Alert::success(trans('Unable to create contact on ERP.'))->flash();
+
+                return redirect()->back();
+            }
+
+            $request->offsetSet('contact_code', $erpContact->ContactNumber);
+        }
+
         $traitRes = $this->traitStore();
+
         $this->afterCreateUpdateOperation($request);
+
         $this->crud->entry->updateContactLoginAsPerEntry();
 
-        if(config('amplify.erp.auto_create_contact')) {
-            ContactProfileSyncJob::dispatch($this->data['entry']->toArray());
-        }
 
         return $traitRes;
     }
@@ -782,35 +817,35 @@ class ContactCrudController extends BackpackCustomCrudController
                                 <tbody>
                                     <tr>
                                         <th>Address Name:</th>
-                                        <td>'.($customer_address->address_name ?? '').'</td>
+                                        <td>' . ($customer_address->address_name ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>Line 1:</th>
-                                        <td>'.($customer_address->address_1 ?? '').'</td>
+                                        <td>' . ($customer_address->address_1 ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>Line 2:</th>
-                                        <td>'.($customer_address->address_2 ?? '').'</td>
+                                        <td>' . ($customer_address->address_2 ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>Line 3:</th>
-                                        <td>'.($customer_address->address_3 ?? '').'</td>
+                                        <td>' . ($customer_address->address_3 ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>City:</th>
-                                        <td>'.($customer_address->city ?? '').'</td>
+                                        <td>' . ($customer_address->city ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>State:</th>
-                                        <td>'.($customer_address->state ?? '').'</td>
+                                        <td>' . ($customer_address->state ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>Country:</th>
-                                        <td>'.($customer_address->country_code ?? '').'</td>
+                                        <td>' . ($customer_address->country_code ?? '') . '</td>
                                     </tr>
                                     <tr>
                                         <th>Zip Code:</th>
-                                        <td>'.($customer_address->zip_code ?? '').'</td>
+                                        <td>' . ($customer_address->zip_code ?? '') . '</td>
                                     </tr>
                                 </tbody>
                              </table>';
@@ -892,14 +927,14 @@ class ContactCrudController extends BackpackCustomCrudController
 
         $options = CustomerAddress::select('*', DB::raw('CONCAT(address_name," - ",address_code) AS display_name'));
 
-        if (! empty($request->q)) {
+        if (!empty($request->q)) {
             $options->where(function ($query) use ($request) {
                 return $query->where('address_name', 'LIKE', "%{$request->q}%")
                     ->orWhere('address_code', 'LIKE', "%{$request->q}%");
             });
         }
 
-        if (! $form['customer_id']) {
+        if (!$form['customer_id']) {
             return [];
         }
 
@@ -918,7 +953,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         if (isset($form['customer_id'])) {
             return Role::where('guard_name', 'customer')
-                ->where(fn ($q) => $q->whereNull('team_id')->orWhere('team_id', $form['customer_id']))
+                ->where(fn($q) => $q->whereNull('team_id')->orWhere('team_id', $form['customer_id']))
                 ->orderBy('name', 'ASC')
                 ->paginate(20);
         }
@@ -933,7 +968,7 @@ class ContactCrudController extends BackpackCustomCrudController
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
-            'query' => fn ($model) => $model
+            'query' => fn($model) => $model
                 ->select(
                     'id', 'customer_name', 'customer_code',
                     DB::raw('CONCAT(customer_name," - ",customer_code) AS display_name')
@@ -960,13 +995,13 @@ class ContactCrudController extends BackpackCustomCrudController
             'searchable_attributes' => ['customer_name', 'customer_code', 'id', 'email', 'phone'],
             'paginate' => 10, // items to show per page
             'searchOperator' => 'LIKE',
-            'query' => fn ($model) => $model->where('is_assignable', true)->whereNotIn('id', $customerExcluded),
+            'query' => fn($model) => $model->where('is_assignable', true)->whereNotIn('id', $customerExcluded),
         ]);
     }
 
     public function setImpersonate(Contact $contact, Request $request): RedirectResponse
     {
-        if (! $contact->enabled) {
+        if (!$contact->enabled) {
             return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
         }
 
@@ -984,7 +1019,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         event(new ContactLoggedIn($contact));
 
-        if (! empty($contact->redirect_route)) {
+        if (!empty($contact->redirect_route)) {
             return redirect()->intended($contact->redirect_route);
         }
 
@@ -997,13 +1032,13 @@ class ContactCrudController extends BackpackCustomCrudController
             $contact_email = $request->input('contact_email');
             $customer_id = $request->input('customer_id');
 
-            if (! $customer_id || ! $contact_email) {
+            if (!$customer_id || !$contact_email) {
                 throw new \Exception('Contact Email or Customer Id is missing');
             }
 
             $customerModel = Customer::find($customer_id);
 
-            if (! $customerModel) {
+            if (!$customerModel) {
                 throw new \Exception('Invalid Customer ID received from input');
             }
 
@@ -1032,7 +1067,7 @@ class ContactCrudController extends BackpackCustomCrudController
             if (isset($response->DefaultShipTo)) {
                 $defaultShipTo = $customerAddresses->firstWhere('address_name', $response->DefaultShipTo);
 
-                if (! $defaultShipTo) {
+                if (!$defaultShipTo) {
                     $defaultShipTo = $customerAddresses->firstWhere('address_name', $customerModel->shipto_address_code);
                 }
                 $jsonResponse['customer_address_id'] = $defaultShipTo->id ?? null;
@@ -1050,7 +1085,7 @@ class ContactCrudController extends BackpackCustomCrudController
     /**
      * bulkPublish
      *
-     * @param  mixed  $request
+     * @param mixed $request
      * @return JsonResponse
      */
     public function bulkProfileSync(Request $request)
@@ -1058,7 +1093,7 @@ class ContactCrudController extends BackpackCustomCrudController
         try {
             $selectedItems = $request->input('entries');
 
-            if (! empty($selectedItems)) {
+            if (!empty($selectedItems)) {
                 foreach ($selectedItems as $contactId) {
                     ContactProfileSyncJob::dispatch(['id' => $contactId]);
                 }

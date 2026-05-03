@@ -8,7 +8,7 @@ use Amplify\System\Backend\Models\Country;
 use Amplify\System\Backend\Models\State;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use \Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -37,7 +37,7 @@ class StateCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(State::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/state');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/state');
         CRUD::setEntityNameStrings('state', 'states');
     }
 
@@ -94,7 +94,7 @@ class StateCrudController extends BackpackCustomCrudController
         CRUD::field('iso2');
         CRUD::addField([
             'name' => 'country_id',
-            'options' => (fn ($query) => $query->orderBy('name')->get()),
+            'options' => (fn($query) => $query->orderBy('name')->get()),
         ]);
         CRUD::field('country_code');
         CRUD::field('type');
@@ -118,5 +118,19 @@ class StateCrudController extends BackpackCustomCrudController
     protected function fetchCountry()
     {
         return $this->fetch(Country::class);
+    }
+
+    protected function fetchStateByCountryCode()
+    {
+        $inputs = backpack_form_input();
+
+        return $this->fetch([
+            'model' => State::class,
+            'query' => function ($query) use ($inputs) {
+                return $query->whereHas('country',
+                    fn($query) => $query->where('iso2', '=', $inputs['country_code'])
+                );
+            },
+        ]);
     }
 }

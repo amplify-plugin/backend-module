@@ -171,6 +171,20 @@
                 </small>
             </div>
 
+            <div class="form-group custom-control custom-checkbox pl-0">
+                <input
+                    type="checkbox"
+                    name="show_parent_product_for_sku"
+                    id="show_parent_product_for_sku"
+                    v-model="coreConfigurationData.show_parent_product_for_sku"
+                    :class="{ 'is-invalid': $parent.validationErrors.show_parent_product_for_sku }"
+                />
+                <label for="show_parent_product_for_sku">Redirect to SKU product to master product</label>
+                <small v-if="$parent.validationErrors.show_parent_product_for_sku" class="text-danger mt-3">
+                    {{ $parent.validationErrors.show_parent_product_for_sku[0] }}
+                </small>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">

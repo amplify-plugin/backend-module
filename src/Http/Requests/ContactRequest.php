@@ -30,7 +30,7 @@ class ContactRequest extends FormRequest
     {
         $this->rules = [
             'customer_id' => 'required|integer|exists:customers,id',
-            'contact_code' => [ 'string', (config('amplify.erp.auto_create_contact') ? new ErpContactExist() : 'nullable')],
+            'contact_code' => config('amplify.erp.auto_create_contact') ? [new ErpContactExist()] : ['nullable'],
             'name' => 'required|string',
             'phone' => 'nullable|string',
             'account_title_id' => 'nullable|integer|exists:account_titles,id',
@@ -55,7 +55,7 @@ class ContactRequest extends FormRequest
         // on update statement
         if ($this->isMethod('PUT')) {
             $this->rules['password'] = "nullable|min:$passLength|confirmed";
-            $this->rules['email'] = 'required|email|unique:contacts,email,'.$this->id;
+            $this->rules['email'] = 'required|email|unique:contacts,email,' . $this->id;
         } else {
             $this->rules['email'] = 'required|email|unique:contacts';
             $this->rules['password'] = "required|min:$passLength|confirmed";

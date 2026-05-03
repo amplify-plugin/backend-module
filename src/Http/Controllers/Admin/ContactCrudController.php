@@ -587,9 +587,18 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
     }
 
-    public function store(ContactRequest $request)
+
+    public function store()
     {
+        $this->crud->hasAccessOrFail('create');
+
         $this->crud->removeFields(['roles', 'contactLogins']);
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+
+        // register any Model Events defined on fields
+        $this->crud->registerFieldEvents();
 
         $this->crud->setRequest($this->crud->validateRequest());
 
@@ -626,14 +635,21 @@ class ContactCrudController extends BackpackCustomCrudController
             $request->offsetSet('contact_code', $erpContact->ContactNumber);
         }
 
-        $traitRes = $this->traitStore();
+        // insert item in the db
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
+
+        $this->data['entry'] = $this->crud->entry = $item;
 
         $this->afterCreateUpdateOperation($request);
 
-        $this->crud->entry->updateContactLoginAsPerEntry();
+        $item->updateContactLoginAsPerEntry();
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
 
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
 
-        return $traitRes;
+        return $this->crud->performSaveAction($item->getKey());
     }
 
     public function update(ContactRequest $request)

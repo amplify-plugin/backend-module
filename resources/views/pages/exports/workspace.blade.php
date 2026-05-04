@@ -30,7 +30,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="manufacturer-export-tab" data-toggle="tab" href="#manufacturer-export-pane" role="tab">
+                    <a class="nav-link" id="manufacturer-export-tab" data-toggle="tab" href="#manufacturer-export-pane"
+                        role="tab">
                         Manufacturer Export
                     </a>
                 </li>
@@ -53,15 +54,14 @@
                                     <h4 class="mb-2">Conditions</h4>
                                     <p class="text-muted mb-3">Filter the products before exporting.</p>
 
-                                    @foreach($productExportConditions as $conditionKey => $condition)
+                                    @foreach ($productExportConditions as $conditionKey => $condition)
                                         <div class="form-group mb-3">
                                             <label for="{{ $conditionKey }}">{{ $condition['label'] }}</label>
-                                            <select name="{{ $conditionKey }}" id="{{ $conditionKey }}" class="form-control">
-                                                @foreach($condition['options'] as $optionValue => $optionLabel)
-                                                    <option
-                                                        value="{{ $optionValue }}"
-                                                        {{ request($conditionKey, $selectedProductConditions[$conditionKey] ?? 'any') === $optionValue ? 'selected' : '' }}
-                                                    >
+                                            <select name="{{ $conditionKey }}" id="{{ $conditionKey }}"
+                                                class="form-control">
+                                                @foreach ($condition['options'] as $optionValue => $optionLabel)
+                                                    <option value="{{ $optionValue }}"
+                                                        {{ request($conditionKey, $selectedProductConditions[$conditionKey] ?? 'any') === $optionValue ? 'selected' : '' }}>
                                                         {{ $optionLabel }}
                                                     </option>
                                                 @endforeach
@@ -82,21 +82,19 @@
                                             <h4 class="mb-1">Select columns</h4>
                                             <p class="text-muted mb-0">{{ $productCount ?? 0 }} products available</p>
                                         </div>
-                                        <a href="javascript:void(0)" class="btn btn-link btn-sm p-0" data-select-all="product">Select all</a>
+                                        <a href="javascript:void(0)" class="btn btn-link btn-sm p-0"
+                                            data-select-all="product">Select all</a>
                                     </div>
 
                                     <div class="border rounded p-3" style="max-height: 520px; overflow-y: auto;">
-                                        @foreach($productExportColumns as $columnKey => $column)
+                                        @foreach ($productExportColumns as $columnKey => $column)
                                             <div class="custom-control custom-checkbox mb-2">
-                                                <input
-                                                    class="custom-control-input export-column export-column-product"
-                                                    type="checkbox"
-                                                    id="product-export-column-{{ $columnKey }}"
-                                                    name="columns[]"
-                                                    value="{{ $columnKey }}"
-                                                    {{ in_array($columnKey, $selectedProductColumns, true) ? 'checked' : '' }}
-                                                >
-                                                <label class="custom-control-label" for="product-export-column-{{ $columnKey }}">
+                                                <input class="custom-control-input export-column export-column-product"
+                                                    type="checkbox" id="product-export-column-{{ $columnKey }}"
+                                                    name="columns[]" value="{{ $columnKey }}"
+                                                    {{ in_array($columnKey, $selectedProductColumns, true) ? 'checked' : '' }}>
+                                                <label class="custom-control-label"
+                                                    for="product-export-column-{{ $columnKey }}">
                                                     <span class="d-block">{{ $column['label'] }}</span>
                                                     <small class="text-muted">{{ $columnKey }}</small>
                                                 </label>
@@ -123,11 +121,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($productExportColumns as $columnKey => $column)
+                                                @foreach ($productExportColumns as $columnKey => $column)
                                                     <tr>
                                                         <td>
                                                             <strong>{{ $column['label'] }}</strong>
-                                                            @if(!empty($column['selected_by_default']))
+                                                            @if (!empty($column['selected_by_default']))
                                                                 <span class="badge badge-success ml-2">Default</span>
                                                             @endif
                                                         </td>
@@ -150,26 +148,26 @@
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <div>
                                         <h4 class="mb-1">Select columns</h4>
-                                        <p class="text-muted mb-0">{{ $manufacturerCount ?? 0 }} manufacturers available</p>
+                                        <p class="text-muted mb-0">{{ $manufacturerCount ?? 0 }} manufacturers available
+                                        </p>
                                     </div>
-                                    <a href="javascript:void(0)" class="btn btn-link btn-sm p-0" data-select-all="manufacturer">Select all</a>
+                                    <a href="javascript:void(0)" class="btn btn-link btn-sm p-0"
+                                        data-select-all="manufacturer">Select all</a>
                                 </div>
 
-                                <form method="POST" action="{{ route('admin.export.manufacturers.download') }}" id="manufacturer-export-form">
+                                <form method="POST" action="{{ route('admin.export.manufacturers.download') }}"
+                                    id="manufacturer-export-form">
                                     @csrf
 
                                     <div class="border rounded p-3" style="max-height: 520px; overflow-y: auto;">
-                                        @foreach($manufacturerExportColumns as $columnKey => $column)
+                                        @foreach ($manufacturerExportColumns as $columnKey => $column)
                                             <div class="custom-control custom-checkbox mb-2">
-                                                <input
-                                                    class="custom-control-input export-column export-column-manufacturer"
-                                                    type="checkbox"
-                                                    id="manufacturer-export-column-{{ $columnKey }}"
-                                                    name="columns[]"
-                                                    value="{{ $columnKey }}"
-                                                    {{ in_array($columnKey, $selectedManufacturerColumns, true) ? 'checked' : '' }}
-                                                >
-                                                <label class="custom-control-label" for="manufacturer-export-column-{{ $columnKey }}">
+                                                <input class="custom-control-input export-column export-column-manufacturer"
+                                                    type="checkbox" id="manufacturer-export-column-{{ $columnKey }}"
+                                                    name="columns[]" value="{{ $columnKey }}"
+                                                    {{ in_array($columnKey, $selectedManufacturerColumns, true) ? 'checked' : '' }}>
+                                                <label class="custom-control-label"
+                                                    for="manufacturer-export-column-{{ $columnKey }}">
                                                     <span class="d-block">{{ $column['label'] }}</span>
                                                     <small class="text-muted">{{ $columnKey }}</small>
                                                 </label>
@@ -197,11 +195,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($manufacturerExportColumns as $columnKey => $column)
+                                            @foreach ($manufacturerExportColumns as $columnKey => $column)
                                                 <tr>
                                                     <td>
                                                         <strong>{{ $column['label'] }}</strong>
-                                                        @if(!empty($column['selected_by_default']))
+                                                        @if (!empty($column['selected_by_default']))
                                                             <span class="badge badge-success ml-2">Default</span>
                                                         @endif
                                                     </td>
@@ -221,32 +219,24 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="border rounded p-3 mb-3">
                                 <h4 class="mb-2">{{ __('Write SQL') }}</h4>
-                                <p class="text-muted mb-3">{{ __('Only SELECT query is supported. Insert, update, delete, and other statements are not allowed.') }}</p>
+                                <p class="text-muted mb-3">
+                                    {{ __('Only SELECT query is supported. Insert, update, delete, and other statements are not allowed.') }}
+                                </p>
 
                                 <div class="row">
                                     <div class="col-md-7">
                                         <div class="form-group mb-3">
                                             <label for="sql-history-label">{{ __('History Label') }}</label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="sql-history-label"
+                                            <input type="text" class="form-control" id="sql-history-label"
                                                 maxlength="120"
-                                                placeholder="{{ __('Optional label. Random label will be used if empty.') }}"
-                                            >
+                                                placeholder="{{ __('Optional label. Random label will be used if empty.') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group mb-3">
                                             <label for="sql-preview-limit">{{ __('Preview Count') }}</label>
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                id="sql-preview-limit"
-                                                min="1"
-                                                max="100"
-                                                value="10"
-                                            >
+                                            <input type="number" class="form-control" id="sql-preview-limit"
+                                                min="1" max="100" value="10">
                                             <small class="text-muted">{{ __('Maximum 100 rows.') }}</small>
                                         </div>
                                     </div>
@@ -254,56 +244,75 @@
 
                                 <div class="form-group mb-3">
                                     <label for="sql-export-limit">{{ __('Export Row Limit') }}</label>
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="sql-export-limit"
-                                        min="1"
-                                        max="1000000"
-                                        value="100000"
-                                    >
+                                    <input type="number" class="form-control" id="sql-export-limit" min="1"
+                                        max="1000000" value="100000">
                                     <small class="text-muted">{{ __('Maximum 1000000 rows per request.') }}</small>
                                 </div>
 
+                                <p class="text-muted mb-3">
+                                    {{ __('Select a table, then click any column to insert it into SQL editor.') }}</p>
+
                                 <div class="form-group mb-3">
-                                    <textarea
-                                        class="form-control"
-                                        id="sql-export-editor"
-                                        rows="12"
-                                        placeholder="{{ __('Example: SELECT id, product_name FROM products WHERE status = \"published\" LIMIT 100;') }}"
-                                    ></textarea>
+                                    <label for="sql-table-select">{{ __('Select Table') }}</label>
+                                    <select id="sql-table-select" class="form-control">
+                                        <option value="">{{ __('Search and choose a table') }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>{{ __('Columns') }}</strong>
+                                    <small class="text-muted" id="sql-columns-meta"></small>
+                                </div>
+                                <div id="sql-columns-list" class="sql-columns-list">
+                                    <div class="text-muted small">{{ __('Choose a table to load columns.') }}</div>
+                                </div>
+                                <div class="form-group mt-3 mb-3">
+                                    <textarea class="form-control" id="sql-export-editor" rows="12"
+                                        placeholder="{{ __('Example: SELECT id, product_name FROM products WHERE status = \"published\" LIMIT 100;') }}"></textarea>
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <button type="button" class="btn btn-primary mr-2" id="sql-preview-btn">{{ __('Check SQL') }}</button>
-                                    <button type="button" class="btn btn-light mr-2" id="sql-clear-btn">{{ __('Clear') }}</button>
-                                    <button type="button" class="btn btn-success" id="sql-download-btn" disabled>{{ __('Download CSV') }}</button>
+                                    <button type="button" class="btn btn-primary mr-2"
+                                        id="sql-preview-btn">{{ __('Check SQL') }}</button>
+                                    <button type="button" class="btn btn-light mr-2"
+                                        id="sql-clear-btn">{{ __('Clear') }}</button>
+                                    <button type="button" class="btn btn-success" id="sql-download-btn"
+                                        disabled>{{ __('Download CSV') }}</button>
                                 </div>
-                                <form method="POST" action="{{ route('admin.export.sql.download') }}" id="sql-export-form" class="d-none">
+                                <form method="POST" action="{{ route('admin.export.sql.download') }}"
+                                    id="sql-export-form" class="d-none">
                                     @csrf
                                     <input type="hidden" name="sql" id="sql-export-hidden-query" value="">
-                                    <input type="hidden" name="export_limit" id="sql-export-hidden-limit" value="100000">
+                                    <input type="hidden" name="export_limit" id="sql-export-hidden-limit"
+                                        value="100000">
                                 </form>
 
                                 <div class="mt-3">
-                                    <span class="badge badge-secondary" id="sql-status-badge">{{ __('Not checked') }}</span>
+                                    <span class="badge badge-secondary"
+                                        id="sql-status-badge">{{ __('Not checked') }}</span>
                                     <small class="d-block text-muted mt-2" id="sql-status-message"></small>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="col-lg-6 col-md-12">
                             <div class="border rounded p-3">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <h4 class="mb-0">{{ __('SQL History') }}</h4>
-                                    <button type="button" class="btn btn-link btn-sm p-0" id="sql-history-refresh-btn">{{ __('Refresh') }}</button>
+                                    <button type="button" class="btn btn-link btn-sm p-0"
+                                        id="sql-history-refresh-btn">{{ __('Refresh') }}</button>
                                 </div>
-                                <small class="d-block text-muted mb-3">{{ __('Reuse a previous valid query or remove it from history.') }}</small>
+                                <small
+                                    class="d-block text-muted mb-3">{{ __('Reuse a previous valid query or remove it from history.') }}</small>
                                 <div id="sql-history-list" class="sql-history-list"></div>
-                                <div class="d-flex align-items-center justify-content-between mt-3" id="sql-history-pagination" style="display: none !important;">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="sql-history-prev-btn">{{ __('Previous') }}</button>
+                                <div class="d-flex align-items-center justify-content-between mt-3"
+                                    id="sql-history-pagination" style="display: none !important;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="sql-history-prev-btn">{{ __('Previous') }}</button>
                                     <small class="text-muted" id="sql-history-page-info"></small>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="sql-history-next-btn">{{ __('Next') }}</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="sql-history-next-btn">{{ __('Next') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -333,6 +342,7 @@
 @endsection
 
 @section('after_styles')
+    <link rel="stylesheet" href="{{ asset('packages/select2/dist/css/select2.min.css') }}">
     <style>
         .card.shadow-xs {
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
@@ -357,13 +367,39 @@
             font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
             font-size: 0.8rem;
         }
+
+        .sql-columns-list {
+            border: 1px solid #e9ecef;
+            border-radius: 0.25rem;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .sql-column-item {
+            cursor: pointer;
+            display: inline-block;
+            margin: 0.2rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 0.78rem;
+        }
+
+        .sql-column-item:hover {
+            background: #eef6ff;
+            border-color: #9fc5ff;
+        }
     </style>
 @endsection
 
 @section('after_scripts')
     <script src="{{ mix('js/backend.js', 'vendor/backend') }}"></script>
+    <script src="{{ asset('packages/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
-        (function () {
+        (function() {
             const tabTriggers = document.querySelectorAll('[data-select-all]');
             const sqlPreviewButton = document.getElementById('sql-preview-btn');
             const sqlClearButton = document.getElementById('sql-clear-btn');
@@ -385,14 +421,17 @@
             const sqlHistoryPrevButton = document.getElementById('sql-history-prev-btn');
             const sqlHistoryNextButton = document.getElementById('sql-history-next-btn');
             const sqlHistoryPageInfo = document.getElementById('sql-history-page-info');
+            const sqlTableSelect = document.getElementById('sql-table-select');
+            const sqlColumnsList = document.getElementById('sql-columns-list');
+            const sqlColumnsMeta = document.getElementById('sql-columns-meta');
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
             let sqlHistoryCurrentPage = 1;
             let sqlHistoryLastPage = 1;
 
-            tabTriggers.forEach(function (trigger) {
-                trigger.addEventListener('click', function () {
+            tabTriggers.forEach(function(trigger) {
+                trigger.addEventListener('click', function() {
                     const type = trigger.getAttribute('data-select-all');
-                    document.querySelectorAll('.export-column-' + type).forEach(function (checkbox) {
+                    document.querySelectorAll('.export-column-' + type).forEach(function(checkbox) {
                         checkbox.checked = true;
                     });
                 });
@@ -450,19 +489,21 @@
                     return;
                 }
 
-                sqlHistoryList.innerHTML = items.map(function (item) {
-                    return ''
-                        + '<div class="sql-history-item" data-history-id="' + item.id + '">'
-                        + '  <div class="small text-muted mb-1">' + escapeHtml(item.name || '-') + '</div>'
-                        + '  <div class="sql-history-query mb-2" title="' + escapeHtml(item.query) + '">' + escapeHtml(item.query) + '</div>'
-                        + '  <div class="d-flex justify-content-between align-items-center">'
-                        + '      <small class="text-muted">{{ __('Last used') }}: ' + escapeHtml(item.last_used_at || '-') + '</small>'
-                        + '      <div>'
-                        + '          <button type="button" class="btn btn-sm btn-outline-primary mr-1" data-history-action="use">{{ __('Use') }}</button>'
-                        + '          <button type="button" class="btn btn-sm btn-outline-danger" data-history-action="delete">{{ __('Remove') }}</button>'
-                        + '      </div>'
-                        + '  </div>'
-                        + '</div>';
+                sqlHistoryList.innerHTML = items.map(function(item) {
+                    return '' +
+                        '<div class="sql-history-item" data-history-id="' + item.id + '">' +
+                        '  <div class="small text-muted mb-1">' + escapeHtml(item.name || '-') + '</div>' +
+                        '  <div class="sql-history-query mb-2" title="' + escapeHtml(item.query) + '">' +
+                        escapeHtml(item.query) + '</div>' +
+                        '  <div class="d-flex justify-content-between align-items-center">' +
+                        '      <small class="text-muted">{{ __('Last used') }}: ' + escapeHtml(item
+                            .last_used_at || '-') + '</small>' +
+                        '      <div>' +
+                        '          <button type="button" class="btn btn-sm btn-outline-primary mr-1" data-history-action="use">{{ __('Use') }}</button>' +
+                        '          <button type="button" class="btn btn-sm btn-outline-danger" data-history-action="delete">{{ __('Remove') }}</button>' +
+                        '      </div>' +
+                        '  </div>' +
+                        '</div>';
                 }).join('');
 
                 if (sqlHistoryPagination && meta) {
@@ -471,7 +512,8 @@
                     sqlHistoryPagination.style.display = 'flex';
                     sqlHistoryPrevButton.disabled = sqlHistoryCurrentPage <= 1;
                     sqlHistoryNextButton.disabled = sqlHistoryCurrentPage >= sqlHistoryLastPage;
-                    sqlHistoryPageInfo.textContent = '{{ __('Page') }} ' + sqlHistoryCurrentPage + ' {{ __('of') }} ' + sqlHistoryLastPage;
+                    sqlHistoryPageInfo.textContent = '{{ __('Page') }} ' + sqlHistoryCurrentPage +
+                        ' {{ __('of') }} ' + sqlHistoryLastPage;
                 }
             }
 
@@ -482,20 +524,114 @@
 
                 const requestedPage = page || 1;
                 fetch('{{ route('admin.export.sql.history') }}?page=' + requestedPage + '&per_page=4', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                    .then(async function (response) {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(async function(response) {
                         const payload = await response.json();
                         if (!response.ok) {
                             throw new Error('{{ __('Failed to load SQL history.') }}');
                         }
                         renderSqlHistory(payload.items || [], payload.meta || null);
                     })
-                    .catch(function () {
-                        sqlHistoryList.innerHTML = '<div class="text-danger small">{{ __('Could not load SQL history.') }}</div>';
+                    .catch(function() {
+                        sqlHistoryList.innerHTML =
+                            '<div class="text-danger small">{{ __('Could not load SQL history.') }}</div>';
+                    });
+            }
+
+            function renderTableOptions(filteredTables) {
+                if (!sqlTableSelect) {
+                    return;
+                }
+
+                const currentValue = sqlTableSelect.value;
+                const options = ['<option value="">{{ __('Search and choose a table') }}</option>']
+                    .concat((filteredTables || []).map(function(table) {
+                        return '<option value="' + escapeHtml(table) + '">' + escapeHtml(table) + '</option>';
+                    }));
+
+                sqlTableSelect.innerHTML = options.join('');
+                if (filteredTables.includes(currentValue)) {
+                    sqlTableSelect.value = currentValue;
+                }
+            }
+
+            function renderColumns(tableName, columns) {
+                if (!sqlColumnsList) {
+                    return;
+                }
+
+                if (!tableName) {
+                    sqlColumnsList.innerHTML =
+                        '<div class="text-muted small">{{ __('Choose a table to load columns.') }}</div>';
+                    if (sqlColumnsMeta) {
+                        sqlColumnsMeta.textContent = '';
+                    }
+                    return;
+                }
+
+                if (!columns || columns.length === 0) {
+                    sqlColumnsList.innerHTML =
+                        '<div class="text-muted small">{{ __('No columns found for selected table.') }}</div>';
+                    if (sqlColumnsMeta) {
+                        sqlColumnsMeta.textContent = tableName;
+                    }
+                    return;
+                }
+
+                sqlColumnsList.innerHTML = columns.map(function(column) {
+                    return '<span class="sql-column-item" data-column="' + escapeHtml(column) +
+                        '" data-table="' + escapeHtml(tableName) + '">' + escapeHtml(column) + '</span>';
+                }).join('');
+
+                if (sqlColumnsMeta) {
+                    sqlColumnsMeta.textContent = tableName + ' (' + columns.length + ')';
+                }
+            }
+
+            function insertTextAtCursor(input, text) {
+                if (!input) {
+                    return;
+                }
+
+                const start = input.selectionStart ?? input.value.length;
+                const end = input.selectionEnd ?? input.value.length;
+                input.value = input.value.slice(0, start) + text + input.value.slice(end);
+                input.focus();
+                const cursor = start + text.length;
+                input.setSelectionRange(cursor, cursor);
+            }
+
+            function loadSqlTablesAndColumns(selectedTable) {
+                const query = selectedTable ? ('?table=' + encodeURIComponent(selectedTable)) : '';
+                fetch('{{ route('admin.export.sql.schema') }}' + query, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(async function(response) {
+                        const payload = await response.json();
+                        if (!response.ok) {
+                            throw new Error('Schema load failed');
+                        }
+
+                        renderTableOptions(payload.tables || []);
+
+                        if (selectedTable && sqlTableSelect) {
+                            sqlTableSelect.value = selectedTable;
+                        }
+
+                        renderColumns(payload.selected_table || '', payload.columns || []);
+                    })
+                    .catch(function() {
+                        if (sqlColumnsList) {
+                            sqlColumnsList.innerHTML =
+                                '<div class="text-danger small">{{ __('Could not load table schema.') }}</div>';
+                        }
                     });
             }
 
@@ -504,21 +640,22 @@
                 sqlPreviewBody.innerHTML = '';
 
                 if (!rows || rows.length === 0) {
-                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('Query is valid but no rows found.') }}</td></tr>';
+                    sqlPreviewBody.innerHTML =
+                        '<tr><td class="text-muted">{{ __('Query is valid but no rows found.') }}</td></tr>';
                     return;
                 }
 
                 const headerRow = document.createElement('tr');
-                columns.forEach(function (column) {
+                columns.forEach(function(column) {
                     const th = document.createElement('th');
                     th.textContent = column;
                     headerRow.appendChild(th);
                 });
                 sqlPreviewHead.appendChild(headerRow);
 
-                rows.forEach(function (row) {
+                rows.forEach(function(row) {
                     const tr = document.createElement('tr');
-                    columns.forEach(function (column) {
+                    columns.forEach(function(column) {
                         const td = document.createElement('td');
                         td.textContent = row[column] === null ? '' : String(row[column]);
                         tr.appendChild(td);
@@ -528,14 +665,14 @@
             }
 
             if (sqlEditor) {
-                sqlEditor.addEventListener('input', function () {
+                sqlEditor.addEventListener('input', function() {
                     setSqlStatus('idle', '{{ __('Please re-check SQL after making changes.') }}');
                     disableSqlExport();
                 });
             }
 
             if (sqlPreviewButton) {
-                sqlPreviewButton.addEventListener('click', function () {
+                sqlPreviewButton.addEventListener('click', function() {
                     const sql = (sqlEditor.value || '').trim();
                     if (!sql) {
                         setSqlStatus('invalid', '{{ __('Please write a SQL query first.') }}');
@@ -558,19 +695,19 @@
                     disableSqlExport();
                     const historyLabelValue = sqlHistoryLabel ? sqlHistoryLabel.value : '';
                     fetch('{{ route('admin.export.sql.preview') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            sql: sql,
-                            label: historyLabelValue.trim(),
-                            limit: previewLimit
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                sql: sql,
+                                label: historyLabelValue.trim(),
+                                limit: previewLimit
+                            })
                         })
-                    })
-                        .then(async function (response) {
+                        .then(async function(response) {
                             const payload = await response.json();
                             if (!response.ok || !payload.valid) {
                                 throw new Error(payload.message || '{{ __('Invalid SQL query.') }}');
@@ -599,17 +736,18 @@
                             }
                             loadSqlHistory(1);
                         })
-                        .catch(function (error) {
+                        .catch(function(error) {
                             setSqlStatus('invalid', error.message || '{{ __('Invalid SQL query.') }}');
                             sqlPreviewHead.innerHTML = '';
-                            sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
+                            sqlPreviewBody.innerHTML =
+                                '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
                             disableSqlExport();
                         });
                 });
             }
 
             if (sqlClearButton) {
-                sqlClearButton.addEventListener('click', function () {
+                sqlClearButton.addEventListener('click', function() {
                     sqlEditor.value = '';
                     if (sqlHistoryLabel) {
                         sqlHistoryLabel.value = '';
@@ -617,12 +755,13 @@
                     setSqlStatus('idle', '');
                     disableSqlExport();
                     sqlPreviewHead.innerHTML = '';
-                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
+                    sqlPreviewBody.innerHTML =
+                        '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
                 });
             }
 
             if (sqlDownloadButton && sqlForm) {
-                sqlDownloadButton.addEventListener('click', function () {
+                sqlDownloadButton.addEventListener('click', function() {
                     if (!sqlDownloadButton.disabled) {
                         sqlForm.submit();
                     }
@@ -630,13 +769,13 @@
             }
 
             if (sqlHistoryRefreshButton) {
-                sqlHistoryRefreshButton.addEventListener('click', function () {
+                sqlHistoryRefreshButton.addEventListener('click', function() {
                     loadSqlHistory(sqlHistoryCurrentPage);
                 });
             }
 
             if (sqlHistoryPrevButton) {
-                sqlHistoryPrevButton.addEventListener('click', function () {
+                sqlHistoryPrevButton.addEventListener('click', function() {
                     if (sqlHistoryCurrentPage > 1) {
                         loadSqlHistory(sqlHistoryCurrentPage - 1);
                     }
@@ -644,7 +783,7 @@
             }
 
             if (sqlHistoryNextButton) {
-                sqlHistoryNextButton.addEventListener('click', function () {
+                sqlHistoryNextButton.addEventListener('click', function() {
                     if (sqlHistoryCurrentPage < sqlHistoryLastPage) {
                         loadSqlHistory(sqlHistoryCurrentPage + 1);
                     }
@@ -652,7 +791,7 @@
             }
 
             if (sqlHistoryList) {
-                sqlHistoryList.addEventListener('click', function (event) {
+                sqlHistoryList.addEventListener('click', function(event) {
                     const target = event.target;
                     if (!(target instanceof HTMLElement)) {
                         return;
@@ -688,30 +827,94 @@
                     }
 
                     if (action === 'delete') {
-                        fetch('{{ url(config('backpack.base.route_prefix').'/export/sql/history') }}/' + historyId, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            }
-                        })
-                            .then(async function (response) {
+                        fetch('{{ url(config('backpack.base.route_prefix') . '/export/sql/history') }}/' +
+                                historyId, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrfToken,
+                                        'Accept': 'application/json'
+                                    }
+                                })
+                            .then(async function(response) {
                                 const payload = await response.json();
                                 if (!response.ok || !payload.success) {
-                                    throw new Error(payload.message || '{{ __('Could not remove query.') }}');
+                                    throw new Error(payload.message ||
+                                        '{{ __('Could not remove query.') }}');
                                 }
-                                const nextPage = (sqlHistoryCurrentPage > 1 && sqlHistoryList.children.length === 1)
-                                    ? sqlHistoryCurrentPage - 1
-                                    : sqlHistoryCurrentPage;
+                                const nextPage = (sqlHistoryCurrentPage > 1 && sqlHistoryList.children
+                                        .length === 1) ?
+                                    sqlHistoryCurrentPage - 1 :
+                                    sqlHistoryCurrentPage;
                                 loadSqlHistory(nextPage);
                             })
-                            .catch(function () {
-                            });
+                            .catch(function() {});
                     }
                 });
             }
 
+            if (sqlTableSelect) {
+                window.jQuery(sqlTableSelect).select2({
+                    width: '100%',
+                    placeholder: '{{ __('Search and choose a table') }}',
+                    allowClear: true,
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: '{{ route('admin.export.sql.schema') }}',
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term || '',
+                                limit: 50
+                            };
+                        },
+                        processResults: function(data) {
+                            const tables = (data && data.tables) ? data.tables : [];
+
+                            return {
+                                results: tables.map(function(table) {
+                                    return {
+                                        id: table,
+                                        text: table
+                                    };
+                                })
+                            };
+                        }
+                    }
+                });
+
+                window.jQuery(sqlTableSelect).on('select2:select', function(event) {
+                    const selectedTable = event.params && event.params.data ? event.params.data.id : '';
+                    loadSqlTablesAndColumns(selectedTable);
+                });
+
+                window.jQuery(sqlTableSelect).on('select2:clear', function() {
+                    renderColumns('', []);
+                });
+            }
+
+            if (sqlColumnsList) {
+                sqlColumnsList.addEventListener('click', function(event) {
+                    const target = event.target;
+                    if (!(target instanceof HTMLElement)) {
+                        return;
+                    }
+
+                    const column = target.getAttribute('data-column');
+                    if (!column) {
+                        return;
+                    }
+
+                    const insertText = column;
+                    insertTextAtCursor(sqlEditor, insertText);
+                    setSqlStatus('idle',
+                        '{{ __('Column inserted into SQL editor. Re-check SQL before export.') }}');
+                    disableSqlExport();
+                });
+            }
+
             loadSqlHistory(1);
+            loadSqlTablesAndColumns('');
         })();
     </script>
 @endsection

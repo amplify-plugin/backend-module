@@ -15,7 +15,7 @@ use Amplify\System\Backend\Models\IndustryClassification;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\Helpers\UtilityHelper;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use \Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;

@@ -57,6 +57,9 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
     protected $attributes = [
         'redirect_route' => 'dashboard',
+        'order_limit' => '0',
+        'daily_budget_limit' => '0',
+        'monthly_budget_limit' => '0',
     ];
 
     /*

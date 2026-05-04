@@ -15,7 +15,7 @@ use Amplify\System\Helpers\UtilityHelper;
 use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
+use \Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
@@ -25,6 +25,7 @@ use Backpack\CRUD\app\Library\Widget;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class CustomerCrudController
@@ -189,77 +190,33 @@ class CustomerCrudController extends BackpackCustomCrudController
      */
     protected function setupCreateOperation()
     {
-        $options = [];
-        ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
-            $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
-        });
         CRUD::setValidation(CustomerRequest::class);
         Widget::add()->type('script')->content('vendor/backend/js/forms/customer.js');
 
+        $countries = Country::enabled()->get()->pluck('name', 'iso2')->toArray();
+
         // BASIC
-        CRUD::field('customer_code')->type('text')->tab('Basic')->label('Company Code');
         CRUD::field('customer_name')->type('text')->tab('Basic')->label('Company Name');
+        CRUD::field('customer_code')->type('text')->tab('Basic')->label('Company Code');
         CRUD::field('email')->type('email')->tab('Basic')->label('Company Email');
         CRUD::addField([
-                'name' => 'phone',
-                'label' => 'Company Phone',
-                'type' => 'text',
-                'tab' => 'Basic',
-                'wrapper' => ['class' => 'form-group col-md-9'],
-            ]);
-        CRUD::addField([
-                'name' => 'phone_ext',
-                'label' => 'Phone Extension',
-                'type' => 'text',
-                'tab' => 'Basic',
-                'wrapper' => ['class' => 'form-group col-md-3'],
-            ]);
-        CRUD::addField([
-            'name' => 'punch_out',
-            'label' => 'Punch Out',
-            'type' => 'boolean',
-            'inline' => true,
-            'attributes' => ['class' => 'form-check-label mr-3'],
-            'options' => [
-                0 => 'No',
-                1 => 'Yes',
-            ],
-            'default' => 0,
+            'name' => 'phone',
+            'label' => 'Company Phone',
+            'type' => 'text',
             'tab' => 'Basic',
+            'wrapper' => ['class' => 'form-group col-md-9'],
         ]);
         CRUD::addField([
-            'type' => 'tinymce',
-            'name' => 'punch_out_configuration',
-            'label' => 'Punch Out Configuration',
-            'both',
+            'name' => 'phone_ext',
+            'label' => 'Phone Extension',
+            'type' => 'text',
             'tab' => 'Basic',
+            'wrapper' => ['class' => 'form-group col-md-3'],
         ]);
         CRUD::addField([
             'name' => 'approved',
             'type' => 'hidden',
             'value' => 1,
-        ]);
-        CRUD::field('customer_type')->type('enum')->tab('Basic')->label('Customer Type');
-        CRUD::addField([
-            'label' => 'Customer Group',
-            'name' => 'customer_group_id',
-            'type' => 'select2',
-            'entity' => 'customer_group',
-            'model' => CustomerGroup::class,
-            'attribute' => 'group_name',
-            'ajax' => true,
-            'tab' => 'Basic',
-            'placeholder' => 'Select a customer group',
-            'options' => (fn($query) => $query->orderBy('group_name')->get()),
-        ]);
-        CRUD::addField([
-            'name' => 'warehouse_seq_code',
-            'label' => 'Warehouse seq code',
-            'type' => 'text',
-            'tab' => 'Basic',
-            'attributes' => [
-                'autocomplete' => 'false',
-            ],
         ]);
         CRUD::addField([
             'label' => 'Industry Classification',
@@ -272,45 +229,34 @@ class CustomerCrudController extends BackpackCustomCrudController
             'placeholder' => 'Select a industry classification',
             'options' => (fn($query) => $query->orderBy('name')->get()),
         ]);
-        CRUD::field('free_shipment_amount')->type('number')->tab('Basic');
-        CRUD::field('is_suspended')->type('boolean')->tab('Basic');
-        // ADDRESS
-        $countries = Country::enabled()->get()->pluck('name', 'iso2')->toArray();
+        CRUD::field('customer_type')->type('enum')->tab('Basic')->label('Customer Type');
 
+        // BIll ADDRESS
         CRUD::addFields([
             [
                 'name' => 'address_1',
                 'type' => 'text',
                 'label' => 'Address Line 1',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
                 'allows_null' => false,
             ],
             [
                 'name' => 'address_2',
                 'type' => 'text',
                 'label' => 'Address Line 2',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
             ],
             [
                 'name' => 'address_3',
                 'type' => 'text',
                 'label' => 'Address Line 3',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
             ],
             [
                 'name' => 'city',
                 'type' => 'text',
                 'label' => 'City',
-                'tab' => 'Addresses',
-                'wrapper' => [
-                    'class' => 'form-group col-md-6',
-                ],
-            ],
-            [
-                'name' => 'state',
-                'type' => 'text',
-                'label' => 'State',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
                 'wrapper' => [
                     'class' => 'form-group col-md-6',
                 ],
@@ -320,7 +266,24 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'type' => 'select2_from_array',
                 'options' => $countries,
                 'label' => 'Country',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'model' => \Amplify\System\Backend\Models\State::class,
+                'attribute' => 'name',
+                'data_source' => backpack_url('state/fetch/state-by-country-code'),
+                'placeholder' => 'Select an state',
+                'include_all_form_fields' => true,
+                'method' => 'POST',
+                'minimum_input_length' => 0,
+                'dependencies' => ['country_code'],
+                'tab' => 'Billing',
+                'name' => 'state',
+                'type' => 'select2_from_ajax',
+                'label' => 'State',
                 'wrapper' => [
                     'class' => 'form-group col-md-6',
                 ],
@@ -329,208 +292,160 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'name' => 'zip_code',
                 'type' => 'text',
                 'label' => 'Zip Code',
-                'tab' => 'Addresses',
+                'tab' => 'Billing',
                 'wrapper' => [
                     'class' => 'form-group col-md-6',
                 ],
+            ],
+            [
+                'name' => 'punch_out',
+                'label' => 'Punch Out',
+                'type' => 'boolean',
+                'inline' => true,
+                'attributes' => ['class' => 'form-check-label mr-3'],
+                'options' => [
+                    0 => 'No',
+                    1 => 'Yes',
+                ],
+                'default' => 0,
+                'tab' => 'Additional',
+            ],
+            [
+                'type' => 'tinymce',
+                'name' => 'punch_out_configuration',
+                'label' => 'Punch Out Configuration',
+                'both',
+                'tab' => 'Additional',
+            ],
+            [
+                'label' => 'Customer Group',
+                'name' => 'customer_group_id',
+                'type' => 'select2',
+                'entity' => 'customer_group',
+                'model' => CustomerGroup::class,
+                'attribute' => 'group_name',
+                'ajax' => true,
+                'tab' => 'Additional',
+                'placeholder' => 'Select a customer group',
+                'options' => (fn($query) => $query->orderBy('group_name')->get()),
+            ], [
+                'name' => 'warehouse_seq_code',
+                'label' => 'Warehouse seq code',
+                'type' => 'text',
+                'tab' => 'Additional',
+                'attributes' => [
+                    'autocomplete' => 'false',
+                ],
+            ],
+            [
+                'name' => 'free_shipment_amount',
+                'type' => 'number',
+                'tab' => 'Additional',
+
+            ],
+            [
+                'name' => 'is_suspended',
+                'type' => 'boolean',
+                'label' => 'Suspended?',
+                'tab' => 'Additional',
+
             ]
         ]);
+    }
 
-        CRUD::addField([
-            'name' => 'addresses',
-            'label' => 'Ship To Addresses',
-            'type' => 'relationship',
-            'tab' => 'Addresses',
-            'new_item_label' => 'New Ship To Address',
-            'subfields' => [
-                [
-                    'name' => 'address_code',
-                    'type' => 'text',
-                    'label' => 'Address Code',
-                    'allows_null' => false,
-                ],
-                [
-                    'name' => 'address_name',
-                    'type' => 'text',
-                    'label' => 'Address Name',
-                    'allows_null' => false,
-                ],
-                [
-                    'name' => 'address_1',
-                    'type' => 'text',
-                    'label' => 'Street Line 1',
-                    'allows_null' => false,
-                ],
-                [
-                    'name' => 'address_2',
-                    'type' => 'text',
-                    'label' => 'Street Line 2',
-                ],
-                [
-                    'name' => 'address_3',
-                    'type' => 'text',
-                    'label' => 'Street Line 3',
-                ],
-                [
-                    'name' => 'city',
-                    'type' => 'text',
-                    'label' => 'City',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-6',
-                    ],
-                ],
-                [
-                    'name' => 'state',
-                    'type' => 'text',
-                    'label' => 'State',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-6',
-                    ],
-                ],
-                [
-                    'name' => 'country_code',
-                    'type' => 'select2_from_array',
-                    'options' => $countries,
-                    'label' => 'Country',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-6',
-                    ],
-                ],
-                [
-                    'name' => 'zip_code',
-                    'type' => 'text',
-                    'label' => 'Zip Code',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-6',
-                    ],
-                ],
-                [
-                    'name' => 'phone',
-                    'type' => 'text',
-                    'label' => 'Phone',
-                    'wrapper' => [
-                        'class' => 'form-group col-md-6',
-                    ],
-                ],
-            ],
-        ]);
-        // ADMIN
-        CRUD::addField([
-            'name' => 'contact',
-            'type' => 'relationship',
-            'label' => 'Admin (Role) User / Contact',
-            'tab' => 'Admin',
-            'subfields' => [
-                [
-                    'name' => 'name',
-                    'type' => 'text',
-                    'label' => 'Admin Contact Name',
-                    'allows_null' => false,
-                ],
-                [
-                    'type' => 'hidden',
-                    'name' => 'is_admin',
-                    'value' => true,
-                ],
-                [
-                    'name' => 'contact_code',
-                    'type' => (config('amplify.api.contact_detail', false)) ? 'text' : 'hidden',
-                    'label' => 'Contact ID',
-                    'allows_null' => true,
-                ],
-                [
-                    'name' => 'login_id',
-                    'type' => (config('amplify.api.contact_detail', false)) ? 'text' : 'hidden',
-                    'label' => 'Login ID',
-                    'allows_null' => true,
-                ],
-                [
-                    'name' => 'email',
-                    'type' => 'email',
-                    'label' => 'Admin Contact Email',
-                ],
-                [
-                    'name' => 'phone',
-                    'type' => 'text',
-                    'label' => 'Admin Contact Phone',
-                ],
-                [
-                    'name' => 'warehouse',
-                    'type' => 'relationship',
-                    'label' => 'Default Warehouse',
-                    'entity' => 'ownWarehouse',
-                    'options' => (fn($query) => $query->orderBy('name')->get()),
-                ],
-                [
-                    'name' => 'password',
-                    'type' => 'show_hide_password',
-                    'label' => 'Password',
-                ],
-                [
-                    'name' => 'password_confirmation',
-                    'type' => 'show_hide_password',
-                    'label' => 'Confirm Password',
-                    'fake' => true,
-                ],
-                [
-                    'name' => 'profile_image',
-                    'label' => 'Profile Image',
-                    'type' => 'upload',
-                    'upload' => true,
-                    'withFiles' => true,
-                ],
-                [
-                    'name' => 'order_limit',
-                    'type' => 'number',
-                    'label' => 'Order Limit',
-                    'default' => 0,
-                    'attributes' => [
-                        'step' => '0.01',
-                        'min' => 0,
-                    ],
-                ],
-                [
-                    'name' => 'daily_budget_limit',
-                    'type' => 'number',
-                    'label' => 'Daily Budget Limit',
-                    'default' => 0,
-                    'attributes' => [
-                        'step' => '0.01',
-                        'min' => 0,
-                    ],
-                ],
-                [
-                    'name' => 'monthly_budget_limit',
-                    'type' => 'number',
-                    'label' => 'Monthly Budget Limit',
-                    'default' => 0,
-                    'attributes' => [
-                        'step' => '0.01',
-                        'min' => 0,
-                    ],
-                ],
-                [
-                    'name' => 'spend_today',
-                    'type' => 'number',
-                    'label' => 'Spend Today',
-                    'default' => 0,
-                    'attributes' => [
-                        'step' => '0.01',
-                        'min' => 0,
-                    ],
-                ],
-                [
-                    'name' => 'spend_this_month',
-                    'type' => 'number',
-                    'label' => 'Monthly Spend',
-                    'default' => 0,
-                    'attributes' => [
-                        'step' => '0.01',
-                        'min' => 0,
-                    ],
-                ],
-            ],
-        ]);
+
+    /**
+     * Complete overwrite to backpack method
+     *
+     * @return array|\Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $request = $this->crud->validateRequest();
+
+        $this->crud->registerFieldEvents();
+
+        if (config('amplify.erp.auto_create_cash_customer')
+            && !$request->filled('customer_code')) {
+
+            $industry = null;
+
+            if ($request->filled('industry_classification_id')) {
+                $industry = IndustryClassification::find($request->input('industry_classification_id'));
+            }
+
+            $erpCustomer = ErpApi::createCustomer([
+                'template_customer_number' => config('amplify.frontend.guest_default'),
+                'email_address' => $request->input('email'),
+                'phone_number' => $request->input('phone'),
+                'phone_ext' => $request->input('phone_ext'),
+                'customer_name' => $request->input('customer_name'),
+                'contact' => null,
+                'address_1' => $request->input('address_1'),
+                'address_2' => $request->input('address_2'),
+                'address_3' => $request->input('address_3'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'zip_code' => $request->input('zip_code'),
+                'country_code' => $request->input('country_code'),
+                'branch' => null,
+                'customer_industry' => $industry?->name ?? null,
+            ]);
+
+            if (!empty($erpCustomer->Message)) {
+                throw ValidationException::withMessages([
+                    'customer_code' => $erpCustomer->Message,
+                ]);
+            }
+
+            if ($erpCustomer->CustomerNumber == null) {
+
+                \Alert::success(trans('Unable to create customer on ERP.'))->flash();
+
+                return redirect()->back();
+            }
+
+            $request->offsetSet('customer_code', $erpCustomer->CustomerNumber);
+        }
+
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
+
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        $this->crud->setSaveAction();
+
+        if (!empty($custom->customer_code)) {
+            CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
+        }
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    protected function setupUpdateOperation()
+    {
+        CRUD::setValidation(CustomerRequest::class);
+
+        $this->setupCreateOperation();
+
+        $options = [];
+        ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
+            $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
+        });
+
+        //ERP
         CRUD::addField([
             'name' => 'ar_number',
             'label' => 'AR Number',
@@ -618,34 +533,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);
-    }
-
-
-    public function store()
-    {
-        $traitResponse = $this->traitStore();
-
-        if (config('amplify.erp.auto_create_cash_customer')) {
-            CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
-        }
-
-        return $traitResponse;
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
-     *
-     * @throws \Exception
-     */
-    protected function setupUpdateOperation()
-    {
-        CRUD::setValidation(CustomerRequest::class);
-
-        $this->setupCreateOperation();
     }
 
     /**

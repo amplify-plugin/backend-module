@@ -253,6 +253,19 @@
                                 </div>
 
                                 <div class="form-group mb-3">
+                                    <label for="sql-export-limit">{{ __('Export Row Limit') }}</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="sql-export-limit"
+                                        min="1"
+                                        max="1000000"
+                                        value="100000"
+                                    >
+                                    <small class="text-muted">{{ __('Maximum 1000000 rows per request.') }}</small>
+                                </div>
+
+                                <div class="form-group mb-3">
                                     <textarea
                                         class="form-control"
                                         id="sql-export-editor"
@@ -269,6 +282,7 @@
                                 <form method="POST" action="{{ route('admin.export.sql.download') }}" id="sql-export-form" class="d-none">
                                     @csrf
                                     <input type="hidden" name="sql" id="sql-export-hidden-query" value="">
+                                    <input type="hidden" name="export_limit" id="sql-export-hidden-limit" value="100000">
                                 </form>
 
                                 <div class="mt-3">
@@ -357,10 +371,12 @@
             const sqlEditor = document.getElementById('sql-export-editor');
             const sqlHistoryLabel = document.getElementById('sql-history-label');
             const sqlPreviewLimit = document.getElementById('sql-preview-limit');
+            const sqlExportLimit = document.getElementById('sql-export-limit');
             const sqlStatusBadge = document.getElementById('sql-status-badge');
             const sqlStatusMessage = document.getElementById('sql-status-message');
             const sqlDownloadButton = document.getElementById('sql-download-btn');
             const sqlHiddenQuery = document.getElementById('sql-export-hidden-query');
+            const sqlHiddenLimit = document.getElementById('sql-export-hidden-limit');
             const sqlPreviewHead = document.getElementById('sql-preview-head');
             const sqlPreviewBody = document.getElementById('sql-preview-body');
             const sqlHistoryList = document.getElementById('sql-history-list');
@@ -564,6 +580,19 @@
                             renderSqlPreview(payload.columns || [], payload.rows || []);
                             if (sqlHiddenQuery) {
                                 sqlHiddenQuery.value = sql;
+                            }
+                            if (sqlHiddenLimit) {
+                                let exportLimit = parseInt((sqlExportLimit?.value || '100000'), 10);
+                                if (Number.isNaN(exportLimit) || exportLimit < 1) {
+                                    exportLimit = 1;
+                                }
+                                if (exportLimit > 1000000) {
+                                    exportLimit = 1000000;
+                                }
+                                if (sqlExportLimit) {
+                                    sqlExportLimit.value = String(exportLimit);
+                                }
+                                sqlHiddenLimit.value = String(exportLimit);
                             }
                             if (sqlDownloadButton) {
                                 sqlDownloadButton.disabled = false;

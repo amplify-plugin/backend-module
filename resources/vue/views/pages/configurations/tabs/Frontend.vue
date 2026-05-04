@@ -219,7 +219,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <div>
                             <label>Guest Customer ID</label>
@@ -238,7 +238,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>Guest Checkout Warehouse</label>
                         <input
@@ -253,8 +253,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group custom-control custom-checkbox pl-0 mt-md-5">
+                <div class="col-md-6">
+                    <div class="form-group custom-control custom-checkbox">
                         <input
                             type="checkbox"
                             name="guest_checkout"
@@ -269,8 +269,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group custom-control custom-checkbox pl-0 mt-md-5">
+                <div class="col-md-6">
+                    <div class="form-group custom-control custom-checkbox">
                         <input
                             type="checkbox"
                             name="guest_add_to_cart"
@@ -456,7 +456,6 @@ export default {
     --focus: #2f7dd8;
     --focus-shadow: rgba(47, 125, 216, 0.16);
 
-    background: linear-gradient(180deg, #f8fbff 0%, #f2f6fb 100%);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 1rem;

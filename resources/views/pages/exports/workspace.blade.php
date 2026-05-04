@@ -248,15 +248,14 @@
                                         max="1000000" value="100000">
                                     <small class="text-muted">{{ __('Maximum 1000000 rows per request.') }}</small>
                                 </div>
-
-                                <p class="text-muted mb-3">
-                                    {{ __('Select a table, then click any column to insert it into SQL editor.') }}</p>
-
                                 <div class="form-group mb-3">
                                     <label for="sql-table-select">{{ __('Select Table') }}</label>
                                     <select id="sql-table-select" class="form-control">
                                         <option value="">{{ __('Search and choose a table') }}</option>
                                     </select>
+                                    <small class="text-muted">
+                                        {{ __('Select a table, then click any column to insert it into SQL editor.') }}
+                                    </small>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center mb-2">

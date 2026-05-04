@@ -25,7 +25,7 @@
         <div class="card-body">
             <ul class="nav nav-tabs" id="export-workspace-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="product-export-tab" data-toggle="tab" href="#product-export-pane" role="tab">
+                    <a class="nav-link" id="product-export-tab" data-toggle="tab" href="#product-export-pane" role="tab">
                         Product Export
                     </a>
                 </li>
@@ -35,14 +35,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="sql-export-tab" data-toggle="tab" href="#sql-export-pane" role="tab">
-                        SQL Export
+                    <a class="nav-link active" id="sql-export-tab" data-toggle="tab" href="#sql-export-pane" role="tab">
+                        {{ __('SQL Export') }}
                     </a>
                 </li>
             </ul>
 
             <div class="tab-content pt-4">
-                <div class="tab-pane fade show active" id="product-export-pane" role="tabpanel">
+                <div class="tab-pane fade" id="product-export-pane" role="tabpanel">
                     <form method="POST" action="{{ route('admin.export.products.download') }}" id="product-export-form">
                         @csrf
                         <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
@@ -216,54 +216,81 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="sql-export-pane" role="tabpanel">
+                <div class="tab-pane fade show active" id="sql-export-pane" role="tabpanel">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="border rounded p-3 mb-3">
-                                <h4 class="mb-2">Write SQL</h4>
-                                <p class="text-muted mb-3">Only <code>SELECT</code> query is supported. Insert/update/delete and other statements are not allowed.</p>
+                                <h4 class="mb-2">{{ __('Write SQL') }}</h4>
+                                <p class="text-muted mb-3">{{ __('Only SELECT query is supported. Insert, update, delete, and other statements are not allowed.') }}</p>
+
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group mb-3">
+                                            <label for="sql-history-label">{{ __('History Label') }}</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="sql-history-label"
+                                                maxlength="120"
+                                                placeholder="{{ __('Optional label. Random label will be used if empty.') }}"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group mb-3">
+                                            <label for="sql-preview-limit">{{ __('Preview Count') }}</label>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="sql-preview-limit"
+                                                min="1"
+                                                max="100"
+                                                value="10"
+                                            >
+                                            <small class="text-muted">{{ __('Maximum 100 rows.') }}</small>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="form-group mb-3">
                                     <textarea
                                         class="form-control"
                                         id="sql-export-editor"
                                         rows="12"
-                                        placeholder="Example: SELECT id, product_name FROM products WHERE status = 'published' LIMIT 100;"
+                                        placeholder="{{ __('Example: SELECT id, product_name FROM products WHERE status = \"published\" LIMIT 100;') }}"
                                     ></textarea>
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <button type="button" class="btn btn-primary mr-2" id="sql-preview-btn">Check SQL & Preview</button>
-                                    <button type="button" class="btn btn-light" id="sql-clear-btn">Clear</button>
+                                    <button type="button" class="btn btn-primary mr-2" id="sql-preview-btn">{{ __('Check SQL') }}</button>
+                                    <button type="button" class="btn btn-light mr-2" id="sql-clear-btn">{{ __('Clear') }}</button>
+                                    <button type="button" class="btn btn-success" id="sql-download-btn" disabled>{{ __('Download CSV') }}</button>
                                 </div>
+                                <form method="POST" action="{{ route('admin.export.sql.download') }}" id="sql-export-form" class="d-none">
+                                    @csrf
+                                    <input type="hidden" name="sql" id="sql-export-hidden-query" value="">
+                                </form>
 
                                 <div class="mt-3">
-                                    <span class="badge badge-secondary" id="sql-status-badge">Not checked</span>
+                                    <span class="badge badge-secondary" id="sql-status-badge">{{ __('Not checked') }}</span>
                                     <small class="d-block text-muted mt-2" id="sql-status-message"></small>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-12">
-                            <div class="border rounded p-3 mb-3">
-                                <h4 class="mb-3">Export</h4>
-                                <form method="POST" action="{{ route('admin.export.sql.download') }}" id="sql-export-form">
-                                    @csrf
-                                    <input type="hidden" name="sql" id="sql-export-hidden-query" value="">
-                                    <button type="submit" class="btn btn-success" id="sql-download-btn" disabled>Download CSV</button>
-                                </form>
-                                <small class="d-block text-muted mt-2">
-                                    Export is enabled only after SQL is valid and preview is generated.
-                                </small>
-                            </div>
-
                             <div class="border rounded p-3">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <h4 class="mb-0">SQL History</h4>
-                                    <button type="button" class="btn btn-link btn-sm p-0" id="sql-history-refresh-btn">Refresh</button>
+                                    <h4 class="mb-0">{{ __('SQL History') }}</h4>
+                                    <button type="button" class="btn btn-link btn-sm p-0" id="sql-history-refresh-btn">{{ __('Refresh') }}</button>
                                 </div>
-                                <small class="d-block text-muted mb-3">Reuse a previous valid query or remove it from history.</small>
+                                <small class="d-block text-muted mb-3">{{ __('Reuse a previous valid query or remove it from history.') }}</small>
                                 <div id="sql-history-list" class="sql-history-list"></div>
+                                <div class="d-flex align-items-center justify-content-between mt-3" id="sql-history-pagination" style="display: none !important;">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="sql-history-prev-btn">{{ __('Previous') }}</button>
+                                    <small class="text-muted" id="sql-history-page-info"></small>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="sql-history-next-btn">{{ __('Next') }}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -271,13 +298,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="border rounded p-3">
-                                <h4 class="mb-3">Preview</h4>
+                                <h4 class="mb-3">{{ __('Preview') }}</h4>
                                 <div class="table-responsive">
                                     <table class="table table-sm table-striped mb-0" id="sql-preview-table">
                                         <thead id="sql-preview-head"></thead>
                                         <tbody id="sql-preview-body">
                                             <tr>
-                                                <td class="text-muted">No preview data yet.</td>
+                                                <td class="text-muted">{{ __('No preview data yet.') }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -326,7 +353,10 @@
             const tabTriggers = document.querySelectorAll('[data-select-all]');
             const sqlPreviewButton = document.getElementById('sql-preview-btn');
             const sqlClearButton = document.getElementById('sql-clear-btn');
+            const sqlForm = document.getElementById('sql-export-form');
             const sqlEditor = document.getElementById('sql-export-editor');
+            const sqlHistoryLabel = document.getElementById('sql-history-label');
+            const sqlPreviewLimit = document.getElementById('sql-preview-limit');
             const sqlStatusBadge = document.getElementById('sql-status-badge');
             const sqlStatusMessage = document.getElementById('sql-status-message');
             const sqlDownloadButton = document.getElementById('sql-download-btn');
@@ -335,7 +365,13 @@
             const sqlPreviewBody = document.getElementById('sql-preview-body');
             const sqlHistoryList = document.getElementById('sql-history-list');
             const sqlHistoryRefreshButton = document.getElementById('sql-history-refresh-btn');
+            const sqlHistoryPagination = document.getElementById('sql-history-pagination');
+            const sqlHistoryPrevButton = document.getElementById('sql-history-prev-btn');
+            const sqlHistoryNextButton = document.getElementById('sql-history-next-btn');
+            const sqlHistoryPageInfo = document.getElementById('sql-history-page-info');
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            let sqlHistoryCurrentPage = 1;
+            let sqlHistoryLastPage = 1;
 
             tabTriggers.forEach(function (trigger) {
                 trigger.addEventListener('click', function () {
@@ -350,24 +386,30 @@
                 sqlStatusBadge.classList.remove('badge-secondary', 'badge-success', 'badge-danger', 'badge-warning');
                 if (state === 'valid') {
                     sqlStatusBadge.classList.add('badge-success');
-                    sqlStatusBadge.textContent = 'Valid';
+                    sqlStatusBadge.textContent = '{{ __('Valid') }}';
                 } else if (state === 'invalid') {
                     sqlStatusBadge.classList.add('badge-danger');
-                    sqlStatusBadge.textContent = 'Invalid';
+                    sqlStatusBadge.textContent = '{{ __('Invalid') }}';
                 } else if (state === 'loading') {
                     sqlStatusBadge.classList.add('badge-warning');
-                    sqlStatusBadge.textContent = 'Checking';
+                    sqlStatusBadge.textContent = '{{ __('Checking') }}';
                 } else {
                     sqlStatusBadge.classList.add('badge-secondary');
-                    sqlStatusBadge.textContent = 'Not checked';
+                    sqlStatusBadge.textContent = '{{ __('Not checked') }}';
                 }
 
+                sqlStatusMessage.classList.remove('text-danger', 'text-muted');
+                sqlStatusMessage.classList.add(state === 'invalid' ? 'text-danger' : 'text-muted');
                 sqlStatusMessage.textContent = message || '';
             }
 
             function disableSqlExport() {
-                sqlDownloadButton.disabled = true;
-                sqlHiddenQuery.value = '';
+                if (sqlDownloadButton) {
+                    sqlDownloadButton.disabled = true;
+                }
+                if (sqlHiddenQuery) {
+                    sqlHiddenQuery.value = '';
+                }
             }
 
             function escapeHtml(value) {
@@ -379,37 +421,51 @@
                     .replace(/'/g, '&#039;');
             }
 
-            function renderSqlHistory(items) {
+            function renderSqlHistory(items, meta) {
                 if (!sqlHistoryList) {
                     return;
                 }
 
                 if (!items || items.length === 0) {
-                    sqlHistoryList.innerHTML = '<div class="text-muted small">No SQL history yet.</div>';
+                    sqlHistoryList.innerHTML = '<div class="text-muted small">{{ __('No SQL history yet.') }}</div>';
+                    if (sqlHistoryPagination) {
+                        sqlHistoryPagination.style.display = 'none';
+                    }
                     return;
                 }
 
                 sqlHistoryList.innerHTML = items.map(function (item) {
                     return ''
                         + '<div class="sql-history-item" data-history-id="' + item.id + '">'
+                        + '  <div class="small text-muted mb-1">' + escapeHtml(item.name || '-') + '</div>'
                         + '  <div class="sql-history-query mb-2" title="' + escapeHtml(item.query) + '">' + escapeHtml(item.query) + '</div>'
                         + '  <div class="d-flex justify-content-between align-items-center">'
-                        + '      <small class="text-muted">Last used: ' + escapeHtml(item.last_used_at || '-') + '</small>'
+                        + '      <small class="text-muted">{{ __('Last used') }}: ' + escapeHtml(item.last_used_at || '-') + '</small>'
                         + '      <div>'
-                        + '          <button type="button" class="btn btn-sm btn-outline-primary mr-1" data-history-action="use">Use</button>'
-                        + '          <button type="button" class="btn btn-sm btn-outline-danger" data-history-action="delete">Remove</button>'
+                        + '          <button type="button" class="btn btn-sm btn-outline-primary mr-1" data-history-action="use">{{ __('Use') }}</button>'
+                        + '          <button type="button" class="btn btn-sm btn-outline-danger" data-history-action="delete">{{ __('Remove') }}</button>'
                         + '      </div>'
                         + '  </div>'
                         + '</div>';
                 }).join('');
+
+                if (sqlHistoryPagination && meta) {
+                    sqlHistoryCurrentPage = meta.current_page || 1;
+                    sqlHistoryLastPage = meta.last_page || 1;
+                    sqlHistoryPagination.style.display = 'flex';
+                    sqlHistoryPrevButton.disabled = sqlHistoryCurrentPage <= 1;
+                    sqlHistoryNextButton.disabled = sqlHistoryCurrentPage >= sqlHistoryLastPage;
+                    sqlHistoryPageInfo.textContent = '{{ __('Page') }} ' + sqlHistoryCurrentPage + ' {{ __('of') }} ' + sqlHistoryLastPage;
+                }
             }
 
-            function loadSqlHistory() {
+            function loadSqlHistory(page) {
                 if (!sqlHistoryList) {
                     return;
                 }
 
-                fetch('{{ route('admin.export.sql.history') }}', {
+                const requestedPage = page || 1;
+                fetch('{{ route('admin.export.sql.history') }}?page=' + requestedPage + '&per_page=4', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json'
@@ -418,12 +474,12 @@
                     .then(async function (response) {
                         const payload = await response.json();
                         if (!response.ok) {
-                            throw new Error('Failed to load SQL history.');
+                            throw new Error('{{ __('Failed to load SQL history.') }}');
                         }
-                        renderSqlHistory(payload.items || []);
+                        renderSqlHistory(payload.items || [], payload.meta || null);
                     })
                     .catch(function () {
-                        sqlHistoryList.innerHTML = '<div class="text-danger small">Could not load SQL history.</div>';
+                        sqlHistoryList.innerHTML = '<div class="text-danger small">{{ __('Could not load SQL history.') }}</div>';
                     });
             }
 
@@ -432,7 +488,7 @@
                 sqlPreviewBody.innerHTML = '';
 
                 if (!rows || rows.length === 0) {
-                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">Query is valid but no rows found.</td></tr>';
+                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('Query is valid but no rows found.') }}</td></tr>';
                     return;
                 }
 
@@ -457,7 +513,7 @@
 
             if (sqlEditor) {
                 sqlEditor.addEventListener('input', function () {
-                    setSqlStatus('idle', 'Please re-check SQL after making changes.');
+                    setSqlStatus('idle', '{{ __('Please re-check SQL after making changes.') }}');
                     disableSqlExport();
                 });
             }
@@ -466,14 +522,25 @@
                 sqlPreviewButton.addEventListener('click', function () {
                     const sql = (sqlEditor.value || '').trim();
                     if (!sql) {
-                        setSqlStatus('invalid', 'Please write a SQL query first.');
+                        setSqlStatus('invalid', '{{ __('Please write a SQL query first.') }}');
                         disableSqlExport();
                         return;
                     }
 
-                    setSqlStatus('loading', 'Validating SQL and loading preview...');
-                    disableSqlExport();
+                    let previewLimit = parseInt((sqlPreviewLimit?.value || '10'), 10);
+                    if (Number.isNaN(previewLimit) || previewLimit < 1) {
+                        previewLimit = 1;
+                    }
+                    if (previewLimit > 100) {
+                        previewLimit = 100;
+                    }
+                    if (sqlPreviewLimit) {
+                        sqlPreviewLimit.value = String(previewLimit);
+                    }
 
+                    setSqlStatus('loading', '{{ __('Validating SQL and loading preview...') }}');
+                    disableSqlExport();
+                    const historyLabelValue = sqlHistoryLabel ? sqlHistoryLabel.value : '';
                     fetch('{{ route('admin.export.sql.preview') }}', {
                         method: 'POST',
                         headers: {
@@ -481,24 +548,32 @@
                             'X-CSRF-TOKEN': csrfToken,
                             'Accept': 'application/json'
                         },
-                        body: JSON.stringify({ sql: sql, limit: 25 })
+                        body: JSON.stringify({
+                            sql: sql,
+                            label: historyLabelValue.trim(),
+                            limit: previewLimit
+                        })
                     })
                         .then(async function (response) {
                             const payload = await response.json();
                             if (!response.ok || !payload.valid) {
-                                throw new Error(payload.message || 'Invalid SQL query.');
+                                throw new Error(payload.message || '{{ __('Invalid SQL query.') }}');
                             }
 
-                            setSqlStatus('valid', payload.message || 'SQL is valid.');
+                            setSqlStatus('valid', payload.message || '{{ __('SQL is valid.') }}');
                             renderSqlPreview(payload.columns || [], payload.rows || []);
-                            sqlHiddenQuery.value = sql;
-                            sqlDownloadButton.disabled = false;
-                            loadSqlHistory();
+                            if (sqlHiddenQuery) {
+                                sqlHiddenQuery.value = sql;
+                            }
+                            if (sqlDownloadButton) {
+                                sqlDownloadButton.disabled = false;
+                            }
+                            loadSqlHistory(1);
                         })
                         .catch(function (error) {
-                            setSqlStatus('invalid', error.message || 'Invalid SQL query.');
+                            setSqlStatus('invalid', error.message || '{{ __('Invalid SQL query.') }}');
                             sqlPreviewHead.innerHTML = '';
-                            sqlPreviewBody.innerHTML = '<tr><td class="text-muted">No preview data yet.</td></tr>';
+                            sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
                             disableSqlExport();
                         });
                 });
@@ -507,16 +582,43 @@
             if (sqlClearButton) {
                 sqlClearButton.addEventListener('click', function () {
                     sqlEditor.value = '';
+                    if (sqlHistoryLabel) {
+                        sqlHistoryLabel.value = '';
+                    }
                     setSqlStatus('idle', '');
                     disableSqlExport();
                     sqlPreviewHead.innerHTML = '';
-                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">No preview data yet.</td></tr>';
+                    sqlPreviewBody.innerHTML = '<tr><td class="text-muted">{{ __('No preview data yet.') }}</td></tr>';
+                });
+            }
+
+            if (sqlDownloadButton && sqlForm) {
+                sqlDownloadButton.addEventListener('click', function () {
+                    if (!sqlDownloadButton.disabled) {
+                        sqlForm.submit();
+                    }
                 });
             }
 
             if (sqlHistoryRefreshButton) {
                 sqlHistoryRefreshButton.addEventListener('click', function () {
-                    loadSqlHistory();
+                    loadSqlHistory(sqlHistoryCurrentPage);
+                });
+            }
+
+            if (sqlHistoryPrevButton) {
+                sqlHistoryPrevButton.addEventListener('click', function () {
+                    if (sqlHistoryCurrentPage > 1) {
+                        loadSqlHistory(sqlHistoryCurrentPage - 1);
+                    }
+                });
+            }
+
+            if (sqlHistoryNextButton) {
+                sqlHistoryNextButton.addEventListener('click', function () {
+                    if (sqlHistoryCurrentPage < sqlHistoryLastPage) {
+                        loadSqlHistory(sqlHistoryCurrentPage + 1);
+                    }
                 });
             }
 
@@ -544,8 +646,14 @@
 
                     if (action === 'use') {
                         const queryElement = item.querySelector('.sql-history-query');
-                        sqlEditor.value = queryElement ? queryElement.textContent : '';
-                        setSqlStatus('idle', 'Loaded from history. Click "Check SQL & Preview".');
+                        if (sqlEditor) {
+                            sqlEditor.value = queryElement ? queryElement.textContent : '';
+                        }
+                        const labelElement = item.querySelector('.small.text-muted.mb-1');
+                        if (sqlHistoryLabel && labelElement) {
+                            sqlHistoryLabel.value = labelElement.textContent || '';
+                        }
+                        setSqlStatus('idle', '{{ __('Loaded from history. Click Check SQL.') }}');
                         disableSqlExport();
                         return;
                     }
@@ -561,9 +669,12 @@
                             .then(async function (response) {
                                 const payload = await response.json();
                                 if (!response.ok || !payload.success) {
-                                    throw new Error(payload.message || 'Could not remove query.');
+                                    throw new Error(payload.message || '{{ __('Could not remove query.') }}');
                                 }
-                                loadSqlHistory();
+                                const nextPage = (sqlHistoryCurrentPage > 1 && sqlHistoryList.children.length === 1)
+                                    ? sqlHistoryCurrentPage - 1
+                                    : sqlHistoryCurrentPage;
+                                loadSqlHistory(nextPage);
                             })
                             .catch(function () {
                             });
@@ -571,7 +682,7 @@
                 });
             }
 
-            loadSqlHistory();
+            loadSqlHistory(1);
         })();
     </script>
 @endsection

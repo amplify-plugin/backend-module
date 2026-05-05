@@ -1,7 +1,7 @@
 <template>
-    <div role="tabpanel" class="tab-pane active" id="tab_basic-info">
-        <fieldset>
-            <div class="d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
+    <div role="tabpanel" class="tab-pane active frontend-settings" id="tab_basic-info">
+        <fieldset class="settings-section settings-section-main">
+            <div class="section-header d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
                 <legend>
                     <i class="la la-globe mr-2"></i>
                     Frontend Settings
@@ -44,6 +44,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group" :class="{ 'text-danger': $parent.validationErrors.shop_page_default_view }">
@@ -90,6 +91,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -116,59 +118,79 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group custom-control custom-checkbox pl-0">
-                <input
-                    type="checkbox"
-                    name="enable_language_changer"
-                    id="enable_language_changer"
-                    v-model="coreConfigurationData.enable_language"
-                    :class="{ 'is-invalid': $parent.validationErrors.enable_language }"
-                />
-                <label for="enable_language_changer">Enable Language Switcher</label>
-                <small v-if="$parent.validationErrors.enable_language" class="text-danger mt-3">
-                    {{ $parent.validationErrors.enable_language[0] }}
-                </small>
-            </div>
-            <div class="form-group custom-control custom-checkbox pl-0">
-                <input
-                    type="checkbox"
-                    name="enable_exchange_reward"
-                    id="enable_exchange_reward"
-                    v-model="coreConfigurationData.enable_exchange_reward"
-                    :class="{ 'is-invalid': $parent.validationErrors.enable_exchange_reward }"
-                />
-                <label for="enable_exchange_reward">Enable Exchange Reward Options Into Header</label>
-                <small v-if="$parent.validationErrors.enable_exchange_reward" class="text-danger mt-3">
-                    {{ $parent.validationErrors.enable_exchange_reward[0] }}
-                </small>
-            </div>
 
-            <div class="form-group custom-control custom-checkbox pl-0">
-                <input
-                    type="checkbox"
-                    name="right_sidebar"
-                    id="right_sidebar"
-                    v-model="coreConfigurationData.right_sidebar"
-                    :class="{ 'is-invalid': $parent.validationErrors.right_sidebar }"
-                />
-                <label for="right_sidebar">Use Right Side Panel Globally</label>
-                <small v-if="$parent.validationErrors.right_sidebar" class="text-danger mt-3">
-                    {{ $parent.validationErrors.right_sidebar[0] }}
-                </small>
-            </div>
+            <div class="toggle-grid">
+                <div class="form-group custom-control custom-checkbox pl-0">
+                    <input
+                        type="checkbox"
+                        name="enable_language_changer"
+                        id="enable_language_changer"
+                        v-model="coreConfigurationData.enable_language"
+                        :class="{ 'is-invalid': $parent.validationErrors.enable_language }"
+                    />
+                    <label for="enable_language_changer">Enable Language Switcher</label>
+                    <small v-if="$parent.validationErrors.enable_language" class="text-danger mt-3">
+                        {{ $parent.validationErrors.enable_language[0] }}
+                    </small>
+                </div>
 
-            <div class="form-group custom-control custom-checkbox pl-0">
-                <input
-                    type="checkbox"
-                    name="redirect_to_product_detail_page_on_search"
-                    id="redirect_to_product_detail_page_on_search"
-                    v-model="coreConfigurationData.redirect_to_product_detail_page_on_search"
-                    :class="{ 'is-invalid': $parent.validationErrors.redirect_to_product_detail_page_on_search }"
-                />
-                <label for="redirect_to_product_detail_page_on_search">Redirect to Product Details Page if Search Return 1 Product for Searching by Product Code</label>
-                <small v-if="$parent.validationErrors.redirect_to_product_detail_page_on_search" class="text-danger mt-3">
-                    {{ $parent.validationErrors.redirect_to_product_detail_page_on_search[0] }}
-                </small>
+                <div class="form-group custom-control custom-checkbox pl-0">
+                    <input
+                        type="checkbox"
+                        name="enable_exchange_reward"
+                        id="enable_exchange_reward"
+                        v-model="coreConfigurationData.enable_exchange_reward"
+                        :class="{ 'is-invalid': $parent.validationErrors.enable_exchange_reward }"
+                    />
+                    <label for="enable_exchange_reward">Enable Exchange Reward Options Into Header</label>
+                    <small v-if="$parent.validationErrors.enable_exchange_reward" class="text-danger mt-3">
+                        {{ $parent.validationErrors.enable_exchange_reward[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group custom-control custom-checkbox pl-0">
+                    <input
+                        type="checkbox"
+                        name="right_sidebar"
+                        id="right_sidebar"
+                        v-model="coreConfigurationData.right_sidebar"
+                        :class="{ 'is-invalid': $parent.validationErrors.right_sidebar }"
+                    />
+                    <label for="right_sidebar">Use Right Side Panel Globally</label>
+                    <small v-if="$parent.validationErrors.right_sidebar" class="text-danger mt-3">
+                        {{ $parent.validationErrors.right_sidebar[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group custom-control custom-checkbox pl-0">
+                    <input
+                        type="checkbox"
+                        name="redirect_to_product_detail_page_on_search"
+                        id="redirect_to_product_detail_page_on_search"
+                        v-model="coreConfigurationData.redirect_to_product_detail_page_on_search"
+                        :class="{ 'is-invalid': $parent.validationErrors.redirect_to_product_detail_page_on_search }"
+                    />
+                    <label for="redirect_to_product_detail_page_on_search"
+                        >Redirect to Product Details Page if Search Return 1 Product for Searching by Product Code</label
+                    >
+                    <small v-if="$parent.validationErrors.redirect_to_product_detail_page_on_search" class="text-danger mt-3">
+                        {{ $parent.validationErrors.redirect_to_product_detail_page_on_search[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group custom-control custom-checkbox pl-0">
+                    <input
+                        type="checkbox"
+                        name="show_parent_product_for_sku"
+                        id="show_parent_product_for_sku"
+                        v-model="coreConfigurationData.show_parent_product_for_sku"
+                        :class="{ 'is-invalid': $parent.validationErrors.show_parent_product_for_sku }"
+                    />
+                    <label for="show_parent_product_for_sku">Redirect to SKU product to master product</label>
+                    <small v-if="$parent.validationErrors.show_parent_product_for_sku" class="text-danger mt-3">
+                        {{ $parent.validationErrors.show_parent_product_for_sku[0] }}
+                    </small>
+                </div>
             </div>
 
             <div class="row">
@@ -197,7 +219,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <div>
                             <label>Guest Customer ID</label>
@@ -216,7 +238,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>Guest Checkout Warehouse</label>
                         <input
@@ -231,8 +253,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group custom-control custom-checkbox pl-0 mt-md-5">
+                <div class="col-md-6">
+                    <div class="form-group custom-control custom-checkbox">
                         <input
                             type="checkbox"
                             name="guest_checkout"
@@ -247,8 +269,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group custom-control custom-checkbox pl-0 mt-md-5">
+                <div class="col-md-6">
+                    <div class="form-group custom-control custom-checkbox">
                         <input
                             type="checkbox"
                             name="guest_add_to_cart"
@@ -278,8 +300,8 @@
                                 :class="{ 'is-invalid': $parent.validationErrors.force_shipping_address_customer_id }"
                             />
                             <small v-if="$parent.validationErrors.force_shipping_address_customer_id" class="text-danger mt-3">{{
-                                    $parent.validationErrors.force_shipping_address_customer_id[0]
-                                }}</small>
+                                $parent.validationErrors.force_shipping_address_customer_id[0]
+                            }}</small>
                         </div>
                     </div>
                 </div>
@@ -295,35 +317,18 @@
                         />
                         <small class="text-muted">Default Height calculation unit is pixel(px)</small>
                         <small v-if="$parent.validationErrors.mega_menu_max_height" class="text-danger mt-3">{{
-                                $parent.validationErrors.mega_menu_max_height[0]
-                            }}</small>
+                            $parent.validationErrors.mega_menu_max_height[0]
+                        }}</small>
                     </div>
                 </div>
             </div>
         </fieldset>
-        <fieldset class="mt-3">
+
+        <fieldset class="settings-section mt-3">
             <legend>
                 <i class="la la-arrows mr-2"></i>
                 Navigation
             </legend>
-            <!--            <div class="form-group" :class="{ 'text-danger': $parent.validationErrors.mobile_screen_menu }">-->
-            <!--                <label>-->
-            <!--                    Navigation Header Layout-->
-            <!--                </label>-->
-            <!--                <select name="mobile_menu" class="form-control"-->
-            <!--                        v-model="coreConfigurationData.mobile_screen_menu"-->
-            <!--                        :class="{ 'is-invalid': $parent.validationErrors.mobile_screen_menu }">-->
-            <!--                    <option v-for="(menu, index) in $parent.menuGroupOptions"-->
-            <!--                            :key="index"-->
-            <!--                            :selected="menu.short_code == coreConfigurationData.mobile_screen_menu"-->
-            <!--                            :value="menu.short_code">-->
-            <!--                        {{ menu.name }}-->
-            <!--                    </option>-->
-            <!--                </select>-->
-            <!--                <small v-if="$parent.validationErrors.mobile_screen_menu" class="text-danger mt-3">{{-->
-            <!--                        $parent.validationErrors.mobile_screen_menu[0]-->
-            <!--                    }}</small>-->
-            <!--            </div>-->
             <div class="form-group" :class="{ 'text-danger': $parent.validationErrors.mobile_screen_menu }">
                 <label> Mobile Screen Menu </label>
                 <select
@@ -409,7 +414,8 @@
                 }}</small>
             </div>
         </fieldset>
-        <div id="saveActions" class="form-group">
+
+        <div id="saveActions" class="form-group action-row">
             <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
                 <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
                 <span data-value="save_and_edit"> Save</span>
@@ -440,3 +446,111 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.frontend-settings {
+    --surface: #f7fafc;
+    --border: #d7e0ea;
+    --text-main: #23344d;
+    --text-soft: #5f738f;
+    --focus: #2f7dd8;
+    --focus-shadow: rgba(47, 125, 216, 0.16);
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.settings-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.section-header {
+    border-color: var(--border) !important;
+    margin: -0.5rem -0.5rem 1rem !important;
+    padding: 0.5rem 0.5rem 0 !important;
+}
+
+.frontend-settings legend {
+    width: auto;
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--text-main);
+    display: inline-flex;
+    align-items: center;
+}
+
+.frontend-settings label {
+    color: var(--text-main);
+    font-weight: 600;
+    margin-bottom: 0.38rem;
+}
+
+.frontend-settings .form-group {
+    margin-bottom: 0.95rem;
+}
+
+.frontend-settings .form-control {
+    border: 1px solid #c8d6e5;
+    border-radius: 8px;
+    min-height: 38px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.frontend-settings .form-control:focus {
+    border-color: var(--focus);
+    box-shadow: 0 0 0 0.2rem var(--focus-shadow);
+    background-color: #fff;
+}
+
+.frontend-settings .custom-checkbox {
+    padding: 0.68rem 0.78rem !important;
+    border: 1px solid #dbe5f0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.frontend-settings .custom-checkbox input[type='checkbox'] {
+    margin-right: 0.5rem;
+}
+
+.frontend-settings small.text-muted {
+    display: block;
+    color: var(--text-soft) !important;
+    margin-top: 0.32rem;
+}
+
+.action-row {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.action-row .btn {
+    border-radius: 8px;
+    padding-left: 1.05rem;
+    padding-right: 1.05rem;
+}
+
+@media (max-width: 767px) {
+    .frontend-settings {
+        padding: 0.75rem;
+    }
+
+    .settings-section {
+        padding: 0.8rem;
+    }
+
+    .section-header {
+        margin: 0 0 0.85rem !important;
+        padding: 0 !important;
+    }
+}
+</style>

@@ -19,6 +19,7 @@
 @endsection
 
 @section('content')
+    {{-- @dump($coreConfigurationData) --}}
     <configuration
         app_url="{{ config('app.url') }}"
         url="{{ url($crud->getCurrentOperation() === 'update'

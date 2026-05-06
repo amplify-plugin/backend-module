@@ -144,29 +144,6 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
         return $this->belongsTo(AccountTitle::class);
     }
 
-    public function roles(): BelongsToMany
-    {
-        $relation = $this->morphToMany(
-            config('permission.models.role'),
-            'model',
-            config('permission.table_names.model_has_roles'),
-            config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotRole
-        );
-
-        if (! PermissionRegistrar::$teams) {
-            return $relation;
-        }
-
-        $team_id = getPermissionsTeamId() === 0 ? get_customer_team_id() : getPermissionsTeamId();
-
-        return $relation->wherePivot(PermissionRegistrar::$teamsKey, $team_id ?: null)
-            ->where(function ($q) use ($team_id) {
-                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
-                $q->whereNull($teamField)->orWhere($teamField, $team_id ?: null);
-            });
-    }
-
     public function ownRoles(): BelongsToMany
     {
         $relation = $this->morphToMany(

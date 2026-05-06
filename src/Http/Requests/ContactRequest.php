@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
-use Amplify\System\Backend\Rules\ErpContactExist;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,7 +29,7 @@ class ContactRequest extends FormRequest
     {
         $this->rules = [
             'customer_id' => 'required|integer|exists:customers,id',
-            'contact_code' => config('amplify.erp.auto_create_contact') ? [new ErpContactExist()] : ['nullable'],
+            'contact_code' => 'nullable',
             'name' => 'required|string',
             'phone' => 'nullable|string',
             'account_title_id' => 'nullable|integer|exists:account_titles,id',
@@ -73,9 +72,30 @@ class ContactRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+        $roles = [];
+
+        if (config('permission.teams')) {
+            foreach ($this->input('roles', []) as $role) {
+                $roles[$role]['team_id'] = $this->input('customer_id');
+            }
+        } else {
+            $roles = $this->input('roles', []);
+        }
+
+
+        $permissions = [];
+
+        if (config('permission.teams')) {
+            foreach ($this->input('permissions', []) as $permission) {
+                $permissions[$permission]['team_id'] = $this->input('customer_id');
+            }
+        } else {
+            $permissions = $this->input('permissions', []);
+        }
+
         $this->merge([
-            'roles' => $this->roles ?? [],
-            'permissions' => $this->permissions ?? [],
+            'roles' => $roles,
+            'permissions' => $permissions,
             'password_reset_required' => ($this->has('password') && $this->input('password') != null),
         ]);
     }

@@ -180,7 +180,7 @@
                 </div>
             </div>
 
-            <!-- Tiny MCE -->
+            <!-- Easy Editor -->
             <div class="form-group col-sm-12" :class="{ 'text-danger': $parent.validationErrors.short_description }">
                 <label>
                     Product Short Description
@@ -191,19 +191,19 @@
                     style="margin-top: 3px"
                     title="This field is translatable."
                 ></i>
-                <ckeditor
+                <easy-editor
                     v-model="$parent.productData.local_short_description"
                     :class="{ 'is-invalid': $parent.validationErrors.short_description }"
-                ></ckeditor>
+                ></easy-editor>
                 <small v-if="$parent.validationErrors.short_description" class="text-danger mt-3">{{
                     $parent.validationErrors.short_description[0]
                 }}</small>
             </div>
 
-            <!-- Tiny MCE -->
+            <!-- Easy Editor -->
             <div class="form-group col-sm-12" :class="{ 'text-danger': $parent.validationErrors.description }">
                 <label>
-                    Product Description
+                    Product Long Description
                     <span v-if="checkIfProductFieldIsRequired('description')" class="text-danger font-weight-bold">*</span>
                 </label>
                 <i
@@ -211,10 +211,10 @@
                     style="margin-top: 3px"
                     title="This field is translatable."
                 ></i>
-                <ckeditor
+                <easy-editor
                     v-model="$parent.productData.local_description"
                     :class="{ 'is-invalid': $parent.validationErrors.description }"
-                ></ckeditor>
+                ></easy-editor>
                 <small v-if="$parent.validationErrors.description" class="text-danger mt-3">{{
                     $parent.validationErrors.description[0]
                 }}</small>

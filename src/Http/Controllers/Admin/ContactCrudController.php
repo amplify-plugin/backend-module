@@ -70,14 +70,10 @@ class ContactCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::match(['get', 'post'], $segment . '/roles', [
-            'as' => $routeName . '.roles',
-            'uses' => $controller . '@getRoles',
-        ]);
-
         Route::get($segment . '/{contact}/impersonate', [
             'as' => $routeName . '.impersonate',
             'uses' => $controller . '@setImpersonate',
+            'operation' => 'impersonate',
         ]);
 
         Route::post($segment . '/assignable-validation', [
@@ -107,7 +103,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         if (config('amplify.erp.auto_create_contact')) {
             $this->crud->enableBulkActions();
-            $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'crud::buttons.bulk_erp_sync');
+            $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'backend::buttons.bulk_erp_sync', 'end');
         }
 
         $this->crud->addFilter([
@@ -254,7 +250,8 @@ class ContactCrudController extends BackpackCustomCrudController
         ]);
 
         $this->crud->addClause('approved');
-        $this->crud->addButtonFromView('line', 'impersonate', 'impersonate', 'end');
+
+        $this->crud->addButton('line', 'impersonate', 'view', 'backend::buttons.impersonate', 'end');
 
         CRUD::addFilter([
             'name' => 'created_between',
@@ -288,10 +285,6 @@ class ContactCrudController extends BackpackCustomCrudController
 
         CRUD::setValidation(ContactRequest::class);
 
-        $attributes = request()->query()['category_name'] ?? false
-            ? ['readonly' => 'readonly']
-            : [];
-
         CRUD::addField([
             'label' => 'Customer', // Table column heading
             'type' => 'select2_from_ajax',
@@ -320,7 +313,8 @@ class ContactCrudController extends BackpackCustomCrudController
                 'type' => 'relationship',
                 'entity' => 'accountTitle',
                 'attribute' => 'name',
-            ], [
+            ],
+            [
                 'name' => 'email',
                 'label' => 'Email',
                 'tab' => 'Basic',
@@ -329,7 +323,8 @@ class ContactCrudController extends BackpackCustomCrudController
                     'autocomplete' => 'off',
                     'id' => 'new-email-address',
                 ],
-            ], [
+            ],
+            [
                 'name' => 'login_id',
                 'label' => 'Login ID',
                 'tab' => 'Basic',
@@ -352,17 +347,20 @@ class ContactCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
-            ], [
+            ],
+            [
                 'name' => 'roles',
                 'label' => 'Role(s)',
                 'type' => 'select2_from_ajax_multiple',
                 'placeholder' => 'Select Roles',
                 'minimum_input_length' => 0,
-                'data_source' => route('contact.roles'),
+                'data_source' => backpack_url('contact/fetch/roles'),
+                'method' => 'POST',
                 'include_all_form_fields' => true,
                 'dependencies' => ['customer_id'],
-                'tab' => 'Basic',
-            ], [ // select2_from_ajax: 1-n relationship
+                'tab' => 'Permission',
+            ],
+            [ // select2_from_ajax: 1-n relationship
                 'label' => 'Address', // Table column heading
                 'type' => 'select2_from_ajax',
                 'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
@@ -592,7 +590,7 @@ class ContactCrudController extends BackpackCustomCrudController
     {
         $this->crud->hasAccessOrFail('create');
 
-        $this->crud->removeFields(['roles', 'contactLogins']);
+        $this->crud->removeFields(['contactLogins']);
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
@@ -604,32 +602,38 @@ class ContactCrudController extends BackpackCustomCrudController
 
         $this->crud->unsetValidation();
 
-        if (config('amplify.erp.auto_create_contact')
-            && !$request->filled('contact_code')) {
+        if (config('amplify.erp.auto_create_contact')) {
 
             $attributes = $request->all();
 
             $customer = Customer::find($attributes['customer_id']);
 
-            $accountTitle = AccountTitle::find($attributes['account_title_id']);
+            $erpContactList = ErpApi::getContactList(['customer_number' => $customer->erp_id]);
 
-            $attributes['action'] = 'add';
-            $attributes['customer_number'] = $customer->erp_id;
-            $attributes['account_title_code'] = $accountTitle?->code ?? null;
+            $erpContact = $erpContactList->firstWhere('ContactEmail', $attributes['email']);
 
-            $erpContact = ErpApi::createUpdateContact($attributes);
+            if ($erpContact == null) {
 
-            if (!empty($erpContact->Message)) {
-                throw ValidationException::withMessages([
-                    'contact_code' => $erpContact->Message,
-                ]);
-            }
+                $accountTitle = AccountTitle::find($attributes['account_title_id']);
 
-            if ($erpContact->ContactNumber == null) {
+                $attributes['action'] = 'add';
+                $attributes['customer_number'] = $customer->erp_id;
+                $attributes['account_title_code'] = $accountTitle?->code ?? null;
 
-                \Alert::success(trans('Unable to create contact on ERP.'))->flash();
+                $erpContact = ErpApi::createUpdateContact($attributes);
 
-                return redirect()->back();
+                if (!empty($erpContact->Message)) {
+                    throw ValidationException::withMessages([
+                        'contact_code' => $erpContact->Message,
+                    ]);
+                }
+
+                if ($erpContact->ContactNumber == null) {
+
+                    \Alert::success(trans('Unable to create contact on ERP.'))->flash();
+
+                    return redirect()->back();
+                }
             }
 
             $request->offsetSet('contact_code', $erpContact->ContactNumber);
@@ -652,124 +656,162 @@ class ContactCrudController extends BackpackCustomCrudController
         return $this->crud->performSaveAction($item->getKey());
     }
 
-    public function update(ContactRequest $request)
+    public function update()
     {
-        $this->crud->removeFields(['roles', 'contactLogins']);
+        $this->crud->hasAccessOrFail('update');
+
+        $this->crud->removeFields(['contactLogins']);
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+
+        // register any Model Events defined on fields
+        $this->crud->registerFieldEvents();
+
         $this->crud->setRequest($this->crud->validateRequest());
+
         $this->crud->unsetValidation();
-        $traitRes = $this->traitUpdate();
-        // Get the contact entry
-        $contact = Contact::findOrFail($request->id);
-        // Check if 'enabled' is set to true and 'enabled_at' is empty
-        if ($request->enabled == 1 && empty($contact->enabled_at)) {
-            // Set 'enabled_at' to the current timestamp
-            $contact->enabled_at = now();
-            $contact->save();
+
+        if (config('amplify.erp.auto_create_contact')) {
+
+            $attributes = $request->all();
+
+            $customer = Customer::find($attributes['customer_id']);
+
+            $erpContactList = ErpApi::getContactList(['customer_number' => $customer->erp_id]);
+
+            $erpContact = $erpContactList->firstWhere('ContactEmail', $attributes['email']);
+
+            if ($erpContact == null) {
+
+                $accountTitle = AccountTitle::find($attributes['account_title_id']);
+
+                $attributes['action'] = 'add';
+                $attributes['customer_number'] = $customer->erp_id;
+                $attributes['account_title_code'] = $accountTitle?->code ?? null;
+
+                $erpContact = ErpApi::createUpdateContact($attributes);
+
+                if (!empty($erpContact->Message)) {
+                    throw ValidationException::withMessages([
+                        'contact_code' => $erpContact->Message,
+                    ]);
+                }
+
+                if ($erpContact->ContactNumber == null) {
+
+                    \Alert::success(trans('Unable to create contact on ERP.'))->flash();
+
+                    return redirect()->back();
+                }
+            }
+
+            $request->offsetSet('contact_code', $erpContact->ContactNumber);
+        }
+
+        if ($request->filled('enabled') && empty($contact->enabled_at)) {
+            $request->offsetSet('enabled', 1);
+            $request->offsetSet('enabled_at', now());
 
             // Trigger the notification
             NotificationFactory::call(Event::CONTACT_ACCOUNT_REQUEST_ACCEPTED, [
-                'contact_id' => $contact->id,
+                'contact_id' => $request->route('id'),
             ]);
         }
+
+        // update the row in the db
+        $item = $this->crud->update(
+            $request->get($this->crud->model->getKeyName()),
+            $this->crud->getStrippedSaveRequest($request)
+        );
+        $this->data['entry'] = $this->crud->entry = $item;
+
+
         $this->afterCreateUpdateOperation($request);
+
         $this->crud->entry->updateContactLoginAsPerEntry();
 
-        return $traitRes;
+        // show a success message
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return $this->crud->performSaveAction($item->getKey());
     }
 
-    protected function afterCreateUpdateOperation($request): void
+    protected function afterCreateUpdateOperation(Request $request): void
     {
-        $this->crud->entry->refresh();
+        $contact = $this->crud->entry;
 
-        if ($request->filled('roles')) {
-            $roles = [];
-
-            foreach ($request->roles ?? [] as $role_id) {
-                $roles[$role_id] = [
-                    'team_id' => $request->customer_id,
-                ];
-            }
-
-            $this->crud->entry->roles()->sync($roles);
+        if ($request->filled('roles') && !empty($request->input('roles'))) {
+            $contact->roles()->sync($request->input('roles', []));
         }
 
-        if ($request->filled('ownPermissions')) {
-            $ownPermissions = [];
-
-            DB::table(config('permission.table_names.model_has_permissions'))->where([
-                'model_type' => Contact::class,
-                'model_id' => $this->crud->entry->id,
-                'team_id' => $request->customer_id,
-            ])->delete();
-
-            foreach (json_decode($request->ownPermissions, true) ?? [] as $permission_id) {
-                $ownPermissions[$permission_id] = [
-                    'team_id' => $request->customer_id,
-                ];
-            }
-
-            $this->crud->entry->permissions()->sync($ownPermissions);
+        if ($request->filled('permissions') && !empty($request->input('permissions'))) {
+            $contact->permissions()->sync($request->input('permissions', []));
         }
 
-        DB::transaction(function () use ($request) {
-            $roles = [];
-            $permissions = [];
-            $contact = $this->crud->entry;
-            $contact->contactLogins()
-                ->where('customer_id', '<>', $contact->customer_id)
-                ->delete();
-
-            foreach ($request->contactLogins ?? [] as $login_customer) {
-
-                ContactLogin::firstOrCreate([
-                    'contact_id' => $contact->id,
-                    'customer_id' => $login_customer['customer_id'],
-                    'warehouse_id' => $login_customer['warehouse_id'],
-                    'customer_address_id' => $login_customer['customer_address_id'],
-                ]);
-
-                $login_customer['permissions'] = is_string($login_customer['permissions']) ? json_decode($login_customer['permissions'], true) : $login_customer['permissions'];
-
-                DB::table(config('permission.table_names.model_has_roles'))->where([
-                    'model_type' => Contact::class,
-                    'model_id' => $contact->id,
-                    'team_id' => $login_customer['customer_id'],
-                ])->delete();
-
-                DB::table(config('permission.table_names.model_has_permissions'))->where([
-                    'model_type' => Contact::class,
-                    'model_id' => $contact->id,
-                    'team_id' => $login_customer['customer_id'],
-                ])->delete();
-
-                foreach ($login_customer['roles'] ?? [] as $role) {
-                    if ($role) {
-                        $roles[] = [
-                            'role_id' => $role,
-                            'model_type' => Contact::class,
-                            'model_id' => $contact->id,
-                            'team_id' => $login_customer['customer_id'],
-                        ];
-                    }
-                }
-
-                foreach ($login_customer['permissions'] ?? [] as $permission) {
-                    if ($permission) {
-                        $permissions[] = [
-                            'permission_id' => $permission,
-                            'model_type' => Contact::class,
-                            'model_id' => $contact->id,
-                            'team_id' => $login_customer['customer_id'],
-                        ];
-                    }
-                }
-
-            }
-
-            DB::table(config('permission.table_names.model_has_roles'))->insert($roles);
-            DB::table(config('permission.table_names.model_has_permissions'))->insert($permissions);
-            $contact->validateActiveCustomer();
-        });
+//        DB::transaction(function () use ($request, $contact) {
+////            $roles = [];
+////            $permissions = [];
+////            $contact->contactLogins()
+////                ->where('customer_id', '<>', $contact->customer_id)
+////                ->delete();
+////
+////            foreach ($request->contactLogins ?? [] as $login_customer) {
+////
+////                ContactLogin::firstOrCreate([
+////                    'contact_id' => $contact->id,
+////                    'customer_id' => $login_customer['customer_id'],
+////                    'warehouse_id' => $login_customer['warehouse_id'],
+////                    'customer_address_id' => $login_customer['customer_address_id'],
+////                ]);
+////
+////                $login_customer['permissions'] = is_string($login_customer['permissions']) ? json_decode($login_customer['permissions'], true) : $login_customer['permissions'];
+////
+////                DB::table(config('permission.table_names.model_has_roles'))->where([
+////                    'model_type' => Contact::class,
+////                    'model_id' => $contact->id,
+////                    'team_id' => $login_customer['customer_id'],
+////                ])->delete();
+////
+////                DB::table(config('permission.table_names.model_has_permissions'))->where([
+////                    'model_type' => Contact::class,
+////                    'model_id' => $contact->id,
+////                    'team_id' => $login_customer['customer_id'],
+////                ])->delete();
+////
+////                foreach ($login_customer['roles'] ?? [] as $role) {
+////                    if ($role) {
+////                        $roles[] = [
+////                            'role_id' => $role,
+////                            'model_type' => Contact::class,
+////                            'model_id' => $contact->id,
+////                            'team_id' => config('permission.teams') ? null : $login_customer['customer_id'],
+////                        ];
+////                    }
+////                }
+////
+////                foreach ($login_customer['permissions'] ?? [] as $permission) {
+////                    if ($permission) {
+////                        $permissions[] = [
+////                            'permission_id' => $permission,
+////                            'model_type' => Contact::class,
+////                            'model_id' => $contact->id,
+////                            'team_id' => config('permission.teams') ? null : $login_customer['customer_id'],
+////                        ];
+////                    }
+////                }
+////
+////            }
+////
+////            DB::table(config('permission.table_names.model_has_roles'))->insert($roles);
+////
+////            DB::table(config('permission.table_names.model_has_permissions'))->insert($permissions);
+//
+//            $contact->validateActiveCustomer();
+//        });
     }
 
     /**
@@ -963,13 +1005,17 @@ class ContactCrudController extends BackpackCustomCrudController
         return $results;
     }
 
-    public function getRoles()
+    protected function fetchRoles()
     {
         $form = backpack_form_input();
 
+        if (config('permission.teams') && empty($form['customer_id'])) {
+            abort(422, 'customer_id field is required');
+        }
+
         if (isset($form['customer_id'])) {
-            return Role::where('guard_name', 'customer')
-                ->where(fn($q) => $q->whereNull('team_id')->orWhere('team_id', $form['customer_id']))
+            return Role::where('guard_name', Contact::AUTH_GUARD)
+                ->when(config('permission.teams'), fn($q) => $q->where('team_id', $form['customer_id']))
                 ->orderBy('name', 'ASC')
                 ->paginate(20);
         }

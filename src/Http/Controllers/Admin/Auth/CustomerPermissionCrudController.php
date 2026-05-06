@@ -1,15 +1,14 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin;
+namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\CustomerPermissionRequest;
 use Amplify\System\Backend\Models\CustomerPermission;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
-use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
 
 // VALIDATION
 
@@ -20,6 +19,9 @@ class CustomerPermissionCrudController extends BackpackCustomCrudController
     use ListOperation;
     use UpdateOperation;
 
+    /**
+     * @throws \Exception
+     */
     public function setup()
     {
         $this->crud->setModel(CustomerPermission::class);
@@ -42,7 +44,7 @@ class CustomerPermissionCrudController extends BackpackCustomCrudController
     public function setupCreateOperation()
     {
         $this->addFields();
-        $this->crud->setValidation(StoreRequest::class);
+        $this->crud->setValidation(CustomerPermissionRequest::class);
 
         // otherwise, changes won't have effect
         \Cache::forget('spatie.permission.cache');
@@ -51,7 +53,7 @@ class CustomerPermissionCrudController extends BackpackCustomCrudController
     public function setupUpdateOperation()
     {
         $this->addFields();
-        $this->crud->setValidation(UpdateRequest::class);
+        $this->crud->setValidation(CustomerPermissionRequest::class);
 
         // otherwise, changes won't have effect
         \Cache::forget('spatie.permission.cache');

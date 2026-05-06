@@ -159,7 +159,7 @@ trait HasBackendMenu
                     ->url(backpack_url('customer-role'));
 
                 $customers->item('Customer Permissions')
-                    ->can('customer-permission.list')
+                    ->if(fn() => backpack_user()->isAdmin())
                     ->icon('las la-user-slash')
                     ->url(backpack_url('customer-permission'));
 
@@ -460,6 +460,11 @@ trait HasBackendMenu
                     ->icon('la la-id-badge')
                     ->can('role.list')
                     ->url(backpack_url('role'));
+
+                $auth->item('Permissions')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('las la-user-slash')
+                    ->url(backpack_url('permission'));
 
                 $auth->item('Activity Logs')
                     ->icon('la la-angry')

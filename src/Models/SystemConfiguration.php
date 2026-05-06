@@ -36,6 +36,8 @@ class SystemConfiguration extends Model implements Auditable
 
     const ERP_TAB = 'erp';
 
+    const EXPORT_TAB = 'export';
+
     const INVOICE_TAB = 'invoice';
 
     const SCHEDULE_TAB = 'schedule';

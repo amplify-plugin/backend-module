@@ -1,7 +1,7 @@
 <template>
-    <div role="tabpanel" class="tab-pane active" id="tab_basic-info">
-        <fieldset>
-            <div class="d-flex justify-content-between border-bottom pb-0 mb-3 mt-n3">
+    <div role="tabpanel" class="tab-pane active basic-settings-pane" id="tab_basic-info">
+        <fieldset class="basic-settings-shell">
+            <div class="basic-settings-header">
                 <legend>
                     <i class="la la-file mr-2"></i>
                     Basic Information
@@ -45,386 +45,393 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Global Currency</label>
-                <div>
-                    <select class="form-control custom-select" v-model="coreConfigurationData.global_currency">
-                        <option :value="code" v-for="(currency, code) in $parent.allCurrencies" :key="code">
-                            {{ currency }}
-                        </option>
-                    </select>
+            <div class="settings-grid">
+                <div class="form-group">
+                    <label>Global Currency</label>
+                    <div>
+                        <select class="form-control custom-select" v-model="coreConfigurationData.global_currency">
+                            <option :value="code" v-for="(currency, code) in $parent.allCurrencies" :key="code">
+                                {{ currency }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Default Language</label>
-                <div>
-                    <select
-                        class="form-control custom-select"
-                        v-model="coreConfigurationData.default_language"
-                        :class="{ 'is-invalid': $parent.validationErrors.default_language }"
-                    >
-                        <option
-                            v-for="(language, index) in $parent.availableLocales"
-                            :value="language.value"
-                            :key="index"
-                            :selected="coreConfigurationData.default_language === language.value"
+                <div class="form-group">
+                    <label>Default Language</label>
+                    <div>
+                        <select
+                            class="form-control custom-select"
+                            v-model="coreConfigurationData.default_language"
+                            :class="{ 'is-invalid': $parent.validationErrors.default_language }"
                         >
-                            {{ language.name }}
-                        </option>
-                    </select>
+                            <option
+                                v-for="(language, index) in $parent.availableLocales"
+                                :value="language.value"
+                                :key="index"
+                                :selected="coreConfigurationData.default_language === language.value"
+                            >
+                                {{ language.name }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Countries</label>
-                <div>
-                    <multiselect
-                        v-model="coreConfigurationData.countries"
-                        :options="$parent.countriesData"
-                        :multiple="true"
-                        :close-on-select="true"
-                        :clear-on-select="false"
-                        label="name"
-                        track-by="id"
-                    ></multiselect>
-                    <small v-if="$parent.validationErrors.countries" class="text-danger mt-3">
-                        {{ $parent.validationErrors.countries[0] }}
+                <div class="form-group">
+                    <label>Countries</label>
+                    <div>
+                        <multiselect
+                            v-model="coreConfigurationData.countries"
+                            :options="$parent.countriesData"
+                            :multiple="true"
+                            :close-on-select="true"
+                            :clear-on-select="false"
+                            label="name"
+                            track-by="id"
+                        ></multiselect>
+                        <small v-if="$parent.validationErrors.countries" class="text-danger mt-2 d-block">
+                            {{ $parent.validationErrors.countries[0] }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hierarchies</label>
+                    <div>
+                        <multiselect
+                            v-model="coreConfigurationData.hierarchies"
+                            :options="$parent.hierarchiesData"
+                            :multiple="true"
+                            :close-on-select="false"
+                            :clear-on-select="false"
+                            :preserve-search="true"
+                            :hide-selected="true"
+                        >
+                            <template slot="selection">
+                                <span class="multiselect__single" v-if="$parent.validationErrors.sku_default_attributes">
+                                    {{ $parent.validationErrors.sku_default_attributes[0] }}
+                                </span>
+                            </template>
+                        </multiselect>
+                        <small v-if="$parent.validationErrors.sku_default_attributes" class="text-danger mt-2 d-block">
+                            {{ $parent.validationErrors.sku_default_attributes[0] }}
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Web Order Prefix</label>
+                    <input
+                        type="text"
+                        name="web_order_prefix"
+                        placeholder="Enter Web Order Prefix"
+                        v-model="coreConfigurationData.web_order_prefix"
+                        class="form-control"
+                        :class="{ 'is-invalid': $parent.validationErrors.web_order_prefix }"
+                    />
+                    <small v-if="$parent.validationErrors.web_order_prefix" class="text-danger mt-2 d-block">
+                        {{ $parent.validationErrors.web_order_prefix[0] }}
                     </small>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Hierarchies</label>
-                <div>
+                <div class="form-group">
+                    <label>Next Available Web Order Number</label>
+                    <input
+                        type="text"
+                        name="nxt_available_web_order_number"
+                        placeholder="Enter Next Available Web Order Number"
+                        v-model="coreConfigurationData.nxt_available_web_order_number"
+                        class="form-control"
+                        :class="{ 'is-invalid': $parent.validationErrors.nxt_available_web_order_number }"
+                    />
+                    <small
+                        v-if="$parent.validationErrors.nxt_available_web_order_number"
+                        class="text-danger mt-2 d-block"
+                    >
+                        {{ $parent.validationErrors.nxt_available_web_order_number[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Import Default Password</label>
+                    <div class="password-field-wrap">
+                        <input
+                            :type="passwordType"
+                            name="contact_import_default_password"
+                            placeholder="Enter Contact Default Password"
+                            v-model="coreConfigurationData.contact_import_default_password"
+                            class="form-control"
+                            :class="{ 'is-invalid': $parent.validationErrors.contact_import_default_password }"
+                            min="8"
+                        />
+                        <i
+                            @click="togglePasswordShow"
+                            :class="{
+                                'eye-position las la-eye-slash': showPassword,
+                                'eye-position las la-eye': !showPassword,
+                            }"
+                        ></i>
+                    </div>
+                    <small
+                        v-if="$parent.validationErrors.contact_import_default_password"
+                        class="text-danger mt-2 d-block"
+                    >
+                        {{ $parent.validationErrors.contact_import_default_password[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Date Time Format</label>
+                    <select
+                        name="date_time_format"
+                        class="form-control custom-select"
+                        v-model="coreConfigurationData.date_time_format"
+                    >
+                        <option
+                            :value="index"
+                            v-for="(date_time_example, index) in $parent.dateTimes"
+                            :key="index"
+                            :selected="index === coreConfigurationData.date_time_format"
+                        >
+                            {{ date_time_example }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date Format</label>
+                    <select
+                        name="date_format"
+                        class="form-control custom-select"
+                        v-model="coreConfigurationData.date_format"
+                    >
+                        <option
+                            :value="index"
+                            v-for="(date_example, index) in $parent.dates"
+                            :key="index"
+                            :selected="index === coreConfigurationData.date_format"
+                        >
+                            {{ date_example }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Default Reorder Limit</label>
+                    <input
+                        type="number"
+                        name="default_reorder_limit"
+                        placeholder="Enter product limit"
+                        v-model="coreConfigurationData.default_reorder_limit"
+                        class="form-control"
+                        :class="{ 'is-invalid': $parent.validationErrors.default_reorder_limit }"
+                    />
+                    <small v-if="$parent.validationErrors.default_reorder_limit" class="text-danger mt-2 d-block">
+                        {{ $parent.validationErrors.default_reorder_limit[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group required settings-grid-full">
+                    <label>Navbar Brand</label>
+                    <div class="controls">
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                name="navbar_image_path"
+                                v-model="coreConfigurationData.navbar_brand"
+                                id="navbar_image_path"
+                                class="form-control"
+                                @keypress="coreConfigurationData.errors.clear('navbar_image_path')"
+                                readonly
+                            />
+
+                            <span class="input-group-append">
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm popup_selector"
+                                    data-toggle="modal"
+                                    data-target="#widget-attributes-modal"
+                                    @click="prepareModal('navbar'); processImagesByType(); canMultiple = false;"
+                                >
+                                    <i class="la la-cloud-upload"></i> Browse
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm clear_elfinder_picker"
+                                    @click="deleteImage('navbar')"
+                                >
+                                    <i class="la la-eraser"></i> Clear
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group settings-grid-full">
+                    <label>Pagination Length Options</label>
+                    <input
+                        type="text"
+                        name="length_options"
+                        placeholder="Enter values in comma-separated"
+                        v-model="coreConfigurationData.length_options"
+                        class="form-control"
+                        :class="{ 'is-invalid': $parent.validationErrors.length_options }"
+                    />
+                    <small v-if="$parent.validationErrors.length_options" class="text-danger mt-2 d-block">
+                        {{ $parent.validationErrors.length_options[0] }}
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Admin Color Scheme</label>
                     <multiselect
-                        v-model="coreConfigurationData.hierarchies"
-                        :options="$parent.hierarchiesData"
-                        :multiple="true"
-                        :close-on-select="false"
+                        v-model="currentTheme"
+                        :options="themes"
+                        track-by="code"
+                        label="label"
                         :clear-on-select="false"
                         :preserve-search="true"
-                        :hide-selected="true"
                     >
-                        <template slot="selection">
-                            <span class="multiselect__single" v-if="$parent.validationErrors.sku_default_attributes">
-                                {{ $parent.validationErrors.sku_default_attributes[0] }}
+                        <template slot="option" slot-scope="props">
+                            <span class="font-weight-bold d-flex justify-content-start align-items-center">
+                                <i :class="props.option.code"></i>
+                                {{ props.option.label }}
+                            </span>
+                        </template>
+                        <template slot="singleLabel" slot-scope="{ option }">
+                            <span class="font-weight-bold d-flex justify-content-start align-items-center">
+                                <i :class="option.code"></i>
+                                {{ option.label }}
                             </span>
                         </template>
                     </multiselect>
-                    <small v-if="$parent.validationErrors.sku_default_attributes" class="text-danger mt-3">{{
-                            $parent.validationErrors.sku_default_attributes[0]
-                        }}</small>
+                    <small v-if="$parent.validationErrors.color_scheme" class="text-danger mt-2 d-block">
+                        {{ $parent.validationErrors.color_scheme[0] }}
+                    </small>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Web Order Prefix</label>
-                <input
-                    type="text"
-                    name="web_order_prefix"
-                    placeholder="Enter Web Order Prefix "
-                    v-model="coreConfigurationData.web_order_prefix"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.web_order_prefix }"
-                />
-                <small v-if="$parent.validationErrors.web_order_prefix" class="text-danger mt-3">{{
-                        $parent.validationErrors.web_order_prefix[0]
-                    }}</small>
-            </div>
+                <div class="form-group">
+                    <label class="d-block">Use Recaptcha</label>
+                    <div class="toggle-group">
+                        <label class="toggle-pill">
+                            <input
+                                type="radio"
+                                name="recaptcha_status"
+                                :value="false"
+                                v-model="coreConfigurationData.recaptcha_status"
+                                :class="{ 'is-invalid': $parent.validationErrors.recaptcha_status }"
+                            />
+                            <span>No</span>
+                        </label>
+                        <label class="toggle-pill">
+                            <input
+                                type="radio"
+                                name="recaptcha_status"
+                                :value="true"
+                                v-model="coreConfigurationData.recaptcha_status"
+                                :class="{ 'is-invalid': $parent.validationErrors.recaptcha_status }"
+                            />
+                            <span>Yes</span>
+                        </label>
+                    </div>
+                    <small v-if="$parent.validationErrors.recaptcha_status" class="text-danger mt-2 d-block">
+                        {{ $parent.validationErrors.recaptcha_status[0] }}
+                    </small>
+                </div>
 
-            <div class="form-group">
-                <label>Nxt available web order number</label>
-                <input
-                    type="text"
-                    name="nxt_available_web_order_number"
-                    placeholder="Enter Next Available Web Order Number"
-                    v-model="coreConfigurationData.nxt_available_web_order_number"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.nxt_available_web_order_number }"
-                />
-                <small v-if="$parent.validationErrors.nxt_available_web_order_number" class="text-danger mt-3">{{
-                        $parent.validationErrors.nxt_available_web_order_number[0]
-                    }}</small>
-            </div>
+                <div class="form-group settings-grid-full" v-if="coreConfigurationData.recaptcha_status">
+                    <div>
+                        <label>Recaptcha Type</label>
+                        <select
+                            name="erps"
+                            class="form-control custom-select"
+                            :class="{ 'is-invalid': $parent.validationErrors.erps }"
+                            v-model="coreConfigurationData.recaptcha_type"
+                        >
+                            <option
+                                :value="recpatcha.value"
+                                v-for="(recpatcha, index) in recaptchaTypes"
+                                :key="index"
+                                :selected="recpatcha.value == coreConfigurationData.recaptcha_type ? true : false"
+                            >
+                                {{ recpatcha.title }}
+                            </option>
+                        </select>
 
-            <div class="form-group">
-                <label>Contact Import Default Password</label>
-                <input
-                    :type="passwordType"
-                    name="contact_import_default_password"
-                    placeholder="Enter Contact Default Password"
-                    v-model="coreConfigurationData.contact_import_default_password"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.contact_import_default_password }"
-                    min="8"
-                />
-                <i
-                    @click="togglePasswordShow"
-                    :class="{
-                        'eye-position las la-eye-slash': showPassword,
-                        'eye-position las la-eye': !showPassword,
-                    }"
-                ></i>
-                <small v-if="$parent.validationErrors.contact_import_default_password" class="text-danger mt-3">{{
-                        $parent.validationErrors.contact_import_default_password[0]
-                    }}</small>
-            </div>
-
-            <div class="form-group">
-                <label>Date Time Format</label>
-                <select
-                    name="date_time_format"
-                    class="form-control custom-select"
-                    v-model="coreConfigurationData.date_time_format"
-                >
-                    <option
-                        :value="index"
-                        v-for="(date_time_example, index) in $parent.dateTimes"
-                        :key="index"
-                        :selected="index === coreConfigurationData.date_time_format"
-                    >
-                        {{ date_time_example }}
-                    </option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Date Format</label>
-                <select
-                    name="date_format"
-                    class="form-control custom-select"
-                    v-model="coreConfigurationData.date_format"
-                >
-                    <option
-                        :value="index"
-                        v-for="(date_example, index) in $parent.dates"
-                        :key="index"
-                        :selected="index === coreConfigurationData.date_format"
-                    >
-                        {{ date_example }}
-                    </option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Default Reorder Limit</label>
-                <input
-                    type="number"
-                    name="default_reorder_limit"
-                    placeholder="Enter product limit"
-                    v-model="coreConfigurationData.default_reorder_limit"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.default_reorder_limit }"
-                />
-                <small v-if="$parent.validationErrors.default_reorder_limit" class="text-danger mt-3">{{
-                        $parent.validationErrors.default_reorder_limit[0]
-                    }}</small>
-            </div>
-            <div class="form-group required" style="">
-                <label>Navbar Brand</label>
-                <div class="controls">
-                    <div class="input-group">
-                        <input type="text" name="navbar_image_path" v-model="coreConfigurationData.navbar_brand"
-                               id="navbar_image_path" class="form-control"
-                               @keypress="coreConfigurationData.errors.clear('navbar_image_path')" readonly>
-
-                        <span class="input-group-append">
-                                    <button type="button" class="btn btn-light btn-sm popup_selector"
-                                            data-toggle="modal"
-                                            data-target="#widget-attributes-modal"
-                                            @click="prepareModal('navbar'); processImagesByType(); canMultiple = false;">
-                                        <i class="la la-cloud-upload"></i> Browse
-                                    </button>
-                                    <button type="button" class="btn btn-light btn-sm clear_elfinder_picker"
-                                            @click="deleteImage('navbar')"><i class="la la-eraser"></i> Clear</button>
-                                </span>
+                        <small v-if="$parent.validationErrors.recaptcha_type" class="text-danger mt-2 d-block">
+                            {{ $parent.validationErrors.recaptcha_type[0] }}
+                        </small>
+                    </div>
+                    <div class="recaptcha-preview" v-if="recaptchaImage">
+                        <label class="mb-0">Preview</label>
+                        <span v-html="recaptchaImage"> </span>
                     </div>
                 </div>
             </div>
 
-            <!--            <div class="form-group required" style="">-->
-            <!--                <label>Footer Image</label>-->
-            <!--                <div class="controls">-->
-            <!--                    <div class="input-group">-->
-            <!--                        <input type="text" name="footer_image_path" v-model="coreConfigurationData.footer_image"-->
-            <!--                               id="footer_path" class="form-control"-->
-            <!--                               @keypress="coreConfigurationData.errors.clear('footer_image_path')" readonly>-->
+            <div class="settings-toggles">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            name="enable_quick_list"
+                            id="enable_quick_list"
+                            v-model="coreConfigurationData.enable_quick_list"
+                            :class="{ 'is-invalid': $parent.validationErrors.enable_quick_list, 'form-check-input': true }"
+                        />
+                        <label for="enable_quick_list">Allow quick list option in favorites.</label>
+                        <small v-if="$parent.validationErrors.enable_quick_list" class="text-danger mt-2 d-block">
+                            {{ $parent.validationErrors.enable_quick_list[0] }}
+                        </small>
+                    </div>
+                    <small class="text-muted d-block">If enabled the on favourites a new option will appear named "Quick List"</small>
+                </div>
 
-            <!--                        <span class="input-group-append">-->
-            <!--                        <button type="button" class="btn btn-light btn-sm popup_selector" data-toggle="modal"-->
-            <!--                                data-target="#widget-attributes-modal"-->
-            <!--                                @click="prepareModal('footer'); processImagesByType(); canMultiple = false;">-->
-            <!--                            <i class="la la-cloud-upload"></i> Browse-->
-            <!--                        </button>-->
-            <!--                        <button type="button" class="btn btn-light btn-sm clear_elfinder_picker"-->
-            <!--                                @click="deleteImage('footer')"><i class="la la-eraser"></i> Clear</button>-->
-            <!--                    </span>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            -->
-            <div class="form-group">
-                <label>Pagination Length Options</label>
-                <input
-                    type="text"
-                    name="length_options"
-                    placeholder="Enter Values in comma-seperated"
-                    v-model="coreConfigurationData.length_options"
-                    class="form-control"
-                    :class="{ 'is-invalid': $parent.validationErrors.length_options }"
-                />
-                <small v-if="$parent.validationErrors.length_options" class="text-danger mt-3">{{
-                        $parent.validationErrors.length_options[0]
-                    }}</small>
-            </div>
-
-            <!-- Backend Theme -->
-            <div class="form-group">
-                <label>Admin Color Scheme</label>
-                <multiselect
-                    v-model="currentTheme"
-                    :options="themes"
-                    track-by="code"
-                    label="label"
-                    :clear-on-select="false"
-                    :preserve-search="true"
-                >
-                    <template slot="option" slot-scope="props">
-                        <span class="font-weight-bold d-flex justify-content-start align-items-center">
-                            <i :class="props.option.code"></i>
-                            {{ props.option.label }}
-                        </span>
-                    </template>
-                    <template slot="singleLabel" slot-scope="{ option }">
-                        <span class="font-weight-bold d-flex justify-content-start align-items-center">
-                            <i :class="option.code"></i>
-                            {{ option.label }}
-                        </span>
-                    </template>
-                </multiselect>
-                <small v-if="$parent.validationErrors.color_scheme" class="text-danger mt-3">{{
-                        $parent.validationErrors.color_scheme[0]
-                    }}</small>
-            </div>
-
-            <div class="form-group">
-                <label>Use Recaptcha</label><br/>
-                <input
-                    type="radio"
-                    name="recaptcha_status"
-                    :value="false"
-                    v-model="coreConfigurationData.recaptcha_status"
-                    :class="{ 'is-invalid': $parent.validationErrors.recaptcha_status }"
-                />
-                <span class="mr-2">No</span>
-                <input
-                    type="radio"
-                    name="recaptcha_status"
-                    :value="true"
-                    v-model="coreConfigurationData.recaptcha_status"
-                    :class="{ 'is-invalid': $parent.validationErrors.recaptcha_status }"
-                />
-                <span class="mr-2">Yes</span>
-                <small v-if="$parent.validationErrors.recaptcha_status" class="text-danger mt-3">{{
-                        $parent.validationErrors.recaptcha_status[0]
-                    }}</small>
-            </div>
-
-            <div class="form-group" v-if="coreConfigurationData.recaptcha_status">
-                <div>
-                    <label>Recaptcha Type</label><br/>
-
-                    <select
-                        name="erps"
-                        class="form-control custom-select"
-                        :class="{ 'is-invalid': $parent.validationErrors.erps }"
-                        v-model="coreConfigurationData.recaptcha_type"
-                    >
-                        <option
-                            :value="recpatcha.value"
-                            v-for="(recpatcha, index) in recaptchaTypes"
-                            :key="index"
-                            :selected="recpatcha.value == coreConfigurationData.recaptcha_type ? true : false"
+                <div class="form-group">
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            name="enable_multi_customer_manage"
+                            id="enable_multi_customer_manage"
+                            v-model="coreConfigurationData.enable_multi_customer_manage"
+                            :class="{
+                                'is-invalid': $parent.validationErrors.enable_multi_customer_manage,
+                                'form-check-input': true,
+                            }"
+                        />
+                        <label for="enable_multi_customer_manage">Allow contacts to manage multiple Customer(s).</label>
+                        <small
+                            v-if="$parent.validationErrors.enable_multi_customer_manage"
+                            class="text-danger mt-2 d-block"
                         >
-                            {{ recpatcha.title }}
-                        </option>
-                    </select>
-
-                    <small v-if="$parent.validationErrors.recaptcha_type" class="text-danger mt-3">{{
-                            $parent.validationErrors.recaptcha_type[0]
-                        }}</small>
+                            {{ $parent.validationErrors.enable_multi_customer_manage[0] }}
+                        </small>
+                    </div>
+                    <small class="text-muted d-block">If enabled then contacts will be able to swap their designated customer(s)</small>
                 </div>
-                <div class="mt-3" v-if="recaptchaImage">
-                    <label> Preview: </label>&nbsp;
-                    <span v-html="recaptchaImage"> </span>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            name="enable_guest_pricing"
+                            id="enable_guest_pricing"
+                            v-model="coreConfigurationData.enable_guest_pricing"
+                            :class="{
+                                'is-invalid': $parent.validationErrors.enable_guest_pricing,
+                                'form-check-input': true,
+                            }"
+                        />
+                        <label for="enable_guest_pricing">Allow Guest Customer Pricing.</label>
+                        <small v-if="$parent.validationErrors.enable_guest_pricing" class="text-danger mt-2 d-block">
+                            {{ $parent.validationErrors.enable_guest_pricing[0] }}
+                        </small>
+                    </div>
+                    <small class="text-muted d-block">If enabled then users will be able to see product price and availability.</small>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
-                        name="enable_quick_list"
-                        id="enable_quick_list"
-                        v-model="coreConfigurationData.enable_quick_list"
-                        :class="{ 'is-invalid': $parent.validationErrors.enable_quick_list, 'form-check-input': true }"
-                    />
-                    <label for="enable_quick_list">Allow quick list option in favorites.</label>
-                    <small v-if="$parent.validationErrors.enable_quick_list" class="text-danger mt-3">{{
-                            $parent.validationErrors.enable_quick_list[0]
-                        }}</small>
-                </div>
-                <small class="text-muted d-block"
-                >If enabled the on favourites a new option will appear named "Quick List"</small
-                >
-            </div>
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
-                        name="enable_multi_customer_manage"
-                        id="enable_multi_customer_manage"
-                        v-model="coreConfigurationData.enable_multi_customer_manage"
-                        :class="{
-                            'is-invalid': $parent.validationErrors.enable_multi_customer_manage,
-                            'form-check-input': true,
-                        }"
-                    />
-                    <label for="enable_multi_customer_manage">Allow contacts to manage multiple Customer(s).</label>
-                    <small v-if="$parent.validationErrors.enable_multi_customer_manage" class="text-danger mt-3">{{
-                            $parent.validationErrors.enable_multi_customer_manage[0]
-                        }}</small>
-                </div>
-                <small class="text-muted d-block"
-                >If enabled then contacts will be able to swap their designated customer(s)</small
-                >
-            </div>
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
-                        name="enable_guest_pricing"
-                        id="enable_guest_pricing"
-                        v-model="coreConfigurationData.enable_guest_pricing"
-                        :class="{
-                            'is-invalid': $parent.validationErrors.enable_guest_pricing,
-                            'form-check-input': true,
-                        }"
-                    />
-                    <label for="enable_guest_pricing">Allow Guest Customer Pricing.</label>
-                    <small v-if="$parent.validationErrors.enable_guest_pricing" class="text-danger mt-3">{{
-                            $parent.validationErrors.enable_guest_pricing[0]
-                        }}</small>
-                </div>
-                <small class="text-muted d-block"
-                >If enabled then users will be able to see product price and availability.</small
-                >
-            </div>
-
-            <div id="saveActions" class="form-group">
+            <div id="saveActions" class="form-group settings-actions">
                 <input type="hidden" name="save_action" v-model="$parent.actionType"/>
 
                 <button
@@ -444,6 +451,7 @@
                 </button>
             </div>
         </fieldset>
+
         <div
             class="modal fade"
             id="widget-attributes-modal"
@@ -471,7 +479,6 @@
                         </button>
                     </div>
                     <div class="modal-body bg-light">
-                        <!-- Default box -->
                         <div class="card" style="margin-bottom: 0 !important">
                             <div class="card-body">
                                 <div class="col-12 mt-2">
@@ -727,20 +734,147 @@ export default {
 </script>
 
 <style>
-.vue-treeselect .vue-treeselect__control,
+.basic-settings-pane {
+    padding: 1rem 0;
+}
+
+.basic-settings-shell {
+    border: 1px solid #e6ebf2;
+    border-radius: 16px;
+    padding: 1.25rem;
+    background: #f7fafc;
+}
+
+.basic-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid #e7edf5;
+}
+
+.basic-settings-header legend {
+    margin: 0;
+    color: #1f2a44;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.75rem;
+}
+
+.settings-grid-full {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    background: #ffffff;
+    border: 1px solid #e7edf5;
+    border-radius: 12px;
+    padding: 0.9rem;
+    margin-bottom: 0;
+}
+
+.form-group > label {
+    color: #31415e;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.custom-select,
+.multiselect .multiselect__tags,
+.vue-treeselect .vue-treeselect__control {
+    border: 1px solid #d7dfec !important;
+    border-radius: 10px !important;
+    min-height: 40px;
+    box-shadow: none !important;
+}
+
+.form-control:focus,
+.custom-select:focus,
+.multiselect.multiselect--active .multiselect__tags {
+    border-color: #7aa7ff !important;
+    box-shadow: 0 0 0 3px rgba(62, 125, 255, 0.12) !important;
+}
+
 .multiselect .multiselect__tags {
-    height: 38px !important;
-    border-radius: 4px !important;
-    border: 1px solid rgba(0, 40, 100, 0.12) !important;
+    padding-top: 8px !important;
+}
+
+.multiselect__content-wrapper {
+    border-radius: 0 0 10px 10px;
+    border-color: #d7dfec;
+}
+
+.password-field-wrap {
+    position: relative;
+}
+
+.eye-position {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: #60708d;
+}
+
+.toggle-group {
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.toggle-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid #d7dfec;
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    background: #f7faff;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.toggle-pill input {
+    margin-top: 0;
+}
+
+.settings-toggles {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.settings-actions {
+    margin-top: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.recaptcha-preview {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .vue-treeselect.is-invalid {
     border: 1px solid red;
     border-radius: 5px;
-}
-
-.multiselect .multiselect__tags {
-    padding-top: 8px !important;
 }
 
 .required-custom {
@@ -751,39 +885,49 @@ export default {
     min-height: 300px !important;
 }
 
-.orange {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-    background-color: orange;
-    color: white;
-}
-
-.blue {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    margin-right: 0.5rem;
-    background-color: blue;
-    color: white;
-}
-
+.orange,
+.blue,
 .purple {
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
     margin-right: 0.5rem;
+}
+
+.orange {
+    background-color: orange;
+    color: white;
+}
+
+.blue {
+    background-color: blue;
+    color: white;
+}
+
+.purple {
     background-color: purple;
     color: black;
 }
 
-/* Style the select box */
 #colors {
     padding: 5px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 150px;
+}
+
+@media (max-width: 991.98px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-grid-full {
+        grid-column: auto;
+    }
+
+    .basic-settings-shell {
+        padding: 1rem;
+    }
 }
 </style>

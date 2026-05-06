@@ -291,6 +291,8 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                     'status' => 'success',
                     'message' => 'DDS data processed to import.',
                 ];
+            } else if ($tab == SystemConfiguration::EXPORT_TAB) {
+                $data = $this->exportTabFormat($request);
             }
 
             $response = [];
@@ -611,6 +613,13 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'log_email' => $request->boolean('log_email', false),
             'log_trace_parts_api' => $request->boolean('log_trace_parts_api', false),
             'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
+        ];
+    }
+
+    private function exportTabFormat(Request $request)
+    {
+        return [
+            'export_max_limit' => $request->input('export_max_limit', 10000)
         ];
     }
 }

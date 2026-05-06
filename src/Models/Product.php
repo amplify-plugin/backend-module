@@ -559,6 +559,67 @@ class Product extends Model implements ContractsAuditable
             ->get();
     }
 
+    /**
+     * Get related product relationship types grouped into named tab labels.
+     *
+     * Groups are driven by the `amplify.relationship_type_groups` config key,
+     * allowing each client to define their own groupings without code changes.
+     *
+     * Default groups (used when config is not set):
+     *   - "Alternates"   → types with code P, S, U  (substitute / similar products)
+     *   - "Replacements" → types with code I         (superseding / replacement products)
+     *
+     * Groups whose relationship types are not present for the current product
+     * are automatically excluded from the result (no empty tabs).
+     *
+     * Each returned object contains:
+     *   - id       : comma-separated type IDs (used as the `relation_type` query param)
+     *   - name     : human-readable tab label
+     *   - slug     : URL-safe version of the label (used for DOM IDs)
+     *   - type_ids : sorted collection of type IDs
+     *   - types    : sorted collection of type codes
+     *
+     * To customise for a client, update config/amplify.php:
+     *   'relationship_type_groups' => [
+     *       'Alternates'   => ['P', 'S', 'U'],
+     *       'Replacements' => ['I'],
+     *       'Accessories'  => ['A'],
+     *   ],
+     */
+    public function getGroupedRelationshipTypes()
+    {
+        $groupMap = config('amplify.relationship_type_groups', [
+            'Alternates'   => ['P', 'S', 'U'],
+            'Replacements' => ['I'],
+        ]);
+
+        $types = ProductRelationshipType::join('product_relationships', 'product_relationship_types.id', '=', 'product_relationships.product_relationship_type_id')
+            ->where('product_relationships.product_id', $this->id)
+            ->whereIn('product_relationship_types.code', collect($groupMap)->flatten()->all())
+            ->distinct('product_relationship_types.id')
+            ->select('product_relationship_types.id', 'product_relationship_types.code', 'product_relationship_types.name')
+            ->get();
+
+        return collect($groupMap)
+            ->map(function (array $codes, string $label) use ($types) {
+                $matchedTypes = $types->whereIn('code', $codes)->values();
+
+                if ($matchedTypes->isEmpty()) {
+                    return null;
+                }
+
+                return (object) [
+                    'id' => implode(',', $matchedTypes->pluck('id')->unique()->sort()->values()->all()),
+                    'name' => $label,
+                    'type_ids' => $matchedTypes->pluck('id')->unique()->sort()->values(),
+                    'types' => $matchedTypes->pluck('code')->unique()->sort()->values(),
+                    'slug' => \Illuminate\Support\Str::slug($label),
+                ];
+            })
+            ->filter()
+            ->values();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

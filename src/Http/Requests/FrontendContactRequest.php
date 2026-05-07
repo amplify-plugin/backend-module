@@ -30,11 +30,7 @@ class FrontendContactRequest extends FormRequest
      */
     public function authorize()
     {
-        if ($this->isMethod('PUT')) {
-            return request('contact')->customer->id == customer()->id;
-        }
-
-        return auth('customer')->check();
+        return customer(true)->canAny('contact.create', 'contact.update');
     }
 
     /**

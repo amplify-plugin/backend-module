@@ -42,6 +42,7 @@ trait HasBackendMenu
 
                 $catalog->item('Classifications')
                     ->can('classification.list')
+                    ->if(fn() => config('amplify.pim.use_classifications'))
                     ->icon('la la-medkit')
                     ->url(backpack_url('classification'));
 
@@ -91,17 +92,17 @@ trait HasBackendMenu
                 $catalog->item('Custom Part Numbers')
                     ->can('custom-part-number.list')
                     ->if(fn() => config('amplify.client_code') == 'STV')
-                    ->icon('la la-question')
+                    ->icon('la la-tags')
                     ->url(backpack_url('custom-part-number'));
 
                 $catalog->item('Relationship Types')
                     ->can('relationship-type.list')
-                    ->icon('la la-question')
+                    ->icon('la la-tag')
                     ->url(backpack_url('relationship-type'));
 
                 $catalog->item('Product Relations')
                     ->can('product-relation.list')
-                    ->icon('la la-question')
+                    ->icon('la la-sticky-note')
                     ->url(backpack_url('product-relation'));
 
                 $catalog->item('Add Image to Products')

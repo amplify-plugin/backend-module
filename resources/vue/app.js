@@ -9,6 +9,7 @@ import CKEditor from 'ckeditor4-vue';
 import DataTable from 'laravel-vue-datatable';
 import FileManager from './modules/file-manager/init';
 import './componentRegister';
+import EasyEditor from './views/components/EasyEditor.vue';
 
 import store from './store';
 
@@ -16,6 +17,7 @@ Vue.config.productionTip = false;
 import VueClipboard from 'vue-clipboard2';
 // register globally
 Vue.component('multiselect', Multiselect);
+Vue.component('easy-editor', EasyEditor);
 VueClipboard.config.autoSetContainer = true; // add this line
 Vue.use(VueClipboard);
 Vue.use(VueSweetalert2);

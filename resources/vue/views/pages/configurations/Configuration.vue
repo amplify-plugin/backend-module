@@ -180,6 +180,7 @@ import DDS from './tabs/DDS';
 import Security from "./tabs/Security";
 import AlertMessage from './tabs/AlertMessage';
 import Developer from './tabs/Developer';
+import Export from './tabs/Export.vue';
 
 export default {
     name: 'Configuration',
@@ -241,7 +242,8 @@ export default {
         DDS,
         Security,
         AlertMessage,
-        Developer
+        Developer,
+        Export
     },
     data() {
         return {
@@ -265,6 +267,7 @@ export default {
                 Frontend: { title: 'Frontend', hash: 'frontend' },
                 Payment: { title: 'Payment', hash: 'payment' },
                 ERP: { title: 'ERP', hash: 'erp' },
+                Export: { title: 'Export', hash: 'export' },
                 Invoice: { title: 'Invoice', hash: 'invoice' },
                 Schedule: { title: 'Schedule', hash: 'schedule' },
                 CMS: { title: 'CMS', hash: 'cms' },
@@ -275,7 +278,7 @@ export default {
                 // DDS: { title: 'DDS', hash: 'dds' },
                 Security: { title: 'Security', hash: 'security' },
                 AlertMessage: { title: 'Alert Message', hash: 'message' },
-                Developer: { title: 'Developer Options', hash: 'developer' },
+                Developer: { title: 'Developer Options', hash: 'developer' }
             },
             coreConfigurationData: {
                 ...JSON.parse(this.core_configuration_data),

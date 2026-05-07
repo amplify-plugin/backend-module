@@ -245,8 +245,8 @@
                                 <div class="form-group mb-3">
                                     <label for="sql-export-limit">{{ __('Export Row Limit') }}</label>
                                     <input type="number" class="form-control" id="sql-export-limit" min="1"
-                                        max="1000000" value="100000">
-                                    <small class="text-muted">{{ __('Maximum 1000000 rows per request.') }}</small>
+                                        max="{{ config('amplify.export.export_max_limit', 1000) }}" value="{{ config('amplify.export.export_max_limit', 1000) }}">
+                                    <small class="text-muted">{{ __('Maximum ') }}{{ config('amplify.export.export_max_limit', 1000) }}{{ __(' rows per request.') }}</small>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sql-table-select">{{ __('Select Table') }}</label>
@@ -283,7 +283,7 @@
                                     @csrf
                                     <input type="hidden" name="sql" id="sql-export-hidden-query" value="">
                                     <input type="hidden" name="export_limit" id="sql-export-hidden-limit"
-                                        value="100000">
+                                        value="{{ config('amplify.export.export_max_limit', 500) }}" max="{{ config('amplify.export.export_max_limit', 500) }}">
                                 </form>
 
                                 <div class="mt-3">

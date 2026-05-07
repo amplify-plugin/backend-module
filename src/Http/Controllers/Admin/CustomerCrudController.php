@@ -82,7 +82,7 @@ class CustomerCrudController extends BackpackCustomCrudController
 
         if (backpack_user()->can($this->crud->entity_name . '.erp-bulk-sync')) {
             $this->crud->enableBulkActions();
-            $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'crud::buttons.bulk_erp_sync');
+            $this->crud->addButton('top', 'bulk_erp_sync', 'view', 'backend::buttons.bulk_erp_sync');
             $this->crud->addFilter([
                 'name' => 'synced_at',
                 'type' => 'dropdown',

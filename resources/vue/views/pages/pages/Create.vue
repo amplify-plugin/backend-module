@@ -105,6 +105,10 @@
                                            data-toggle="tooltip" :title="wl.description"></i>
                                     </p>
                                     <div v-html="getDataSource(wl.model)"></div>
+                                    <p class="mb-1 mt-2">
+                                      <span class="badge badge-danger mr-1">Permission</span>
+                                      {{ wl.permissions.join(', ') }}
+                                    </p>
                                 </li>
                             </ul>
                             <div class="d-flex justify-content-between my-2">
@@ -543,7 +547,9 @@ export default {
                 }
             }
 
-            return '<span class="badge badge-info">Page</span>' + pages.join(", ");
+            return pages.length > 0
+                ? '<span class="badge badge-info">Page</span>' + pages.join(", ")
+                : '';
             // if (source === 'easy-ask') {
             //     return 'Data Source: <span class="badge bg-danger">Easy Ask Server</span>';
             // } else if (source !== null && source !== 'easy-ask') {

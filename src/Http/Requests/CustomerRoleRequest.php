@@ -38,7 +38,7 @@ class CustomerRoleRequest extends FormRequest
                     }),
             ],
             'is_default' => 'boolean',
-            'team_id' => [(config('amplify.security.single_team_for_customers')) ? 'nullable' : 'required', "exists:customers,id"],
+            'team_id' => (config('permission.teams')) ? ['required', "exists:customers,id"] : ['nullable'],
         ];
     }
 }

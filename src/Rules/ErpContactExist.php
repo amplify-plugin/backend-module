@@ -42,19 +42,15 @@ class ErpContactExist implements ValidationRule, DataAwareRule
 
         $filters = [
             'customer_number' => $customer->erp_id,
-            'contact_code' => $this->data['contact_code'],
-            'limit'=> 1
         ];
 
-
-        $erpContact = ErpApi::getContactDetail($filters);
-
-        if (!empty($erpContact->Message)) {
-            $fail('The ' . Str::replace('_', ' ', $attribute) . ' is invalid or does not exist. ERP Error: ' . $erpContact->Message);
-            return;
+        if (!empty($this->data['contact_code'])) {
+            $filters['contact_code'] = $this->data['contact_code'];
         }
 
-        if (empty($erpContact->ContactNumber) || $erpContact->ContactNumber != $this->data['contact_code']) {
+        $erpContactList = ErpApi::getContactList($filters);
+
+        if($erpContactList->firstWhere('ContactEmail', $this->data['email']) == null) {
             $fail('The ' . Str::replace('_', ' ', $attribute) . ' is invalid or does not exist in erp.');
         }
     }

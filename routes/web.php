@@ -117,7 +117,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     ]);
     Route::crud('notification', 'NotificationCrudController');
     Route::crud('report', 'ReportCrudController');
-    Route::crud('customer-permission', 'CustomerPermissionCrudController');
     Route::crud('tag', 'TagCrudController');
     Route::crud('message', 'MessageCrudController');
     Route::crud('event', 'WebinarCrudController');
@@ -127,6 +126,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('industry-classification', 'IndustryClassificationCrudController');
     Route::crud('customer-address', 'CustomerAddressCrudController');
     Route::crud('customer-role', 'Auth\CustomerRoleCrudController');
+    Route::crud('customer-permission', 'Auth\CustomerPermissionCrudController');
     Route::crud('user', 'Auth\UserCrudController');
     Route::crud('role', 'Auth\RoleCrudController');
     Route::crud('permission', 'Auth\PermissionCrudController');

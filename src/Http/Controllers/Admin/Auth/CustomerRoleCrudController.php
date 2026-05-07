@@ -43,12 +43,7 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
 
         $this->crud->query->withCount('users');
 
-        CRUD::addColumns([
-            [
-                'name' => 'teams.customer_name',
-                'label' => 'Customer',
-                'type' => 'relationship',
-            ],
+        $columns = [
             [
                 'name' => 'name',
                 'label' => 'Name',
@@ -60,10 +55,15 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
                 'name' => 'contacts_count',
                 'wrapper' => [
                     'href' => function ($crud, $column, $entry, $related_key) {
-                        return backpack_url('contact?role='.$entry->getKey());
+                        return backpack_url('contact?role=' . $entry->getKey());
                     },
                 ],
                 'suffix' => ' contacts',
+            ],
+            [
+                'label' => 'Default?',
+                'type' => 'boolean',
+                'name' => 'is_default',
             ],
             [
                 'label' => 'Entry Date',
@@ -75,43 +75,41 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
                 'type' => 'datetime',
                 'name' => 'updated_at',
             ],
-        ]);
+        ];
 
-        CRUD::addFilter(
-            [
-                'name' => 'category_name',
+        if (config('permission.teams')) {
+
+            CRUD::addFilter([
+                'name' => 'team',
                 'type' => 'select2_ajax',
                 'label' => 'Customer',
                 'placeholder' => 'Type Name, Code, Email, Phone',
                 'method' => 'POST',
                 'select_attribute' => 'customer_name',
             ],
-            backpack_url('contact/fetch/customer'),
-            function ($value) { // if the filter is active
-                $this->crud->query->whereHas('teams', function ($query) use ($value) {
-                    $query->where('team_id', $value);
+                backpack_url('contact/fetch/customer'),
+                function ($value) {
+                    $this->crud->query->whereHas('teams', function ($query) use ($value) {
+                        $query->where('team_id', $value);
+                    });
                 });
-            }
-        );
+
+
+            array_unshift($columns, [
+                'name' => 'teams.customer_name',
+                'label' => 'Customer',
+                'type' => 'relationship',
+            ]);
+        }
+
+        CRUD::addColumns($columns);
     }
 
     public function setupCreateOperation()
     {
         CRUD::setValidation(CustomerRoleRequest::class);
 
-        CRUD::addFields([
-            [
-                'name' => 'team_id',
-                'label' => 'Customer',
-                'type' => 'select2_from_ajax',
-                'entity' => 'teams',
-                'attribute' => 'display_name',
-                'data_source' => backpack_url('contact/fetch/customer'),
-                'placeholder' => 'Type customer name',
-                'minimum_input_length' => 0,
-                'method' => 'POST',
-                'select_attribute' => 'display_name',
-            ],
+        $fields = [
             [
                 'name' => 'name',
                 'label' => 'Name',
@@ -136,7 +134,29 @@ class CustomerRoleCrudController extends BackpackCustomCrudController
                         ->toArray();
                 },
             ],
-        ]);
+            [
+                'label' => 'Default role for new contacts?',
+                'type' => 'boolean',
+                'name' => 'is_default',
+            ],
+        ];
+
+        if (config('permission.teams')) {
+            array_unshift($fields, [
+                'name' => 'team_id',
+                'label' => 'Customer',
+                'type' => 'select2_from_ajax',
+                'entity' => 'teams',
+                'attribute' => 'display_name',
+                'data_source' => backpack_url('contact/fetch/customer'),
+                'placeholder' => 'Type customer name',
+                'minimum_input_length' => 0,
+                'method' => 'POST',
+                'select_attribute' => 'display_name',
+            ]);
+        }
+
+        CRUD::addFields($fields);
 
         // otherwise, changes won't have effect
         \Cache::forget('spatie.permission.cache');

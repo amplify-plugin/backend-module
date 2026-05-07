@@ -3,12 +3,14 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\Auth\PermissionStoreCrudRequest;
+use Amplify\System\Backend\Http\Requests\Auth\PermissionUpdateCrudRequest;
+use Amplify\System\Backend\Models\Permission;
+use Amplify\System\Backend\Models\User;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-use Backpack\PermissionManager\app\Http\Requests\PermissionStoreCrudRequest as StoreRequest;
-use Backpack\PermissionManager\app\Http\Requests\PermissionUpdateCrudRequest as UpdateRequest;
 
 // VALIDATION
 
@@ -27,12 +29,13 @@ class PermissionCrudController extends BackpackCustomCrudController
 
     public function setup()
     {
-        $this->crud->setModel(config('backpack.permissionmanager.models.permission'));
-        $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.permission_singular'), trans('backpack::permissionmanager.permission_plural'));
+        $this->crud->setModel(Permission::class);
         $this->crud->setRoute(backpack_url('permission'));
+        $this->crud->setEntityNameStrings('permission', 'permissions');
 
-        $this->guard_name = 'web';
-        $this->crud->addClause('where', 'guard_name', $this->guard_name);
+        $this->guard_name = User::AUTH_GUARD;
+
+        $this->crud->addBaseClause('where', 'guard_name', $this->guard_name);
 
     }
 
@@ -48,7 +51,7 @@ class PermissionCrudController extends BackpackCustomCrudController
     public function setupCreateOperation()
     {
         $this->addFields();
-        $this->crud->setValidation(StoreRequest::class);
+        $this->crud->setValidation(PermissionStoreCrudRequest::class);
 
         // otherwise, changes won't have effect
         \Cache::forget('spatie.permission.cache');
@@ -56,8 +59,8 @@ class PermissionCrudController extends BackpackCustomCrudController
 
     public function setupUpdateOperation()
     {
+        $this->crud->setValidation(PermissionUpdateCrudRequest::class);
         $this->addFields();
-        $this->crud->setValidation(UpdateRequest::class);
 
         // otherwise, changes won't have effect
         \Cache::forget('spatie.permission.cache');
@@ -70,9 +73,10 @@ class PermissionCrudController extends BackpackCustomCrudController
             'label' => 'Name',
             'type' => 'text',
         ]);
+
         $this->crud->addField([
             'name' => 'guard_name',
-            'label' => trans('backpack::permissionmanager.guard_type'),
+            'label' => 'Guard Name',
             'type' => 'hidden',
             'default' => $this->guard_name,
         ]);

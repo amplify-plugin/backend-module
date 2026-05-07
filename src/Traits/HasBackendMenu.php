@@ -42,6 +42,7 @@ trait HasBackendMenu
 
                 $catalog->item('Classifications')
                     ->can('classification.list')
+                    ->if(fn() => config('amplify.pim.use_classifications'))
                     ->icon('la la-medkit')
                     ->url(backpack_url('classification'));
 
@@ -91,17 +92,17 @@ trait HasBackendMenu
                 $catalog->item('Custom Part Numbers')
                     ->can('custom-part-number.list')
                     ->if(fn() => config('amplify.client_code') == 'STV')
-                    ->icon('la la-question')
+                    ->icon('la la-tags')
                     ->url(backpack_url('custom-part-number'));
 
                 $catalog->item('Relationship Types')
                     ->can('relationship-type.list')
-                    ->icon('la la-question')
+                    ->icon('la la-tag')
                     ->url(backpack_url('relationship-type'));
 
                 $catalog->item('Product Relations')
                     ->can('product-relation.list')
-                    ->icon('la la-question')
+                    ->icon('la la-sticky-note')
                     ->url(backpack_url('product-relation'));
 
                 $catalog->item('Add Image to Products')
@@ -159,7 +160,7 @@ trait HasBackendMenu
                     ->url(backpack_url('customer-role'));
 
                 $customers->item('Customer Permissions')
-                    ->can('customer-permission.list')
+                    ->if(fn() => backpack_user()->isAdmin())
                     ->icon('las la-user-slash')
                     ->url(backpack_url('customer-permission'));
 
@@ -460,6 +461,11 @@ trait HasBackendMenu
                     ->icon('la la-id-badge')
                     ->can('role.list')
                     ->url(backpack_url('role'));
+
+                $auth->item('Permissions')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('las la-user-slash')
+                    ->url(backpack_url('permission'));
 
                 $auth->item('Activity Logs')
                     ->icon('la la-angry')

@@ -1,8 +1,10 @@
 <?php
 
-namespace Backpack\PermissionManager\app\Http\Requests;
+namespace Amplify\System\Backend\Http\Requests\Auth;
 
+use Amplify\System\Backend\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoleUpdateCrudRequest extends FormRequest
 {
@@ -24,10 +26,13 @@ class RoleUpdateCrudRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'name' => 'required|string|max:255',
+        return [
+            'name' => [
+                'required','string', 'max:255',
+                Rule::unique(config('permission.table_names.roles', 'roles'), 'name')
+                    ->ignore($this->route('id'))
+                    ->where(fn ($query) => $query->where('guard_name', User::AUTH_GUARD))
+                ]
         ];
-
-        return $rules;
     }
 }

@@ -13,17 +13,27 @@ class TeamsPermission
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response|RedirectResponse)  $next
+     * @param Closure(Request): (Response|RedirectResponse) $next
      * @return Response|RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        $team_id = ($request->segment(1) == 'admin')
-            ? (backpack_auth()->check() ? User::SYSTEM_TEAM_ID : null)
-            : ((customer_check()) ? customer()->id : null);
 
-        if ($team_id !== null) {
-            setPermissionsTeamId($team_id);
+        if (config('permission.teams')) {
+
+            $teamId = null;
+
+            if ($request->is('admin/*')) {
+                if (backpack_auth()->check()) {
+                    $teamId = USER::SYSTEM_TEAM_ID;
+                }
+            } else {
+                if (customer_check()) {
+                    $teamId = customer()->getKey();
+                }
+            }
+
+            setPermissionsTeamId($teamId);
         }
 
         return $next($request);

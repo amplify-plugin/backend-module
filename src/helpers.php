@@ -43,11 +43,10 @@ if (!function_exists('backend_permissions')) {
             'industry-classification' => 'l,c,u,d',
             'account-title' => 'l,c,u,d',
             'customer' => 'l,c,u,d,erp-bulk-sync',
-            'contact' => 'l,c,u,d,impersonate',
+            'contact' => 'l,c,u,d,impersonate,bulkErpSync',
             'account-request' => 'l,u,d',
             'customer-group' => 'l,c,u,d',
             'customer-role' => 'l,c,u,d',
-            'customer-permission' => 'l,c,u,d',
             'customer-address' => 'l,c,u,d',
             'registration-request' => 'l,u,d',
 
@@ -128,7 +127,6 @@ if (!function_exists('backend_permissions')) {
             //Authorization
             'user' => 'l,c,u,d',
             'role' => 'l,c,u,d',
-            'permission' => 'l,c,u,d',
             'activity-log' => 'l,s,d',
             'contact-login' => 'l,c,u,d',
 

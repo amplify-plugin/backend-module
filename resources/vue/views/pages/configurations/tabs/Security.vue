@@ -28,59 +28,56 @@
         >If enabled system will ask user to reset password, if changed by admin.</small
         >
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-check">
-            <input
-                type="checkbox"
-                name="skip_contact_approval"
-                id="skip_contact_approval"
-                v-model="coreConfigurationData.skip_contact_approval"
-                :class="{
+      <div class="form-group">
+        <div class="form-check">
+          <input
+              type="checkbox"
+              name="skip_contact_approval"
+              id="skip_contact_approval"
+              v-model="coreConfigurationData.skip_contact_approval"
+              :class="{
                                 'is-invalid': $parent.validationErrors.skip_contact_approval,
                                 'form-check-input': true,
                             }"
-            />
-            <label for="skip_contact_approval"
-            >Allow Contact to login after request account without Approval</label
-            >
-            <small v-if="$parent.validationErrors.skip_contact_approval" class="text-danger">{{
-                $parent.validationErrors.skip_contact_approval[0]
-              }}</small>
-          </div>
+          />
+          <label for="skip_contact_approval">
+            Skip Contact Account Approval upon Signup
+          </label>
+          <small v-if="$parent.validationErrors.skip_contact_approval" class="text-danger">{{
+              $parent.validationErrors.skip_contact_approval[0]
+            }}</small>
         </div>
-        <div class="col-md-6" v-if="!coreConfigurationData.skip_contact_approval">
-          <div class="form-group">
-            <label>Account Verification Method</label>
-            <select
-                name="verification_method"
-                v-model="coreConfigurationData.verification_method"
-                :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.verification_method }">
-              <option value="email" :selected="coreConfigurationData.verification_method === 'email'">
-                Email Verification
-              </option>
-              <option value="backend" :selected="coreConfigurationData.verification_method === 'backend'">
-                Admin Verification
-              </option>
-            </select>
-            <small v-if="$parent.validationErrors.verification_method" class="text-danger">{{
-                $parent.validationErrors.verification_method[0]
-              }}</small>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="form-group">
-            <label>System Password Minimum Length</label>
-            <input
-                type="number"
-                name="password_length"
-                placeholder="Password Length"
-                v-model="coreConfigurationData.password_length"
-                class="form-control"
-                :class="{ 'is-invalid': $parent.validationErrors.password_length }"
-            />
-          </div>
-        </div>
+        <small class="text-muted d-block">
+          If enabled system will allow contacts to login without verification process.
+        </small>
+      </div>
+      <div class="form-group" v-if="!coreConfigurationData.skip_contact_approval">
+        <label>Account Verification Method</label>
+        <select
+            name="verification_method"
+            v-model="coreConfigurationData.verification_method"
+            :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.verification_method }">
+          <option value="email" :selected="coreConfigurationData.verification_method === 'email'">
+            Email Verification
+          </option>
+          <option value="backend" :selected="coreConfigurationData.verification_method === 'backend'">
+            Admin Verification
+          </option>
+        </select>
+        <small v-if="$parent.validationErrors.verification_method" class="text-danger">{{
+            $parent.validationErrors.verification_method[0]
+          }}</small>
+      </div>
+      <div class="form-group">
+        <label>System Password Minimum Length</label>
+        <input
+            type="number"
+            name="password_length"
+            placeholder="Password Length"
+            v-model="coreConfigurationData.password_length"
+            class="form-control"
+            :class="{ 'is-invalid': $parent.validationErrors.password_length }"
+        />
       </div>
     </fieldset>
     <fieldset class="settings-shell mt-3">
@@ -134,12 +131,12 @@ export default {
     return {
       coreConfigurationData: {
         tab: 'security',
+        force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
         password_length: this.$parent.coreConfigurationData.security.password_length,
         cookie_title: this.$parent.coreConfigurationData.security.cookie_title,
         cookie_content: this.$parent.coreConfigurationData.security.cookie_content,
         skip_contact_approval: this.$parent.coreConfigurationData.security.skip_contact_approval,
         verification_method: this.$parent.coreConfigurationData.security.verification_method,
-        force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
       },
     };
   },

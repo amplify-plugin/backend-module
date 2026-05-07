@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,15 +27,20 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->get('id') ?? request()->route('id');
         $passLength = SecurityHelper::passwordLength();
 
         return [
-            'email' => ['required', Rule::unique(config('permission.table_names.users', 'users'), 'email')->ignore($id)],
+            'email' => ['required',
+                Rule::unique('users', 'email')
+                    ->ignore($this->get('id', request()->route('id')))
+            ],
             'name' => 'required|string|min:2|max:255',
             'password' => ((request()->route()->getName() == 'user.update') ? 'nullable' : 'required').'|confirmed|min:'.$passLength,
             'password_reset_required' => 'nullable|boolean',
-            'roles' => 'nullable',
+            'roles' => ['nullable', 'array', 'min:1'],
+            'roles.*' => ['integer', Rule::exists('roles', 'id')->where(function ($query) {
+                $query->where('guard_name', User::AUTH_GUARD);
+            })],
             'permissions' => 'nullable',
             'type' => 'string|nullable',
             'image' => 'nullable|image|max:1024',

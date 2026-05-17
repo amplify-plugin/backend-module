@@ -351,100 +351,11 @@ class CustomerCrudController extends BackpackCustomCrudController
 
             ]
         ]);
-    }
-
-
-    /**
-     * Complete overwrite to backpack method
-     *
-     * @return array|\Illuminate\Http\RedirectResponse
-     */
-    public function store()
-    {
-        $this->crud->hasAccessOrFail('create');
-
-        $request = $this->crud->validateRequest();
-
-        $this->crud->registerFieldEvents();
-
-        if (config('amplify.erp.auto_create_cash_customer')
-            && !$request->filled('customer_code')) {
-
-            $industry = null;
-
-            if ($request->filled('industry_classification_id')) {
-                $industry = IndustryClassification::find($request->input('industry_classification_id'));
-            }
-
-            $erpCustomer = ErpApi::createCustomer([
-                'template_customer_number' => config('amplify.frontend.guest_default'),
-                'email_address' => $request->input('email'),
-                'phone_number' => $request->input('phone'),
-                'phone_ext' => $request->input('phone_ext'),
-                'customer_name' => $request->input('customer_name'),
-                'contact' => null,
-                'address_1' => $request->input('address_1'),
-                'address_2' => $request->input('address_2'),
-                'address_3' => $request->input('address_3'),
-                'city' => $request->input('city'),
-                'state' => $request->input('state'),
-                'zip_code' => $request->input('zip_code'),
-                'country_code' => $request->input('country_code'),
-                'branch' => null,
-                'customer_industry' => $industry?->name ?? null,
-            ]);
-
-            if (!empty($erpCustomer->Message)) {
-                throw ValidationException::withMessages([
-                    'customer_code' => $erpCustomer->Message,
-                ]);
-            }
-
-            if ($erpCustomer->CustomerNumber == null) {
-
-                \Alert::success(trans('Unable to create customer on ERP.'))->flash();
-
-                return redirect()->back();
-            }
-
-            $request->offsetSet('customer_code', $erpCustomer->CustomerNumber);
-        }
-
-        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
-
-        $this->data['entry'] = $this->crud->entry = $item;
-
-        \Alert::success(trans('backpack::crud.insert_success'))->flash();
-
-        $this->crud->setSaveAction();
-
-        if (!empty($custom->customer_code)) {
-            CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
-        }
-
-        return $this->crud->performSaveAction($item->getKey());
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
-     *
-     * @throws \Exception
-     */
-    protected function setupUpdateOperation()
-    {
-        CRUD::setValidation(CustomerRequest::class);
-
-        $this->setupCreateOperation();
 
         $options = [];
         ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
             $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
         });
-
         //ERP
         CRUD::addField([
             'name' => 'ar_number',
@@ -533,6 +444,94 @@ class CustomerCrudController extends BackpackCustomCrudController
             'type' => 'boolean',
             'tab' => 'ERP Information',
         ]);
+    }
+
+
+    /**
+     * Complete overwrite to backpack method
+     *
+     * @return array|\Illuminate\Http\RedirectResponse
+     */
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        $request = $this->crud->validateRequest();
+
+        $this->crud->registerFieldEvents();
+
+        if (config('amplify.erp.auto_create_cash_customer')
+            && !$request->filled('customer_code')) {
+
+            $industry = null;
+
+            if ($request->filled('industry_classification_id')) {
+                $industry = IndustryClassification::find($request->input('industry_classification_id'));
+            }
+
+            $erpCustomer = ErpApi::createCustomer([
+                'template_customer_number' => config('amplify.frontend.guest_default'),
+                'email_address' => $request->input('email'),
+                'phone_number' => $request->input('phone'),
+                'phone_ext' => $request->input('phone_ext'),
+                'customer_name' => $request->input('customer_name'),
+                'contact' => null,
+                'address_1' => $request->input('address_1'),
+                'address_2' => $request->input('address_2'),
+                'address_3' => $request->input('address_3'),
+                'city' => $request->input('city'),
+                'state' => $request->input('state'),
+                'zip_code' => $request->input('zip_code'),
+                'country_code' => $request->input('country_code'),
+                'branch' => null,
+                'customer_industry' => $industry?->name ?? null,
+            ]);
+
+            if (!empty($erpCustomer->Message)) {
+                throw ValidationException::withMessages([
+                    'customer_code' => $erpCustomer->Message,
+                ]);
+            }
+
+            if ($erpCustomer->CustomerNumber == null) {
+
+                \Alert::success(trans('Unable to create customer on ERP.'))->flash();
+
+                return redirect()->back();
+            }
+
+            $request->offsetSet('customer_code', $erpCustomer->CustomerNumber);
+        }
+
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
+
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        $this->crud->setSaveAction();
+
+        if (! empty($item->customer_code)) {
+            CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
+        }
+
+        return $this->crud->performSaveAction($item->getKey());
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    protected function setupUpdateOperation()
+    {
+        CRUD::setValidation(CustomerRequest::class);
+
+        $this->setupCreateOperation();
     }
 
     /**

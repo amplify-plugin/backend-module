@@ -2,8 +2,10 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
+use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class ContactRequest extends FormRequest
 {
@@ -49,6 +51,7 @@ class ContactRequest extends FormRequest
             'contactLogins.*.warehouse_id' => 'nullable|integer',
             'contactLogins.*.customer_address_id' => 'nullable|integer',
             'contactLogins.*.roles' => 'required_without:contactLogins.*.permissions',
+            'is_admin' => 'nullable|boolean',
         ];
 
         $passLength = SecurityHelper::passwordLength();
@@ -64,6 +67,51 @@ class ContactRequest extends FormRequest
         $this->rules['password_reset_required'] = ['required', 'boolean'];
 
         return $this->rules;
+    }
+
+    /**
+     * Configure the validator instance to enforce admin contact rules:
+     *  - A customer's only contact cannot be set as non-admin.
+     *  - A customer can have at most one admin contact.
+     *
+     * @return void
+     */
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function (Validator $validator) {
+            $customerId = $this->input('customer_id');
+
+            if (empty($customerId)) {
+                return;
+            }
+
+            $isAdmin = $this->boolean('is_admin');
+            $contactId = $this->isMethod('PUT') ? $this->id : null;
+
+            $otherContactsQuery = Contact::where('customer_id', $customerId);
+
+            if ($contactId) {
+                $otherContactsQuery->where('id', '!=', $contactId);
+            }
+
+            $otherContactsCount = (clone $otherContactsQuery)->count();
+            $otherAdminExists = (clone $otherContactsQuery)->where('is_admin', true)->exists();
+
+            if (! $isAdmin && $otherContactsCount === 0) {
+                $message = $contactId
+                    ? 'This is the only contact for the customer and must remain the admin.'
+                    : 'The first contact for a customer must be set as admin.';
+
+                $validator->errors()->add('is_admin', $message);
+            }
+
+            if ($isAdmin && $otherAdminExists) {
+                $validator->errors()->add(
+                    'is_admin',
+                    'This customer already has an admin contact. Only one admin contact is allowed per customer.'
+                );
+            }
+        });
     }
 
     /**

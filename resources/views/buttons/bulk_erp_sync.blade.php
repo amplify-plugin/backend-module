@@ -1,4 +1,4 @@
-@if ($crud->hasAccess('bulkErpSync'))
+@if ($crud->hasAccess('erp-bulk-sync'))
     <a href="javascript:void(0)" onclick="bulkCustomerProfileSync(this)"
        class="m-2 btn btn-info bulk-button">
         <i class="las la-sync"></i>

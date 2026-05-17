@@ -29,9 +29,11 @@ class CustomerRequest extends FormRequest
     {
         $minPassLen = SecurityHelper::passwordLength();
 
+
+
         $rules = [
             // customer validate
-            'customer_code' => ['string', (config('amplify.erp.auto_create_cash_customer')) ? 'nullable' : 'required', new ErpCustomerExist],
+            'customer_code' => (config('amplify.erp.auto_create_cash_customer')) ? ['nullable' ] : [new ErpCustomerExist],
             'customer_name' => 'required|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|numeric',

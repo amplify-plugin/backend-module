@@ -356,6 +356,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         ErpApi::getWarehouses()->each(function (Warehouse $warehouse) use (&$options) {
             $options[$warehouse->InternalId] = "{$warehouse->WarehouseNumber} - {$warehouse->WarehouseName}";
         });
+
         //ERP
         CRUD::addField([
             'name' => 'ar_number',

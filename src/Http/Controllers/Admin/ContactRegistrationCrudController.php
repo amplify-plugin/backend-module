@@ -189,6 +189,13 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             ],
         ]);
 
+        CRUD::addField([
+            'name' => 'email',
+            'label' => 'Email',
+            'tab' => 'Basic',
+            'type' => 'email',
+        ]);
+
         CRUD::addFields([
             [
                 'name' => 'phone',
@@ -374,11 +381,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
     {
         // Get the contact entry
         $contact = Contact::findOrFail($request->id);
-        if ((bool)$contact->customer->approved == Customer::UNAPPROVED) {
-            throw ValidationException::withMessages([
-                'customer_id' => __('The contact\'s customer is not approved. Please approve the customer before enabling the contact.'),
-            ]);
-        }
 
         $this->crud->removeFields(['roles', 'contactLogins']);
         $this->crud->setRequest($this->crud->validateRequest());

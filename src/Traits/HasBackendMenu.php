@@ -469,7 +469,7 @@ trait HasBackendMenu
 
                 $auth->item('Activity Logs')
                     ->icon('la la-angry')
-                    ->can('audit.list')
+                    ->can('activity-log.list')
                     ->url(backpack_url('audit'));
 
                 $auth->item('Contact logins')

@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Commands;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,8 @@ class BackupRunCommand extends Command
             $this->dumpDatabases();
 
             $this->moveToDestination();
+
+            $this->removeOldBackups();
 
             $this->info("Database backup finished in " . str_replace([' after'], '', now()->diffForHumans($startAt)) . '.');
 
@@ -269,5 +272,24 @@ class BackupRunCommand extends Command
         }
 
         @unlink($zipFilePath);
+    }
+
+    private function removeOldBackups(): void
+    {
+        collect($this->destDisk->allFiles())
+            ->filter(function ($file) {
+                if (Str::endsWith(basename($file), '.zip')) {
+
+                    $timestamp = CarbonImmutable::createFromFormat('\a\m\p\l\i\f\y\-\d\b\-\b\a\c\k\u\p\-Y-m-d-H-i-s\.\z\i\p', $file);
+
+                    return now()->diffInDays($timestamp) > 7;
+
+                }
+                return false;
+            })
+            ->each(function ($file) {
+                $this->info("Deleting [{$file}] backup file...");
+                $this->destDisk->delete($file);
+            });
     }
 }

@@ -279,11 +279,8 @@ class BackupRunCommand extends Command
         collect($this->destDisk->allFiles())
             ->filter(function ($file) {
                 if (Str::endsWith(basename($file), '.zip')) {
-
                     $timestamp = CarbonImmutable::createFromFormat('\a\m\p\l\i\f\y\-\d\b\-\b\a\c\k\u\p\-Y-m-d-H-i-s\.\z\i\p', $file);
-
                     return now()->diffInDays($timestamp) > 7;
-
                 }
                 return false;
             })

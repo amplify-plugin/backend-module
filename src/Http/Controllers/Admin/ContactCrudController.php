@@ -127,6 +127,21 @@ class ContactCrudController extends BackpackCustomCrudController
                 }
             });
 
+        $this->crud->addFilter([
+            'name' => 'is_admin',
+            'type' => 'dropdown',
+            'label' => 'Is Admin',
+        ],
+            function () {
+                return [
+                    '1' => 'Yes',
+                    '0' => 'No',
+                ];
+            },
+            function ($value) {
+                    $this->crud->addClause('where', 'is_admin', $value);
+            });
+
         CRUD::addFilter(
             [
                 'name' => 'enabled',
@@ -517,6 +532,16 @@ class ContactCrudController extends BackpackCustomCrudController
             'default' => true,
             'tab' => 'Basic',
             'hint' => 'If the contact is enabled, they will be able to login to the system.',
+        ]);
+
+        CRUD::addField([
+            'name' => 'is_admin',
+            'label' => 'Is Admin',
+            'type' => 'boolean',
+            'allows_null' => false,
+            'default' => true,
+            'tab' => 'Basic',
+            'hint' => 'Note: A customer can have only one admin contact. To transfer admin, first uncheck this on the current admin and save, then check it on the new admin.',
         ]);
 
         CRUD::addField([

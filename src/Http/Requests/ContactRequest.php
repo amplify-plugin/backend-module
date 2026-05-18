@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
+use Amplify\System\Backend\Rules\ContactIsAdminRule;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -49,6 +50,11 @@ class ContactRequest extends FormRequest
             'contactLogins.*.warehouse_id' => 'nullable|integer',
             'contactLogins.*.customer_address_id' => 'nullable|integer',
             'contactLogins.*.roles' => 'required_without:contactLogins.*.permissions',
+            'is_admin' => [
+                'nullable',
+                'boolean',
+                new ContactIsAdminRule($this->isMethod('PUT') ? $this->id : null),
+            ],
         ];
 
         $passLength = SecurityHelper::passwordLength();

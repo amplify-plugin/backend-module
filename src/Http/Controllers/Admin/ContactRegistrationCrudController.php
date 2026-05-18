@@ -203,7 +203,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
-            ]
+            ],
         ]);
 
         CRUD::addField([
@@ -212,7 +212,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'type' => 'select2_from_ajax_multiple',
             'placeholder' => 'Select Roles',
             'minimum_input_length' => 0,
-            'data_source' => route('contact.roles'),
+            'data_source' => backpack_url('contact/fetch/roles'),
             'include_all_form_fields' => true,
             'dependencies' => ['customer_id'],
             'tab' => 'Basic',
@@ -443,6 +443,10 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->contactLogins()
                 ->where('customer_id', '<>', $contact->customer_id)
                 ->delete();
+
+            $contact->customer()->update([
+                'approved' => true,
+            ]);
 
             foreach ($request->contactLogins ?? [] as $login_customer) {
 

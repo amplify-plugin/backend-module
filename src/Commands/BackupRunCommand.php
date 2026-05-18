@@ -59,11 +59,16 @@ class BackupRunCommand extends Command
             $this->moveToDestination();
 
             $this->info("Database backup finished in " . str_replace([' after'], '', now()->diffForHumans($startAt)) . '.');
+
+            return self::SUCCESS;
+
         } catch (\Throwable $e) {
 
             $this->info($e->getMessage());
 
             report($e);
+
+            return self::FAILURE;
         }
     }
 

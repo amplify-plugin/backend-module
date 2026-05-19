@@ -109,7 +109,7 @@
 
       <div class="form-group" v-if="pimConfigurationData.required_fields">
         <div>
-          <label>All Fields <small class="text-primary"> (Required Fields)</small> </label>
+          <label>Product Mandatory Fields <small class="text-muted"> (Fields that are required to create/update a product)</small> </label>
           <div class="row mt-2">
             <div
               class="col-sm-4 my-1"
@@ -307,6 +307,33 @@
       </div>
 
       <div class="form-group">
+        <div>
+          <label>ERP Synchronization Attributes <small class="text-muted"> (Amplify product fields that will get overwritten by ERP data)</small> </label>
+          <div class="row mt-2">
+            <div
+                class="col-sm-4 my-1"
+                v-for="(label, key) in this.$parent.coreConfigurationData.pim.synchronization.attributes"
+                :key="key"
+            >
+              <div class="checkbox form-check mandatory-card">
+                <label class="font-weight-normal form-check-label" :for="key">
+                  <input
+                      type="checkbox"
+                      class="form-check-input"
+                      v-model="pimConfigurationData.overwrites"
+                      :value="key"
+                      :id="key"
+                      :checked="pimConfigurationData.overwrites.includes(key) ? true : ''"
+                  />
+                  {{ label }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label>UOM - Unit of Measurements</label>
         <div class="table-responsive table-uom">
           <table class="table table-striped table-hover table-sm">
@@ -398,6 +425,7 @@ export default {
       pimConfigurationData: {
         tab: 'pim',
         mandatory_fields: this.$parent.coreConfigurationData.pim.mandatory_fields ?? [],
+        overwrites: this.$parent.coreConfigurationData.pim?.synchronization?.overwrites ?? [],
         auto_publish: this.$parent.coreConfigurationData.pim.auto_publish ?? false,
         required_fields: this.$parent.coreConfigurationData.pim.required_fields ?? false,
         use_classifications: this.$parent.coreConfigurationData.pim.use_classifications ?? false,

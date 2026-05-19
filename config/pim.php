@@ -53,4 +53,28 @@ return [
         'scan_file_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_SCAN_FILE_CHUNK', 2000),
         'code_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_CODE_CHUNK', 500),
     ],
+    'synchronization' => [
+        'attributes' => [
+            'product_name' => 'Product Name',
+            'product_code' => 'Product Code',
+            'msrp' => 'MSRP',
+            'selling_price' => 'Selling Price',
+            'vendornum' => 'Vendor Number',
+            'brand' => 'Brand Name',
+            'manufacturer' => 'Manufacturer Part Number',
+            'manufacturer_id' => 'Manufacturer Name',
+            'uom' => 'Unit of Measurement',
+        ],
+        'overwrites' => [
+            'product_name',
+            'product_code',
+            'msrp',
+            'selling_price',
+            'vendornum',
+            'brand',
+            'manufacturer',
+            'manufacturer_id',
+            'uom',
+        ]
+    ]
 ];

@@ -71,7 +71,7 @@ return [
             'msrp',
             'selling_price',
             'vendornum',
-            'brand',
+            'brand_id',
             'manufacturer',
             'manufacturer_id',
             'uom'

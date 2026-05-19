@@ -60,7 +60,7 @@ return [
             'msrp' => 'MSRP',
             'selling_price' => 'Selling Price',
             'vendornum' => 'Vendor Number',
-            'brand' => 'Brand Name',
+            'brand_id' => 'Brand Name',
             'manufacturer' => 'Manufacturer Part Number',
             'manufacturer_id' => 'Manufacturer Name',
             'uom' => 'Unit of Measurement',

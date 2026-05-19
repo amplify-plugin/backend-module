@@ -74,7 +74,7 @@ return [
             'brand',
             'manufacturer',
             'manufacturer_id',
-            'uom',
+            'uom'
         ]
     ]
 ];

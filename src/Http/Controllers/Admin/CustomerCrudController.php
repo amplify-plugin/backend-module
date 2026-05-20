@@ -412,7 +412,8 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::addField([
             'name' => 'business_contact',
             'label' => 'Business Contact',
-            'type' => 'email',
+            'type' => 'text',
+            'hint' => 'Enter one or more email addresses separated by commas (e.g. abc@example.com,def@example.com)',
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([

@@ -189,6 +189,13 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             ],
         ]);
 
+        CRUD::addField([
+            'name' => 'email',
+            'label' => 'Email',
+            'tab' => 'Basic',
+            'type' => 'email',
+        ]);
+
         CRUD::addFields([
             [
                 'name' => 'phone',
@@ -203,7 +210,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
-            ]
+            ],
         ]);
 
         CRUD::addField([
@@ -212,7 +219,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'type' => 'select2_from_ajax_multiple',
             'placeholder' => 'Select Roles',
             'minimum_input_length' => 0,
-            'data_source' => route('contact.roles'),
+            'data_source' => backpack_url('contact/fetch/roles'),
             'include_all_form_fields' => true,
             'dependencies' => ['customer_id'],
             'tab' => 'Basic',
@@ -374,11 +381,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
     {
         // Get the contact entry
         $contact = Contact::findOrFail($request->id);
-        if ((bool)$contact->customer->approved == Customer::UNAPPROVED) {
-            throw ValidationException::withMessages([
-                'customer_id' => __('The contact\'s customer is not approved. Please approve the customer before enabling the contact.'),
-            ]);
-        }
 
         $this->crud->removeFields(['roles', 'contactLogins']);
         $this->crud->setRequest($this->crud->validateRequest());
@@ -443,6 +445,10 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $contact->contactLogins()
                 ->where('customer_id', '<>', $contact->customer_id)
                 ->delete();
+
+            $contact->customer()->update([
+                'approved' => true,
+            ]);
 
             foreach ($request->contactLogins ?? [] as $login_customer) {
 

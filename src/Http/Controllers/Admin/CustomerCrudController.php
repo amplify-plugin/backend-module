@@ -63,7 +63,7 @@ class CustomerCrudController extends BackpackCustomCrudController
         Route::post($segment . '/bulk-profile-sync', [
             'as' => $routeName . '.bulk-profile-sync',
             'uses' => $controller . '@bulkProfileSync',
-            'operation' => 'bulkProfileSync',
+            'operation' => 'erp-bulk-sync',
         ]);
     }
 

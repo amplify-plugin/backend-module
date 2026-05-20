@@ -80,24 +80,26 @@ class ContactRequest extends FormRequest
     protected function prepareForValidation()
     {
         $roles = [];
+        $inputRoles = ! empty($this->input('roles')) ? $this->input('roles') : [];
+        $inputPermissions = ! empty($this->input('permissions')) ? $this->input('permissions') : [];
 
         if (config('permission.teams')) {
-            foreach ($this->input('roles', []) as $role) {
+            foreach ($inputRoles as $role) {
                 $roles[$role]['team_id'] = $this->input('customer_id');
             }
         } else {
-            $roles = $this->input('roles', []);
+            $roles = $inputRoles;
         }
 
 
         $permissions = [];
 
         if (config('permission.teams')) {
-            foreach ($this->input('permissions', []) as $permission) {
+            foreach ($inputPermissions as $permission) {
                 $permissions[$permission]['team_id'] = $this->input('customer_id');
             }
         } else {
-            $permissions = $this->input('permissions', []);
+            $permissions = $inputPermissions;
         }
 
         $this->merge([

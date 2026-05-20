@@ -366,6 +366,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'document_type' => $request->input('document_type'),
             'default_status' => $request->input('default_status', 'draft'),
             'unit_of_measurements' => $request->input('unit_of_measurements', [['code' => 'ea', 'label' => 'Each']]),
+            'synchronization.overwrites' => $request->input('overwrites', config('amplify.pim.synchronization.overwrites', [])),
         ];
     }
 

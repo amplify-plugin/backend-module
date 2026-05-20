@@ -37,7 +37,7 @@ class CustomerRequest extends FormRequest
             'customer_code' => (config('amplify.erp.auto_create_cash_customer')) ? ['nullable' ] : [new ErpCustomerExist],
             'customer_name' => 'required|string',
             'email' => 'nullable|email',
-            'phone' => 'nullable|numeric',
+            'phone' => 'nullable|string',
             'punch_out' => 'nullable',
             'customer_type' => 'nullable',
             'is_suspended' => 'boolean|nullable',

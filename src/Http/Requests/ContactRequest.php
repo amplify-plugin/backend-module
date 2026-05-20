@@ -58,10 +58,14 @@ class ContactRequest extends FormRequest
         ];
 
         $passLength = SecurityHelper::passwordLength();
-        // on update statement
-        if ($this->isMethod('PUT')) {
+        $isUpdating = $this->isMethod('PUT')
+            || $this->isMethod('PATCH')
+            || (bool) $this->route('id');
+
+        if ($isUpdating) {
+            $contactId = $this->route('id') ?? $this->id;
             $this->rules['password'] = "nullable|min:$passLength|confirmed";
-            $this->rules['email'] = 'required|email|unique:contacts,email,' . $this->id;
+            $this->rules['email'] = 'required|email|unique:contacts,email,' . $contactId;
         } else {
             $this->rules['email'] = 'required|email|unique:contacts';
             $this->rules['password'] = "required|min:$passLength|confirmed";

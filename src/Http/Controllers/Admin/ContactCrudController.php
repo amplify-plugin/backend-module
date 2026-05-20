@@ -576,6 +576,9 @@ class ContactCrudController extends BackpackCustomCrudController
 
         $this->setupCreateOperation();
 
+        CRUD::modifyField('password', ['showAsterisk' => false]);
+        CRUD::modifyField('password_confirmation', ['showAsterisk' => false]);
+
         CRUD::addField([
             'name' => 'order_limit',
             'type' => 'number',

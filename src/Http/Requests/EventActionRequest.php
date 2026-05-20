@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Requests;
 
+use Amplify\System\Backend\Rules\CommaSeparatedEmails;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventActionRequest extends FormRequest
@@ -35,7 +36,7 @@ class EventActionRequest extends FormRequest
             'is_get_contact' => ['nullable', 'boolean'],
             'is_get_salesperson' => ['nullable', 'boolean'],
             'is_quote_sales_person' => ['nullable', 'boolean'],
-            'recipient_emails' => ['nullable'],
+            'recipient_emails' => ['nullable', 'string', new CommaSeparatedEmails],
         ];
     }
 

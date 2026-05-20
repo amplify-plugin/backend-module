@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Requests;
 
 use Amplify\System\Backend\Models\Customer;
+use Amplify\System\Backend\Rules\CommaSeparatedEmails;
 use Amplify\System\Backend\Rules\ErpCustomerExist;
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
@@ -49,6 +50,7 @@ class CustomerRequest extends FormRequest
             'country_code' => 'nullable|string',
             'zip_code' => 'nullable|string',
             'list_price' => 'nullable|string|in:' . implode(array_keys(Customer::LIST_PRICES)),
+            'business_contact' => ['nullable', 'string', new CommaSeparatedEmails],
         ];
 
         return $rules;

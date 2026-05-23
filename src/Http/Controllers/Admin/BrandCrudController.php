@@ -64,6 +64,8 @@ class BrandCrudController extends BackpackCustomCrudController
     {
         $this->crud->query->withTrashed();
 
+        CRUD::removeButton('show');
+
         CRUD::addFilter(
             [
                 'name' => 'featured',

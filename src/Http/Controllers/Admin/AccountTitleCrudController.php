@@ -47,6 +47,7 @@ class AccountTitleCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         CRUD::column('code');
         CRUD::column('name');
         CRUD::column('enabled')->type('boolean');

@@ -52,6 +52,8 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
+
         CRUD::column('product_id')
             ->type('relationship')
             ->label('Product')

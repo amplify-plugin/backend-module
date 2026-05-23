@@ -66,6 +66,8 @@ class ManufacturerCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation(): void
     {
+        CRUD::removeButton('show');
+
         CRUD::addFilter(
             [
                 'name' => 'featured',

@@ -49,7 +49,7 @@ class IndustryClassificationCrudController extends BackpackCustomCrudController
     {
         CRUD::column('name');
         CRUD::column('status')->type('boolean')->label('Active');
-
+        CRUD::removeButton('show');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

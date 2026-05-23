@@ -10,7 +10,6 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\ContactRequest;
 use Amplify\System\Backend\Models\AccountTitle;
 use Amplify\System\Backend\Models\Contact;
-use Amplify\System\Backend\Models\ContactLogin;
 use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerPermission;
@@ -1035,18 +1034,18 @@ class ContactCrudController extends BackpackCustomCrudController
     {
         $form = backpack_form_input();
 
-        if (config('permission.teams') && empty($form['customer_id'])) {
-            abort(422, 'customer_id field is required');
+        if (config('permission.teams')) {
+            abort_if(empty($form['customer_id']), 500, 'The customer field is required');
         }
 
-        if (isset($form['customer_id'])) {
-            return Role::where('guard_name', Contact::AUTH_GUARD)
-                ->when(config('permission.teams'), fn($q) => $q->where('team_id', $form['customer_id']))
-                ->orderBy('name', 'ASC')
-                ->paginate(20);
-        }
-
-        return [];
+        return $this->fetch([
+            'model' => Role::class,
+            'paginate' => false,
+            'query' => function ($model) use ($form) {
+                return $model->where('guard_name', Contact::AUTH_GUARD)
+                    ->when(config('permission.teams'), fn ($query) => $query->where('team_id', $form['customer_id']));
+            },
+        ]);
     }
 
     public function fetchCustomer()

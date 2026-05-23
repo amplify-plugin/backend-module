@@ -82,6 +82,8 @@ class CategoryCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
+
         CRUD::addFilter(
             [
                 'name' => 'parent_id',

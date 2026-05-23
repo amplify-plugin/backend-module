@@ -44,7 +44,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('attribute', 'AttributeCrudController');
     Route::crud('attributevalue', 'AttributeValueCrudController');
     Route::crud('category', 'CategoryCrudController');
-    Route::crud('categoryproduct', 'CategoryProductCrudController');
     Route::crud('contact', 'ContactCrudController');
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('product', 'ProductCrudController');

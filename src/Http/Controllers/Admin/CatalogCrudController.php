@@ -47,6 +47,7 @@ class CatalogCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         CRUD::column('name');
         CRUD::column('slug');
         CRUD::column('active')->type('boolean');

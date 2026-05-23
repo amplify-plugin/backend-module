@@ -98,6 +98,8 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
+
         $this->crud->enableExportButtons();
 
         if (config('amplify.erp.auto_create_contact')) {

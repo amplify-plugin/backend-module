@@ -68,6 +68,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'group_code',

@@ -78,6 +78,8 @@ class CustomerCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
+
         $this->crud->enableExportButtons();
 
         if (backpack_user()->can($this->crud->entity_name . '.erp-bulk-sync')) {

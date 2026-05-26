@@ -49,6 +49,7 @@ class ProductRelationCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         CRUD::column('id');
         CRUD::addColumns([
             [

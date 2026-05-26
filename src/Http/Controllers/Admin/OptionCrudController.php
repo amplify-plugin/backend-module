@@ -49,7 +49,7 @@ class OptionCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        //        $this->crud->setListView('backend::pages.under-construction');
+        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'option_name',
@@ -64,11 +64,6 @@ class OptionCrudController extends BackpackCustomCrudController
             'name' => 'option_type',
             'label' => 'Option Type',
         ]);
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**

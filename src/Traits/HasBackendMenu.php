@@ -146,7 +146,7 @@ trait HasBackendMenu
                 $customers->item('Account Requests')
                     ->can('account-request.list')
                     ->icon('la la-user-plus')
-                    ->url(backpack_url('contact-registration'));
+                    ->url(backpack_url('account-request'));
 
 
                 $customers->item('Customer Groups')

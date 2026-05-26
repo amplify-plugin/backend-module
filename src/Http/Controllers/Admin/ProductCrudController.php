@@ -296,6 +296,7 @@ class ProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         // Customizing Action Buttons
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');

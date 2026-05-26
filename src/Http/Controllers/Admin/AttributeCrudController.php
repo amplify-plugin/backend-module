@@ -79,6 +79,8 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
+
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',

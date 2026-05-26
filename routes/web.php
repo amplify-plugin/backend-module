@@ -44,7 +44,6 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('attribute', 'AttributeCrudController');
     Route::crud('attributevalue', 'AttributeValueCrudController');
     Route::crud('category', 'CategoryCrudController');
-    Route::crud('categoryproduct', 'CategoryProductCrudController');
     Route::crud('contact', 'ContactCrudController');
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('product', 'ProductCrudController');
@@ -86,7 +85,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('site-pricing', 'SitePricingCrudController');
     Route::crud('customer-group', 'CustomerGroupCrudController');
     Route::crud('customer-registration', 'CustomerRegistrationCrudController');
-    Route::crud('contact-registration', 'ContactRegistrationCrudController');
+    Route::crud('account-request', 'ContactRegistrationCrudController');
     Route::crud('localization', 'LocalizationCrudController');
     Route::crud('document-type', 'DocumentTypeCrudController');
 

@@ -47,6 +47,7 @@ class DocumentTypeCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::column('name');
         CRUD::addColumn([

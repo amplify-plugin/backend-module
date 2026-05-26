@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Requests;
 
 use Amplify\System\Backend\Models\Contact;
+use Amplify\System\Backend\Rules\DefaultCustomerRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,7 +38,7 @@ class CustomerRoleRequest extends FormRequest
                             ->where('team_id', $this->input('team_id'));
                     }),
             ],
-            'is_default' => 'boolean',
+            'is_default' => ['nullable', 'boolean', new DefaultCustomerRole($this->route('id'))],
             'team_id' => (config('permission.teams')) ? ['required', "exists:customers,id"] : ['nullable'],
         ];
     }

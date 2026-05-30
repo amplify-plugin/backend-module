@@ -49,18 +49,7 @@ class SitePricingCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            // Return to preview page
-            header('Location: '.substr($_SERVER['HTTP_REFERER'], 0, -4).'show');
-            exit();
-        }
-        $this->crud->setListView('backend::pages.nothing-to-show');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**

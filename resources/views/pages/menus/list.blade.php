@@ -15,15 +15,12 @@
     <div class="container-fluid">
         <h2>
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+                <small id="datatable_info_stack">test{!! $crud->getSubheading() ?? '' !!}</small>
             <small>
                 <a href="{{ route('menu-group.index') }}" class="d-print-none font-sm"><i
                         class="la la-angle-double-left"></i>
                     Back to all <span>menus</span></a>
             </small>
-            <div class="d-none">
-                <small id="datatable_info_stack">test{!! $crud->getSubheading() ?? '' !!}</small>
-            </div>
-
         </h2>
     </div>
 @endsection

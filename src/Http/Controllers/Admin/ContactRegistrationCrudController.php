@@ -221,9 +221,11 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'placeholder' => 'Select Roles',
             'minimum_input_length' => 0,
             'data_source' => backpack_url('contact/fetch/roles'),
+            'method' => 'POST',
             'include_all_form_fields' => true,
             'dependencies' => ['customer_id'],
             'tab' => 'Basic',
+            'nullable' => !config('amplify.basic.is_permission_system_enabled'),
         ]);
 
         CRUD::addField([ // select2_from_ajax: 1-n relationship

@@ -375,7 +375,7 @@ class ContactCrudController extends BackpackCustomCrudController
                 'include_all_form_fields' => true,
                 'dependencies' => ['customer_id'],
                 'tab' => 'Permission',
-                'nullable' => config('amplify.basic.is_permission_system_enabled'),
+                'nullable' => !config('amplify.basic.is_permission_system_enabled'),
             ],
             [ // select2_from_ajax: 1-n relationship
                 'label' => 'Address', // Table column heading

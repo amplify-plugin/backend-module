@@ -481,6 +481,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         return [
             'slogan' => $request->input('slogan', config('amplify.cms.slogan')),
             'default' => $request->input('default_cms', config('amplify.cms.default')),
+            'brand_logo_url' => $request->input('brand_logo_url', config('amplify.cms.brand_logo_url')),
             'logo_path' => $request->input('logo_path', config('amplify.cms.logo_path')),
             'favicon_path' => $request->input('favicon_path', config('amplify.cms.favicon_path')),
             'email' => $request->input('email', config('amplify.cms.email')),

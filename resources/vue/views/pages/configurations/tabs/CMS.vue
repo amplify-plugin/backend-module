@@ -60,6 +60,16 @@
                     </div>
                 </div>
 
+                <div class="form-group col-sm-12">
+                    <label>Brand Logo URL</label>
+                    <input type="text" name="brand_logo_url" placeholder="Enter URL for clicking the brand logo"
+                           v-model="cmsConfigurationData.brand_logo_url" class="form-control"
+                           :class="{ 'is-invalid': $parent.validationErrors.brand_logo_url }">
+                    <small v-if="$parent.validationErrors.brand_logo_url" class="text-danger mt-3">{{
+                            $parent.validationErrors.brand_logo_url[0]
+                        }}</small>
+                </div>
+
                 <div class="form-group col-sm-12 required">
                     <label>Brand Logo</label>
                     <div class="controls">
@@ -188,6 +198,7 @@ export default {
                 tab: 'cms',
                 email: this.$parent.coreConfigurationData.cms.email ?? '',
                 phone: this.$parent.coreConfigurationData.cms.phone ?? '',
+                brand_logo_url: this.$parent.coreConfigurationData.cms.brand_logo_url ?? '',
                 logo_path: this.$parent.coreConfigurationData.cms.logo_path ?? '',
                 favicon_path: this.$parent.coreConfigurationData.cms.favicon_path ?? '',
                 sologan: this.$parent.coreConfigurationData.cms.sologan ?? '',
@@ -208,6 +219,7 @@ export default {
                 if (key === cms) {
                     this.cmsConfigurationData.favicon_path = value.favicon_path ?? "";
                     this.cmsConfigurationData.logo_path = value.logo_path ?? "";
+                    this.cmsConfigurationData.brand_logo_url = value.brand_logo_url ?? "";
                     this.cmsConfigurationData.email = value.email ?? "";
                     this.cmsConfigurationData.phone = value.phone ?? "";
                     this.cmsConfigurationData.slogan = value.slogan ?? "";

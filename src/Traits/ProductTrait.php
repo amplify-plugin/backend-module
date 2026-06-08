@@ -581,6 +581,33 @@ trait ProductTrait
         return $product;
     }
 
+    public function fetchProductByName()
+    {
+        $rootId = config('amplify.sayt.default_catalog');
+
+        $root = Category::query()->select('lft', 'rgt')
+            ->findOrFail($rootId);
+
+        $products = Product::query()
+            ->select(['id', 'product_code', 'product_name', 'product_classification_id'])
+            ->where('product_name', 'like', '%'.request('search_key').'%')
+            ->orWhere('product_code', 'like', '%'.request('search_key').'%')
+            ->with(['productImage'])
+            ->where(function (Builder $query) use ($root) {
+                $query->whereHas('categories', function ($query) use ($root) {
+                    $query->whereBetween('categories.lft', [$root->lft, $root->rgt]);
+                })
+                    ->orWhereDoesntHave('categories');
+            })
+            ->get();
+
+        if ($products->count() < 1) {
+            throw new NotFoundHttpException('Product not found.');
+        }
+
+        return $products;
+    }
+
     /**
      * @return object
      */

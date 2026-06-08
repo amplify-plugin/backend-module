@@ -31,9 +31,13 @@ class AdhocPromptSuggestion extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function viewReport($crud = false)
+    public function viewReport($crud)
     {
-        return '<a class="btn btn-sm btn-link" target="_blank" href="'.route('dynamic-report.index', ['prompt' => $this->prompt]).'"><i class="la la-play"></i>Execute</a>';
+        if ($crud->hasAccess('execute')) {
+            return '<a class="btn btn-sm btn-link" target="_blank" href="' . route('dynamic-report.index', ['prompt' => $this->prompt]) . '"><i class="la la-play"></i>Execute</a>';
+        }
+
+        return '';
     }
 
     /*

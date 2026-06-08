@@ -25,6 +25,12 @@ if (!function_exists('backend_permissions')) {
     function backend_permissions(): array
     {
         return [
+            //Reports
+//            'query-category' => 'l,c,u,d',
+//            'saved-query' => 'l,c,u,d,execute',
+//            'saved-report' => 'l,c,u,d',
+//            'dynamic-report' => 'l',
+
             //Catalog
             'catalog' => 'l,c,u,d',
             'category' => 'l,c,u,d,ro',
@@ -147,10 +153,6 @@ if (!function_exists('backend_permissions')) {
             /*            'system-config' => 'u,cache-clear',
                         'category-product' => 'l,c,u,d',
                         'siteconfig' => 'l,c,u,d',
-                        'query-category' => 'l,c,u,d',
-                        'saved-query' => 'l,c,u,d',
-                        'saved-report' => 'l,c,u,d',
-                        'dynamic-report' => 'l',
                         'attribute-value' => 'l,c,u,d',
                         'payment' => 'l,c,u,d',
                         'widget' => 'l,c,u,d',

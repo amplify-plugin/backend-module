@@ -21,6 +21,35 @@ trait HasBackendMenu
             ->icon('la la-home')
             ->url(backpack_url('dashboard'));
 
+        $sidebar->group('Reports')
+            ->icon('las la-file-alt')
+            ->canAny('query-category.list', 'saved-query.list', 'saved-report.list', 'dynamic-report.list')
+            ->items(function ($catalog) {
+                $catalog->item('Query Categories')
+//                    ->can('query-category.list')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('la la-tree')
+                    ->url(backpack_url('query-category'));
+
+                $catalog->item('Saved Queries')
+//                    ->can('saved-query.list')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('la la-list-alt')
+                    ->url(backpack_url('saved-query'));
+
+                $catalog->item('Saved Reports')
+//                    ->can('saved-report.list')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('la la-medkit')
+                    ->url(backpack_url('saved-report'));
+
+                $catalog->item(' Dynamic Reports')
+//                    ->can('dynamic-report.list')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->icon('las la-file-medical')
+                    ->url(backpack_url('dynamic-report'));
+            });
+
         $sidebar->group('Catalog')
             ->icon('la la-clipboard')
             ->canAny('category.list', 'classification.list', 'product.list',

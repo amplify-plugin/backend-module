@@ -25,8 +25,6 @@ class AdhocReportCrudController extends BackpackCustomCrudController
 
     protected $baseUrl = '';
 
-    protected $commonQueries;
-
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -34,7 +32,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
      */
     public function setup()
     {
-        CRUD::setRoute(config('backpack.base.route_prefix').'/dynamic-report');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/dynamic-report');
         CRUD::setEntityNameStrings('dynamic-report', 'dynamic reports');
 
         $this->buildReportApi();
@@ -42,14 +40,15 @@ class AdhocReportCrudController extends BackpackCustomCrudController
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
     {
-        Route::get($segment.'/generate-response', [
-            'as' => $routeName.'.generate-response',
-            'uses' => $controller.'@generateResponse',
+        Route::get($segment . '/generate-response', [
+            'as' => $routeName . '.generate-response',
+            'uses' => $controller . '@generateResponse',
             'operation' => 'generateResponse',
         ]);
-        Route::post($segment.'/store', [
-            'as' => $routeName.'.store',
-            'uses' => $controller.'@store',
+
+        Route::post($segment . '/store', [
+            'as' => $routeName . '.store',
+            'uses' => $controller . '@store',
             'operation' => 'store',
         ]);
     }
@@ -67,49 +66,22 @@ class AdhocReportCrudController extends BackpackCustomCrudController
         $this->data['prompts'] = AdhocPromptSuggestion::whereStatus(1)->select('id', 'report_category_id', 'prompt')->get();
         $this->data['prompt'] = request()->filled('prompt') ? request()->prompt : null;
         $this->data['saved_report'] = request()->filled('report') ? SavedDynamicReport::find(request('report')) : null;
+
         $this->crud->setListView('backend::pages.report.adhoc-report');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
-     * @return void
-     */
-    protected function setupCreateOperation()
-    {
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
-     * @return void
-     */
-    protected function setupUpdateOperation()
-    {
-        $this->setupCreateOperation();
-    }
 
     public function generateResponse(Request $request)
     {
         try {
             $response = Http::timeout(30)
                 ->withoutVerifying()
-                ->get($this->baseUrl, $this->commonQueries + ['q' => $request->input('query', null)]);
+                ->baseUrl($this->baseUrl)
+                ->get('/EasyAsk/apps/TranslateToResults.jsp', [
+                    'dct' => config('amplify.report.business_query_dictionary'),
+                    'disp' => 'xml',
+                    'q' => $request->input('query', null)
+                ]);
 
             $preparedData = $this->prepareAdhocRes($response->body());
 
@@ -125,15 +97,9 @@ class AdhocReportCrudController extends BackpackCustomCrudController
 
     private function buildReportApi()
     {
-        $this->baseUrl .= config('amplify.report.protocol', 'http').'://';
+        $this->baseUrl .= config('amplify.report.protocol', 'http') . '://';
         $this->baseUrl .= config('amplify.report.host', 'demov16.easyaskondemand1.com');
-        $this->baseUrl .= config('amplify.report.port') ? ':'.config('amplify.report.port') : '';
-        $this->baseUrl .= '/EasyAsk/apps/TranslateToResults.jsp';
-
-        $this->commonQueries = [
-            'dct' => config('amplify.report.business_query_dictionary'),
-            'disp' => 'xml',
-        ];
+        $this->baseUrl .= config('amplify.report.port') ? ':' . config('amplify.report.port') : '';
     }
 
     private function prepareAdhocRes($response)
@@ -165,7 +131,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
             $preparedData = [
                 'type' => 'FixWord',
                 'question' => $question,
-                'message' => 'I am not familiar with the word or phrase highlighted: '.$question,
+                'message' => 'I am not familiar with the word or phrase highlighted: ' . $question,
             ];
         }
 
@@ -186,7 +152,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
             if ($response === false) {
                 $error_message = '';
                 foreach (libxml_get_errors() as $error) {
-                    $error_message .= (' '.$error->message);
+                    $error_message .= (' ' . $error->message);
                 }
 
                 $error_message = trim($error_message);
@@ -234,7 +200,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
         }
 
         return response()->json([
-            'message' => 'Successfully saved '.$request->type,
+            'message' => 'Successfully saved ' . $request->type,
         ], 200);
     }
 }

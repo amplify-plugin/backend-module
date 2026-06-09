@@ -65,7 +65,7 @@
                         </div>
                         <!-- Product Search Input -->
                         <div class="form-group required">
-                            <label>Search By Product Code/ID</label>
+                            <label>Search By Product Name/Code</label>
                             <div class="controls">
                                 <div class="input-group w-25">
                                     <input

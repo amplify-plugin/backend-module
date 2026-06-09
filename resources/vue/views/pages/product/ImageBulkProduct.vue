@@ -65,7 +65,7 @@
                         </div>
                         <!-- Product Search Input -->
                         <div class="form-group required">
-                            <label>Search By Product Code/ID</label>
+                            <label>Search By Product Name/Code</label>
                             <div class="controls">
                                 <div class="input-group w-25">
                                     <input
@@ -97,40 +97,71 @@
                             </div>
                         </div>
                         <!--            Products table            -->
-                        <table class="table table-bordered" v-if="selectedProducts.length">
+                        <div
+                            v-if="searchResults.length"
+                            class="alert alert-info py-2 px-3"
+                        >
+                            Total Products Found:
+                            <strong>{{ searchResults.length }}</strong>
+                        </div>
+
+                        <table
+                            class="table table-bordered table-hover"
+                            v-if="searchResults.length"
+                        >
                             <thead>
-                                <tr>
-                                    <th>Current Product Image</th>
-                                    <th>Product Code</th>
-                                    <th>Product Name</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
+                            <tr>
+                                <th width="50">
+                                    <input
+                                        type="checkbox"
+                                        :checked="searchResults.length && selectedProducts.length === searchResults.length"
+                                        @change="toggleSelectAll"
+                                    >
+                                </th>
+                                <th>Current Product Image</th>
+                                <th>Product Code</th>
+                                <th>Product Name</th>
+                            </tr>
                             </thead>
+
                             <tbody>
-                                <tr v-for="(product, index) in selectedProducts">
-                                    <td style="width: 200px; height: 80px" class="p-2">
-                                        <img
-                                            :src="productImagePath(product.product_image)"
-                                            :alt="product.local_product_name"
-                                            class="w-auto mr-2"
-                                            style="height: 80px"
-                                        />
-                                    </td>
-                                    <td>
-                                        <p>{{ product.product_code }}</p>
-                                    </td>
-                                    <td>{{ product.local_product_name }}</td>
-                                    <td style="width: 100px">
-                                        <button
-                                            form=""
-                                            class="btn btn-sm btn-danger mx-auto d-flex justify-content-center align-items-center"
-                                            style="height: 30px; width: 30px"
-                                            @click="removeSelectedProduct(index)"
-                                        >
-                                            <i class="la la-trash font-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tr
+                                v-for="product in searchResults"
+                                :key="product.id"
+                                @click="toggleProductSelection(product)"
+                                style="cursor:pointer"
+                                :class="{
+                                    'table-primary': isSelected(product.id)
+                                }"
+                            >
+                                <td
+                                    class="text-center align-middle"
+                                    @click.stop
+                                >
+                                    <input
+                                        type="checkbox"
+                                        :checked="isSelected(product.id)"
+                                        @change="toggleProductSelection(product)"
+                                    >
+                                </td>
+
+                                <td style="width: 200px; height: 80px" class="p-2">
+                                    <img
+                                        :src="productImagePath(product.product_image)"
+                                        :alt="product.local_product_name"
+                                        class="w-auto mr-2"
+                                        style="height: 80px"
+                                    />
+                                </td>
+
+                                <td>
+                                    {{ product.product_code }}
+                                </td>
+
+                                <td>
+                                    {{ product.local_product_name }}
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
 
@@ -142,6 +173,9 @@
                             {{ validationErrors.productIds }}
                         </div>
                         <!-- submit button -->
+                        <div v-if="selectedProducts.length" class="alert alert-success py-2 px-3">
+                            Selected Products: <strong>{{ selectedProducts.length }}</strong>
+                        </div>
                         <div id="saveActions" class="form-group">
                             <button
                                 form="image-add-to-bulk-products"
@@ -232,7 +266,7 @@ export default {
     data() {
         return {
             backUrl: '/admin/products/bulk-image-update',
-            searchUrl: '/admin/product/fetch/product-by-id',
+            searchUrl: '/admin/product/fetch/product-by-name',
             validationErrors: {},
             actionType: 'save_and_edit',
             selectedFiles: [],
@@ -241,15 +275,18 @@ export default {
             productImage: {
                 image_path: '',
             },
+            searchResults: [],
             selectedProducts: [],
             isSearching: false,
         };
     },
     mounted() {},
     methods: {
-        saveImageForSelectedProducts() {
+        async saveImageForSelectedProducts() {
             const productIds = this.selectedProducts.map((product) => product.id);
+
             this.validationErrors = {};
+
             let productIdsError = false;
             let imagePathError = false;
 
@@ -268,30 +305,42 @@ export default {
             }
 
             getFullPageLoader();
-            axios
-                .post(this.axios_url, {
-                    image_path: this.productImage.image_path,
-                    product_ids: productIds,
-                })
-                .then((response) => {
-                    new Noty({
-                        type: response.data.status,
-                        text: response.data.message,
-                    }).show();
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    const errorMessage = err.response?.data
-                        ? err.response.data.message
-                        : 'Something went wrong please try again';
-                    new Noty({
-                        type: 'error',
-                        text: errorMessage,
-                    }).show();
-                })
-                .finally(() => {
-                    removeFullPageLoader();
-                });
+
+            try {
+                const chunkSize = 500;
+
+                for (let i = 0; i < productIds.length; i += chunkSize) {
+                    const productIdsChunk = productIds.slice(i, i + chunkSize);
+
+                    await axios.post(this.axios_url, {
+                        image_path: this.productImage.image_path,
+                        product_ids: productIdsChunk,
+                    });
+                }
+
+                new Noty({
+                    type: 'success',
+                    text: `Image updated for ${productIds.length} products`,
+                }).show();
+
+                this.selectedProducts = [];
+                this.searchResults = [];
+                this.productImage = {
+                    image_path: '',
+                };
+                this.productSearchKey = '';
+            } catch (err) {
+                const errorMessage = err.response?.data
+                    ? err.response.data.message
+                    : 'Something went wrong please try again';
+
+                new Noty({
+                    type: 'error',
+                    text: errorMessage,
+                }).show();
+            } finally {
+                removeFullPageLoader();
+            }
         },
         searchProduct() {
             const searchKey = this.productSearchKey.trim();
@@ -302,18 +351,14 @@ export default {
                         search_key: searchKey,
                     })
                     .then((res) => {
-                        if (res.data) {
-                            const found = this.selectedProducts.find((prod) => prod.id === res.data.id);
-                            this.productSearchKey = '';
-                            if (!!found) {
-                                new Noty({
-                                    type: 'error',
-                                    text: 'Product already selected',
-                                }).show();
-                                return;
-                            }
-                            this.selectedProducts.push(res.data);
+                        if (res.data && res.data.length) {
+                            this.searchResults = res.data;
+                            this.selectedProducts = [];
+                            return;
                         }
+
+                        this.searchResults = [];
+                        this.selectedProducts = [];
                     })
                     .catch((err) => {
                         const message = err.response.data
@@ -333,6 +378,31 @@ export default {
                     });
             }
         },
+        toggleProductSelection(product) {
+            const index = this.selectedProducts.findIndex(
+                (p) => p.id === product.id
+            );
+
+            if (index > -1) {
+                this.selectedProducts.splice(index, 1);
+            } else {
+                this.selectedProducts.push(product);
+            }
+        },
+        isSelected(productId) {
+            return this.selectedProducts.some(
+                (product) => product.id === productId
+            );
+        },
+        toggleSelectAll() {
+            if (this.selectedProducts.length === this.searchResults.length) {
+                this.selectedProducts = [];
+                return;
+            }
+
+            this.selectedProducts = [...this.searchResults];
+        },
+
         productImagePath(image) {
             if (!!image?.main && image.main !== '') {
                 return image.main;

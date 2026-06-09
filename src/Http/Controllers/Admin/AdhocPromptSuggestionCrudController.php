@@ -36,8 +36,6 @@ class AdhocPromptSuggestionCrudController extends BackpackCustomCrudController
         CRUD::setModel(AdhocPromptSuggestion::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/saved-query');
         CRUD::setEntityNameStrings('saved-query', 'saved queries');
-
-        CRUD::denyAccess(['show']);
     }
 
     /**
@@ -49,7 +47,8 @@ class AdhocPromptSuggestionCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::addButtonFromModelFunction('line', 'view_report', 'viewReport', 'beginning');
+        CRUD::addButtonFromModelFunction('line', 'execute', 'viewReport', 'beginning');
+        CRUD::removeButton('show');
 
         CRUD::column('prompt')->label('Query')->limit(200);
         CRUD::addColumn([
@@ -64,12 +63,6 @@ class AdhocPromptSuggestionCrudController extends BackpackCustomCrudController
             'name' => 'status',
             'options' => [1 => 'Active', 0 => 'Inactive'],
         ]);
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**

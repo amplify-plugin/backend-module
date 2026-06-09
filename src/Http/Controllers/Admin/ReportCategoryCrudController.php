@@ -48,12 +48,7 @@ class ReportCategoryCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         CRUD::column('title');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        CRUD::removeButton('show');
     }
 
     /**

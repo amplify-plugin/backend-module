@@ -179,7 +179,9 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
                 'minimum_input_length' => 0,
                 'dependencies' => ['country_code'],
                 'name' => 'state',
-                'type' => 'select2_from_ajax',
+                'type' => 'select2_state',
+                'view_namespace' => 'backend::fields',
+                'entity' => 'stateModel',
                 'label' => 'State',
                 'wrapper' => [
                     'class' => 'form-group col-md-6',

@@ -284,7 +284,9 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'dependencies' => ['country_code'],
                 'tab' => 'Billing',
                 'name' => 'state',
-                'type' => 'select2_from_ajax',
+                'type' => 'select2_state',
+                'view_namespace' => 'backend::fields',
+                'entity' => 'billingState',
                 'label' => 'State',
                 'wrapper' => [
                     'class' => 'form-group col-md-6',

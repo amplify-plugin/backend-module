@@ -8,12 +8,10 @@ use Amplify\System\Backend\Http\Requests\ContactRequest;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\ContactLogin;
 use Amplify\System\Backend\Models\Customer;
-use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerGroup;
 use Amplify\System\Backend\Models\CustomerPermission;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Factories\NotificationFactory;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
@@ -21,7 +19,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 /**
  * Class ContactRegistrationCrudController
@@ -30,7 +27,6 @@ use Illuminate\Validation\ValidationException;
  */
 class ContactRegistrationCrudController extends BackpackCustomCrudController
 {
-    use CreateOperation;
     use DeleteOperation;
     use ListOperation;
     use ShowOperation;
@@ -134,21 +130,14 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        // Load the Contact model with the customer relationship
         $contact = Contact::with('customer')->findOrFail(request()->id);
-        // Set the customer ID in the form for the select2 field to pre-select the correct value
+
         $this->crud->entry = $contact; // Ensure the data is correctly set for the form
 
-        // This will set the customer team ID, just as you are already doing
-        set_customer_team_id($contact->customer->id);
+        set_customer_team_id($contact->customer_id);
 
-        // Call the setupCreateOperation method to apply the field configuration for the edit operation
         $this->crud->hasUploadFields();
         CRUD::setValidation(ContactRequest::class);
-
-        $attributes = request()->query()['category_name'] ?? false
-            ? ['readonly' => 'readonly']
-            : [];
 
         CRUD::addField([
             'label' => 'Customer', // Table column heading
@@ -172,32 +161,35 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
         CRUD::field('name')->type('text')->tab('Basic');
 
-        CRUD::addField([
-            'name' => 'accountTitle',
-            'label' => 'Account Title',
-            'tab' => 'Basic',
-            'type' => 'relationship',
-        ]);
-
-        CRUD::addField([
-            'name' => 'login_id',
-            'label' => 'Login ID',
-            'tab' => 'Basic',
-            'type' => 'text',
-            'attributes' => [
-                'autocomplete' => 'off',
-                'id' => 'new-account',
-            ],
-        ]);
-
-        CRUD::addField([
-            'name' => 'email',
-            'label' => 'Email',
-            'tab' => 'Basic',
-            'type' => 'email',
-        ]);
-
         CRUD::addFields([
+            [
+                'name' => 'account_title_id',
+                'label' => 'Account Title',
+                'tab' => 'Basic',
+                'type' => 'relationship',
+                'entity' => 'accountTitle',
+                'attribute' => 'name',
+            ],
+            [
+                'name' => 'email',
+                'label' => 'Email',
+                'tab' => 'Basic',
+                'type' => 'email',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-email-address',
+                ],
+            ],
+            [
+                'name' => 'login_id',
+                'label' => 'Login ID',
+                'tab' => 'Basic',
+                'type' => 'text',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-account',
+                ],
+            ],
             [
                 'name' => 'phone',
                 'label' => 'Phone',
@@ -212,42 +204,59 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                 'tab' => 'Basic',
                 'wrapper' => ['class' => 'form-group col-md-3'],
             ],
+            [
+                'name' => 'roles',
+                'label' => 'Role(s)',
+                'type' => 'select2_from_ajax_multiple',
+                'placeholder' => 'Select Roles',
+                'minimum_input_length' => 0,
+                'data_source' => backpack_url('contact/fetch/roles'),
+                'method' => 'POST',
+                'include_all_form_fields' => true,
+                'dependencies' => ['customer_id'],
+                'tab' => 'Permission',
+                'nullable' => !config('amplify.basic.is_permission_system_enabled'),
+            ],
+            [ // select2_from_ajax: 1-n relationship
+                'label' => 'Address', // Table column heading
+                'type' => 'select2_from_ajax',
+                'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
+                'model' => 'Amplify\System\Backend\Models\CustomerAddress', // the method that defines the relationship in your Model
+                'attribute' => 'display_name', // foreign key attribute that is shown to user
+                'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
+                'placeholder' => 'Select an address', // placeholder for the select
+                'include_all_form_fields' => true, // sends the other form fields along with the request so it can be filtered.
+                'minimum_input_length' => 0, // minimum characters to type before querying results
+                'dependencies' => ['customer_id'], // when a dependency changes, this select2 is reset to null
+                'pivot' => false,
+                'tab' => 'Basic',
+                'options' => (fn($query) => $query->orderBy('address_name')->get()),
+                'default' => old('customer_address_id', $this->crud->entry->customer_address_id ?? null),
+            ],
+            [
+                'name' => 'password',
+                'type' => 'toggle_password',
+                'view_namespace' => 'backend::fields',
+                'showButton' => 'true',
+                'tab' => 'Basic',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-password',
+                ],
+            ],
+            [
+                'name' => 'password_confirmation',
+                'type' => 'toggle_password',
+                'view_namespace' => 'backend::fields',
+                'label' => 'Retype Password',
+                'showButton' => 'true',
+                'tab' => 'Basic',
+                'attributes' => [
+                    'autocomplete' => 'off',
+                    'id' => 'new-password',
+                ],
+            ]
         ]);
-
-        CRUD::addField([
-            'name' => 'roles',
-            'label' => 'Role(s)',
-            'type' => 'select2_from_ajax_multiple',
-            'placeholder' => 'Select Roles',
-            'minimum_input_length' => 0,
-            'data_source' => backpack_url('contact/fetch/roles'),
-            'method' => 'POST',
-            'include_all_form_fields' => true,
-            'dependencies' => ['customer_id'],
-            'tab' => 'Basic',
-            'nullable' => !config('amplify.basic.is_permission_system_enabled'),
-        ]);
-
-        CRUD::addField([ // select2_from_ajax: 1-n relationship
-            'label' => 'Address', // Table column heading
-            'type' => 'select2_from_ajax',
-            'name' => 'customer_address_id', // the column that contains the ID of that connected entity;
-            'model' => CustomerAddress::class, // the method that defines the relationship in your Model
-            'attribute' => 'display_name', // foreign key attribute that is shown to user
-            'data_source' => route('addresses.get'), // url to controller search function (with /{id} should return model)
-            'placeholder' => 'Select an address', // placeholder for the select
-            'include_all_form_fields' => true, // sends the other form fields along with the request so it can be filtered.
-            'minimum_input_length' => 0, // minimum characters to type before querying results
-            'dependencies' => ['customer_id'], // when a dependency changes, this select2 is reset to null
-            'pivot' => false,
-            'tab' => 'Basic',
-            'options' => (fn ($query) => $query->orderBy('address_name')->get()),
-            'default' => old('customer_address_id', $this->crud->entry->customer_address_id ?? null),
-        ]);
-
-        CRUD::field('order_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Order Limit')->tab('ERP');
-        CRUD::field('daily_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Daily Budget Limit')->tab('ERP');
-        CRUD::field('monthly_budget_limit')->type('number')->attributes(['step' => 'any', 'min' => 0])->label('Monthly Budget Limit')->tab('ERP');
 
         if (config('amplify.basic.enable_multi_customer_manage')) {
             CRUD::addField([
@@ -256,7 +265,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                 'label' => 'Default Warehouse',
                 'entity' => 'ownWarehouse',
                 'tab' => 'ERP',
-                'options' => (fn ($query) => $query->orderBy('name')->get()),
+                'options' => (fn($query) => $query->orderBy('name')->get()),
             ]);
 
             CRUD::addField([
@@ -294,7 +303,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn ($query) => $query->orderBy('name')->get()),
+                        'options' => (fn($query) => $query->orderBy('name')->get()),
                     ],
                     [
                         'name' => 'customer_address_id',
@@ -305,7 +314,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                         'wrapper' => [
                             'class' => 'form-group col-md-6',
                         ],
-                        'options' => (fn ($query) => $query->orderBy('address_name')->get()),
+                        'options' => (fn($query) => $query->orderBy('address_name')->get()),
                     ],
                     [
                         'name' => 'roles',
@@ -367,6 +376,16 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addField([
+            'name' => 'is_admin',
+            'label' => 'Is Admin',
+            'type' => 'boolean',
+            'allows_null' => false,
+            'default' => true,
+            'tab' => 'Basic',
+            'hint' => 'Note: A customer can have only one admin contact. To transfer admin, first uncheck this on the current admin and save, then check it on the new admin.',
+        ]);
+
+        CRUD::addField([
             'name' => 'ownPermissions',
             'label' => 'Permissions',
             'type' => 'permission',
@@ -377,6 +396,43 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                     ->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
             },
             'tab' => 'Permission',
+        ]);
+
+        CRUD::modifyField('password', ['showAsterisk' => false]);
+        CRUD::modifyField('password_confirmation', ['showAsterisk' => false]);
+
+        CRUD::addField([
+            'name' => 'order_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Order Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'daily_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Daily Budget Limit',
+            'tab' => 'ERP',
+        ]);
+        CRUD::addField([
+            'name' => 'monthly_budget_limit',
+            'type' => 'number',
+            'attributes' => [
+                'step' => 'any',
+                'min' => 0,
+            ],
+            'default' => '0',
+            'label' => 'Monthly Budget Limit',
+            'tab' => 'ERP',
         ]);
     }
 

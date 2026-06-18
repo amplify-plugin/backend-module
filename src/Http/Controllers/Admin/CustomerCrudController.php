@@ -378,6 +378,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'type' => 'select2_from_array',
             'options' => UtilityHelper::currencyDropdown(),
             'allows_null' => false,
+            'default' => config('amplify.basic.global_currency'),
             'tab' => 'ERP Information',
         ]);
         CRUD::addField([

@@ -57,6 +57,7 @@ mix.options({
     .copyDirectory('resources/css', 'public/css/')
     .copyDirectory('resources/img', 'public/img/')
     .js('resources/vue/app.js', 'public/js/backend.js')
+    .copyDirectory('resources/ckeditor/assets', 'public/ckeditor')
     .js('resources/js/ckeditor/ckeditor-browser.js', 'public/ckeditor/ckeditor-config.js')
     .vue()
     .copy('resources/js/crud.js', 'public/js/crud.js')

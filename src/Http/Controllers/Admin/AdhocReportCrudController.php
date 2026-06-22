@@ -78,7 +78,7 @@ class AdhocReportCrudController extends BackpackCustomCrudController
                 ->withoutVerifying()
                 ->baseUrl($this->baseUrl)
                 ->get('/EasyAsk/apps/TranslateToResults.jsp', [
-                    'dct' => config('amplify.report.business_query_dictionary'),
+                    'dct' => config('amplify.report.dictionary'),
                     'disp' => 'xml',
                     'q' => $request->input('query', null)
                 ]);

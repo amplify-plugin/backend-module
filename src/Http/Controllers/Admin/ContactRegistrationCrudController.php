@@ -119,6 +119,11 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
                 return $phone;
             }
         ]);
+        CRUD::addColumn([
+            'name' => 'updated_at',
+            'label' => 'Last Updated At',
+            'type' => 'datetime',
+        ]);
     }
 
     /**

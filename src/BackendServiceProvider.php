@@ -23,6 +23,7 @@ use Amplify\System\Backend\Traits\HasBackendMenu;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class BackendServiceProvider extends ServiceProvider
@@ -75,6 +76,8 @@ class BackendServiceProvider extends ServiceProvider
         }
 
         Blade::componentNamespace('Amplify\\System\\Backend\\Components', 'backend');
+
+        $this->registerCkeditorScriptComposer();
 
         $this->app->booted(function () {
             $backpackStyles = Config::get('backpack.base.styles');
@@ -140,6 +143,27 @@ class BackendServiceProvider extends ServiceProvider
         });
 
             $this->registerMenus();
+    }
+
+    /**
+     * Inject CKEditor config scripts on admin layouts without per-client blank.blade.php edits.
+     */
+    private function registerCkeditorScriptComposer(): void
+    {
+        $this->app->booted(function () {
+            if (!function_exists('backpack_view')) {
+                return;
+            }
+
+            $layout = backpack_view('layouts.top_left');
+
+            View::composer($layout, function () {
+                View::startPush(
+                    'before_scripts',
+                    view('backend::partials.ckeditor-scripts-inner')
+                );
+            });
+        });
     }
 
     private function loadObservers(): void

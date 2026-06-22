@@ -648,7 +648,7 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::field('gtin_number')->tab('BasicInfo');
         CRUD::field('upc_number')->tab('BasicInfo');
         CRUD::field('asin')->tab('BasicInfo');
-        // CRUD::field('manufacturer')->tab('BasicInfo');
+        CRUD::field('manufacturer')->tab('BasicInfo');
         // CRUD::field('brand')->tab('BasicInfo');
         // CRUD::field('model_code')->tab('BasicInfo');
         // CRUD::field('model_name')->tab('BasicInfo');

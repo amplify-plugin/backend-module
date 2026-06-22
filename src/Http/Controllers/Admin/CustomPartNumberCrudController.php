@@ -75,15 +75,17 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
             ->entity('customer')
             ->attribute('display_name');
 
-        CRUD::column('product_id')
-            ->type('relationship')
-            ->label('Product')
-            ->entity('product')
-            ->attribute('product_name');
-
         CRUD::column('customer_product_code')
             ->type('text')
             ->label('Product Code');
+
+        CRUD::addColumn([
+            'name' => 'product_id',
+            'label' => 'Product Name',
+            'type' => 'relationship',
+            'entity' => 'product',
+            'attribute' => 'product_name',
+        ]);
 
         CRUD::column('customer_product_uom')
             ->type('text')

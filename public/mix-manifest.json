@@ -72,5 +72,13 @@
     "/css/color-schemes/purple-bundle.css": "/css/color-schemes/purple-bundle.css?id=b65232e9c8b7a7262356281bfd84b854",
     "/img/img-left.png": "/img/img-left.png?id=71e19d1eb07569d849347f0d42d6b15a",
     "/img/img-right.png": "/img/img-right.png?id=a6091d445037c05d6a3340a40c9156f3",
-    "/img/under-construction.png": "/img/under-construction.png?id=7ba78bb69bc254b648c3932ef4557ba1"
+    "/img/under-construction.png": "/img/under-construction.png?id=7ba78bb69bc254b648c3932ef4557ba1",
+    "/ckeditor/ckeditor-vue-patch.js": "/ckeditor/ckeditor-vue-patch.js?id=d0b4eea7d0db6c9cc94a553a69b48e45",
+    "/ckeditor/config.js": "/ckeditor/config.js?id=7317e286e3eace78a2a2c31391cddef0",
+    "/ckeditor/content-templates.js": "/ckeditor/content-templates.js?id=0570e1064d5b502b705c9f3ba7f9d98b",
+    "/ckeditor/plugins/templates/templates/images/3column.gif": "/ckeditor/plugins/templates/templates/images/3column.gif?id=f902af8ddd3c49525e699c61f9e932f5",
+    "/ckeditor/plugins/templates/templates/images/placeholder.png": "/ckeditor/plugins/templates/templates/images/placeholder.png?id=2dc3ba316cc2f848988ed13ecc39353e",
+    "/ckeditor/plugins/templates/templates/images/template1.gif": "/ckeditor/plugins/templates/templates/images/template1.gif?id=bbb115e72af95d1268f65d76d3ba3751",
+    "/ckeditor/plugins/templates/templates/images/template2.gif": "/ckeditor/plugins/templates/templates/images/template2.gif?id=58e7803aa0f2be31ea76b9f2243a9ed1",
+    "/ckeditor/plugins/templates/templates/images/zigzag.gif": "/ckeditor/plugins/templates/templates/images/zigzag.gif?id=612db83bc959f7685068fc234e062d40"
 }

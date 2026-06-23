@@ -10,6 +10,7 @@ import DataTable from 'laravel-vue-datatable';
 import FileManager from './modules/file-manager/init';
 import './componentRegister';
 import EasyEditor from './views/components/EasyEditor.vue';
+import { applyCkeditorDefaults } from '../js/ckeditor/build-config';
 
 import store from './store';
 
@@ -24,6 +25,7 @@ Vue.use(VueSweetalert2);
 Vue.use(VCalendar, {
     componentPrefix: 'vc', // Use <vc-calendar /> instead of <v-calendar />
 });
+applyCkeditorDefaults(CKEditor.component);
 Vue.use(CKEditor);
 Vue.use(DataTable);
 Vue.use(FileManager, { store });

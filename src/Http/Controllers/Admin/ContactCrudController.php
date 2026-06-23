@@ -265,6 +265,12 @@ class ContactCrudController extends BackpackCustomCrudController
             'type' => 'boolean',
         ]);
 
+        CRUD::addColumn([
+            'name' => 'updated_at',
+            'label' => 'Last Updated At',
+            'type' => 'datetime',
+        ]);
+
         $this->crud->addClause('approved');
 
         $this->crud->addButton('line', 'impersonate', 'view', 'backend::buttons.impersonate', 'end');

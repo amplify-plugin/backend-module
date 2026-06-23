@@ -69,11 +69,36 @@ class ContactLoginCrudController extends BackpackCustomCrudController
             $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
         });
 
-        CRUD::column('contact_id')->type('relationship');
-        CRUD::column('customer_id')->type('relationship');
-        CRUD::column('warehouse_id')->type('relationship');
-        CRUD::column('customer_address_id')->type('relationship');
-        CRUD::column('ship_to_name')->type('relationship');
+        CRUD::addColumn([
+            'name' => 'contact_id',
+            'type' => 'relationship',
+            'entity' => 'contact',
+            'attribute' => 'name',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'customer_id',
+            'type' => 'relationship',
+            'entity' => 'customer',
+            'attribute' => 'display_name',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'warehouse_id',
+            'type' => 'relationship',
+            'entity' => 'warehouse',
+            'attribute' => 'name',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'customer_address_id',
+            'label' => 'Customer address',
+            'type' => 'relationship',
+            'entity' => 'customerAddress',
+            'attribute' => 'display_name',
+        ]);
+
+        CRUD::column('ship_to_name');
         CRUD::column('last_logged_in')->type('datetime');
         CRUD::column('last_logged_out')->type('datetime');
         CRUD::column('created_at')->type('datetime');

@@ -24,7 +24,11 @@ class Notice extends Model implements Auditable
     protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
-    // protected $dates = [];
+     protected $casts= [
+         'started_at' => 'datetime',
+         'ended_at' => 'datetime',
+         'enabled' => 'boolean',
+     ];
 
     /*
     |--------------------------------------------------------------------------

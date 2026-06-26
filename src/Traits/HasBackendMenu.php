@@ -528,7 +528,8 @@ trait HasBackendMenu
 
                 $event->item('Event')
                     ->icon('las la-calender-plus')
-                    ->can('event.list');
+                    ->can('event.list')
+                    ->url(backpack_url('event'));
             });
     }
 }

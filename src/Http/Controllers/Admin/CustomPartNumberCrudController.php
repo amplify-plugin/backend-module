@@ -54,11 +54,20 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
     {
         CRUD::removeButton('show');
 
-        CRUD::column('product_id')
-            ->type('relationship')
-            ->label('Product')
-            ->entity('product')
-            ->attribute('product_name');
+        // Filtering with customer
+        CRUD::addFilter([
+                'name' => 'category_name',
+                'type' => 'select2_ajax',
+                'label' => 'Customer',
+                'placeholder' => 'Type Name, Code, Email, Phone',
+                'method' => 'POST',
+                'select_attribute' => 'customer_name',
+            ],
+            backpack_url('contact/fetch/customer'),
+            function ($value) {
+                $this->crud->query->where('customer_id', '=', $value);
+            });
+
 
         CRUD::column('customer_id')
             ->type('relationship')
@@ -69,6 +78,14 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
         CRUD::column('customer_product_code')
             ->type('text')
             ->label('Product Code');
+
+        CRUD::addColumn([
+            'name' => 'product_id',
+            'label' => 'Product Name',
+            'type' => 'relationship',
+            'entity' => 'product',
+            'attribute' => 'product_name',
+        ]);
 
         CRUD::column('customer_product_uom')
             ->type('text')

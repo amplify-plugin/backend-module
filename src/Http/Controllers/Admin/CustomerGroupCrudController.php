@@ -11,6 +11,7 @@ use Amplify\System\Backend\Models\FlatDiscount;
 use Amplify\System\Backend\Models\OrderValueDiscount;
 use Amplify\System\Backend\Models\OrderValueDiscountDetail;
 use Amplify\System\Backend\Models\PricingRule;
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Backend\Models\VolumeDiscount;
 use Amplify\System\Backend\Models\VolumeDiscountDetail;
 use App\Http\Controllers\Admin\Exception;
@@ -68,7 +69,6 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'group_code',
@@ -110,6 +110,11 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         CRUD::setValidation(CustomerGroupRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->setCreateView('backend::pages.customer_groups.create');
+        $this->data['users'] = User::query()
+            ->select(['id', 'name', 'email'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
 
         CRUD::addField([
             'name' => 'group_code',
@@ -148,6 +153,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         $this->data['customer_group_data'] = $this->crud->model
             ->with(
                 'customers',
+                'users',
                 'cg_pricing_rules.flat_discounts.categories',
                 'cg_pricing_rules.volume_discounts.categories',
                 'cg_pricing_rules.volume_discounts.volume_discount_details',
@@ -161,10 +167,19 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
 
     public function setupShowOperation()
     {
-        CRUD::column('id')->type('number')->thousands_sep('');
-        CRUD::column('group_code');
-        CRUD::column('group_name');
-        CRUD::column('group_pricing_type');
+        $this->data['customer_group_data'] = $this->crud->model
+            ->with(
+                'customers',
+                'users',
+                'cg_pricing_rules.flat_discounts.categories',
+                'cg_pricing_rules.volume_discounts.categories',
+                'cg_pricing_rules.volume_discounts.volume_discount_details',
+                'cg_pricing_rules.order_value_discount.order_value_discount_details'
+            )
+            ->find(request()->id);
+
+        $this->crud->setShowContentClass('col-md-12');
+        $this->crud->setShowView('backend::pages.customer_groups.show');
     }
 
     /**
@@ -175,6 +190,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         try {
             DB::beginTransaction();
             $customerGroupResponse = $this->traitStore($request);
+            $this->syncUsers($customerGroupResponse['data'], $request);
             if (count($request->customers) > 0) {
                 Customer::whereIn('id', $request->customers)->update(['customer_group_id' => $customerGroupResponse['data']->id]);
             }
@@ -220,6 +236,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         try {
             DB::beginTransaction();
             $customerGroupResponse = $this->traitUpdate($request);
+            $this->syncUsers($customerGroupResponse['data'], $request);
             $cg_id = $customerGroupResponse['data']->id;
             $pricingRulesDataFormat = [
                 'customer_group_id' => $cg_id,
@@ -250,6 +267,28 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
 
             return $exception->getMessage();
         }
+    }
+
+    protected function syncUsers(CustomerGroup $customerGroup, CustomerGroupRequest $request): void
+    {
+        $userIds = collect($request->input('users', []))
+            ->map(function ($user) {
+                if (is_array($user)) {
+                    return $user['id'] ?? null;
+                }
+
+                if (is_object($user)) {
+                    return $user->id ?? null;
+                }
+
+                return $user;
+            })
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->values()
+            ->all();
+
+        $customerGroup->users()->sync($userIds);
     }
 
     /**

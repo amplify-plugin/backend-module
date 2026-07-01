@@ -46,6 +46,7 @@
         customer_group_pricing_type="{{json_encode($customer_group_pricing_type ?? new \stdClass())}}"
         customer_group_data="{{json_encode($customer_group_data ?? new \stdClass())}}"
         categories="{{json_encode($categories ?? new \stdClass())}}"
+        users="{{json_encode($users ?? [])}}"
         save_action = "{{ json_encode($saveAction) }}"
     ></customer-group-create>
 @endsection

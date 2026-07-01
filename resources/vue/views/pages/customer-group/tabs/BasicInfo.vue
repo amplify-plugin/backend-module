@@ -57,6 +57,38 @@
                        class="text-danger mt-3">{{ $parent.validationErrors.group_pricing_type[0] }}</small>
             </div>
 
+            <div class="form-group col-sm-12"
+                 :class="{'text-danger': $parent.validationErrors.users}">
+                <label>
+                    Assigned Users
+                </label>
+
+                <multiselect
+                    v-model="$parent.customer_group.users"
+                    :options="$parent.availableUsers"
+                    :multiple="true"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :hide-selected="true"
+                    placeholder="Select users"
+                    track-by="id"
+                    label="name"
+                >
+                    <template #option="{ option }">
+                        <div class="d-flex flex-column">
+                            <span>{{ option.name }}</span>
+                            <small class="text-muted">{{ option.email }}</small>
+                        </div>
+                    </template>
+                    <template #singleLabel="{ option }">
+                        <span>{{ option.name }}</span>
+                    </template>
+                </multiselect>
+
+                <small v-if="$parent.validationErrors.users"
+                       class="text-danger mt-3">{{ $parent.validationErrors.users[0] }}</small>
+            </div>
+
             <div v-if="$parent.customer_group.group_pricing_type === 'rules-based-pricing'" class="col-sm-12">
                 <label class="form-check-label">
                     Pricing Rules

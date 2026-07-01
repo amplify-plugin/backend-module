@@ -55,6 +55,8 @@ class ContactRequest extends FormRequest
                 'boolean',
                 new ContactIsAdminRule($this->isMethod('PUT') ? $this->id : null),
             ],
+            'enabled' => 'nullable|boolean',
+            'enabled_at' => 'nullable',
         ];
 
         $passLength = SecurityHelper::passwordLength();

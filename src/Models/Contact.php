@@ -80,10 +80,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
                 Storage::disk('uploads')->delete($model->profile_image);
             }
 
-            ContactLogin::where([
-                'contact_id' => $model->id,
-                'customer_id' => $model->customer_id,
-            ])->delete();
+            ContactLogin::where('contact_id', $model->id)->delete();
         });
 
         static::saving(function ($model) {
@@ -262,6 +259,16 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
         return $this->hasMany(ContactLogin::class);
     }
 
+    public function assignmentLogins()
+    {
+        return $this->hasMany(ContactLogin::class)->assignment();
+    }
+
+    public function sessionLogins()
+    {
+        return $this->hasMany(ContactLogin::class)->session()->orderByDesc('last_logged_in');
+    }
+
     /**
      * same contact login
      *
@@ -269,7 +276,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
      */
     public function backendContactLogins()
     {
-        return $this->contactLogins()->where('customer_id', '!=', $this->customer_id);
+        return $this->assignmentLogins()->where('customer_id', '!=', $this->customer_id);
     }
 
     public function activeCustomer(): BelongsTo
@@ -368,10 +375,9 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
     public function updateContactLoginAsPerEntry()
     {
-        ContactLogin::updateOrCreate([
+        ContactLogin::findOrCreateAssignment([
             'contact_id' => $this->id,
             'customer_id' => $this->customer_id,
-        ], [
             'warehouse_id' => $this->warehouse_id,
             'customer_address_id' => $this->customer_address_id,
             'ship_to_name' => $this->customer_address?->address_name ?? null,
@@ -381,7 +387,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
     public function validateActiveCustomer()
     {
         if ($this->active_customer_id) {
-            $doesntExist = $this->contactLogins()->where('customer_id', $this->active_customer_id)->doesntExist();
+            $doesntExist = $this->assignmentLogins()->where('customer_id', $this->active_customer_id)->doesntExist();
 
             if ($doesntExist) {
                 $this->update(['active_customer_id' => null]);

@@ -13,7 +13,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Http\JsonResponse;
 
@@ -257,10 +256,10 @@ class AttributeCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AttributeRequest::class);
+        $this->crud->setCreateView('backend::pages.attribute.create');
 
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['attribute'] = $this->crud->model->find(request()->id);
-        Widget::add()->type('script')->content(asset('vendor/backend/js/forms/attributes.js').'?v='.config('backpack.base.cachebusting_string'));
 
         CRUD::addField([
             'name' => 'name',
@@ -414,7 +413,7 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        // $this->crud->setUpdateView('backend::pages.attribute.create');
+        $this->crud->setUpdateView('backend::pages.attribute.create');
         $this->setupCreateOperation();
     }
 

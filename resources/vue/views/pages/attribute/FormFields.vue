@@ -13,26 +13,35 @@
         </div>
         <!-- text input -->
         <div class="form-group col-sm-12 required">
-            <label :class="{'error-color': validationErrors.slug}">Name
+            <label :class="{'error-color': validationErrors.name}">Name
                 <span class="text-danger font-weight-bold">*</span>
             </label>
-            <input type="text" name="name" v-model="$parent.attribute.slug" class="form-control"
-                   :class="{'is-invalid': validationErrors.slug}">
+            <input
+                type="text"
+                name="name"
+                v-model="$parent.attribute.name"
+                class="form-control"
+                :class="{'is-invalid': validationErrors.name}"
+                @input="removeError('name'); $parent.convertNameToSlug($parent.attribute.name)"
+            >
 
-            <small v-if="validationErrors.slug" class="text-danger mt-3">{{ validationErrors.slug[0] }}</small>
+            <small v-if="validationErrors.name" class="text-danger mt-3">{{ validationErrors.name[0] }}</small>
         </div>
 
         <div class="form-group col-sm-12 required">
-            <label :class="{'error-color': validationErrors.name}">Display Name
+            <label :class="{'error-color': validationErrors.slug}">Slug
                 <span class="text-danger font-weight-bold">*</span>
             </label>
-            <i :class="{'error-color': validationErrors.name}" class="la la-flag-checkered pull-right"
-               style="margin-top: 3px;"
-               title="This field is translatable."></i>
-            <input type="text" name="name" v-model="$parent.attribute.name" class="form-control"
-                   :class="{'is-invalid': validationErrors.name}">
+            <input
+                type="text"
+                name="slug"
+                v-model="$parent.attribute.slug"
+                class="form-control"
+                :class="{'is-invalid': validationErrors.slug}"
+                @input="removeError('slug')"
+            >
 
-            <small v-if="validationErrors.name" class="text-danger mt-3">{{ validationErrors.name[0] }}</small>
+            <small v-if="validationErrors.slug" class="text-danger mt-3">{{ validationErrors.slug[0] }}</small>
         </div>
         <!-- load the view from type and view_namespace attribute if set -->
 
@@ -129,6 +138,12 @@ export default {
     },
     components: {},
     methods   : {
+        removeError(field) {
+            if (this.validationErrors && this.validationErrors[field]) {
+                this.$delete(this.validationErrors, field);
+            }
+        },
+
         capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },

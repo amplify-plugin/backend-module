@@ -15,6 +15,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class AttributeCrudController
@@ -97,12 +98,12 @@ class AttributeCrudController extends BackpackCustomCrudController
 
         CRUD::addColumn([
             'name' => 'slug',
-            'label' => 'Name',
+            'label' => 'Slug',
         ]);
 
         CRUD::addColumn([
             'name' => 'name',
-            'label' => 'Display Name',
+            'label' => 'Name',
         ]);
 
         CRUD::addColumn([
@@ -264,18 +265,18 @@ class AttributeCrudController extends BackpackCustomCrudController
         CRUD::addField([
             'name' => 'name',
             'type' => 'text',
-            'label' => 'Display Name',
+            'label' => 'Name',
             'attributes' => [
-                'placeholder' => 'Attribute Name',
+                'placeholder' => 'Enter attribute name',
             ],
         ]);
 
         CRUD::addField([
             'name' => 'slug',
             'type' => 'text',
-            'label' => 'Name',
+            'label' => 'Slug',
             'attributes' => [
-                'placeholder' => 'attribute-name',
+                'placeholder' => 'Enter attribute slug',
             ],
         ]);
 
@@ -415,5 +416,34 @@ class AttributeCrudController extends BackpackCustomCrudController
     {
         // $this->crud->setUpdateView('backend::pages.attribute.create');
         $this->setupCreateOperation();
+    }
+
+    public function fetchAttributeSlug(): JsonResponse
+    {
+        $baseSlug = \Illuminate\Support\Str::slug(request()->slug ?? '');
+        $id = request()->id ?? null;
+
+        if (empty($baseSlug)) {
+            return response()->json([
+                'slug' => '',
+            ]);
+        }
+
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (Attribute::query()
+            ->where('slug', $slug)
+            ->when($id, function ($query) use ($id) {
+                $query->where('id', '!=', $id);
+            })
+            ->exists()) {
+            $slug = $baseSlug.'-'.$counter;
+            $counter++;
+        }
+
+        return response()->json([
+            'slug' => $slug,
+        ]);
     }
 }

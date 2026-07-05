@@ -494,6 +494,11 @@ class DraftOrderCrudController extends BackpackCustomCrudController
                 'type' => 'table-related',
                 'columns' => [
                     [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
+                    [
                         'name' => 'product_name',
                         'label' => 'Name',
                         'type' => 'text',

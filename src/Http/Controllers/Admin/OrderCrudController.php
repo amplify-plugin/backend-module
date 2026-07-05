@@ -597,6 +597,11 @@ class OrderCrudController extends BackpackCustomCrudController
                 'type' => 'table-related',
                 'columns' => [
                     [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
+                    [
                         'name' => 'local_product_name',
                         'label' => 'Name',
                         'type' => 'text',

@@ -227,6 +227,8 @@ HTML,
     </tr>
 </table>
 
+__order_details__
+
 <p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
 
 <p>__admin_order_details_url__</p>
@@ -274,6 +276,8 @@ HTML,
     </tr>
 </table>
 
+__order_details__
+
 <p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
 
 <p>__customer_order_details_url__</p>
@@ -287,7 +291,7 @@ __company_name__</p>
 HTML,
                         'show_button' => true,
                         'button_text' => 'View Order Details',
-                        'button_url' => '/orders/:id',
+                        'button_url' => '__customer_order_details_url__',
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ],
@@ -505,7 +509,7 @@ __company_name__ System Notification</p>
 HTML,
                         'show_button' => true,
                         'button_text' => 'Synchronization List',
-                        'button_url' => route_uri('product-sync.index'),
+                        'button_url' => route_uri('synchronization.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ],

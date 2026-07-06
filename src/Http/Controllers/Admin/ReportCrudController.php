@@ -171,7 +171,6 @@ class ReportCrudController extends BackpackCustomCrudController
             'name' => 'intervals',
             'label' => 'Intervals',
             'type' => 'table',
-            'view_namespace' => 'backend::columns',
             'columns' => ['Integer', 'Label'],
         ]);
 

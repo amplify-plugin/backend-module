@@ -290,7 +290,6 @@ class ClassificationCrudController extends BackpackCustomCrudController
             'name' => 'attributes',
             'label' => 'Attributes',
             'type' => 'table-related',
-            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'name',

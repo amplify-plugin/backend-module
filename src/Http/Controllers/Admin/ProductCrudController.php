@@ -865,7 +865,6 @@ class ProductCrudController extends BackpackCustomCrudController
             'name' => 'productImage.additional',
             'label' => 'Additional',
             'type' => 'multiple_images',
-            'view_namespace' => 'backend::columns',
             'width' => '120px',
             'height' => 'auto',
         ]);

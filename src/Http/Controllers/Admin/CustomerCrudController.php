@@ -575,7 +575,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'addresses',
             'label' => 'Addresses',
             'type' => 'table-related',
-            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'address_name',

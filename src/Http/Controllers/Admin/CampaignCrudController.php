@@ -193,7 +193,6 @@ class CampaignCrudController extends BackpackCustomCrudController
             'name' => 'products',
             'label' => 'Products',
             'type' => 'table-related',
-            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'product_id',

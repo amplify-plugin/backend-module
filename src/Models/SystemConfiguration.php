@@ -58,6 +58,8 @@ class SystemConfiguration extends Model implements Auditable
 
     const DEVELOPER_TAB = 'developer';
 
+    const MESSAGE_TAB = 'messages';
+
     const VALUE_TYPES = [
         'bool' => 'Boolean',
         'float' => 'Decimal',

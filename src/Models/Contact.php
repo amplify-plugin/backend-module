@@ -62,6 +62,11 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
         'monthly_budget_limit' => '0',
     ];
 
+    const REQUEST_ACCOUNT_VERIFICATION = 'request_account_verification';
+    const NEW_RETAIL_CUSTOMER_VERIFICATION = 'new_retail_customer_verification';
+    const EMAIL_VERIFICATION = 'email_verification';
+
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

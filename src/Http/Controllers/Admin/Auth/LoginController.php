@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Backpack\CRUD\app\Library\Auth\AuthenticatesUsers;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;

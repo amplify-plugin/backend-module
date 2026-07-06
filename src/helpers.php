@@ -127,8 +127,8 @@ if (!function_exists('backend_permissions')) {
 
             //Notification
             'trigger' => 'l,u',
-            'notification' => 'l,c,u,d',
-            'event-template' => 'l,c,u,d',
+            'notification' => 'l,c,u,d,clone',
+            'event-template' => 'l,c,u,d,clone',
 
             //Authorization
             'user' => 'l,c,u,d',

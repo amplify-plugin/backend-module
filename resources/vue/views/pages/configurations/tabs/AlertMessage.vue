@@ -46,7 +46,7 @@
             </div>
             <div class="form-group" v-for="(message, key) in config.messages" :key>
                 <label :for="`message-${key}`">{{ humanLabel(key) }}</label>
-                <input class="form-control" :value="message" :name="`message-${key}`" :id="`message-${key}`">
+                <input class="form-control" v-model="config.messages[key]"  :name="`message-${key}`" :id="`message-${key}`">
             </div>
         </fieldset>
         <div id="saveActions" class="form-group settings-actions">

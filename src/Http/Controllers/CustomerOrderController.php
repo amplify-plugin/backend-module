@@ -17,7 +17,7 @@ use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\OrderRule\Facades\OrderRuleCheck;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;

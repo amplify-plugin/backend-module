@@ -286,6 +286,11 @@ trait HasBackendMenu
             ->canAny('order.list', 'quote.list', 'invoice.list', 'payment.list', 'customer-list.list', 'order-rule.list',
                 'customer-order-rule.list', 'customer-order-rule-track.list')
             ->items(function ($orders) {
+                $orders->item('Carts')
+                    ->icon('las la-shopping-cart')
+                    ->if(fn() => backpack_user()->isAdmin())
+                    ->url(backpack_url('cart'));
+
                 $orders->item('Orders')
                     ->icon('las la-shopping-bag')
                     ->can('order.list')

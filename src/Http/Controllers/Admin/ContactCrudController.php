@@ -50,7 +50,6 @@ class ContactCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -99,8 +98,6 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         $this->crud->enableExportButtons();
 
         if (config('amplify.erp.auto_create_contact')) {

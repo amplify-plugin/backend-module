@@ -27,7 +27,6 @@ class ManufacturerCrudController extends BackpackCustomCrudController
         destroy as traitDestroy;
     }
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -66,8 +65,6 @@ class ManufacturerCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation(): void
     {
-        CRUD::removeButton('show');
-
         CRUD::addFilter(
             [
                 'name' => 'featured',
@@ -292,6 +289,7 @@ class ManufacturerCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'contact_address',
             'type' => 'table',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 'address_name' => 'Address Name',
                 'address' => 'Address Details',

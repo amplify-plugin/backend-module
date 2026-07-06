@@ -3,7 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\ErpApi\Facades\ErpApi;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
 
 class PdfGeneratorOriginalController extends Controller

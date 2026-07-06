@@ -23,7 +23,6 @@ class CatalogCrudController extends BackpackCustomCrudController
     use CreateOperation;
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -47,7 +46,6 @@ class CatalogCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         CRUD::column('name');
         CRUD::column('slug');
         CRUD::column('active')->type('boolean');

@@ -29,46 +29,6 @@
         >
       </div>
       <div class="form-group">
-        <div class="form-check">
-          <input
-              type="checkbox"
-              name="skip_contact_approval"
-              id="skip_contact_approval"
-              v-model="coreConfigurationData.skip_contact_approval"
-              :class="{
-                                'is-invalid': $parent.validationErrors.skip_contact_approval,
-                                'form-check-input': true,
-                            }"
-          />
-          <label for="skip_contact_approval">
-            Skip Contact Account Approval upon Signup
-          </label>
-          <small v-if="$parent.validationErrors.skip_contact_approval" class="text-danger">{{
-              $parent.validationErrors.skip_contact_approval[0]
-            }}</small>
-        </div>
-        <small class="text-muted d-block">
-          If enabled system will allow contacts to login without verification process.
-        </small>
-      </div>
-      <div class="form-group" v-if="!coreConfigurationData.skip_contact_approval">
-        <label>Account Verification Method</label>
-        <select
-            name="verification_method"
-            v-model="coreConfigurationData.verification_method"
-            :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.verification_method }">
-          <option value="email" :selected="coreConfigurationData.verification_method === 'email'">
-            Email Verification
-          </option>
-          <option value="backend" :selected="coreConfigurationData.verification_method === 'backend'">
-            Admin Verification
-          </option>
-        </select>
-        <small v-if="$parent.validationErrors.verification_method" class="text-danger">{{
-            $parent.validationErrors.verification_method[0]
-          }}</small>
-      </div>
-      <div class="form-group">
         <label>System Password Minimum Length</label>
         <input
             type="number"
@@ -79,6 +39,100 @@
             :class="{ 'is-invalid': $parent.validationErrors.password_length }"
         />
       </div>
+      <div class="form-group border">
+        <fieldset>
+          <legend class="settings-header"><i class="la la-user-check"></i> Online Access Registration (Existing Customer)</legend>
+          <div class="mb-3">
+            <div class="form-check">
+              <input
+                  type="checkbox"
+                  name="skip_request_account_approval"
+                  id="skip_request_account_approval"
+                  v-model="coreConfigurationData.skip_request_account_approval"
+                  :class="{
+                                'is-invalid': $parent.validationErrors.skip_request_account_approval,
+                                'form-check-input': true,
+                            }"
+              />
+              <label for="skip_request_account_approval">
+                Skip Account Approval Process
+              </label>
+              <small v-if="$parent.validationErrors.skip_request_account_approval" class="text-danger">{{
+                  $parent.validationErrors.skip_request_account_approval[0]
+                }}</small>
+            </div>
+            <small class="text-muted d-block">
+              If checked online account access request will be automatically approved. else they have to go through a
+              approval/verification process.
+            </small>
+          </div>
+          <div v-if="!coreConfigurationData.skip_request_account_approval">
+            <label>Account Verification Method</label>
+            <select
+                name="request_account_verification_method"
+                v-model="coreConfigurationData.request_account_verification_method"
+                :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.request_account_verification_method }">
+              <option value="email" :selected="coreConfigurationData.request_account_verification_method === 'email'">
+                Email Verification
+              </option>
+              <option value="backend"
+                      :selected="coreConfigurationData.request_account_verification_method === 'backend'">
+                Admin Verification
+              </option>
+            </select>
+            <small v-if="$parent.validationErrors.request_account_verification_method" class="text-danger">{{
+                $parent.validationErrors.request_account_verification_method[0]
+              }}</small>
+          </div>
+        </fieldset>
+      </div>
+      <div class="form-group border">
+        <fieldset>
+          <legend class="settings-header"><i class="la la-user-plus"></i> New Customer Registration (New Retail Customer)</legend>
+          <div class="mb-3">
+            <div class="form-check">
+              <input
+                  type="checkbox"
+                  name="skip_new_retail_customer_approval"
+                  id="skip_new_retail_customer_approval"
+                  v-model="coreConfigurationData.skip_new_retail_customer_approval"
+                  :class="{
+                                'is-invalid': $parent.validationErrors.skip_new_retail_customer_approval,
+                                'form-check-input': true,
+                            }"
+              />
+              <label for="skip_new_retail_customer_approval">
+                Skip Account Approval Process
+              </label>
+              <small v-if="$parent.validationErrors.skip_new_retail_customer_approval" class="text-danger">{{
+                  $parent.validationErrors.skip_new_retail_customer_approval[0]
+                }}</small>
+            </div>
+            <small class="text-muted d-block">
+              If checked new customer registration request will be automatically approved. else they have to go through a
+              approval/verification process.
+            </small>
+          </div>
+          <div v-if="!coreConfigurationData.skip_new_retail_customer_approval">
+            <label>Account Verification Method</label>
+            <select
+                name="new_retail_customer_verification_method"
+                v-model="coreConfigurationData.new_retail_customer_verification_method"
+                :class="{ 'form-control': true, 'is-invalid': $parent.validationErrors.new_retail_customer_verification_method }">
+              <option value="email" :selected="coreConfigurationData.new_retail_customer_verification_method === 'email'">
+                Email Verification
+              </option>
+              <option value="backend"
+                      :selected="coreConfigurationData.new_retail_customer_verification_method === 'backend'">
+                Admin Verification
+              </option>
+            </select>
+            <small v-if="$parent.validationErrors.new_retail_customer_verification_method" class="text-danger">{{
+                $parent.validationErrors.new_retail_customer_verification_method[0]
+              }}</small>
+          </div>
+        </fieldset>
+      </div>
     </fieldset>
     <fieldset class="settings-shell mt-3">
       <legend>
@@ -86,8 +140,7 @@
         GDPR Compliance Policy
       </legend>
       <div class="form-group">
-        <label
-        >Cookie Consent Title
+        <label>Cookie Consent Title
           <span class="text-danger">*</span>
         </label>
         <input
@@ -135,8 +188,10 @@ export default {
         password_length: this.$parent.coreConfigurationData.security.password_length,
         cookie_title: this.$parent.coreConfigurationData.security.cookie_title,
         cookie_content: this.$parent.coreConfigurationData.security.cookie_content,
-        skip_contact_approval: this.$parent.coreConfigurationData.security.skip_contact_approval,
-        verification_method: this.$parent.coreConfigurationData.security.verification_method,
+        skip_request_account_approval: this.$parent.coreConfigurationData.security.skip_request_account_approval,
+        request_account_verification_method: this.$parent.coreConfigurationData.security.request_account_verification_method,
+        skip_new_retail_customer_approval: this.$parent.coreConfigurationData.security.skip_new_retail_customer_approval,
+        new_retail_customer_verification_method: this.$parent.coreConfigurationData.security.new_retail_customer_verification_method,
       },
     };
   },

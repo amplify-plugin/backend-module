@@ -29,7 +29,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 {
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -58,7 +57,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         // Filtering with customer
         CRUD::addFilter(
             [

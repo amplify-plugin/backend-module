@@ -3,7 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\System\Backend\Models\Webinar;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

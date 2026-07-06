@@ -23,7 +23,6 @@ class ReportCategoryCrudController extends BackpackCustomCrudController
     use CreateOperation;
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -48,7 +47,6 @@ class ReportCategoryCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         CRUD::column('title');
-        CRUD::removeButton('show');
     }
 
     /**

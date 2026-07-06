@@ -28,7 +28,6 @@ class AttributeCrudController extends BackpackCustomCrudController
     use FetchOperation;
     use InlineCreateOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -79,7 +78,6 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
 
         CRUD::addColumn([
             'name' => 'id',

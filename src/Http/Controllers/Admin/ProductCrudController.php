@@ -69,7 +69,6 @@ class ProductCrudController extends BackpackCustomCrudController
     use InlineCreateOperation;
     use ListOperation;
     use ProductTrait;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -296,7 +295,6 @@ class ProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         // Customizing Action Buttons
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
@@ -867,6 +865,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'name' => 'productImage.additional',
             'label' => 'Additional',
             'type' => 'multiple_images',
+            'view_namespace' => 'backend::columns',
             'width' => '120px',
             'height' => 'auto',
         ]);

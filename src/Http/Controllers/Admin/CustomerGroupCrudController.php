@@ -41,7 +41,6 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -68,7 +67,6 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'group_code',

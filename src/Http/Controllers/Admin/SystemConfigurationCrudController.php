@@ -574,8 +574,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'password_length' => $request->input('password_length', null),
             'cookie_title' => $request->input('cookie_title', null),
             'cookie_content' => $request->input('cookie_content', null),
-            'skip_contact_approval' => $request->boolean('skip_contact_approval', false),
-            'verification_method' => $request->input('verification_method', 'backend'),
+            'skip_request_account_approval' => $request->boolean('skip_request_account_approval', false),
+            'request_account_verification_method' => $request->input('request_account_verification_method', 'backend'),
+            'skip_new_retail_customer_approval' => $request->boolean('skip_new_retail_customer_approval', false),
+            'new_retail_customer_verification_method' => $request->input('new_retail_customer_verification_method', 'backend'),
         ];
     }
 

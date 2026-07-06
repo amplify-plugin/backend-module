@@ -237,6 +237,7 @@ class OrderListCrudController extends BackpackCustomCrudController
             'name' => 'orderListItems',
             'label' => 'List Items',
             'type' => 'table-related',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'product',

@@ -595,6 +595,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 'name' => 'orderLines',
                 'label' => 'Order Lines',
                 'type' => 'table-related',
+                'view_namespace' => 'backend::columns',
                 'columns' => [
                     [
                         'name' => 'local_product_name',

@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -56,6 +57,12 @@ class CustomerGroup extends Model implements Auditable
     public function cg_pricing_rules(): HasOne
     {
         return $this->hasOne(PricingRule::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'customer_group_user')
+            ->withTimestamps();
     }
 
     /*

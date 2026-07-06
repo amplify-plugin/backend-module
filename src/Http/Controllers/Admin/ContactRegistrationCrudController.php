@@ -506,7 +506,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $roles = [];
             $permissions = [];
             $contact = $this->crud->entry;
-            $contact->contactLogins()
+            $contact->assignmentLogins()
                 ->where('customer_id', '<>', $contact->customer_id)
                 ->delete();
 
@@ -516,7 +516,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
             foreach ($request->contactLogins ?? [] as $login_customer) {
 
-                ContactLogin::firstOrCreate([
+                ContactLogin::findOrCreateAssignment([
                     'contact_id' => $contact->id,
                     'customer_id' => $login_customer['customer_id'],
                     'warehouse_id' => $login_customer['warehouse_id'],

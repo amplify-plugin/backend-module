@@ -159,7 +159,7 @@ HTML,
                     ['name' => '__notes__', 'description' => 'Order Notes'],
                     ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
                     ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
-                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order/:id/show'],
 
                     ['name' => '__erp_order_number__', 'description' => 'ERP Order Number'],
                     ['name' => '__contact_email__', 'description' => 'Email of the contact'],
@@ -227,9 +227,11 @@ HTML,
     </tr>
 </table>
 
+__order_details__
+
 <p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
 
-<p>__customer_order_details_url__</p>
+<p>__admin_order_details_url__</p>
 
 <p>If you have any questions or require assistance, please contact the administrator.</p>
 
@@ -240,7 +242,7 @@ __company_name__</p>
 HTML,
                         'show_button' => true,
                         'button_text' => 'View Order Details',
-                        'button_url' => '/orders/:id',
+                        'button_url' => '__admin_order_details_url__',
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ],
@@ -274,6 +276,8 @@ HTML,
     </tr>
 </table>
 
+__order_details__
+
 <p style="margin: 25px 0;">You can view complete order details by clicking the button below:</p>
 
 <p>__customer_order_details_url__</p>
@@ -287,7 +291,7 @@ __company_name__</p>
 HTML,
                         'show_button' => true,
                         'button_text' => 'View Order Details',
-                        'button_url' => '/orders/:id',
+                        'button_url' => '__customer_order_details_url__',
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ],
@@ -307,7 +311,7 @@ HTML,
                     ['name' => '__notes__', 'description' => 'Order Notes'],
                     ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
                     ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
-                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order/:id/show'],
                 ],
                 'eventRecipents' => [
                     ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Admcontactinistrator'],
@@ -332,7 +336,7 @@ HTML,
                     ['name' => '__notes__', 'description' => 'Order Notes'],
                     ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
                     ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
-                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order/:id/show'],
                 ],
                 'eventRecipents' => [
                     ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
@@ -356,7 +360,7 @@ HTML,
                     ['name' => '__notes__', 'description' => 'Order Notes'],
                     ['name' => '__customer_order_details_url__', 'description' => '/customer-profile-order-list-items?order_id=:id'],
                     ['name' => '__customer_quotation_details_url__', 'description' => '/customer-profile-quotation-list-items?order_id=:id'],
-                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order-line?order_line_id=:id'],
+                    ['name' => '__admin_order_details_url__', 'description' => '/admin/order/:id/show'],
                 ],
                 'eventRecipents' => [
                     ['name' => 'Admin', 'event_action_field' => 'is_get_admin', 'description' => 'System Administrator'],
@@ -505,7 +509,7 @@ __company_name__ System Notification</p>
 HTML,
                         'show_button' => true,
                         'button_text' => 'Synchronization List',
-                        'button_url' => route_uri('product-sync.index'),
+                        'button_url' => route_uri('synchronization.index'),
                         'notification_type' => 'emailable',
                         'enabled' => true,
                     ],

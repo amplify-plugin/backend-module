@@ -246,6 +246,11 @@ class QuoteCrudController extends BackpackCustomCrudController
                 'type' => 'table-related',
                 'columns' => [
                     [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
+                    [
                         'name' => 'product_name',
                         'label' => 'Name',
                         'type' => 'text',
@@ -312,9 +317,27 @@ class QuoteCrudController extends BackpackCustomCrudController
                 'decimals' => 2,
             ],
             [
-                'name' => 'notes',
-                'type' => 'textarea',
-                'label' => 'Notes',
+                'name' => 'orderNotes',
+                'label' => 'Order Notes',
+                'type' => 'table-related',
+                'columns' => [
+                    [
+                        'name' => 'subject',
+                        'label' => 'Subject',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'formatted_date',
+                        'label' => 'Date',
+                        'type' => 'model_function',
+                        'function_name' => 'getFormattedDateValue',
+                    ],
+                    [
+                        'name' => 'note',
+                        'label' => 'Note',
+                        'type' => 'text',
+                    ],
+                ],
             ],
             [
                 'name' => 'draft_name',

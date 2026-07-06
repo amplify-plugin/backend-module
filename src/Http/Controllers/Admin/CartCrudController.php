@@ -88,25 +88,21 @@ class CartCrudController extends CrudController
                 'name' => 'sub_total',
                 'label' => 'Sub Total',
                 'type' => 'money',
-                'view_namespace' => 'backend'
             ],
             [
                 'name' => 'tax_amount',
                 'label' => 'Tax Amount',
                 'type' => 'money',
-                'view_namespace' => 'backend'
             ],
             [
                 'name' => 'ship_charge',
                 'label' => 'Ship Charge',
                 'type' => 'money',
-                'view_namespace' => 'backend'
             ],
             [
                 'name' => 'total',
                 'label' => 'Total',
                 'type' => 'money',
-                'view_namespace' => 'backend'
             ],
             [
                 'name' => 'created_at',
@@ -122,7 +118,6 @@ class CartCrudController extends CrudController
             'name' => 'cartItems',
             'type' => 'table-related',
             'label' => 'Items',
-            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'id',

@@ -167,19 +167,53 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
 
     public function setupShowOperation()
     {
-        $this->data['customer_group_data'] = $this->crud->model
-            ->with(
-                'customers',
-                'users',
-                'cg_pricing_rules.flat_discounts.categories',
-                'cg_pricing_rules.volume_discounts.categories',
-                'cg_pricing_rules.volume_discounts.volume_discount_details',
-                'cg_pricing_rules.order_value_discount.order_value_discount_details'
-            )
-            ->find(request()->id);
 
-        $this->crud->setShowContentClass('col-md-12');
-        $this->crud->setShowView('backend::pages.customer_groups.show');
+        CRUD::addColumns([
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'group_name',
+                'label' => 'Name',
+            ],
+            [
+                'name' => 'group_code',
+                'label' => 'Code',
+            ],
+            [
+                'name' => 'group_pricing_type',
+                'label' => 'Pricing',
+                'type' => 'select_from_array',
+                'options' => CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE,
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('group_pricing_type', 'like', '%' . Str::slug($searchTerm) . '%');
+                },
+            ],
+            [
+                'name' => 'users',
+                'label' => 'Assigned Users',
+                'type' => 'table-related',
+                'entity' => 'users',
+                'attribute' => 'name',
+                'tab' => 'users',
+            ]
+        ]);
+
+//        $this->data['customer_group_data'] = $this->crud->model
+//            ->with(
+//                'customers',
+//                'users',
+//                'cg_pricing_rules.flat_discounts.categories',
+//                'cg_pricing_rules.volume_discounts.categories',
+//                'cg_pricing_rules.volume_discounts.volume_discount_details',
+//                'cg_pricing_rules.order_value_discount.order_value_discount_details'
+//            )
+//            ->find(request()->id);
+//
+//        $this->crud->setShowContentClass('col-md-12');
+//        $this->crud->setShowView('backend::pages.customer_groups.show');
     }
 
     /**

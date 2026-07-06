@@ -289,7 +289,6 @@ class ManufacturerCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'contact_address',
             'type' => 'table',
-            'view_namespace' => 'backend::columns',
             'columns' => [
                 'address_name' => 'Address Name',
                 'address' => 'Address Details',

@@ -45,7 +45,6 @@ class CategoryCrudController extends BackpackCustomCrudController
     use ProductCategoryTrait;
     use ReorderOperation;
     use ReorderTrait;
-    use ShowOperation;
     use UpdateOperation;
 
     public string $reorderLabel = 'category_name';
@@ -82,8 +81,6 @@ class CategoryCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         CRUD::addFilter(
             [
                 'name' => 'parent_id',
@@ -367,6 +364,7 @@ class CategoryCrudController extends BackpackCustomCrudController
             'name' => 'products',
             'label' => 'Products',
             'type' => 'table-related',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'product_id',

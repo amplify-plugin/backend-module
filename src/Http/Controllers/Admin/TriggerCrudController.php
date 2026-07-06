@@ -128,6 +128,7 @@ class TriggerCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'eventVariables',
             'type' => 'table-related',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'name',
@@ -144,6 +145,7 @@ class TriggerCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'eventRecipents',
             'type' => 'table-related',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'name',

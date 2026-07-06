@@ -28,7 +28,6 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -52,8 +51,6 @@ class CustomPartNumberCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         // Filtering with customer
         CRUD::addFilter([
                 'name' => 'category_name',

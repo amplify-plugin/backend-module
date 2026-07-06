@@ -23,7 +23,6 @@ class AdhocPromptSuggestionCrudController extends BackpackCustomCrudController
     use CreateOperation;
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -48,7 +47,6 @@ class AdhocPromptSuggestionCrudController extends BackpackCustomCrudController
     protected function setupListOperation()
     {
         CRUD::addButtonFromModelFunction('line', 'execute', 'viewReport', 'beginning');
-        CRUD::removeButton('show');
 
         CRUD::column('prompt')->label('Query')->limit(200);
         CRUD::addColumn([

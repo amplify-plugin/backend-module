@@ -15,6 +15,7 @@ use Amplify\System\Backend\Models\CustomerAddress;
 use Amplify\System\Backend\Models\CustomerPermission;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Backend\Models\Role;
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Factories\NotificationFactory;
 use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -49,7 +50,6 @@ class ContactCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -98,8 +98,6 @@ class ContactCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         $this->crud->enableExportButtons();
 
         if (config('amplify.erp.auto_create_contact')) {
@@ -1084,7 +1082,7 @@ class ContactCrudController extends BackpackCustomCrudController
         if (isset($inputs['id'])) {
             $currentContactModel = Contact::find($inputs['id']);
             if ($currentContactModel) {
-                $customerExcluded = $currentContactModel->contactLogins->pluck('customer_id')->toArray();
+                $customerExcluded = $currentContactModel->assignmentLogins->pluck('customer_id')->toArray();
             }
         }
 
@@ -1103,6 +1101,8 @@ class ContactCrudController extends BackpackCustomCrudController
             return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
         }
 
+        $initiatedBy = Auth::guard(User::AUTH_GUARD)->user();
+
         Auth::guard(Contact::AUTH_GUARD)->logout();
 
         // Clear application cache
@@ -1115,7 +1115,7 @@ class ContactCrudController extends BackpackCustomCrudController
 
         $request->session()->put('impersonate', true);
 
-        event(new ContactLoggedIn($contact));
+        event(new ContactLoggedIn($contact, null, $initiatedBy));
 
         if (!empty($contact->redirect_route)) {
             return redirect()->intended($contact->redirect_route);

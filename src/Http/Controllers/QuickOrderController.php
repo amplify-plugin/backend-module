@@ -3,7 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\System\Imports\QuickOrderImport;
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;

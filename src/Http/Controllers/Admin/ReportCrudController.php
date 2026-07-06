@@ -171,10 +171,8 @@ class ReportCrudController extends BackpackCustomCrudController
             'name' => 'intervals',
             'label' => 'Intervals',
             'type' => 'table',
-            'entity_singular' => 'interval', // used on the "Add X" button
+            'view_namespace' => 'backend::columns',
             'columns' => ['Integer', 'Label'],
-            'max' => 15, // maximum rows allowed in the table
-            'min' => 0,
         ]);
 
         CRUD::addColumn([

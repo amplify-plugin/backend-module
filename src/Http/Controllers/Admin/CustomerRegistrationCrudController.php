@@ -109,8 +109,6 @@ class CustomerRegistrationCrudController extends BackpackCustomCrudController
                 'type' => 'datetime',
             ],
         ]);
-
-        $this->crud->removeButton('show');
     }
 
     /**

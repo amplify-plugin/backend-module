@@ -40,7 +40,6 @@ class CustomerCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use FetchOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -78,8 +77,6 @@ class CustomerCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         $this->crud->enableExportButtons();
 
         if (backpack_user()->can($this->crud->entity_name . '.erp-bulk-sync')) {
@@ -578,6 +575,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'addresses',
             'label' => 'Addresses',
             'type' => 'table-related',
+            'view_namespace' => 'backend::columns',
             'columns' => [
                 [
                     'name' => 'address_name',

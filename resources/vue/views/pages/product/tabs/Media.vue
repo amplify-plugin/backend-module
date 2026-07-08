@@ -42,20 +42,6 @@
                                                 "
                                             />
                                         </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="main-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="main-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadMainImage"
-                                            />
-                                        </label>
                                         <button
                                             class="d-none btn btn-light btn-sm"
                                             data-handle="remove"
@@ -119,7 +105,7 @@
                                 <div class="w-one-third text-center px-3 m-auto">
                                     <div class="btn-group">
                                         <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-right"
+                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer"
                                             for="thumb-image-browse"
                                         >
                                             <i class="la la-hand-pointer"></i>{{ titles.choose_file }}
@@ -134,20 +120,6 @@
                                                     canMultiple = false;
                                                     browseThumbImage($event);
                                                 "
-                                            />
-                                        </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="thumb-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="thumb-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadThumbImage"
                                             />
                                         </label>
                                         <button
@@ -225,7 +197,7 @@
                                 <div class="w-one-third text-center px-3 my-auto">
                                     <div class="btn-group">
                                         <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-right"
+                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer"
                                             title="select file"
                                             for="additional-image-browse"
                                         >
@@ -241,20 +213,6 @@
                                                     canMultiple = true;
                                                     browseAdditionalMedia($event);
                                                 "
-                                            />
-                                        </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="additional-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="additional-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadAdditionalMedia"
                                             />
                                         </label>
                                         <button
@@ -362,7 +320,7 @@ export default {
             },
             titles: {
                 upload_file: ' Upload File',
-                choose_file: ' Choose File',
+                choose_file: ' Choose / Upload File',
             },
             canMultiple: false,
             domLoaded: false,

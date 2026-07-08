@@ -165,6 +165,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('cms-setting', 'Settings\CmsSettingController');
     Route::crud('invoice-setting', 'Settings\InvoiceSettingController');
     Route::crud('frontend-setting', 'Settings\FrontendSettingController');
+    Route::crud('cart', 'CartCrudController');
 });
 
 Route::get('failed-job/{id}/retry', [FailedJobCrudController::class, 'retry']);

@@ -27,4 +27,9 @@ class CustomerOrderNote extends Model
     {
         return $this->belongsTo(CustomerOrder::class);
     }
+
+    public function getFormattedDateValue()
+    {
+        return carbon_datetime($this->created_at ?? $this->date);
+    }
 }

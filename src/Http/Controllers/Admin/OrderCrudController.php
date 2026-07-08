@@ -179,7 +179,7 @@ class OrderCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($order) {
-                return $order->customer ? '<a href="'.route('customer.show', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
+                return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
             },
         ]);
         CRUD::addColumn([
@@ -538,7 +538,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 'attribute' => 'customer_name',
                 'type' => 'custom_html',
                 'value' => function ($order) {
-                    return $order->customer ? '<a href="'.route('customer.show', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
+                    return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
                 },
             ],
             [
@@ -546,7 +546,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 'attribute' => 'contact_name',
                 'type' => 'custom_html',
                 'value' => function ($order) {
-                    return $order->contact ? '<a href="'.route('contact.show', $order->contact->id).'" target="_blank" class="text-dark">'.$order->contact->name.' - '.$order->contact->email.'</a>' : 'Guest Customer';
+                    return $order->contact ? '<a href="'.route('contact.edit', $order->contact->id).'" target="_blank" class="text-dark">'.$order->contact->name.' - '.$order->contact->email.'</a>' : 'Guest Customer';
                 },
             ],
             [
@@ -596,6 +596,11 @@ class OrderCrudController extends BackpackCustomCrudController
                 'label' => 'Order Lines',
                 'type' => 'table-related',
                 'columns' => [
+                    [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
                     [
                         'name' => 'local_product_name',
                         'label' => 'Name',
@@ -665,9 +670,27 @@ class OrderCrudController extends BackpackCustomCrudController
                 'decimals' => 2,
             ],
             [
-                'name' => 'notes',
-                'type' => 'textarea',
-                'label' => 'Notes',
+                'name' => 'orderNotes',
+                'label' => 'Order Notes',
+                'type' => 'table-related',
+                'columns' => [
+                    [
+                        'name' => 'subject',
+                        'label' => 'Subject',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'formatted_date',
+                        'label' => 'Date',
+                        'type' => 'model_function',
+                        'function_name' => 'getFormattedDateValue',
+                    ],
+                    [
+                        'name' => 'note',
+                        'label' => 'Note',
+                        'type' => 'text',
+                    ],
+                ],
             ],
             [
                 'name' => 'draft_name',

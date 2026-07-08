@@ -23,7 +23,6 @@ class RelationshipTypeCrudController extends BackpackCustomCrudController
     use CreateOperation;
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -47,7 +46,6 @@ class RelationshipTypeCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         CRUD::column('code');
         CRUD::column('name');
         CRUD::column('enabled')->type('boolean');

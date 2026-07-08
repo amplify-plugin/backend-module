@@ -27,7 +27,6 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
 
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -51,8 +50,6 @@ class CustomerAddressCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-
         $this->crud->addFilter([
             'name' => 'synced_at',
             'type' => 'dropdown',

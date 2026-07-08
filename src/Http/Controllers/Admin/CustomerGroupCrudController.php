@@ -11,9 +11,10 @@ use Amplify\System\Backend\Models\FlatDiscount;
 use Amplify\System\Backend\Models\OrderValueDiscount;
 use Amplify\System\Backend\Models\OrderValueDiscountDetail;
 use Amplify\System\Backend\Models\PricingRule;
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Backend\Models\VolumeDiscount;
 use Amplify\System\Backend\Models\VolumeDiscountDetail;
-use App\Http\Controllers\Admin\Exception;
+use Exception;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -68,33 +69,37 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
-        CRUD::column('id')->type('number')->thousands_sep('');
-        CRUD::addColumn([
-            'name' => 'group_code',
-            'label' => 'Group Code',
+        CRUD::addColumns([
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'group_name',
+                'label' => 'Name',
+            ],
+            [
+                'name' => 'group_code',
+                'label' => 'Code',
+            ],
+            [
+                'name' => 'group_pricing_type',
+                'label' => 'Pricing',
+                'type' => 'select_from_array',
+                'options' => CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE,
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('group_pricing_type', 'like', '%' . Str::slug($searchTerm) . '%');
+                },
+            ],
+            [
+                'name' => 'users',
+                'label' => 'Assigned Users',
+                'type' => 'relationship',
+                'entity' => 'users',
+                'attribute' => 'name',
+            ]
         ]);
-        CRUD::addColumn([
-            'name' => 'group_name',
-            'label' => 'Group Name',
-        ]);
-        CRUD::addColumn([
-            'name' => 'group_pricing_type',
-            'label' => 'Group Pricing Type',
-            'type' => 'custom_html',
-            'value' => function ($entry) {
-                return CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE[$entry->group_pricing_type];
-            },
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhere('group_pricing_type', 'like', '%'.Str::slug($searchTerm).'%');
-            },
-        ]);
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
     }
 
     /**
@@ -110,6 +115,11 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         CRUD::setValidation(CustomerGroupRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->setCreateView('backend::pages.customer_groups.create');
+        $this->data['users'] = User::query()
+            ->select(['id', 'name', 'email'])
+            ->orderBy('name')
+            ->get()
+            ->toArray();
 
         CRUD::addField([
             'name' => 'group_code',
@@ -125,15 +135,10 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::field('customers');
+        CRUD::field('users');
         CRUD::field('pricing_rules');
 
         $this->data['customer_group_pricing_type'] = CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE;
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
     }
 
     /**
@@ -148,6 +153,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         $this->data['customer_group_data'] = $this->crud->model
             ->with(
                 'customers',
+                'users',
                 'cg_pricing_rules.flat_discounts.categories',
                 'cg_pricing_rules.volume_discounts.categories',
                 'cg_pricing_rules.volume_discounts.volume_discount_details',
@@ -161,10 +167,53 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
 
     public function setupShowOperation()
     {
-        CRUD::column('id')->type('number')->thousands_sep('');
-        CRUD::column('group_code');
-        CRUD::column('group_name');
-        CRUD::column('group_pricing_type');
+
+        CRUD::addColumns([
+            [
+                'name' => 'id',
+                'label' => 'ID',
+                'type' => 'number',
+            ],
+            [
+                'name' => 'group_name',
+                'label' => 'Name',
+            ],
+            [
+                'name' => 'group_code',
+                'label' => 'Code',
+            ],
+            [
+                'name' => 'group_pricing_type',
+                'label' => 'Pricing',
+                'type' => 'select_from_array',
+                'options' => CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE,
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->orWhere('group_pricing_type', 'like', '%' . Str::slug($searchTerm) . '%');
+                },
+            ],
+            [
+                'name' => 'users',
+                'label' => 'Assigned Users',
+                'type' => 'table-related',
+                'entity' => 'users',
+                'attribute' => 'name',
+                'tab' => 'users',
+            ]
+        ]);
+
+//        $this->data['customer_group_data'] = $this->crud->model
+//            ->with(
+//                'customers',
+//                'users',
+//                'cg_pricing_rules.flat_discounts.categories',
+//                'cg_pricing_rules.volume_discounts.categories',
+//                'cg_pricing_rules.volume_discounts.volume_discount_details',
+//                'cg_pricing_rules.order_value_discount.order_value_discount_details'
+//            )
+//            ->find(request()->id);
+//
+//        $this->crud->setShowContentClass('col-md-12');
+//        $this->crud->setShowView('backend::pages.customer_groups.show');
     }
 
     /**
@@ -172,9 +221,10 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     public function store(CustomerGroupRequest $request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             $customerGroupResponse = $this->traitStore($request);
+            $this->syncUsers($customerGroupResponse['data'], $request);
             if (count($request->customers) > 0) {
                 Customer::whereIn('id', $request->customers)->update(['customer_group_id' => $customerGroupResponse['data']->id]);
             }
@@ -217,9 +267,10 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
      */
     public function update(CustomerGroupRequest $request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             $customerGroupResponse = $this->traitUpdate($request);
+            $this->syncUsers($customerGroupResponse['data'], $request);
             $cg_id = $customerGroupResponse['data']->id;
             $pricingRulesDataFormat = [
                 'customer_group_id' => $cg_id,
@@ -250,6 +301,28 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
 
             return $exception->getMessage();
         }
+    }
+
+    protected function syncUsers(CustomerGroup $customerGroup, CustomerGroupRequest $request): void
+    {
+        $userIds = collect($request->input('users', []))
+            ->map(function ($user) {
+                if (is_array($user)) {
+                    return $user['id'] ?? null;
+                }
+
+                if (is_object($user)) {
+                    return $user->id ?? null;
+                }
+
+                return $user;
+            })
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->values()
+            ->all();
+
+        $customerGroup->users()->sync($userIds);
     }
 
     /**

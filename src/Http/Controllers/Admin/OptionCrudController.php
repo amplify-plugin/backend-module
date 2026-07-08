@@ -25,7 +25,6 @@ class OptionCrudController extends BackpackCustomCrudController
     use DeleteOperation;
     use InlineCreateOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -49,7 +48,6 @@ class OptionCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         CRUD::column('id')->type('number')->thousands_sep('');
         CRUD::addColumn([
             'name' => 'option_name',

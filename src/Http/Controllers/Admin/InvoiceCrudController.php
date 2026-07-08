@@ -62,7 +62,6 @@ class InvoiceCrudController extends BackpackCustomCrudController
         ]);
 
         $this->crud->removeButton('update');
-        $this->crud->removeButton('show');
         $this->crud->removeButton('delete');
         $this->crud->addButtonFromView('line', 'invoice', 'custom/invoice', 'start');
         $this->crud->removeButton('create');

@@ -69,7 +69,6 @@ class ProductCrudController extends BackpackCustomCrudController
     use InlineCreateOperation;
     use ListOperation;
     use ProductTrait;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -172,10 +171,12 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->updateDocuments($request->productDocuments, $id);
 
         // Storing product images.
+        // additional is cast to array, so an empty string gets saved as JSON '""'
+        // and comes back as '' next time, which breaks the additional media picker
         $this->crud->entry->productImage()->updateOrCreate(['product_id' => $this->crud->entry->id], [
             'main' => $request->main,
             'thumbnail' => $request->thumbnail,
-            'additional' => $request->additional,
+            'additional' => $request->additional ?: [],
         ]);
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {
@@ -232,10 +233,12 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->updateDocuments($request->productDocuments, $id);
 
         // Storing product images.
+        // additional is cast to array, so an empty string gets saved as JSON '""'
+        // and comes back as '' next time, which breaks the additional media picker
         $this->crud->entry->productImage()->updateOrCreate(['product_id' => $this->crud->entry->id], [
             'main' => $request->main,
             'thumbnail' => $request->thumbnail,
-            'additional' => $request->additional,
+            'additional' => $request->additional ?: [],
         ]);
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {
@@ -296,7 +299,6 @@ class ProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         // Customizing Action Buttons
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');

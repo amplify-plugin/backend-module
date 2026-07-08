@@ -53,7 +53,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/system-configuration');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/system-configuration');
         CRUD::setEntityNameStrings('system-configuration', 'system configurations');
     }
 
@@ -166,7 +166,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
      */
     public function showConfig()
     {
-        if(!backpack_user()->can('system-configuration.list')) {
+        if (!backpack_user()->can('system-configuration.list')) {
             throw new AccessDeniedException(trans('backpack::crud.unauthorized_access', ['access' => 'system-configuration.list']));
         }
 
@@ -176,7 +176,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['title'] = 'System Configuration';
         $this->data['currencies'] = UtilityHelper::currencyDropdown();
         $this->data['coreConfigurationData'] = config('amplify') ?? [];
-        $this->data['hierarchies'] = getModelNames(app_path('Models').'/*.php') ?? [];
+        $this->data['hierarchies'] = getModelNames(app_path('Models') . '/*.php') ?? [];
         $this->data['countries'] = Country::select('name', 'id')->orderBy('name')->get();
         $this->data['product_indexes'] = (new Product)->getTableColumns() ?? [];
         $this->data['mail_configuration_data'] = config('mail');
@@ -195,7 +195,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['availableLocales'] = [];
 
         if (config('amplify.client_code') == 'ACT') {
-            $dds_import_path = config('amplify.icu.uploads_directory').'/files';
+            $dds_import_path = config('amplify.icu.uploads_directory') . '/files';
             $dds_filename_prefix = config('amplify.icu.filename_prefix');
             $dds_files = glob("$dds_import_path/$dds_filename_prefix*.json");
 
@@ -235,47 +235,13 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
      */
     public function updateConfig(Request $request)
     {
-        $data = [];
-        if ($tab = $request->input('tab')) {
-            if ($tab == SystemConfiguration::BASIC_TAB) {
-                $data = $this->basicTabFormat($request);
-            } elseif ($tab == SystemConfiguration::PIM_TAB) {
-                $data = $this->pimTabFormat($request);
-            } elseif ($tab == SystemConfiguration::REPORT_TAB) {
-                $data = $this->reportTabFormat($request);
-            } elseif ($tab == SystemConfiguration::SAYT_TAB) {
-                $data = $this->saytTabFormat($request);
-            } elseif ($tab == SystemConfiguration::ICECAT_TAB) {
-                $data = $this->icecatTabFormat($request);
-            } elseif ($tab == SystemConfiguration::GOOGLE_TAB) {
-                $data = $this->googleTabFormat($request);
-            } elseif ($tab == SystemConfiguration::FRONTEND_TAB) {
-                $data = $this->frontendTabFormat($request);
-            } elseif ($tab == SystemConfiguration::PAYMENT_TAB) {
-                $data = $this->paymentTabFormat($request);
-            } elseif ($tab == SystemConfiguration::ERP_TAB) {
-                $data = $this->erpTabFormat($request);
-            } elseif ($tab == SystemConfiguration::INVOICE_TAB) {
-                $data = $this->invoiceTabFormat($request);
-            } elseif ($tab == SystemConfiguration::SCHEDULE_TAB) {
-                $data = $this->scheduleTabFormat($request);
-            } elseif ($tab == SystemConfiguration::CMS_TAB) {
-                $data = $this->cmsTabFormat($request);
-            } elseif ($tab == SystemConfiguration::MARKETING_TAB) {
-                $data = $this->marketingTabFormat($request);
-            } elseif ($tab == SystemConfiguration::AMPLIFY_API_TAB) {
-                $data = $this->amplifyAPITabFormat($request);
-            } elseif ($tab == SystemConfiguration::ORDER_TAB) {
-                $data = $this->orderTabFormat($request);
-            } elseif ($tab == SystemConfiguration::PROP65_TAB) {
-                $data = $this->prop65TabFormat($request);
-            } elseif ($tab == SystemConfiguration::SECURITY_TAB) {
-                $data = $this->securityTabFormat($request);
-            } elseif ($tab == SystemConfiguration::DEVELOPER_TAB) {
-                $data = $this->developerTabFormat($request);
-            } elseif ($tab == SystemConfiguration::DDS_TAB) {
+        if ($request->filled('tab')) {
+
+            $tab = $request->input('tab');
+
+            if ($tab == SystemConfiguration::DDS_TAB) {
                 $delay = 0;
-                if (! empty($request->schedule_time)) {
+                if (!empty($request->schedule_time)) {
                     $request->merge([
                         'schedule_time' => Carbon::parse($request->schedule_time)->format(getDefaultDateTimeFormat()),
                     ]);
@@ -283,20 +249,42 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                     $delay = Carbon::now()->diffInSeconds($request->schedule_time);
                 }
 
-                $options = implode(' ', array_map(fn ($date) => "--date=\"{$date}\"", $request->input('dates')));
+                $options = implode(' ', array_map(fn($date) => "--date=\"{$date}\"", $request->input('dates')));
 
-                Artisan::call('amplify:incremental-catalog-update '.$options.' --delay='.$delay);
+                Artisan::call('amplify:incremental-catalog-update ' . $options . ' --delay=' . $delay);
 
                 return [
                     'status' => 'success',
                     'message' => 'DDS data processed to import.',
                 ];
-            } else if ($tab == SystemConfiguration::EXPORT_TAB) {
-                $data = $this->exportTabFormat($request);
             }
 
+            $data = match ($tab) {
+                SystemConfiguration::BASIC_TAB => $this->basicTabFormat($request),
+                SystemConfiguration::PIM_TAB => $this->pimTabFormat($request),
+                SystemConfiguration::REPORT_TAB => $this->reportTabFormat($request),
+                SystemConfiguration::SAYT_TAB => $this->saytTabFormat($request),
+                SystemConfiguration::ICECAT_TAB => $this->icecatTabFormat($request),
+                SystemConfiguration::GOOGLE_TAB => $this->googleTabFormat($request),
+                SystemConfiguration::FRONTEND_TAB => $this->frontendTabFormat($request),
+                SystemConfiguration::PAYMENT_TAB => $this->paymentTabFormat($request),
+                SystemConfiguration::ERP_TAB => $this->erpTabFormat($request),
+                SystemConfiguration::INVOICE_TAB => $this->invoiceTabFormat($request),
+                SystemConfiguration::SCHEDULE_TAB => $this->scheduleTabFormat($request),
+                SystemConfiguration::CMS_TAB => $this->cmsTabFormat($request),
+                SystemConfiguration::MARKETING_TAB => $this->marketingTabFormat($request),
+                SystemConfiguration::AMPLIFY_API_TAB => $this->amplifyApiTabFormat($request),
+                SystemConfiguration::ORDER_TAB => $this->orderTabFormat($request),
+                SystemConfiguration::PROP65_TAB => $this->prop65TabFormat($request),
+                SystemConfiguration::SECURITY_TAB => $this->securityTabFormat($request),
+                SystemConfiguration::DEVELOPER_TAB => $this->developerTabFormat($request),
+                SystemConfiguration::EXPORT_TAB => $this->exportTabFormat($request),
+                SystemConfiguration::MESSAGE_TAB => $this->messagesTabFormat($request),
+            };
+
             $response = [];
-            if (! empty($data)) {
+
+            if (!empty($data)) {
                 $response = $this->updateSystemConfiguration($tab, $data);
             }
 
@@ -442,12 +430,12 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $payment_config['allow_payments'] = $request->boolean('allow_payments');
         $payment_config['allow_bulk_invoice_payments'] = $request->boolean('allow_bulk_invoice_payments');
 
-        $payment_config['gateways.'.$payment_config['default'].'.merchant_id'] = $request->input('merchant_id', null);
-        $payment_config['gateways.'.$payment_config['default'].'.payment_url'] = $request->input('payment_url', null);
-        $payment_config['gateways.'.$payment_config['default'].'.ach_payment_url'] = $request->input('ach_payment_url', null);
-        $payment_config['gateways.'.$payment_config['default'].'.cenpos_encrypted_mid'] = $request->input('cenpos_encrypted_mid',
+        $payment_config['gateways.' . $payment_config['default'] . '.merchant_id'] = $request->input('merchant_id', null);
+        $payment_config['gateways.' . $payment_config['default'] . '.payment_url'] = $request->input('payment_url', null);
+        $payment_config['gateways.' . $payment_config['default'] . '.ach_payment_url'] = $request->input('ach_payment_url', null);
+        $payment_config['gateways.' . $payment_config['default'] . '.cenpos_encrypted_mid'] = $request->input('cenpos_encrypted_mid',
             null);
-        $payment_config['gateways.'.$payment_config['default'].'.secret_key'] = $request->input('secret_key');
+        $payment_config['gateways.' . $payment_config['default'] . '.secret_key'] = $request->input('secret_key');
 
         return $payment_config;
     }
@@ -460,18 +448,18 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $erp_config['auto_create_ship_to'] = $request->boolean('auto_create_ship_to', false);
         $erp_config['use_amplify_shipping'] = $request->boolean('use_amplify_shipping', false);
         $erp_config['add_ship_will_call_option'] = $request->boolean('add_ship_will_call_option', false);
-        $erp_config['configurations.'.$erp_config['default'].'.username'] = $request->input('username', null);
-        $erp_config['configurations.'.$erp_config['default'].'.url'] = $request->input('url', null);
-        $erp_config['configurations.'.$erp_config['default'].'.password'] = $request->input('password', null);
-        $erp_config['configurations.'.$erp_config['default'].'.multiple_warehouse'] = $request->boolean('multiple_warehouse');
-        $erp_config['configurations.'.$erp_config['default'].'.use_single_warehouse_cart'] = $request->boolean('use_single_warehouse_cart', false);
-        $erp_config['configurations.'.$erp_config['default'].'.enabled'] = $request->boolean('enabled');
-        $erp_config['configurations.'.$erp_config['default'].'.customer_id_field'] = $request->input('customer_id_field', 'customer_code');
-        $erp_config['configurations.'.$erp_config['default'].'.token_url'] = $request->input('token_url', '');
-        $erp_config['configurations.'.$erp_config['default'].'.client_id'] = $request->input('client_id', '');
-        $erp_config['configurations.'.$erp_config['default'].'.client_secret'] = $request->input('client_secret', '');
-        $erp_config['configurations.'.$erp_config['default'].'.company_number'] = $request->input('company_number', '1');
-        $erp_config['configurations.'.$erp_config['default'].'.operator_init'] = $request->input('operator_init', 'sys');
+        $erp_config['configurations.' . $erp_config['default'] . '.username'] = $request->input('username', null);
+        $erp_config['configurations.' . $erp_config['default'] . '.url'] = $request->input('url', null);
+        $erp_config['configurations.' . $erp_config['default'] . '.password'] = $request->input('password', null);
+        $erp_config['configurations.' . $erp_config['default'] . '.multiple_warehouse'] = $request->boolean('multiple_warehouse');
+        $erp_config['configurations.' . $erp_config['default'] . '.use_single_warehouse_cart'] = $request->boolean('use_single_warehouse_cart', false);
+        $erp_config['configurations.' . $erp_config['default'] . '.enabled'] = $request->boolean('enabled');
+        $erp_config['configurations.' . $erp_config['default'] . '.customer_id_field'] = $request->input('customer_id_field', 'customer_code');
+        $erp_config['configurations.' . $erp_config['default'] . '.token_url'] = $request->input('token_url', '');
+        $erp_config['configurations.' . $erp_config['default'] . '.client_id'] = $request->input('client_id', '');
+        $erp_config['configurations.' . $erp_config['default'] . '.client_secret'] = $request->input('client_secret', '');
+        $erp_config['configurations.' . $erp_config['default'] . '.company_number'] = $request->input('company_number', '1');
+        $erp_config['configurations.' . $erp_config['default'] . '.operator_init'] = $request->input('operator_init', 'sys');
 
         return $erp_config;
     }
@@ -505,25 +493,25 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
     private function scheduleTabFormat($request): array
     {
         $schedule_config['timezone'] = $request->input('timezone', 'UTC');
-        $schedule_config['commands.'.$request->input('default_command').'.enabled'] = $request->boolean('enabled',
+        $schedule_config['commands.' . $request->input('default_command') . '.enabled'] = $request->boolean('enabled',
             false);
-        $schedule_config['commands.'.$request->input('default_command').'.interval'] = $request->input('interval',
+        $schedule_config['commands.' . $request->input('default_command') . '.interval'] = $request->input('interval',
             'daily');
-        $schedule_config['commands.'.$request->input('default_command').'.priority'] = $request->input('priority', 10);
-        $schedule_config['commands.'.$request->input('default_command').'.variables'] = json_decode($request->input('variables',
-            config('amplify.schedule.commands.'.$request->input('default_command').'.variables')), true);
-        $schedule_config['commands.'.$request->input('default_command').'.time.minute'] = $request->input('time.minute',
+        $schedule_config['commands.' . $request->input('default_command') . '.priority'] = $request->input('priority', 10);
+        $schedule_config['commands.' . $request->input('default_command') . '.variables'] = json_decode($request->input('variables',
+            config('amplify.schedule.commands.' . $request->input('default_command') . '.variables')), true);
+        $schedule_config['commands.' . $request->input('default_command') . '.time.minute'] = $request->input('time.minute',
             '0');
-        $schedule_config['commands.'.$request->input('default_command').'.time.hour'] = $request->input('time.hour',
+        $schedule_config['commands.' . $request->input('default_command') . '.time.hour'] = $request->input('time.hour',
             '*');
-        $schedule_config['commands.'.$request->input('default_command').'.time.day'] = $request->input('time.day', '*');
-        $schedule_config['commands.'.$request->input('default_command').'.time.month'] = $request->input('time.month',
+        $schedule_config['commands.' . $request->input('default_command') . '.time.day'] = $request->input('time.day', '*');
+        $schedule_config['commands.' . $request->input('default_command') . '.time.month'] = $request->input('time.month',
             '*');
-        $schedule_config['commands.'.$request->input('default_command').'.time.weekday'] = $request->input('time.weekday',
+        $schedule_config['commands.' . $request->input('default_command') . '.time.weekday'] = $request->input('time.weekday',
             '*');
-        $schedule_config['commands.'.$request->input('default_command').'.time.month'] = $request->input('time.month',
+        $schedule_config['commands.' . $request->input('default_command') . '.time.month'] = $request->input('time.month',
             '*');
-        $schedule_config['commands.'.$request->input('default_command').'.time.weekday'] = $request->input('time.weekday',
+        $schedule_config['commands.' . $request->input('default_command') . '.time.weekday'] = $request->input('time.weekday',
             '*');
         return $schedule_config;
     }
@@ -574,8 +562,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'password_length' => $request->input('password_length', null),
             'cookie_title' => $request->input('cookie_title', null),
             'cookie_content' => $request->input('cookie_content', null),
-            'skip_contact_approval' => $request->boolean('skip_contact_approval', false),
-            'verification_method' => $request->input('verification_method', 'backend'),
+            'skip_request_account_approval' => $request->boolean('skip_request_account_approval', false),
+            'request_account_verification_method' => $request->input('request_account_verification_method', 'backend'),
+            'skip_new_retail_customer_approval' => $request->boolean('skip_new_retail_customer_approval', false),
+            'new_retail_customer_verification_method' => $request->input('new_retail_customer_verification_method', 'backend'),
         ];
     }
 
@@ -602,7 +592,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
         return [
             'status' => 'success',
-            'message' => ucfirst($name).' configuration updated successfully',
+            'message' => ucfirst($name) . ' configuration updated successfully',
         ];
     }
 
@@ -623,5 +613,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         return [
             'export_max_limit' => $request->input('export_max_limit', 10000)
         ];
+    }
+
+    private function messagesTabFormat(Request $request)
+    {
+        return $request->input('messages');
     }
 }

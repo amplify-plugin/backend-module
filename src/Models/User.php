@@ -114,6 +114,12 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
             : generateUserAvatar($this->name, false);
     }
 
+    public function customerGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(CustomerGroup::class, 'customer_group_user')
+            ->withTimestamps();
+    }
+
     public function setImageAttribute($value)
     {
         if (request()->hasFile('image')) {

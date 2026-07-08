@@ -29,7 +29,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 {
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
@@ -58,7 +57,6 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
-        CRUD::removeButton('show');
         // Filtering with customer
         CRUD::addFilter(
             [
@@ -90,7 +88,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($contact) {
-                return '<a href="'.route('customer.show', $contact->customer->id).'" target="_blank" class="text-dark">'.$contact->customer->customer_name.' - '.$contact->customer->customer_code.'</a>';
+                return '<a href="'.route('customer.edit', $contact->customer->id).'" target="_blank" class="text-dark">'.$contact->customer->customer_name.' - '.$contact->customer->customer_code.'</a>';
             },
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('customer', function ($query) use ($searchTerm) {
@@ -506,7 +504,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
             $roles = [];
             $permissions = [];
             $contact = $this->crud->entry;
-            $contact->contactLogins()
+            $contact->assignmentLogins()
                 ->where('customer_id', '<>', $contact->customer_id)
                 ->delete();
 
@@ -516,7 +514,7 @@ class ContactRegistrationCrudController extends BackpackCustomCrudController
 
             foreach ($request->contactLogins ?? [] as $login_customer) {
 
-                ContactLogin::firstOrCreate([
+                ContactLogin::findOrCreateAssignment([
                     'contact_id' => $contact->id,
                     'customer_id' => $login_customer['customer_id'],
                     'warehouse_id' => $login_customer['warehouse_id'],

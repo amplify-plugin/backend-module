@@ -27,7 +27,6 @@ class BrandCrudController extends BackpackCustomCrudController
         destroy as traitDestroy;
     }
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
 
     /**
@@ -64,7 +63,6 @@ class BrandCrudController extends BackpackCustomCrudController
     {
         $this->crud->query->withTrashed();
 
-        CRUD::removeButton('show');
 
         CRUD::addFilter(
             [

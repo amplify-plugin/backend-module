@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 
 class ECommerceGatewayController extends Controller
 {

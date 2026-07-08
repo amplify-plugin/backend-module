@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Backend\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Cart extends Model
 {
+    use CrudTrait;
+
     protected $guarded = ['id'];
 
     protected $casts = [

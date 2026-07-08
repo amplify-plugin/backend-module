@@ -120,7 +120,7 @@ class DraftOrderCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($order) {
-                return $order->customer ? '<a href="'.route('customer.show', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : '';
+                return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : '';
             },
         ]);
         CRUD::addColumn([
@@ -494,6 +494,11 @@ class DraftOrderCrudController extends BackpackCustomCrudController
                 'type' => 'table-related',
                 'columns' => [
                     [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
+                    [
                         'name' => 'product_name',
                         'label' => 'Name',
                         'type' => 'text',
@@ -548,9 +553,27 @@ class DraftOrderCrudController extends BackpackCustomCrudController
                 'decimals' => 2,
             ],
             [
-                'name' => 'notes',
-                'type' => 'textarea',
-                'label' => 'Notes',
+                'name' => 'orderNotes',
+                'label' => 'Order Notes',
+                'type' => 'table-related',
+                'columns' => [
+                    [
+                        'name' => 'subject',
+                        'label' => 'Subject',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'formatted_date',
+                        'label' => 'Date',
+                        'type' => 'model_function',
+                        'function_name' => 'getFormattedDateValue',
+                    ],
+                    [
+                        'name' => 'note',
+                        'label' => 'Note',
+                        'type' => 'text',
+                    ],
+                ],
             ],
             [
                 'name' => 'draft_name',

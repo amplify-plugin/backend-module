@@ -6,6 +6,8 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\EventTemplateRequest;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Backend\Models\EventTemplate;
+use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -24,8 +26,9 @@ class EventTemplateCrudController extends BackpackCustomCrudController
     use CreateOperation;
     use DeleteOperation;
     use ListOperation;
-    use ShowOperation;
     use UpdateOperation;
+    use BulkDeleteOperation;
+    use CloneOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.

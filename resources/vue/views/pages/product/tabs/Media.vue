@@ -349,8 +349,15 @@ export default {
 
         processImagesByType(type = 'main') {
             this.type = type;
-            this.$parent.selectedFiles =
-                this.$parent.productData.product_image[this.type] ?? (this.type === 'additional' ? [] : null);
+            const currentValue = this.$parent.productData.product_image[this.type];
+
+            if (this.type === 'additional') {
+                // additional sometimes comes back as '' instead of [], force it to an array
+                // or the .push() in the watcher below fails silently
+                this.$parent.selectedFiles = Array.isArray(currentValue) ? currentValue : [];
+            } else {
+                this.$parent.selectedFiles = currentValue || null;
+            }
         },
 
         getFileAddedMessage() {
@@ -590,6 +597,11 @@ export default {
                     const self = this;
 
                     if (self.canMultiple) {
+                        // safety net in case selectedFiles isn't an array for some reason
+                        if (!Array.isArray(self.$parent.selectedFiles)) {
+                            self.$parent.selectedFiles = [];
+                        }
+
                         let filesPath = files.filter((file) => {
                             return ['jpg', 'jpeg', 'png', 'mp4', 'avi', 'mkv'].includes(
                                 self.getFileExtension(file.toLowerCase()),

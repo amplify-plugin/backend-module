@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -27,7 +28,7 @@ class CustomerGroup extends Model implements Auditable
     protected $guarded = ['id'];
 
     protected $fillable = [
-        'group_code', 'group_name', 'group_pricing_type',
+        'group_code', 'group_name', 'group_pricing_type', 'category_id',
     ];
 
     public const CUSTOMER_GROUP_PRICING_TYPE = [
@@ -57,6 +58,11 @@ class CustomerGroup extends Model implements Auditable
     public function cg_pricing_rules(): HasOne
     {
         return $this->hasOne(PricingRule::class);
+    }
+
+    public function catalog(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function users(): BelongsToMany

@@ -58,6 +58,40 @@
             </div>
 
             <div class="form-group col-sm-12"
+                 :class="{'text-danger': $parent.validationErrors.category_id}">
+                <label>
+                    Catalog
+                </label>
+
+                <multiselect
+                    v-model="$parent.customer_group.catalog"
+                    :options="$parent.catalogCategories"
+                    :multiple="false"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :allow-empty="true"
+                    placeholder="Select catalog"
+                    track-by="id"
+                    label="label"
+                >
+                    <template #option="{ option }">
+                        <div class="d-flex flex-column">
+                            <span>{{ option.label }}</span>
+                        </div>
+                    </template>
+                    <template #singleLabel="{ option }">
+                        <span>{{ option.label }}</span>
+                    </template>
+                </multiselect>
+
+                <small class="text-muted d-block mt-2">
+                    Optional. Leave empty if this customer group should not belong to a catalog.
+                </small>
+                <small v-if="$parent.validationErrors.category_id"
+                       class="text-danger mt-2">{{ $parent.validationErrors.category_id[0] }}</small>
+            </div>
+
+            <div class="form-group col-sm-12"
                  :class="{'text-danger': $parent.validationErrors.users}">
                 <label>
                     Assigned Users

@@ -58,6 +58,11 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         CRUD::setRoute(config('backpack.base.route_prefix').'/customer-group');
         CRUD::setEntityNameStrings('customer-group', 'customer groups');
         $this->data['categories'] = Category::select(['id', 'category_name'])->get()->toArray();
+        $this->data['catalog_categories'] = Category::whereNull('parent_id')
+            ->select(['id', 'category_name', 'parent_id'])
+            ->orderBy('category_name')
+            ->get()
+            ->toArray();
     }
 
     /**
@@ -152,6 +157,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
     {
         $this->data['customer_group_data'] = $this->crud->model
             ->with(
+                'catalog',
                 'customers',
                 'users',
                 'cg_pricing_rules.flat_discounts.categories',
@@ -169,6 +175,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
     {
         $this->data['customer_group_data'] = $this->crud->model
             ->with(
+                'catalog',
                 'customers',
                 'users',
                 'cg_pricing_rules.flat_discounts.categories',

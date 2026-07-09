@@ -466,7 +466,7 @@ export default {
             let product_image = {
                 main: '',
                 thumbnail: '',
-                additional: '',
+                additional: [], // needs to be an array, not '', or additional media picker breaks
             };
 
             if (this.method === 'post') {

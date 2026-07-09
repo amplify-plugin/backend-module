@@ -171,10 +171,12 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->updateDocuments($request->productDocuments, $id);
 
         // Storing product images.
+        // additional is cast to array, so an empty string gets saved as JSON '""'
+        // and comes back as '' next time, which breaks the additional media picker
         $this->crud->entry->productImage()->updateOrCreate(['product_id' => $this->crud->entry->id], [
             'main' => $request->main,
             'thumbnail' => $request->thumbnail,
-            'additional' => $request->additional,
+            'additional' => $request->additional ?: [],
         ]);
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {
@@ -231,10 +233,12 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->updateDocuments($request->productDocuments, $id);
 
         // Storing product images.
+        // additional is cast to array, so an empty string gets saved as JSON '""'
+        // and comes back as '' next time, which breaks the additional media picker
         $this->crud->entry->productImage()->updateOrCreate(['product_id' => $this->crud->entry->id], [
             'main' => $request->main,
             'thumbnail' => $request->thumbnail,
-            'additional' => $request->additional,
+            'additional' => $request->additional ?: [],
         ]);
 
         if ($request->has('model_codes') && ! empty($request->input('model_codes'))) {

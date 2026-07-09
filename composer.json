@@ -1,6 +1,6 @@
 {
     "name": "amplify/backend",
-    "description": "This is a Backend module for amplify",
+    "description": "This is a Backend module for Amplify",
     "type": "library",
     "license": "GPL-3.0-or-later",
     "authors": [

@@ -36,7 +36,7 @@
                             <template v-for="(option, index) in saveAction.options">
                                 <button class="dropdown-item" @click="actionType=index; saveData()">{{ option }}</button>
                             </template>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -80,6 +80,7 @@ export default {
             newUrl          : '/admin/attribute/create',
             actionType      : 'save_and_back',
             saveAction      : JSON.parse(this.save_action),
+            timer           : null,
         }
     },
 
@@ -107,9 +108,39 @@ export default {
             }
         },
 
+        convertNameToSlug(name) {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                let slug = (name || '')
+                    .trim()
+                    .toLowerCase()
+                    .replace(/-/g, ' ')
+                    .replace(/[^\w ]+/g, '')
+                    .replace(/ +/g, '-');
+
+                this.checkAttributeSlugUnique(slug);
+            }, 300)
+        },
+
+        checkAttributeSlugUnique(slug) {
+            let params = { slug };
+
+            if (this.method === 'put') {
+                params.id = this.attribute.id;
+            }
+
+            axios.post('/admin/attribute/fetch/attribute-slug', params)
+                .then((response) => {
+                    this.attribute.slug = response.data.slug;
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
+
         saveData() {
 
-            this.attribute._save_action = this.actionType;   
+            this.attribute._save_action = this.actionType;
             this.$refs.formFields.validationErrors = "";
             let params                             = _.cloneDeep(this.attribute);
             axios[this.method](`${this.axios_url}?locale=${this.locale}`, params)
@@ -120,7 +151,7 @@ export default {
                     }).show();
                     this.$refs.formFields.validationErrors = "";
                     window.location.href = "/"+response.data.redirect_url;
-                   
+
                 })
                 .catch((err) => {
                     this.$refs.formFields.validationErrors = err.response.data.errors;

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as ContractsAuditable;
 
@@ -43,8 +44,45 @@ class Category extends Model implements ContractsAuditable
 
     public function showCloneCategoryBtn(): string
     {
-        return '<a class="btn btn-sm btn-link" href="'.route('category.clone', $this->id)
-            .'" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-copy"></i> Create Classifcation</a>';
+        return '<a class="btn btn-sm btn-link" href="' . route('category.clone', $this->id)
+            . '" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-copy"></i> Create Classifcation</a>';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public static function categoryTree(int $leafId): \Illuminate\Support\Collection
+    {
+        $sql = <<<'SQL'
+        WITH RECURSIVE category_tree AS (
+            SELECT id, category_code, category_name, category_slug, image, parent_id, 0 AS depth
+            FROM categories
+            WHERE id = ?
+
+            UNION ALL
+
+            SELECT c.id, c.category_code, c.category_name, c.category_slug, c.image, c.parent_id, ct.depth + 1
+            FROM categories c
+            INNER JOIN category_tree ct
+                ON c.id = ct.parent_id
+        )
+        SELECT id, category_code, category_name, image
+        FROM category_tree
+        ORDER BY depth DESC
+    SQL;
+
+        return collect(array_map(function ($item) {
+
+            $item = (array)$item;
+
+            $item['category_name'] = json_decode($item['category_name'], true)[config('app.locale')] ?? $item['category_name'];
+
+            return new static($item);
+
+        }, DB::select($sql, [$leafId])));
     }
 
     /*
@@ -84,7 +122,7 @@ class Category extends Model implements ContractsAuditable
         $locale = $_GET['locale'] ?? app()->getLocale();
         $data = $this->getTranslation($original_field_name, $locale);
 
-        if (empty($data) && ! empty($this->$this->attributes[$original_field_name])) {
+        if (empty($data) && !empty($this->$this->attributes[$original_field_name])) {
             $original_data = json_decode($this->attributes[$original_field_name] ?? '',
                 false,
                 512,
@@ -122,7 +160,7 @@ class Category extends Model implements ContractsAuditable
 
     public function productsLink()
     {
-        return route('frontend.shop.index').'/Products/Products/'.($this->category_name ?? '');
+        return route('frontend.shop.index') . '/Products/Products/' . ($this->category_name ?? '');
     }
 
     /**

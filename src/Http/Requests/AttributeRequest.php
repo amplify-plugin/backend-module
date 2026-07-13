@@ -26,7 +26,7 @@ class AttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'name_raw' => [
                 'required',
                 'string',
                 function ($attribute, $value, $fail) {
@@ -92,7 +92,7 @@ class AttributeRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Name',
+            'name_raw' => 'Name',
             'slug' => 'Slug',
         ];
     }

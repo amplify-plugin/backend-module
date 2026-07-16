@@ -3,6 +3,7 @@ import Vue from 'vue';
 Vue.component('ProductCreate', () => import('./views/pages/product/Create.vue'));
 Vue.component('ProductClassificationCreate', () => import('./views/pages/product-classification/Create.vue'));
 Vue.component('CategoryCreate', () => import('./views/pages/category/Create.vue'));
+Vue.component('AttributeCreate', () => import('./views/pages/attribute/Create.vue'));
 Vue.component('OptionCreate', () => import('./views/pages/options/Create.vue'));
 Vue.component('CustomerGroupCreate', () => import('./views/pages/customer-group/Create.vue'));
 Vue.component('ImportDefinition', () => import('./views/pages/import/definition/ImportDefinitionCreate.vue'));

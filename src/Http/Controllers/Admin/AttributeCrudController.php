@@ -13,8 +13,8 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class AttributeCrudController
@@ -95,12 +95,12 @@ class AttributeCrudController extends BackpackCustomCrudController
 
         CRUD::addColumn([
             'name' => 'slug',
-            'label' => 'Name',
+            'label' => 'Slug',
         ]);
 
         CRUD::addColumn([
             'name' => 'name',
-            'label' => 'Display Name',
+            'label' => 'Name',
         ]);
 
         CRUD::addColumn([
@@ -254,26 +254,26 @@ class AttributeCrudController extends BackpackCustomCrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AttributeRequest::class);
+        $this->crud->setCreateView('backend::pages.attribute.create');
 
         $this->data['translatable'] = array_keys($this->crud->model->translations);
         $this->data['attribute'] = $this->crud->model->find(request()->id);
-        Widget::add()->type('script')->content(asset('vendor/backend/js/forms/attributes.js').'?v='.config('backpack.base.cachebusting_string'));
 
         CRUD::addField([
             'name' => 'name',
             'type' => 'text',
-            'label' => 'Display Name',
+            'label' => 'Name',
             'attributes' => [
-                'placeholder' => 'Attribute Name',
+                'placeholder' => 'Enter attribute name',
             ],
         ]);
 
         CRUD::addField([
             'name' => 'slug',
             'type' => 'text',
-            'label' => 'Name',
+            'label' => 'Slug',
             'attributes' => [
-                'placeholder' => 'attribute-name',
+                'placeholder' => 'Enter attribute slug',
             ],
         ]);
 
@@ -411,7 +411,36 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupUpdateOperation()
     {
-        // $this->crud->setUpdateView('backend::pages.attribute.create');
+        $this->crud->setUpdateView('backend::pages.attribute.create');
         $this->setupCreateOperation();
+    }
+
+    public function fetchAttributeSlug(): JsonResponse
+    {
+        $baseSlug = \Illuminate\Support\Str::slug(request()->slug ?? '');
+        $id = request()->id ?? null;
+
+        if (empty($baseSlug)) {
+            return response()->json([
+                'slug' => '',
+            ]);
+        }
+
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (Attribute::query()
+            ->where('slug', $slug)
+            ->when($id, function ($query) use ($id) {
+                $query->where('id', '!=', $id);
+            })
+            ->exists()) {
+            $slug = $baseSlug.'-'.$counter;
+            $counter++;
+        }
+
+        return response()->json([
+            'slug' => $slug,
+        ]);
     }
 }

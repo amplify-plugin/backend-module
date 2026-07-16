@@ -27,9 +27,9 @@ class AmplifyServiceProvider extends ServiceProvider
 
     private function overwriteBackpackLocale(): self
     {
-        Config::set('backpack.base.default_date_format', Config::get('amplify.basic.date_format', 'D MMM YYYY'));
+        Config::set('backpack.ui.default_date_format', Config::get('amplify.basic.date_format', 'D MMM YYYY'));
 
-        Config::set('backpack.base.default_datetime_format',
+        Config::set('backpack.ui.default_datetime_format',
             strtr(
                 Config::get('amplify.basic.date_time_format', 'D MMM YYYY, HH:mm'),
                 Config::get('amplify.constant.replacement_moment', [])

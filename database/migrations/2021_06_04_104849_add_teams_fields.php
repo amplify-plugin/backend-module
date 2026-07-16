@@ -56,13 +56,13 @@ class AddTeamsFields extends Migration
                 if (! $this->tableHasIndexes($tableNames['model_has_permissions'], 't_p_m_id_m_t_primary')) {
                     $table->primary([
                         $columnNames['team_foreign_key'],
-                        PermissionRegistrar::$pivotPermission,
+                        app(PermissionRegistrar::class)->pivotPermission,
                         $columnNames['model_morph_key'],
                         'model_type',
                     ], 't_p_m_id_m_t_primary');
                 }
                 if (DB::getDriverName() !== 'sqlite') {
-                    $table->foreign(PermissionRegistrar::$pivotPermission)
+                    $table->foreign(app(PermissionRegistrar::class)->pivotPermission)
                         ->references('id')->on($tableNames['permissions'])->onDelete('cascade');
                 }
             });
@@ -81,12 +81,12 @@ class AddTeamsFields extends Migration
                 if (! $this->tableHasIndexes($tableNames['model_has_roles'], 't_r_m_id_m_t_primary')) {
                     $table->primary([
                         $columnNames['team_foreign_key'],
-                        PermissionRegistrar::$pivotRole,
+                        app(PermissionRegistrar::class)->pivotRole,
                         $columnNames['model_morph_key'],
                         'model_type'], 't_r_m_id_m_t_primary');
                 }
                 if (DB::getDriverName() !== 'sqlite') {
-                    $table->foreign(PermissionRegistrar::$pivotRole)
+                    $table->foreign(app(PermissionRegistrar::class)->pivotRole)
                         ->references('id')->on($tableNames['roles'])->onDelete('cascade');
                 }
             });

@@ -88,16 +88,16 @@ class User extends Authenticatable implements Auditable, MessageableInterface, T
             'model',
             config('permission.table_names.model_has_roles'),
             config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotRole
+            app(PermissionRegistrar::class)->pivotRole
         );
 
-        if (! PermissionRegistrar::$teams) {
+        if (! app(PermissionRegistrar::class)->teams) {
             return $relation;
         }
 
-        return $relation->wherePivot(PermissionRegistrar::$teamsKey, getPermissionsTeamId())
+        return $relation->wherePivot(app(PermissionRegistrar::class)->teamsKey, getPermissionsTeamId())
             ->where(function ($q) {
-                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
+                $teamField = config('permission.table_names.roles').'.'.app(PermissionRegistrar::class)->teamsKey;
                 $q->whereNull($teamField)->orWhere($teamField, getPermissionsTeamId());
             });
     }

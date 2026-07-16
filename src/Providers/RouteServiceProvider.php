@@ -2,6 +2,11 @@
 
 namespace Amplify\System\Backend\Providers;
 
+use Amplify\System\Backend\Http\Middlewares\AdminForcePasswordReset;
+use Amplify\System\Backend\Http\Middlewares\CustomerAuthCheck;
+use Amplify\System\Backend\Http\Middlewares\Language;
+use Amplify\System\Backend\Http\Middlewares\ProductSessionClear;
+use Amplify\System\Backend\Http\Middlewares\TeamsPermission;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -27,6 +32,13 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+        $this->aliasMiddleware('admin_password_reset_required', AdminForcePasswordReset::class);
+        $this->aliasMiddleware('customers', CustomerAuthCheck::class);
+
+        $this->pushMiddlewareToGroup('web', Language::class);
+        $this->pushMiddlewareToGroup('web', ProductSessionClear::class);
+        $this->pushMiddlewareToGroup('web', TeamsPermission::class);
 
         $this->routes(function () {
             Route::middleware('api')

@@ -153,10 +153,10 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
             'model',
             config('permission.table_names.model_has_roles'),
             config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotRole
+            app(PermissionRegistrar::class)->pivotRole
         );
 
-        if (! PermissionRegistrar::$teams) {
+        if (! app(PermissionRegistrar::class)->teams) {
             return $relation;
         }
 
@@ -164,7 +164,7 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
 
         return $relation
             ->where(function ($q) use ($team_id) {
-                $teamField = config('permission.table_names.roles').'.'.PermissionRegistrar::$teamsKey;
+                $teamField = config('permission.table_names.roles').'.'.app(PermissionRegistrar::class)->teamsKey;
                 $q->whereNull($teamField)->orWhere($teamField, $team_id ?: null);
             });
     }
@@ -176,14 +176,14 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
             'model',
             config('permission.table_names.model_has_permissions'),
             config('permission.column_names.model_morph_key'),
-            PermissionRegistrar::$pivotPermission
+            app(PermissionRegistrar::class)->pivotPermission
         );
 
-        if (! PermissionRegistrar::$teams) {
+        if (! app(PermissionRegistrar::class)->teams) {
             return $relation;
         }
 
-        return $relation->wherePivot(PermissionRegistrar::$teamsKey, get_customer_team_id() ?? getPermissionsTeamId());
+        return $relation->wherePivot(app(PermissionRegistrar::class)->teamsKey, get_customer_team_id() ?? getPermissionsTeamId());
     }
 
     public function customer(): BelongsTo

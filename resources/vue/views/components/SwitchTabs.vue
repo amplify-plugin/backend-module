@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-between p-3">
+    <div class="d-flex justify-content-between p-3" v-if="hasNavigation">
         <button @click="$parent.activeTab = $parent.getNextTab(false);" type="button"
                 :disabled="Object.keys(this.$parent.tabs)[0] === this.$parent.activeTab"
                 class="btn btn-light">
@@ -19,7 +19,15 @@
 
 <script>
 export default {
-    name: "SwitchTabs"
+    name: "SwitchTabs",
+  computed : {
+    hasNavigation() {
+      return Object
+          .values(this.$parent.permissions)
+          .filter(Boolean)
+          .length > 1;
+    }
+  }
 }
 </script>
 <style scoped>

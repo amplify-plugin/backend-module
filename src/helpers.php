@@ -113,7 +113,7 @@ if (!function_exists('backend_permissions')) {
             'subscriber' => 'l,c,u,d',
 
             //Settings
-            'system-configuration' => 'l',
+            'system-configuration' => 'l,u',
             'shipping-option' => 'l,c,u,d',
             'threshold-range' => 'l,c,u,d',
             'cms-setting' => 'l,u',

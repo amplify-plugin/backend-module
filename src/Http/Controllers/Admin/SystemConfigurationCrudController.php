@@ -175,7 +175,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
         $this->data['title'] = 'System Configuration';
         $this->data['currencies'] = UtilityHelper::currencyDropdown();
-        $this->data['coreConfigurationData'] = config('amplify') ?? [];
+        $this->data['coreConfigurationData'] = config('amplify', []);
         $this->data['hierarchies'] = getModelNames(app_path('Models') . '/*.php') ?? [];
         $this->data['countries'] = Country::select('name', 'id')->orderBy('name')->get();
         $this->data['product_indexes'] = (new Product)->getTableColumns() ?? [];
@@ -193,6 +193,31 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
         $this->data['documentTypes'] = DocumentType::select('name', 'id', 'media_type')->orderBy('name')->get();
         $this->data['availableLocales'] = [];
+        //Tab vue component name => boolean
+        $this->data['permissions'] = [
+            'Developer' => backpack_user()->isAdmin(),
+            'Basic' => backpack_user()->canAny('system-configuration.update'),
+            'PIM' => backpack_user()->canAny('system-configuration.update'),
+            'Report' => backpack_user()->canAny('system-configuration.update'),
+            'Sayt' => backpack_user()->canAny('system-configuration.update'),
+            'Frontend' => backpack_user()->canAny('system-configuration.update'),
+            'Payment' => backpack_user()->canAny('system-configuration.update'),
+            'ERP' => backpack_user()->canAny('system-configuration.update'),
+            'Export' => backpack_user()->canAny('system-configuration.update'),
+            'Schedule' => backpack_user()->canAny('system-configuration.update'),
+            'Marketing' => backpack_user()->canAny('system-configuration.update'),
+            'AlertMessage' => backpack_user()->canAny('system-configuration.update'),
+
+            'Icecat' => !empty(config('amplify.icecat.icecat_username', '')),
+            'DDS' => false,
+            'Google' => backpack_user()->canAny('google-api-setting.update'),
+            'Invoice' => backpack_user()->canAny('invoice-setting.update'),
+            'CMS' => backpack_user()->canAny('cms-setting.update'),
+            'API' => backpack_user()->canAny('api-setting.update'),
+            'Order' => backpack_user()->canAny('order-setting.update'),
+            'Prop65' => backpack_user()->canAny('prop65-setting.update'),
+            'Security' => backpack_user()->canAny('security-setting.update'),
+        ];
 
         if (config('amplify.client_code') == 'ACT') {
             $dds_import_path = config('amplify.icu.uploads_directory') . '/files';

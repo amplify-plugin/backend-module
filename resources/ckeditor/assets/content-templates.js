@@ -106,6 +106,20 @@
                 description: 'Product description with a specifications table floated to the upper right.',
                 html:
                     '<div data-container="product-description">' +
+                    '<h2>Product Details</h2>' +
+                    '<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />' +
+                    '<p><strong>Manufacturer:</strong> Manufacturer name <a href="#" target="_blank">About Us</a></p>' +
+                    '<p><strong>Brand:</strong> Brand name <a href="#" target="_blank">Brand website</a></p>' +
+                    '<p><strong>Model:</strong> Model number</p>' +
+                    '<p><strong>Description:</strong> Brief product description.<br />' +
+                    '<strong>Important note:</strong> Add any critical note or exclusion here.</p>' +
+                    '<p><strong>Product Support:</strong> <a href="#" target="_blank">Support resources</a></p>' +
+                    '<p><strong>Rebates:</strong> <a href="#" target="_blank">Available rebates</a></p>' +
+                    '<p><strong>Warranty:</strong> Warranty overview <a href="#" target="_blank">Warranty claim or registration</a></p>' +
+                    '<ul style="margin-top: 12px; padding-left: 20px;">' +
+                    '<li style="margin-bottom: 8px;"><strong>Warranty tier 1:</strong> Coverage details</li>' +
+                    '<li style="margin-bottom: 8px;"><strong>Warranty tier 2:</strong> Coverage details</li>' +
+                    '</ul>' +
                     '<div data-highlight="box" style="float: right; width: 48%; max-width: 420px; margin: 0 0 24px 28px; padding: 16px 18px; border: 1px solid #e2e8f0; background: #f8fafc; box-sizing: border-box;">' +
                     '<table style="width: 100%; border-collapse: collapse; font-family: inherit;">' +
                     '<thead>' +
@@ -126,24 +140,8 @@
                     '</tbody>' +
                     '</table>' +
                     '</div>' +
-
-                    '<h2>Product Details</h2>' +
-                    '<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />' +
-                    '<p><strong>Manufacturer:</strong> Manufacturer name <a href="#" target="_blank">About Us</a></p>' +
-                    '<p><strong>Brand:</strong> Brand name <a href="#" target="_blank">Brand website</a></p>' +
-                    '<p><strong>Model:</strong> Model number</p>' +
-                    '<p><strong>Description:</strong> Brief product description.<br />' +
-                    '<strong>Important note:</strong> Add any critical note or exclusion here.</p>' +
-                    '<p><strong>Product Support:</strong> <a href="#" target="_blank">Support resources</a></p>' +
-                    '<p><strong>Rebates:</strong> <a href="#" target="_blank">Available rebates</a></p>' +
-                    '<p><strong>Warranty:</strong> Warranty overview <a href="#" target="_blank">Warranty claim or registration</a></p>' +
-                    '<ul style="margin-top: 12px; padding-left: 20px;">' +
-                    '<li style="margin-bottom: 8px;"><strong>Warranty tier 1:</strong> Coverage details</li>' +
-                    '<li style="margin-bottom: 8px;"><strong>Warranty tier 2:</strong> Coverage details</li>' +
-                    '</ul>' +
                     '<div style="clear: both;"></div>' +
                     '<h2 style="margin-top: 24px;">Marketing heading</h2>' +
-
                     '<hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 16px;" />' +
                     '<p>Describe performance, craftsmanship, or application.</p>' +
                     '<h2 style="margin-top: 24px;">Marketing heading</h2>' +

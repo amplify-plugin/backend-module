@@ -41,6 +41,32 @@ export function getCkeditorTemplatesUrl() {
     return window.__CKEDITOR_TEMPLATES_URL || '/vendor/backend/ckeditor/content-templates.js';
 }
 
+export function getCkeditorProductDescriptionCssUrl() {
+    return window.__CKEDITOR_PRODUCT_DESCRIPTION_CSS
+        || '/vendor/backend/ckeditor/product-description.css';
+}
+
+function resolveContentsCss(userContentsCss) {
+    const defaults = [];
+
+    if (typeof CKEDITOR !== 'undefined' && typeof CKEDITOR.getUrl === 'function') {
+        defaults.push(CKEDITOR.getUrl('contents.css'));
+    } else {
+        defaults.push('/packages/ckeditor/contents.css');
+    }
+
+    defaults.push(getCkeditorProductDescriptionCssUrl());
+
+    if (userContentsCss == null) {
+        return defaults;
+    }
+
+    const userList = Array.isArray(userContentsCss) ? userContentsCss : [userContentsCss];
+    const merged = new Set([...userList.filter(Boolean), ...defaults]);
+
+    return Array.from(merged);
+}
+
 /**
  * Build a plain CKEditor config object (no Vue reactivity).
  */
@@ -49,6 +75,7 @@ export function buildCkeditorConfig(userConfig = {}) {
 
     config.extraPlugins = mergeExtraPlugins(userConfig.extraPlugins, CKEDITOR_SHARED_CONFIG.extraPlugins);
     config.templates_files = [getCkeditorTemplatesUrl()];
+    config.contentsCss = resolveContentsCss(userConfig.contentsCss);
     config.customConfig = '';
 
     PRESERVE_KEYS.forEach((key) => {

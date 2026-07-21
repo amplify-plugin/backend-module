@@ -87,12 +87,7 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'type' => 'dropdown',
                 'label' => 'Is Synced',
             ],
-                function () {
-                    return [
-                        '1' => 'Yes',
-                        '0' => 'No',
-                    ];
-                },
+                ['1' => 'Yes', '0' => 'No',],
                 function ($value) {
                     if ($value == '1') {
                         $this->crud->addClause('whereNotNull', 'synced_at');
@@ -103,6 +98,15 @@ class CustomerCrudController extends BackpackCustomCrudController
                     }
                 });
         }
+
+        CRUD::addFilter([
+            'name' => 'approved',
+            'type' => 'dropdown',
+            'label' => 'Approved?',
+        ],
+            ['1' => 'Yes', '0' => 'No',],
+            fn($value) => $this->crud->addClause('where', 'approved', $value),
+            fn() => $this->crud->addClause('where', 'approved', 1));
 
         CRUD::addFilter([
             'name' => 'created_between',
@@ -515,7 +519,7 @@ class CustomerCrudController extends BackpackCustomCrudController
 
         $this->crud->setSaveAction();
 
-        if (! empty($item->customer_code)) {
+        if (!empty($item->customer_code)) {
             CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
         }
 

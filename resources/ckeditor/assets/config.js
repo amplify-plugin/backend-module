@@ -14,6 +14,13 @@ CKEDITOR.editorConfig = function (config) {
         window.__CKEDITOR_TEMPLATES_URL || '/vendor/backend/ckeditor/content-templates.js'
     ];
 
+    config.contentsCss = [
+        (typeof CKEDITOR !== 'undefined' && CKEDITOR.getUrl)
+            ? CKEDITOR.getUrl('contents.css')
+            : '/packages/ckeditor/contents.css',
+        window.__CKEDITOR_PRODUCT_DESCRIPTION_CSS || '/vendor/backend/ckeditor/product-description.css'
+    ];
+
     config.customConfig = '';
 
     if (!config.toolbar) {

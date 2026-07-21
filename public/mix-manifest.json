@@ -1,6 +1,6 @@
 {
-    "/js/backend.js": "/js/backend.js?id=471d422ef3ecb47e380c20c676a406de",
-    "/ckeditor/ckeditor-config.js": "/ckeditor/ckeditor-config.js?id=39d7bdee90fb3a0199aa44bedc1d1641",
+    "/js/backend.js": "/js/backend.js?id=3f3eef16d211eab7f7484235b49eab95",
+    "/ckeditor/ckeditor-config.js": "/ckeditor/ckeditor-config.js?id=b6def7d8d356b62c0aff2c33786351a4",
     "/css/backend.css": "/css/backend.css?id=25f456237111e0ba1744e6e4cb1e9a3c",
     "/js/1255.js": "/js/1255.js?id=c65a420ffe2682eb83a04575f8caad39",
     "/js/1263.js": "/js/1263.js?id=1fdd6d9a5d27fdde1e2fddde6cece8b2",
@@ -53,7 +53,7 @@
     "/js/8760.js": "/js/8760.js?id=76dd13db55d31f895f8f9c62edcfc04c",
     "/js/8776.js": "/js/8776.js?id=652d70ac7ed4a2d58aaa50190f3aece5",
     "/js/admin.js": "/js/admin.js?id=f18273a9ec666d8b9addd4c5e0dab369",
-    "/js/ckeditor/build-config.js": "/js/ckeditor/build-config.js?id=ccdd1175fa5a0d6638a0fb5f057638ae",
+    "/js/ckeditor/build-config.js": "/js/ckeditor/build-config.js?id=a5310eb515595dd247bbc7a0c659e163",
     "/js/ckeditor/ckeditor-browser.js": "/js/ckeditor/ckeditor-browser.js?id=aea4653a73dc90d09815b514626f909d",
     "/js/ckeditor/toolbar.js": "/js/ckeditor/toolbar.js?id=e6297c6438aea0379c662a68f2542601",
     "/js/crud.js": "/js/crud.js?id=98b1681ebcb15d558b9482defca211a0",
@@ -75,12 +75,13 @@
     "/img/img-right.png": "/img/img-right.png?id=a6091d445037c05d6a3340a40c9156f3",
     "/img/under-construction.png": "/img/under-construction.png?id=7ba78bb69bc254b648c3932ef4557ba1",
     "/ckeditor/ckeditor-vue-patch.js": "/ckeditor/ckeditor-vue-patch.js?id=d0b4eea7d0db6c9cc94a553a69b48e45",
-    "/ckeditor/config.js": "/ckeditor/config.js?id=7317e286e3eace78a2a2c31391cddef0",
-    "/ckeditor/content-templates.js": "/ckeditor/content-templates.js?id=37b4dc4c8918e6b6c7b99b43ebef1883",
+    "/ckeditor/config.js": "/ckeditor/config.js?id=0f041851ec3cb32a9a1fdc4b742e6f3a",
+    "/ckeditor/content-templates.js": "/ckeditor/content-templates.js?id=b9bed21dd2637fb6df8e0e6f038e6f02",
     "/ckeditor/plugins/templates/templates/images/3column.gif": "/ckeditor/plugins/templates/templates/images/3column.gif?id=f902af8ddd3c49525e699c61f9e932f5",
     "/ckeditor/plugins/templates/templates/images/placeholder.png": "/ckeditor/plugins/templates/templates/images/placeholder.png?id=2dc3ba316cc2f848988ed13ecc39353e",
     "/ckeditor/plugins/templates/templates/images/specs-upper-right.png": "/ckeditor/plugins/templates/templates/images/specs-upper-right.png?id=0a0750aff8d7589b593e8b5d3b581fe1",
     "/ckeditor/plugins/templates/templates/images/template1.gif": "/ckeditor/plugins/templates/templates/images/template1.gif?id=bbb115e72af95d1268f65d76d3ba3751",
     "/ckeditor/plugins/templates/templates/images/template2.gif": "/ckeditor/plugins/templates/templates/images/template2.gif?id=58e7803aa0f2be31ea76b9f2243a9ed1",
-    "/ckeditor/plugins/templates/templates/images/zigzag.gif": "/ckeditor/plugins/templates/templates/images/zigzag.gif?id=612db83bc959f7685068fc234e062d40"
+    "/ckeditor/plugins/templates/templates/images/zigzag.gif": "/ckeditor/plugins/templates/templates/images/zigzag.gif?id=612db83bc959f7685068fc234e062d40",
+    "/ckeditor/product-description.css": "/ckeditor/product-description.css?id=5f78f0d329b58eb54798efa4b059f470"
 }

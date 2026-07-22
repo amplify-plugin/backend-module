@@ -51,6 +51,7 @@ class CustomerRequest extends FormRequest
             'zip_code' => 'nullable|string',
             'list_price' => 'nullable|string|in:' . implode(array_keys(Customer::LIST_PRICES)),
             'business_contact' => ['nullable', 'string', new CommaSeparatedEmails],
+            'approved' => 'boolean|nullable',
         ];
 
         return $rules;

@@ -216,11 +216,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'tab' => 'Basic',
             'wrapper' => ['class' => 'form-group col-md-3'],
         ]);
-        CRUD::addField([
-            'name' => 'approved',
-            'type' => 'hidden',
-            'value' => 1,
-        ]);
+
         CRUD::addField([
             'label' => 'Industry Classification',
             'name' => 'industry_classification_id',
@@ -233,6 +229,13 @@ class CustomerCrudController extends BackpackCustomCrudController
             'options' => (fn($query) => $query->orderBy('name')->get()),
         ]);
         CRUD::field('customer_type')->type('enum')->tab('Basic')->label('Customer Type');
+
+        CRUD::addField([
+            'name' => 'approved',
+            'type' => 'boolean',
+            'default' => 1,
+            'tab' => 'Basic',
+        ]);
 
         // BIll ADDRESS
         CRUD::addFields([

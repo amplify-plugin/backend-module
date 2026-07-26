@@ -125,8 +125,11 @@ class ProductImageProcessor
 
     private function processAdditional(string $code, array $list, $existingJson): ?string
     {
+        // ProductImage casts `additional` to array, so existing values may already be arrays.
+        $existingEncoded = $this->encodeAdditional($existingJson);
+
         if (empty($list)) {
-            return $existingJson;
+            return $existingEncoded;
         }
 
         $newUrls = [];
@@ -140,12 +143,11 @@ class ProductImageProcessor
         }
 
         if (empty($newUrls)) {
-            return $existingJson;
+            return $existingEncoded;
         }
 
-        return json_encode(
-            $this->mergeUrls($this->decode($existingJson), $newUrls),
-            JSON_UNESCAPED_SLASHES
+        return $this->encodeAdditional(
+            $this->mergeUrls($this->decode($existingJson), $newUrls)
         );
     }
 
@@ -236,7 +238,28 @@ class ProductImageProcessor
 
     private function decode($json): array
     {
+        if (is_array($json)) {
+            return $json;
+        }
+
         return is_string($json) ? (json_decode($json, true) ?: []) : [];
+    }
+
+    private function encodeAdditional($value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (is_array($value)) {
+            return empty($value) ? null : json_encode(array_values($value), JSON_UNESCAPED_SLASHES);
+        }
+
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return null;
     }
 
     private function mergeUrls(array $old, array $new): array

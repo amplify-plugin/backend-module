@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -63,9 +62,28 @@ class ScanScanningFolderToTableJob implements ShouldQueue
         $seen = 0;
         $changed = 0;
         $skipped = 0;
+        $deletedDotFiles = 0;
 
         foreach ($allFiles as $path) {
             $basename = basename($path);
+
+            // Delete macOS metadata files immediately
+            if (str_starts_with($basename, '._')) {
+                try {
+                    $disk->delete($path);
+                    $deletedDotFiles++;
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to delete dot-underscore file', [
+                        'disk' => $diskName,
+                        'path' => $path,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+
+                $skipped++;
+
+                continue;
+            }
 
             if ($this->shouldSkipFile($basename)) {
                 $skipped++;
@@ -117,6 +135,7 @@ class ScanScanningFolderToTableJob implements ShouldQueue
             'files_seen' => $seen,
             'files_skipped' => $skipped,
             'rows_changed_or_added' => $changed,
+            'deleted_dot_files' => $deletedDotFiles,
         ]);
     }
 
@@ -223,12 +242,26 @@ class ScanScanningFolderToTableJob implements ShouldQueue
     /**
      * Returns: [code, kind, variant]
      *
-     * Supported:
-     * main:       76-038
-     * additional: ._76-038
-     * additional: ._76-038_A
-     * additional: ._76-038_B
-     * additional: ._76-038_C
+     * Supported filename formats:
+     *
+     * Main image:
+     *   PRODUCTCODE
+     *   e.g.
+     *     76-038
+     *
+     * Additional images:
+     *   PRODUCTCODE_VARIANT
+     *   e.g.
+     *     76-038_A
+     *     76-038_B
+     *     76-038_C
+     *     76-038_01
+     *     76-038_FRONT
+     *
+     * Notes:
+     * - Files prefixed with "._" are macOS metadata (AppleDouble) files.
+     * - These files are deleted during the scanning scan and are never processed.
+     * - Additional images are identified only by the "_VARIANT" suffix.
      */
     private function parseCodeKindAndVariant(string $nameNoExt): array
     {
@@ -238,7 +271,8 @@ class ScanScanningFolderToTableJob implements ShouldQueue
             return ['', 'main', ''];
         }
 
-        if (preg_match('/^\._(.+)_([A-Z0-9]+)$/i', $nameNoExt, $matches)) {
+        // PRODUCTCODE_A
+        if (preg_match('/^(.+)_([A-Z0-9]+)$/i', $nameNoExt, $matches)) {
             $code = trim($matches[1]);
             $variant = strtoupper($matches[2]);
 
@@ -247,14 +281,7 @@ class ScanScanningFolderToTableJob implements ShouldQueue
             }
         }
 
-        if (preg_match('/^\._(.+)$/', $nameNoExt, $matches)) {
-            $code = trim($matches[1]);
-
-            if ($code !== '') {
-                return [$code, 'additional', ''];
-            }
-        }
-
+        // PRODUCTCODE
         return [$nameNoExt, 'main', ''];
     }
 }

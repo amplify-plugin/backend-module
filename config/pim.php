@@ -52,6 +52,9 @@ return [
         // queue / chunk settings
         'scan_file_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_SCAN_FILE_CHUNK', 2000),
         'code_chunk' => (int) env('AMPLIFY_PRODUCT_IMAGE_CODE_CHUNK', 500),
+        // logging
+        'log_channel' => env('AMPLIFY_PRODUCT_IMAGE_LOG_CHANNEL', null), // null => default laravel.log
+        'cleanup_existing' => (bool) env('AMPLIFY_PRODUCT_IMAGE_CLEANUP_EXISTING', true),
     ],
     'synchronization' => [
         'attributes' => [

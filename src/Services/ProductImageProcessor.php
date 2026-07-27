@@ -159,9 +159,13 @@ class ProductImageProcessor
             return null;
         }
 
-        $dest = $variant === ''
-            ? "{$this->outputBase}/._{$code}.jpg"
-            : "{$this->outputBase}/._{$code}_{$variant}.jpg";
+        if ($variant === '') {
+            Log::warning('Additional missing variant', compact('code', 'src'));
+
+            return null;
+        }
+
+        $dest = "{$this->outputBase}/{$code}_{$variant}.jpg";
 
         if (! $this->disk->move($src, $dest)) {
             Log::warning('Additional move failed', compact('code', 'src', 'dest'));
@@ -275,7 +279,7 @@ class ProductImageProcessor
 
         $name = pathinfo($path, PATHINFO_FILENAME);
 
-        if (preg_match('/^\._'.preg_quote($code, '/').'_([A-Z0-9]+)$/i', $name, $m)) {
+        if (preg_match('/^'.preg_quote($code, '/').'_([A-Z0-9]+)$/i', $name, $m)) {
             return strtoupper($m[1]);
         }
 

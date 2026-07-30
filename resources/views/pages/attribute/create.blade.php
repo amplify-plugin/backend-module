@@ -3,17 +3,17 @@
 @php
     $breadcrumbs = [
         'Admin' => backpack_url('dashboard'),
-        'Option' => backpack_url('option'),
-        Route::is('option.edit') ? 'Edit' : 'Add' => false,
+        'Attribute' => backpack_url('attribute'),
+        Route::is('attribute.edit') ? 'Edit' : 'Add' => false,
     ];
-  parse_str(request()->getQueryString(), $query_string);
+    parse_str(request()->getQueryString(), $query_string);
 @endphp
 
 @section('header')
     <section class="container-fluid">
         <h2>
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-            <small>{!! $crud->getSubheading() ?? trans('backpack::crud.'.(Route::is('option.edit') ? 'edit' : 'add')).' '.$crud->entity_name !!}
+            <small>{!! $crud->getSubheading() ?? trans('backpack::crud.'.(Route::is('attribute.edit') ? 'edit' : 'add')).' '.$crud->entity_name !!}
                 .</small>
 
             @if ($crud->hasAccess('list'))
@@ -30,28 +30,26 @@
 @endsection
 
 @section('content')
-    <customer-group-create
+    <attribute-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
                         : $crud->route.'/create') }}"
         axios_url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey()
                         : $crud->route) }}"
-        class_name="{{ $crud->getCurrentOperation() === 'update' ? $crud->getEditContentClass() : $crud->getCreateContentClass()}}"
-        method="{{$crud->getCurrentOperation() === 'update'
-                        ? 'put'
-                        : 'post'}}"
-        active_tab="{{request()->activeTab ?? 'BasicInfo'}}"
+        current_lang="{{ $crud->model->getAvailableLocales()[request()->input('locale') ?? App::getLocale()] ?? 'English' }}"
+        translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
+        available_locales="{{ json_encode($crud->model->getAvailableLocales() ?? []) }}"
+        class_name="col-md-12 bold-labels"
+        translatable="{{ json_encode($translatable ?? []) }}"
+        local_attribute="{{ json_encode($attribute ?? new \stdClass()) }}"
+        method="{{ $crud->getCurrentOperation() === 'update' ? 'put' : 'post' }}"
+        locale="{{ request()->input('locale') ?? 'en' }}"
         query_string="{{ json_encode($query_string) }}"
-        customer_group_pricing_type="{{json_encode($customer_group_pricing_type ?? new \stdClass())}}"
-        customer_group_data="{{json_encode($customer_group_data ?? new \stdClass())}}"
-        categories="{{json_encode($categories ?? new \stdClass())}}"
-        catalog_categories="{{json_encode($catalog_categories ?? [])}}"
-        users="{{json_encode($users ?? [])}}"
-        save_action = "{{ json_encode($saveAction) }}"
-    ></customer-group-create>
+        save_action="{{ json_encode($saveAction) }}"
+    ></attribute-create>
 @endsection
 
 @section('after_scripts')
-    <script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
+    <script src="{{ mix('js/backend.js', 'vendor/backend') }}"></script>
 @endsection

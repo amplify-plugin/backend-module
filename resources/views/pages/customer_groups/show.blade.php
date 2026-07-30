@@ -4,6 +4,7 @@
     $group = $customer_group_data ?? $entry ?? null;
     $groupId = $group?->id;
     $groupName = $group?->group_name ?? 'Customer Group';
+    $catalogName = $group?->catalog?->label ?? $group?->catalog?->category_name ?? null;
     $pricingRules = $group?->cg_pricing_rules;
     $pricingTypeLabel = \Amplify\System\Backend\Models\CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE[$group?->group_pricing_type ?? ''] ?? ($group?->group_pricing_type ?? '-');
 
@@ -61,6 +62,10 @@
                         <div class="col-md-3 mb-3">
                             <div class="small text-muted text-uppercase">Pricing Type</div>
                             <div class="h5 mb-0">{{ $pricingTypeLabel }}</div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="small text-muted text-uppercase">Catalog</div>
+                            <div class="h5 mb-0">{{ $catalogName ?? 'Not assigned' }}</div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="small text-muted text-uppercase">Relations</div>

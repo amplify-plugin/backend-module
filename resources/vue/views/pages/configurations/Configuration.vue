@@ -164,7 +164,7 @@ import Basic from './tabs/Basic';
 import PIM from './tabs/PIM';
 import Report from './tabs/Report';
 import Sayt from './tabs/Sayt';
-// import Icecat from './tabs/Icecat';
+import Icecat from './tabs/Icecat';
 import Google from './tabs/Google';
 import Frontend from './tabs/Frontend';
 import Payment from './tabs/Payment';
@@ -173,14 +173,14 @@ import Invoice from './tabs/Invoice';
 import CMS from './tabs/CMS';
 import Schedule from './tabs/Schedule';
 import Marketing from './tabs/Marketing';
-import API from './tabs/API.vue';
+import API from './tabs/API';
 import Order from './tabs/Order';
 import Prop65 from './tabs/Prop65';
 import DDS from './tabs/DDS';
 import Security from "./tabs/Security";
 import AlertMessage from './tabs/AlertMessage';
 import Developer from './tabs/Developer';
-import Export from './tabs/Export.vue';
+import Export from './tabs/Export';
 
 export default {
     name: 'Configuration',
@@ -220,6 +220,7 @@ export default {
         'timezone',
         'catalogs',
         'document_types',
+        'permissions'
     ],
     components: {
         SwitchTabs,
@@ -243,7 +244,8 @@ export default {
         Security,
         AlertMessage,
         Developer,
-        Export
+        Export,
+        Icecat
     },
     data() {
         return {
@@ -260,9 +262,7 @@ export default {
             tabs: {
                 Basic: { title: 'Basic', hash: 'basic' },
                 PIM: { title: 'PIM', hash: 'pim' },
-                // Report: { title: 'Report', hash: 'report' },
                 Sayt: { title: 'SAYT', hash: 'sayt' },
-                // Icecat: { title: 'Icecat', hash: 'icecat' },
                 Google: { title: 'Google', hash: 'google' },
                 Frontend: { title: 'Frontend', hash: 'frontend' },
                 Payment: { title: 'Payment', hash: 'payment' },
@@ -275,7 +275,6 @@ export default {
                 API: { title: 'Amplify API', hash: 'api' },
                 Order: { title: 'Order', hash: 'order' },
                 Prop65: { title: 'Prop65', hash: 'prop65' },
-                // DDS: { title: 'DDS', hash: 'dds' },
                 Security: { title: 'Security', hash: 'security' },
                 AlertMessage: { title: 'Alert Message', hash: 'message' },
                 Developer: { title: 'Developer Options', hash: 'developer' }
@@ -307,6 +306,20 @@ export default {
     created() {
         if (this.coreConfigurationData.basic.client_code === 'ACT') {
             this.$set(this.tabs, 'DDS', { title: 'DDS', hash: 'dds' });
+        }
+
+        if (this.coreConfigurationData.report.dictionary.length > 0) {
+            this.$set(this.tabs, 'Report', { title: 'Report', hash: 'report' });
+        }
+
+        if (this.coreConfigurationData.icecat.icecat_username != null) {
+            this.$set(this.tabs, 'Icecat', { title: 'Icecat', hash: 'icecat' });
+        }
+
+        for(const [tab, allow] of Object.entries(this.permissions)) {
+          if (!allow) {
+            this.$delete(this.tabs, tab)
+          }
         }
     },
     methods: {

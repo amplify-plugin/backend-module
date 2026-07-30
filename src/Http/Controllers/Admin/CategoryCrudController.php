@@ -299,6 +299,7 @@ class CategoryCrudController extends BackpackCustomCrudController
         $this->crud->set('reorder.max_level', 0);
         $this->crud->addClause('orderBy', 'lft', 'ASC');
         $this->crud->addClause('select', ['id', 'category_name', 'lft', 'parent_id']);
+        $this->crud->setReorderView('backend::pages.category.reorder');
     }
 
     /**

@@ -42,20 +42,6 @@
                                                 "
                                             />
                                         </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="main-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="main-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadMainImage"
-                                            />
-                                        </label>
                                         <button
                                             class="d-none btn btn-light btn-sm"
                                             data-handle="remove"
@@ -100,107 +86,6 @@
                 <div class="form-group">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <strong class="mb-3 d-block" :class="{ 'text-danger': $parent.validationErrors.thumbnail }"
-                                >Thumbnail</strong
-                            >
-                            <div class="d-flex justify-content-between">
-                                <div class="mr-3 w-one-third m-auto">
-                                    <input
-                                        placeholder="upload path"
-                                        type="text"
-                                        class="form-control"
-                                        :class="{ 'is-invalid': $parent.validationErrors.thumbnail }"
-                                        v-model="$parent.productData.product_image.thumbnail"
-                                    />
-                                    <small v-if="$parent.validationErrors.thumbnail" class="text-danger mt-3">{{
-                                        $parent.validationErrors.thumbnail[0]
-                                    }}</small>
-                                </div>
-                                <div class="w-one-third text-center px-3 m-auto">
-                                    <div class="btn-group">
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-right"
-                                            for="thumb-image-browse"
-                                        >
-                                            <i class="la la-hand-pointer"></i>{{ titles.choose_file }}
-                                            <input
-                                                id="thumb-image-browse"
-                                                type="text"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @click="
-                                                    processImagesByType('thumbnail');
-                                                    getImageBrowseModal();
-                                                    canMultiple = false;
-                                                    browseThumbImage($event);
-                                                "
-                                            />
-                                        </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="thumb-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="thumb-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadThumbImage"
-                                            />
-                                        </label>
-                                        <button
-                                            class="d-none btn btn-light btn-sm"
-                                            data-handle="remove"
-                                            v-if="$parent.productData.product_image.thumbnail && false"
-                                            @click="
-                                                deleteImage('thumbnail', $parent.productData.product_image.thumbnail)
-                                            "
-                                            type="button"
-                                        >
-                                            <i class="la la-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="image w-one-third text-center">
-                                    <div class="row justify-content-center">
-                                        <div v-if="this.uploading.thumb" class="col-md-12">
-                                            <ProgressBar></ProgressBar>
-                                        </div>
-                                        <div v-else>
-                                            <button
-                                                v-if="$parent.productData.product_image.thumbnail"
-                                                class="btn btn-sm bg-danger rounded-circle p-1 position-absolute e-0 cursor-pointer"
-                                                data-handle="remove"
-                                                style="width: 22px; height: 22px; line-height: 1"
-                                                @click="
-                                                    deleteImage(
-                                                        'thumbnail',
-                                                        $parent.productData.product_image.thumbnail,
-                                                    )
-                                                "
-                                            >
-                                                <i class="la la-times"></i>
-                                            </button>
-                                            <img
-                                                @error="$root.getDefaultImage"
-                                                class="img-thumbnail"
-                                                style="height: 79px"
-                                                :src="`${$parent.productData.product_image.thumbnail ? $parent.productData.product_image.thumbnail : placeholder}`"
-                                                alt=""
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="card mb-3">
-                        <div class="card-body">
                             <strong
                                 class="mb-3 d-block"
                                 :class="{ 'text-danger': $parent.validationErrors.additional }"
@@ -225,7 +110,7 @@
                                 <div class="w-one-third text-center px-3 my-auto">
                                     <div class="btn-group">
                                         <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-right"
+                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer"
                                             title="select file"
                                             for="additional-image-browse"
                                         >
@@ -241,20 +126,6 @@
                                                     canMultiple = true;
                                                     browseAdditionalMedia($event);
                                                 "
-                                            />
-                                        </label>
-                                        <label
-                                            class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer border-left"
-                                            title="select file"
-                                            for="additional-image"
-                                        >
-                                            <i class="la la-cloud-upload-alt"></i>{{ titles.upload_file }}
-                                            <input
-                                                id="additional-image"
-                                                type="file"
-                                                class="form-control d-none file_design"
-                                                title="select file"
-                                                @change="uploadAdditionalMedia"
                                             />
                                         </label>
                                         <button
@@ -362,7 +233,7 @@ export default {
             },
             titles: {
                 upload_file: ' Upload File',
-                choose_file: ' Choose File',
+                choose_file: ' Choose / Upload File',
             },
             canMultiple: false,
             domLoaded: false,
@@ -391,8 +262,15 @@ export default {
 
         processImagesByType(type = 'main') {
             this.type = type;
-            this.$parent.selectedFiles =
-                this.$parent.productData.product_image[this.type] ?? (this.type === 'additional' ? [] : null);
+            const currentValue = this.$parent.productData.product_image[this.type];
+
+            if (this.type === 'additional') {
+                // additional sometimes comes back as '' instead of [], force it to an array
+                // or the .push() in the watcher below fails silently
+                this.$parent.selectedFiles = Array.isArray(currentValue) ? currentValue : [];
+            } else {
+                this.$parent.selectedFiles = currentValue || null;
+            }
         },
 
         getFileAddedMessage() {
@@ -632,6 +510,11 @@ export default {
                     const self = this;
 
                     if (self.canMultiple) {
+                        // safety net in case selectedFiles isn't an array for some reason
+                        if (!Array.isArray(self.$parent.selectedFiles)) {
+                            self.$parent.selectedFiles = [];
+                        }
+
                         let filesPath = files.filter((file) => {
                             return ['jpg', 'jpeg', 'png', 'mp4', 'avi', 'mkv'].includes(
                                 self.getFileExtension(file.toLowerCase()),

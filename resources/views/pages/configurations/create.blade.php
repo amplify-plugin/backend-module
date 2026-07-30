@@ -19,7 +19,6 @@
 @endsection
 
 @section('content')
-    {{-- @dump($coreConfigurationData) --}}
     <configuration
         app_url="{{ config('app.url') }}"
         url="{{ url($crud->getCurrentOperation() === 'update'
@@ -28,7 +27,6 @@
         axios_url="{{ route('system-config.update') }}"
         translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
         class_name="{{$crud->getEditContentClass() ?? $crud->getCreateContentClass()}}"
-        product="{{ json_encode($product ?? array_fill_keys($crud->model->getFillable(), '')) }}"
         all_currencies="{{json_encode($currencies)}}"
         core_configuration_data="{{json_encode($coreConfigurationData)}}"
         available_locales="{{json_encode($availableLocales)}}"
@@ -43,7 +41,9 @@
         dds_dates="{{ json_encode($dds_dates ?? []) }}"
         catalogs="{{ json_encode($catalogs ?? []) }}"
         document_types="{{ json_encode($documentTypes ?? []) }}"
-        timezone="{{ config('app.timezone') }}">
+        timezone="{{ config('app.timezone') }}"
+        :permissions="@js($permissions)"
+    >
     </configuration>
 @endsection
 

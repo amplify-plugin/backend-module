@@ -87,12 +87,7 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'type' => 'dropdown',
                 'label' => 'Is Synced',
             ],
-                function () {
-                    return [
-                        '1' => 'Yes',
-                        '0' => 'No',
-                    ];
-                },
+                ['1' => 'Yes', '0' => 'No',],
                 function ($value) {
                     if ($value == '1') {
                         $this->crud->addClause('whereNotNull', 'synced_at');
@@ -103,6 +98,15 @@ class CustomerCrudController extends BackpackCustomCrudController
                     }
                 });
         }
+
+        CRUD::addFilter([
+            'name' => 'approved',
+            'type' => 'dropdown',
+            'label' => 'Approved?',
+        ],
+            ['1' => 'Yes', '0' => 'No',],
+            fn($value) => $this->crud->addClause('where', 'approved', $value),
+            fn() => $this->crud->addClause('where', 'approved', 1));
 
         CRUD::addFilter([
             'name' => 'created_between',
@@ -212,11 +216,7 @@ class CustomerCrudController extends BackpackCustomCrudController
             'tab' => 'Basic',
             'wrapper' => ['class' => 'form-group col-md-3'],
         ]);
-        CRUD::addField([
-            'name' => 'approved',
-            'type' => 'hidden',
-            'value' => 1,
-        ]);
+
         CRUD::addField([
             'label' => 'Industry Classification',
             'name' => 'industry_classification_id',
@@ -229,6 +229,13 @@ class CustomerCrudController extends BackpackCustomCrudController
             'options' => (fn($query) => $query->orderBy('name')->get()),
         ]);
         CRUD::field('customer_type')->type('enum')->tab('Basic')->label('Customer Type');
+
+        CRUD::addField([
+            'name' => 'approved',
+            'type' => 'boolean',
+            'default' => 1,
+            'tab' => 'Basic',
+        ]);
 
         // BIll ADDRESS
         CRUD::addFields([
@@ -515,7 +522,7 @@ class CustomerCrudController extends BackpackCustomCrudController
 
         $this->crud->setSaveAction();
 
-        if (! empty($item->customer_code)) {
+        if (!empty($item->customer_code)) {
             CustomerProfileSyncJob::dispatch(['customer_id' => $this->data['entry']->getKey()]);
         }
 

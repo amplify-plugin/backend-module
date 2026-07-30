@@ -120,7 +120,7 @@ class DraftOrderCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($order) {
-                return $order->customer ? '<a href="'.route('customer.show', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : '';
+                return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : '';
             },
         ]);
         CRUD::addColumn([

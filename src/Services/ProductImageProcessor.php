@@ -125,8 +125,11 @@ class ProductImageProcessor
 
     private function processAdditional(string $code, array $list, $existingJson): ?string
     {
+        // ProductImage casts `additional` to array, so existing values may already be arrays.
+        $existingEncoded = $this->encodeAdditional($existingJson);
+
         if (empty($list)) {
-            return $existingJson;
+            return $existingEncoded;
         }
 
         $newUrls = [];
@@ -140,12 +143,11 @@ class ProductImageProcessor
         }
 
         if (empty($newUrls)) {
-            return $existingJson;
+            return $existingEncoded;
         }
 
-        return json_encode(
-            $this->mergeUrls($this->decode($existingJson), $newUrls),
-            JSON_UNESCAPED_SLASHES
+        return $this->encodeAdditional(
+            $this->mergeUrls($this->decode($existingJson), $newUrls)
         );
     }
 
@@ -157,9 +159,13 @@ class ProductImageProcessor
             return null;
         }
 
-        $dest = $variant === ''
-            ? "{$this->outputBase}/._{$code}.jpg"
-            : "{$this->outputBase}/._{$code}_{$variant}.jpg";
+        if ($variant === '') {
+            Log::warning('Additional missing variant', compact('code', 'src'));
+
+            return null;
+        }
+
+        $dest = "{$this->outputBase}/{$code}_{$variant}.jpg";
 
         if (! $this->disk->move($src, $dest)) {
             Log::warning('Additional move failed', compact('code', 'src', 'dest'));
@@ -236,7 +242,28 @@ class ProductImageProcessor
 
     private function decode($json): array
     {
+        if (is_array($json)) {
+            return $json;
+        }
+
         return is_string($json) ? (json_decode($json, true) ?: []) : [];
+    }
+
+    private function encodeAdditional($value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (is_array($value)) {
+            return empty($value) ? null : json_encode(array_values($value), JSON_UNESCAPED_SLASHES);
+        }
+
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return null;
     }
 
     private function mergeUrls(array $old, array $new): array
@@ -252,7 +279,7 @@ class ProductImageProcessor
 
         $name = pathinfo($path, PATHINFO_FILENAME);
 
-        if (preg_match('/^\._'.preg_quote($code, '/').'_([A-Z0-9]+)$/i', $name, $m)) {
+        if (preg_match('/^'.preg_quote($code, '/').'_([A-Z0-9]+)$/i', $name, $m)) {
             return strtoupper($m[1]);
         }
 

@@ -91,7 +91,7 @@ export default {
     props: [
         'class_name', 'url', 'active_tab',
         'method', 'axios_url', 'query_string', 'customer_group_pricing_type',
-        'customer_group_data', 'categories', 'users', 'save_action'
+        'customer_group_data', 'categories', 'catalog_categories', 'users', 'save_action'
     ],
     data() {
         return {
@@ -100,10 +100,12 @@ export default {
                 group_code        : '',
                 group_name        : '',
                 group_pricing_type: 'rules-based-pricing',
+                catalog           : null,
                 customers         : [],
                 users             : []
             },
             group_types            : JSON.parse(this.customer_group_pricing_type),
+            catalogCategories      : JSON.parse(this.catalog_categories),
             availableUsers         : JSON.parse(this.users),
             backUrl                : '/admin/customer-group',
             newUrl                 : '/admin/customer-group/create',
@@ -221,6 +223,7 @@ export default {
                 group_code        : customer_group_data.group_code,
                 group_name        : customer_group_data.group_name,
                 group_pricing_type: customer_group_data.group_pricing_type,
+                catalog           : customer_group_data.catalog ?? null,
                 customers         : customer_group_data.customers ?? [],
                 users             : customer_group_data.users ?? [],
             };
@@ -470,6 +473,8 @@ export default {
             let pricing_rules                   = this.rules_based_pricing;
             pricing_rules.volume_discount_index = this.volume_discount_index;
             let params                          = _.cloneDeep(this.customer_group);
+            params.category_id                  = params.catalog?.id ?? null;
+            delete params.catalog;
             params.users                        = (params.users ?? []).map(user => user?.id ?? user);
             params.pricing_rules                = pricing_rules
             params._save_action                 = actionType;

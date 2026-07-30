@@ -28,6 +28,7 @@ class CustomerGroupRequest extends FormRequest
         $rules['group_code'] = 'required|string|min:3|max:255';
         $rules['group_name'] = 'required|string|min:3|max:255';
         $rules['group_pricing_type'] = 'required|string';
+        $rules['category_id'] = 'nullable|integer|exists:categories,id';
         $rules['users'] = 'nullable|array';
         $rules['users.*'] = 'integer|exists:users,id';
         if (request()->pricing_rules && request()->pricing_rules['flat_discount']) {

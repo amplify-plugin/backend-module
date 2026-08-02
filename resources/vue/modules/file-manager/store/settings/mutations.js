@@ -46,9 +46,9 @@ export default {
         let baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
         if (window.location.port.length) {
-          baseUrl += `:${window.location.port}/file-manager/`;
+          baseUrl += `:${window.location.port}/admin/file-manager/`;
         } else {
-          baseUrl += '/file-manager/';
+          baseUrl += '/admin/file-manager/';
         }
 
         state.baseUrl = baseUrl;

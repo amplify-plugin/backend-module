@@ -35,9 +35,10 @@ const store = new Vuex.Store({
     },
     actions: {
         async localization({ commit }) {
-            await axios('/locale-lang.js').then(({ data }) => {
-                commit('generateLocalization', data);
-            });
+            commit('generateLocalization', []);
+            // await axios('/locale-lang.js').then(({ data }) => {
+            //     commit('generateLocalization', data);
+            // });
         },
     },
 

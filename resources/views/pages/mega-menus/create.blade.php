@@ -37,6 +37,7 @@
 
 
 @section('content')
+    <div id="app">
     @php
         if (isset($entry)) {
             $entry->load('products');
@@ -62,6 +63,7 @@
         categories='@json($categories)'
         category_url="{{ route('mega-menu.category') }}"
     ></megamenu-create>
+    </div>
 @endsection
 
 @section('after_scripts')

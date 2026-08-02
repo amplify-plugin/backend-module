@@ -19,11 +19,13 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <data-transformation-test-screen
         data_transformation_data="{{ isset($dataTransformation) ? json_encode($dataTransformation) : json_encode([]) }}"
         easy_ask_default_product_categories="{{ json_encode(eaDefaultCategories('categories')) }}"
         locale="{{request()->locale ?? 'en'}}"
     ></data-transformation-test-screen>
+    </div>
 @endsection
 
 @section('after_scripts')

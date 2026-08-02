@@ -29,6 +29,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <product-classification-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -55,6 +56,7 @@
         all_single_product_pages="{{ json_encode($all_single_product_pages) }}"
         save_action = "{{ json_encode($saveAction) }}"
     ></product-classification-create>
+    </div>
 @endsection
 
 @section('after_scripts')

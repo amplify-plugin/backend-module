@@ -19,32 +19,34 @@
 @endsection
 
 @section('content')
-    <configuration
-        app_url="{{ config('app.url') }}"
-        url="{{ url($crud->getCurrentOperation() === 'update'
+    <div id="app">
+        <configuration
+                app_url="{{ config('app.url') }}"
+                url="{{ url($crud->getCurrentOperation() === 'update'
                     ? $crud->route.'/'.$entry->getKey().'/edit'
                     : $crud->route.'/create') }}"
-        axios_url="{{ route('system-config.update') }}"
-        translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
-        class_name="{{$crud->getEditContentClass() ?? $crud->getCreateContentClass()}}"
-        all_currencies="{{json_encode($currencies)}}"
-        core_configuration_data="{{json_encode($coreConfigurationData)}}"
-        available_locales="{{json_encode($availableLocales)}}"
-        hierarchies="{{json_encode($hierarchies)}}"
-        countries="{{json_encode($countries)}}"
-        mail_configuration_data="{{json_encode($mail_configuration_data)}}"
-        product_indexes="{{json_encode($product_indexes)}}"
-        date_time_formats="{{json_encode($date_time_formats)}}"
-        date_formats="{{json_encode($date_formats)}}"
-        page_types="{{ json_encode($pageTypes) }}"
-        menu_groups="{{ json_encode($menuGroups) }}"
-        dds_dates="{{ json_encode($dds_dates ?? []) }}"
-        catalogs="{{ json_encode($catalogs ?? []) }}"
-        document_types="{{ json_encode($documentTypes ?? []) }}"
-        timezone="{{ config('app.timezone') }}"
-        :permissions="@js($permissions)"
-    >
-    </configuration>
+                axios_url="{{ route('system-config.update') }}"
+                translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
+                class_name="{{$crud->getEditContentClass() ?? $crud->getCreateContentClass()}}"
+                all_currencies="{{json_encode($currencies)}}"
+                core_configuration_data="{{json_encode($coreConfigurationData)}}"
+                available_locales="{{json_encode($availableLocales)}}"
+                hierarchies="{{json_encode($hierarchies)}}"
+                countries="{{json_encode($countries)}}"
+                mail_configuration_data="{{json_encode($mail_configuration_data)}}"
+                product_indexes="{{json_encode($product_indexes)}}"
+                date_time_formats="{{json_encode($date_time_formats)}}"
+                date_formats="{{json_encode($date_formats)}}"
+                page_types="{{ json_encode($pageTypes) }}"
+                menu_groups="{{ json_encode($menuGroups) }}"
+                dds_dates="{{ json_encode($dds_dates ?? []) }}"
+                catalogs="{{ json_encode($catalogs ?? []) }}"
+                document_types="{{ json_encode($documentTypes ?? []) }}"
+                timezone="{{ config('app.timezone') }}"
+                :permissions="@js($permissions)"
+        >
+        </configuration>
+    </div>
 @endsection
 
 @section('after_scripts')

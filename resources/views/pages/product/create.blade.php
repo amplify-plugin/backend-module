@@ -32,6 +32,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <product-create class_name="col-md-12 bold-labels"
                     url="{{ url(
             $crud->getCurrentOperation() === 'update'
@@ -83,6 +84,7 @@
             )
             : json_encode([]) }}"
     ></product-create>
+    </div>
 @endsection
 
 @section('after_scripts')

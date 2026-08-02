@@ -33,7 +33,7 @@
 @endsection
 
 @section('content')
-
+    <div id="app">
     <create-customer-order-rule
         back_url="{{ '/'.$crud->route }}"
         class_name="{{ $crud->getCurrentOperation() === 'update' ? $crud->getEditContentClass() : $crud->getCreateContentClass() }}"
@@ -43,6 +43,7 @@
         customer_order_rule_data= "{{json_encode($crud->query->first() ?? new \stdClass())}}"
         save_action="{{ json_encode($saveAction) }}">
     </create-customer-order-rule>
+    </div>
 @endsection
 
 @section('after_scripts')

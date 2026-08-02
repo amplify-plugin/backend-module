@@ -32,24 +32,26 @@
 @endsection
 
 @section('content')
-    <hero-slider-create
-        class_name="{{($crud->getCurrentOperation() === 'update')
+    <div id="app">
+        <hero-slider-create
+                class_name="{{($crud->getCurrentOperation() === 'update')
                         ? $crud->getEditContentClass()
                         :$crud->getCreateContentClass()}}"
-        url="{{ url($crud->getCurrentOperation() === 'update'
+                url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
                         : $crud->route.'/create') }}"
-        axios_url="{{ url($crud->getCurrentOperation() === 'update'
+                axios_url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey()
                         : $crud->route) }}"
-        method="{{$crud->getCurrentOperation() === 'update'
+                method="{{$crud->getCurrentOperation() === 'update'
                         ? 'put'
                         : 'post'}}"
-        hero_slider_data="{{ isset($entry) ? json_encode($entry) : json_encode([]) }}"
-        save_action="{{ json_encode($saveAction) }}"
-        banner_zones="{{ json_encode($banner_zones) }}"
-        template_colors=" {{ json_encode(theme()->options) }}"
-    ></hero-slider-create>
+                hero_slider_data="{{ isset($entry) ? json_encode($entry) : json_encode([]) }}"
+                save_action="{{ json_encode($saveAction) }}"
+                banner_zones="{{ json_encode($banner_zones) }}"
+                template_colors=" {{ json_encode(theme()->options) }}"
+        ></hero-slider-create>
+    </div>
 @endsection
 
 @section('after_scripts')

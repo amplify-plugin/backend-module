@@ -28,7 +28,7 @@
 @endsection
 
 @section('content')
-    <div>
+    <div id="app">
         <file-manager></file-manager>
     </div>
 @endsection

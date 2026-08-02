@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <import
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -54,6 +55,7 @@
         available_locales="{{ collect(config('backpack.crud.locales')) }}"
         timezone="{{ config('app.timezone') }}"
     ></import>
+    </div>
 @endsection
 
 @section('after_scripts')

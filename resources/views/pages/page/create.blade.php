@@ -31,6 +31,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <page-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit' :
@@ -47,7 +48,7 @@
         :local_page="{{ json_encode($page ?? new \stdClass()) }}"
         :use_right_sidebar="{{ config('amplify.frontend.right_sidebar', true) ? 'true' : 'false' }}"
     ></page-create>
-
+    </div>
 @endsection
 
 @section('after_scripts')

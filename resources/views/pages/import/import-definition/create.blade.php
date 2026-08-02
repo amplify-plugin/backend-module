@@ -34,6 +34,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <import-definition
         url="{{ url(
             $crud->getCurrentOperation() === 'update'
@@ -50,6 +51,7 @@
         attributes_data="{{ isset($attributes) ? json_encode($attributes) : json_encode([]) }}"
         all_hierarchies="{{ isset($all_hierarchies) && count($all_hierarchies) > 0 ? json_encode($all_hierarchies) : json_encode([]) }}"
         import_types="{{ json_encode(ImportDefinition::IMPORT_TYPES) }}"></import-definition>
+    </div>
 @endsection
 
 @section('after_scripts')

@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <event-action
         class_name="{{$crud->getEditContentClass() ?? $crud->getCreateContentClass()}}"
         url="{{ url($crud->getCurrentOperation() === 'update'
@@ -48,6 +49,7 @@
         event_action_data="{{ isset($event_action_data) ? json_encode($event_action_data) : '[]' }}"
         save_action="{{ json_encode($saveAction) }}"
     ></event-action>
+    </div>
 @endsection
 
 @section('after_scripts')

@@ -18,6 +18,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <data-transformation-run-screen
             data_transformation_data="{{ isset($dataTransformation) ? json_encode($dataTransformation) : json_encode([]) }}"
             categories="{{ isset($categories) ? json_encode($categories) : json_encode([]) }}"
@@ -25,6 +26,7 @@
             locale="{{request('locale', 'en')}}"
             product_search_by_id_prefix="{{ trim(config('amplify.sayt.product_search_by_id_prefix')) }}"
     ></data-transformation-run-screen>
+    </div>
 @endsection
 
 @section('after_scripts')

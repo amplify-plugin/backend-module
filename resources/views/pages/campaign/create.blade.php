@@ -30,6 +30,7 @@
     </section>
 @endsection
 @section('content')
+    <div id="app">
     @php
         $method = 'post';
         $store_or_update_url = route('admin.campaign.store');
@@ -52,6 +53,7 @@
             store_or_update_url="{{ $store_or_update_url }}"
             category_url="{{ route('mega-menu.category') }}"
     ></campaign-create>
+    </div>
 @endsection
 
 

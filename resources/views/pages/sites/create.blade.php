@@ -29,6 +29,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <site-create
             url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -47,6 +48,7 @@
             all_pages="{{ json_encode(\Amplify\System\Cms\Models\Page::all()) }}"
             search_config_data="{{ isset($sitesData) ? json_encode(optional($sitesData)->search_configuration) : json_encode([]) }}"
     ></site-create>
+    </div>
 @endsection
 
 @section('after_scripts')

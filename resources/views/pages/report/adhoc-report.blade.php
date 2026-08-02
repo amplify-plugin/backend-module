@@ -16,6 +16,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <adhoc-report
         api_endpoint="{{ route('dynamic-report.generate-response') }}"
         categories="{{ json_encode($categories) }}"
@@ -23,6 +24,7 @@
         prompt="{{ $prompt }}"
         saved_report="{{ $saved_report? json_encode($saved_report) : null }}"
     ></adhoc-report>
+    </div>
 @endsection
 
 @section('after_styles')

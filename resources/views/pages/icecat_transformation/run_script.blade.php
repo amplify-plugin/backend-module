@@ -18,6 +18,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <icecat-transformation-run-screen
         easy_ask_default_product_categories="{{ json_encode(eaDefaultCategories('categories')) }}"
         locale="{{ request('locale', 'en') }}"
@@ -25,6 +26,7 @@
         product_search_by_id_prefix="{{ trim(config('amplify.sayt.product_search_by_id_prefix')) }}"
         save_action="{{ json_encode($saveAction) }}">
     </icecat-transformation-run-screen>
+    </div>
 @endsection
 
 @section('after_scripts')

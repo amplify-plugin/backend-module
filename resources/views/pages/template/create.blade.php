@@ -30,7 +30,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row" id="app">
         <div class="{{ $crud->getListContentClass() }}">
             <template-install/>
         </div>

@@ -31,7 +31,7 @@
 @endsection
 
 @section('content')
-
+    <div id="app">
     <menus-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit?group_id=' . request()->group_id :
@@ -54,6 +54,7 @@
         save_action="{{ json_encode($saveAction) }}"
         locale="{{request()->locale ?? 'en'}}"
     ></menus-create>
+    </div>
 @endsection
 
 @section('after_scripts')

@@ -30,6 +30,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <category-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -54,6 +55,7 @@
         categorization_required="{{ $categorization_required ? 'Y' : 'N' }}"
         catalogs="{{ json_encode($catalogs) }}"
     ></category-create>
+    </div>
 @endsection
 
 @section('after_scripts')

@@ -26,23 +26,25 @@ $breadcrumbs = [
 @endsection
 
 @section('content')
-    <banner-create
-        method="{{ $crud->getCurrentOperation() === 'update'
+    <div id="app">
+        <banner-create
+                method="{{ $crud->getCurrentOperation() === 'update'
             ? 'put'
             : ($crud->getCurrentOperation() === 'show'
                 ? 'get'
                 : 'post') }}"
-        url="{{ url(
+                url="{{ url(
             $crud->getCurrentOperation() === 'update'
                 ? $crud->route . '/' . $entry->getKey() . '/edit'
                 : ($crud->getCurrentOperation() === 'show'
                     ? $crud->route . '/' . $entry->getKey() . '/show'
                     : $crud->route . '/create'),
         ) }}"
-        save_action="{{ json_encode($saveAction) }}"
-        banner_details='@json($banner_details)'
-        axios_url="{{ url($crud->getCurrentOperation() === 'update' ? $crud->route . '/' . $entry->getKey() : $crud->route) }}">
-    </banner-create>
+                save_action="{{ json_encode($saveAction) }}"
+                banner_details='@json($banner_details)'
+                axios_url="{{ url($crud->getCurrentOperation() === 'update' ? $crud->route . '/' . $entry->getKey() : $crud->route) }}">
+        </banner-create>
+    </div>
 @endsection
 
 @section('after_scripts')

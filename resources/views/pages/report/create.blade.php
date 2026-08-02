@@ -24,6 +24,7 @@
 	</section>
 @endsection
 @section('content')
+    <div id="app">
     <report-create
         url="{{ url($crud->getCurrentOperation() === 'update'? $crud->route.'/'.$entry->getKey().'/edit' : $crud->route.'/create') }}"
         axios_url="{{ url($crud->getCurrentOperation() === 'update'? $crud->route.'/'.$entry->getKey() : $crud->route) }}"
@@ -31,6 +32,7 @@
         entry="{{ $crud->entry }}"
         save_action="{{ json_encode($saveAction) }}"
     ></report-create>
+    </div>
 @endsection
 
 @section('after_scripts')

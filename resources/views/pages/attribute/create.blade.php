@@ -30,24 +30,26 @@
 @endsection
 
 @section('content')
-    <attribute-create
-        url="{{ url($crud->getCurrentOperation() === 'update'
+    <div id="app">
+        <attribute-create
+                url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
                         : $crud->route.'/create') }}"
-        axios_url="{{ url($crud->getCurrentOperation() === 'update'
+                axios_url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey()
                         : $crud->route) }}"
-        current_lang="{{ $crud->model->getAvailableLocales()[request()->input('locale') ?? App::getLocale()] ?? 'English' }}"
-        translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
-        available_locales="{{ json_encode($crud->model->getAvailableLocales() ?? []) }}"
-        class_name="col-md-12 bold-labels"
-        translatable="{{ json_encode($translatable ?? []) }}"
-        local_attribute="{{ json_encode($attribute ?? new \stdClass()) }}"
-        method="{{ $crud->getCurrentOperation() === 'update' ? 'put' : 'post' }}"
-        locale="{{ request()->input('locale') ?? 'en' }}"
-        query_string="{{ json_encode($query_string) }}"
-        save_action="{{ json_encode($saveAction) }}"
-    ></attribute-create>
+                current_lang="{{ $crud->model->getAvailableLocales()[request()->input('locale') ?? App::getLocale()] ?? 'English' }}"
+                translation_enabled="{{ $crud->getCurrentOperation() === 'update' && $crud->model->translationEnabled() }}"
+                available_locales="{{ json_encode($crud->model->getAvailableLocales() ?? []) }}"
+                class_name="col-md-12 bold-labels"
+                translatable="{{ json_encode($translatable ?? []) }}"
+                local_attribute="{{ json_encode($attribute ?? new \stdClass()) }}"
+                method="{{ $crud->getCurrentOperation() === 'update' ? 'put' : 'post' }}"
+                locale="{{ request()->input('locale') ?? 'en' }}"
+                query_string="{{ json_encode($query_string) }}"
+                save_action="{{ json_encode($saveAction) }}"
+        ></attribute-create>
+    </div>
 @endsection
 
 @section('after_scripts')

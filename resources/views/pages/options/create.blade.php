@@ -30,6 +30,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <option-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -51,6 +52,7 @@
         query_string="{{ json_encode($query_string) }}"
         save_action = "{{ json_encode($saveAction) }}"
     ></option-create>
+    </div>
 @endsection
 
 @section('after_scripts')

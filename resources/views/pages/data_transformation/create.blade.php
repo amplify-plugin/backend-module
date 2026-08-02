@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <data-transformation-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -50,6 +51,7 @@
         locale="{{request()->locale ?? 'en'}}"
         available_locales="{{ collect(config('backpack.crud.locales')) }}"
     ></data-transformation-create>
+    </div>
 @endsection
 
 @section('after_scripts')

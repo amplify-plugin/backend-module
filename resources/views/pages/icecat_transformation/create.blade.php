@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <icecat-transformation-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -51,6 +52,7 @@
         locale="{{request()->locale ?? 'en'}}"
         available_locales="{{ collect(config('backpack.crud.locales')) }}"
     ></icecat-transformation-create>
+    </div>
 @endsection
 
 @section('after_scripts')

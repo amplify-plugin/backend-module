@@ -30,6 +30,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <customer-group-create
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -50,6 +51,7 @@
         users="{{json_encode($users ?? [])}}"
         save_action = "{{ json_encode($saveAction) }}"
     ></customer-group-create>
+    </div>
 @endsection
 
 @section('after_scripts')

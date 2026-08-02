@@ -33,6 +33,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <setting-email
         url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit'
@@ -48,6 +49,7 @@
         save_action="{{ json_encode($saveAction) }}"
         email_data="{{ isset($email_data) ? json_encode($email_data) : '[]' }}"
     ></setting-email>
+    </div>
 @endsection
 
 @section('after_scripts')

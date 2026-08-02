@@ -19,10 +19,12 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <image-bulk-product
             class_name="{{$crud->getEditContentClass() ?? $crud->getCreateContentClass()}}"
             axios_url="{{ route('products.bulk-image.update') }}"
     />
+    </div>
 @endsection
 
 @section('after_scripts')

@@ -31,6 +31,7 @@
 @endsection
 
 @section('content')
+    <div id="app">
     <footer-create
             url="{{ url($crud->getCurrentOperation() === 'update'
                         ? $crud->route.'/'.$entry->getKey().'/edit' :
@@ -56,6 +57,7 @@
             footer_layouts="{{json_encode($footer_layouts) ?? json_encode([])}}"
             save_action="{{ json_encode($saveAction) }}"
     ></footer-create>
+        <div id="app">
 @endsection
 
 @section('after_scripts')

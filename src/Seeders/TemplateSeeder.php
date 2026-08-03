@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Seeders;
 
-use Amplify\System\Cms\Models\Template;
+use Amplify\System\Cms\Models\Theme;
 use Illuminate\Database\Seeder;
 
 class TemplateSeeder extends Seeder
@@ -21,7 +21,7 @@ class TemplateSeeder extends Seeder
             $template['component_folder'] = $template['slug'];
             $template['asset_folder'] = $template['slug'];
 
-            Template::create($template);
+            Theme::create($template);
         }
     }
 

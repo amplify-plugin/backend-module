@@ -87,6 +87,12 @@ class SystemConfigurationSeeder extends Seeder
                 [
                     'name' => 'basic',
                     'type' => 'integer',
+                    'option' => 'first_day_of_week',
+                    'value' => 0,
+                ],
+                [
+                    'name' => 'basic',
+                    'type' => 'integer',
                     'option' => 'default_reorder_limit',
                     'value' => 10,
                 ],

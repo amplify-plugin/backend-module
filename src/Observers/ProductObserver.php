@@ -2,6 +2,9 @@
 
 namespace Amplify\System\Backend\Observers;
 
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Backend\Models\SkuProduct;
+
 class ProductObserver
 {
     /**
@@ -21,7 +24,21 @@ class ProductObserver
      */
     public function updated($model)
     {
-        //
+        if (! $model->has_sku || ! $model->wasChanged('manufacturer_id')) {
+            return;
+        }
+
+        $skuIds = SkuProduct::where('parent_id', $model->id)->pluck('sku_id');
+
+        if ($skuIds->isNotEmpty()) {
+            Product::whereIn('id', $skuIds)->update([
+                'manufacturer_id' => $model->manufacturer_id,
+            ]);
+        }
+
+        Product::where('parent_id', $model->id)->update([
+            'manufacturer_id' => $model->manufacturer_id,
+        ]);
     }
 
     /**

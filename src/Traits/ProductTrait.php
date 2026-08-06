@@ -556,7 +556,10 @@ trait ProductTrait
                     }
 
                     $q->orWhere('product_code', $key);
-                });
+                })
+                    // Prefer standalone products when duplicate product codes exist
+                    ->orderByRaw('CASE WHEN parent_id IS NULL THEN 0 ELSE 1 END')
+                    ->orderBy('id');
             })
             ->first();
 

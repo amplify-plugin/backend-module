@@ -757,7 +757,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $productData = $this->prepareData($request);
         $productData['sku_id'] = $request->parent_id.'-'.$product->id;
         $product->update($productData);
-        $product->parentProducts()->attach($request->parent_id);
+        $product->parentProducts()->syncWithoutDetaching([$request->parent_id]);
         $this->createOrUpdateSKUProductImage($request->main, $request->id);
         $this->createOrUpdateSKUProductAttribute($request, $request->id);
 
@@ -1014,6 +1014,12 @@ class ProductCrudController extends BackpackCustomCrudController
 
     private function prepareData($request)
     {
+        $manufacturerId = $request->manufacturer_id;
+
+        if (! $request->filled('manufacturer_id') && $request->parent_id) {
+            $manufacturerId = Product::where('id', $request->parent_id)->value('manufacturer_id');
+        }
+
         return [
             'sku_id' => $request->sku_id,
             'parent_id' => $request->parent_id,
@@ -1028,6 +1034,7 @@ class ProductCrudController extends BackpackCustomCrudController
             'min_order_qty' => $request->min_order_qty,
             'qty_interval' => $request->qty_interval,
             'specifications' => $request->specifications,
+            'manufacturer_id' => $manufacturerId,
         ];
     }
 
@@ -1328,6 +1335,12 @@ class ProductCrudController extends BackpackCustomCrudController
             'parent_id' => $parentId,
             'sku_id' => $skuId,
         ])->delete();
+
+        // Fully detach so the product can be edited/re-added independently
+        Product::where('id', $skuId)->update([
+            'parent_id' => null,
+            'sku_id' => null,
+        ]);
     }
 
     public function updatePivotTable(Request $request): JsonResponse

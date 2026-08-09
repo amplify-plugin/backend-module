@@ -9,7 +9,7 @@
 @include('crud::fields.inc.wrapper_start')
 <label for="{{ $id }}">{!! $field['label'] !!}</label>
 
-<div style="display: block; width: 100%">
+<div style="display: block; width: 100%" id="app">
     <textarea
             name="{{ $field['name'] }}"
             ref="{{ $field['name'] }}"

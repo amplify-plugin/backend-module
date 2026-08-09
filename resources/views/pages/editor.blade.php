@@ -23,7 +23,7 @@
 
 @section('content')
     {{-- Default box --}}
-    <div class="row">
+    <div class="row" id="app">
         {{-- THE ACTUAL CONTENT --}}
         <div class="{{ $crud->getListContentClass() }}">
             <div class="card">

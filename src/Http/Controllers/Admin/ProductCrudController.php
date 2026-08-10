@@ -1425,7 +1425,10 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->crud->hasAccessOrFail('clone');
 
         $oldEntry = $this->crud->model->findOrFail($id);
-        $prev_attribute = json_decode($oldEntry->sku_default_attributes);
+        // Model casts sku_default_attributes to array; only json_decode when still a string.
+        $prev_attribute = is_array($oldEntry->sku_default_attributes)
+            ? $oldEntry->sku_default_attributes
+            : (! empty($oldEntry->sku_default_attributes) ? json_decode($oldEntry->sku_default_attributes, true) : []);
 
         if (! empty($oldEntry->product_classification_id)) {
             $checkProdcutClsExist = ProductClassification::find($oldEntry->product_classification_id);
@@ -1440,7 +1443,7 @@ class ProductCrudController extends BackpackCustomCrudController
             $new_attribute = $fetch_attribute['productClassification']->pluck('id')->toArray();
         }
 
-        if ($prev_attribute != null) {
+        if (! empty($prev_attribute)) {
             $mergedArray = array_merge($prev_attribute, $new_attribute);
             $new_attribute = array_unique($mergedArray);
         }
@@ -1450,7 +1453,8 @@ class ProductCrudController extends BackpackCustomCrudController
             $clonedEntry->product_code = 'master-'.$oldEntry->product_code;
             $clonedEntry->has_sku = true;
             $clonedEntry->sku_id = null;
-            $clonedEntry->sku_default_attributes = json_encode($new_attribute);
+            // Assign array directly; the model array cast handles JSON encoding on save.
+            $clonedEntry->sku_default_attributes = array_values($new_attribute);
             $clonedEntry->product_slug = 'master-'.$oldEntry->product_slug;
 
             $existingProduct = Product::where('product_code', $clonedEntry->product_code)->first();

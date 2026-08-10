@@ -349,6 +349,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'nxt_available_web_order_number' => $request->input('nxt_available_web_order_number', null),
             'date_time_format' => $request->input('date_time_format', config('amplify.basic.date_time_format')),
             'date_format' => $request->input('date_format', config('amplify.basic.date_format')),
+            'first_day_of_week' => (int) $request->input(
+                'first_day_of_week',
+                config('amplify.basic.first_day_of_week', 0)
+            ),
             'default_reorder_limit' => $request->input('default_reorder_limit', 10),
             'navbar_brand' => $request->input('navbar_brand', 'img/Amplify Logo 280 tagline.png'),
             'footer_image' => $request->input('footer_image', 'img/Powered by EasyAsk.png'),

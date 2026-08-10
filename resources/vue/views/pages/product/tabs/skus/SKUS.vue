@@ -113,7 +113,7 @@
                                                class="table table-default table-hover m-0">
                                             <thead>
                                             <tr>
-                                                <th scope="col" class="text-nowrap">SKU PRODUCT ID</th>
+                                                <th scope="col" class="text-nowrap">Product Code</th>
                                                 <th scope="col" class="text-nowrap">SKU Image</th>
                                                 <th scope="col" class="text-nowrap">SKU Name</th>
                                                 <th scope="col">Action</th>
@@ -122,7 +122,7 @@
                                             <tbody class="scrollable_product_list">
                                             <tr v-if="listsSKUProducts.length" v-for="(product,index) in listsSKUProducts" draggable="true" @dragstart="dragStart" @dragover="dragOver" @dragend="dragEnd" :data-id="product.id" :data-reorder="product.reorder">
                                                 <td>
-                                                    {{ product.id }}
+                                                    {{ product.product_code }}
                                                 </td>
                                                 <td>
                                                     <img @error="$root.getDefaultImage"
@@ -185,7 +185,7 @@
                                                 <!-- bbb_deals -->
                                                 <div class="bbb_deals pb-2 pt-5 px-3 px-xl-2">
                                                     <div class="bbb_deals_title">
-                                                        <small>SKU PRODUCT ID: # {{ product.id }}</small>
+                                                        <small>{{ product.product_code }}</small>
                                                     </div>
                                                     <div class="bbb_deals_slider_container">
                                                         <div class=" bbb_deals_item">
@@ -268,12 +268,12 @@
                 <div class="btn-group border-light rounded d-flex" id="componentDiv">
                     <span class="bg-light btn btn-link cursor-pointer text-dark text-decoration-none"
                           :class="{'active' : optionType === 'creator'}"
-                          @click="optionType='creator'"> {{ creatorTitle }} New SKU's
+                          @click="openCreateNewSku"> Create New SKU's
                     </span>
                     <span style="height: auto; width: 3px; background: rgb(224 229 236);"></span>
                     <span class="btn btn-success cursor-pointer font-weight-bold"
                           :class="{'active' : optionType === 'selector'}"
-                          @click="isActionFromProductList ? optionType='creator' : optionType='selector'">Select New SKU's
+                          @click="isActionFromProductList ? openCreateNewSku() : optionType='selector'">Select New SKU's
                     </span>
                 </div>
 
@@ -325,10 +325,12 @@ export default {
             listsSKUProducts            : [],
             parent_id                   : '',
             productData                 : {
+                id           : null,
                 product_type : 'Normal',
                 product_image: {
                     main: ''
                 },
+                manufacturer_id: null,
             },
             allAttributes               : [],
             selectedAttributeOptions    : [],
@@ -469,6 +471,7 @@ export default {
             this.selectedAttributeOptions = [];
             this.getAllAttributes();
             this.productData            = {
+                id             : null,
                 sku_id         : '',
                 product_name   : '',
                 product_code   : '',
@@ -479,11 +482,20 @@ export default {
                     main: ''
                 },
                 selling_price  : '',
-                selling_price  : '',
                 qty_interval   : '',
+                manufacturer_id: this.$parent.productData.manufacturer_id != null
+                    ? Number(this.$parent.productData.manufacturer_id)
+                    : null,
             }
             this.productAttributeValues = [];
             this.reRenderCreatorBlock++;
+        },
+
+        openCreateNewSku() {
+            this.creatorTitle  = 'Create';
+            this.disableFields = false;
+            this.resetCreateBlock();
+            this.optionType = 'creator';
         },
 
         getOriginalSkuID(sku_string) {
@@ -506,23 +518,21 @@ export default {
                 let pagination    = new URLSearchParams(this.pagination).toString();
 
                 if (site_search === 'SKUS') {
-                    let isProductIdaNumber = Number.isInteger(parseFloat(product_id))
-                    if (isProductIdaNumber) {
-                        if (this.checkIfProductAlreadyExistInList(parseFloat(product_id.trim()))) {
-                            this.showAlertMessage("error", "Product already exist in the list.");
-                            return;
-                        }
+                    const term = String(product_id ?? '').trim();
 
-                        site_search                                           = `-${this.$parent.product_search_by_id_prefix}=${parseFloat(product_id)}`
-                        this.$refs.selector.$refs.bottom.smallLoader          = true;
-                        this.$refs.selector.$refs.bottom.search_by_product_id = parseFloat(product_id);
-                    } else {
-                        new Noty({type: "warning", text: 'Product ID must be integer'}).show();
+                    if (!term) {
+                        this.fetchingList = false;
+                        this.searching = false;
+                        new Noty({type: "warning", text: 'Enter a Product ID or Product Code'}).show();
                         return;
                     }
+
+                    // Resolve by local DB (supports numeric product codes + products missing from EasyAsk)
+                    this.addSkuByIdOrCode(term);
+                    return;
                 }
 
-                let url = `${this.EAProduct.url}?site_search=${site_search}&${pagination}&returnSKUS=${this.returnSKUS}`;
+                let url = `${this.EAProduct.url}?site_search=${encodeURIComponent(site_search)}&${pagination}&returnSKUS=${this.returnSKUS}`;
 
                 axios.post(url)
                     .then(({data}) => {
@@ -611,6 +621,77 @@ export default {
                     text: 'Type at least 2 characters in search box'
                 }).show();
             }
+        },
+
+        addSkuByIdOrCode(term) {
+            this.$refs.selector.$refs.bottom.smallLoader = true;
+            this.$refs.selector.$refs.bottom.search_by_product_id = term;
+            this.fetchingList = true;
+            this.searching = true;
+
+            const stopLoading = () => {
+                this.searching = false;
+                this.fetchingList = false;
+                if (this.$refs.selector?.$refs?.bottom) {
+                    this.$refs.selector.$refs.bottom.smallLoader = false;
+                }
+            };
+
+            axios.post('/admin/product/fetch/product-by-id', {
+                search_key: term,
+                selectAllFieldsWithAttributes: true,
+            })
+                .then(({data}) => {
+                    const productId = data?.id;
+
+                    if (!productId) {
+                        new Noty({type: "warning", text: 'Product not found'}).show();
+                        stopLoading();
+                        return;
+                    }
+
+                    if (this.parent_id == productId) {
+                        new Noty({type: "error", text: 'Cannot add the master product as its own SKU.'}).show();
+                        stopLoading();
+                        return;
+                    }
+
+                    if (this.checkIfProductAlreadyExistInList(parseFloat(productId))) {
+                        this.showAlertMessage("error", "Product already exist in the list.");
+                        stopLoading();
+                        return;
+                    }
+
+                    this.addSKUToList(this.mapLocalProductToSkuPayload(data));
+                    this.$refs.selector.$refs.bottom.search_by_product_id = null;
+                    Selector.components.Bottom.methods.resetSearchByProductId();
+                    stopLoading();
+                })
+                .catch(() => {
+                    new Noty({type: "warning", text: 'Product not found'}).show();
+                    stopLoading();
+                });
+        },
+
+        mapLocalProductToSkuPayload(product) {
+            const productName = product.local_product_name
+                || (typeof product.product_name === 'object'
+                    ? (product.product_name?.[this.locale] || Object.values(product.product_name || {})[0])
+                    : product.product_name)
+                || '';
+
+            return {
+                Product_Id: product.id,
+                Product_Name: productName,
+                Product_Code: product.product_code,
+                Product_Image: product.product_image?.main || product.thumbnail || '',
+                Price: product.selling_price ?? product.msrp ?? '',
+                Sku_List: '[]',
+                isSkuProduct: false,
+                min_order_qty: product.min_order_qty ?? 1,
+                qty_interval: product.qty_interval ?? 1,
+                manufacturer_id: product.manufacturer_id ?? null,
+            };
         },
 
         getSKUProductListByParentId() {
@@ -749,6 +830,7 @@ export default {
                 productAttributeValues: this.productAttributeValues,
                 min_order_qty         : this.productData.min_order_qty ?? 1,
                 qty_interval          : this.productData.qty_interval ?? 1,
+                manufacturer_id       : this.productData.manufacturer_id ?? this.$parent.productData.manufacturer_id ?? null,
             }
         },
 
@@ -898,6 +980,7 @@ export default {
                 selling_price            : select ? (product.Price = (product.Price) ? product.Price.replace('$', '') : '') : product?.msrp ?? product?.selling_price ?? 0.00,
                 min_order_qty            : product?.min_order_qty ?? 1,
                 qty_interval             : product?.qty_interval ?? 1,
+                manufacturer_id          : select ? (this.$parent.productData.manufacturer_id ?? null) : (product.manufacturer_id ?? null),
                 productAttributeValues   : productAttributeValues,
                 selectedProductAttributes: selectedProductAttributes,
                 multipleSelect           : select,
@@ -926,6 +1009,11 @@ export default {
             this.productData.selling_price      = productData.selling_price;
             this.productData.min_order_qty      = productData.min_order_qty;
             this.productData.qty_interval       = productData.qty_interval;
+            this.productData.manufacturer_id    = productData.manufacturer_id != null
+                ? Number(productData.manufacturer_id)
+                : (this.$parent.productData.manufacturer_id != null
+                    ? Number(this.$parent.productData.manufacturer_id)
+                    : null);
         },
 
         async commonFunctionalityForEditViewClone(product) {

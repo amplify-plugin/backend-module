@@ -244,16 +244,16 @@ class CustomerOrder extends Model implements Auditable
                 'request' => request()->all(),
             ];
 
+            // Forward selected/custom ship-to address lines for any ship-to (MAIN, SAME, TEMP, etc.)
             if (isset($data['address_name'])) {
-
-                $order_infos['ship_to_address1'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_1'] ?? '');
-                $order_infos['ship_to_address2'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_2'] ?? '');
-                $order_infos['ship_to_address3'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_3'] ?? '');
-                $order_infos['ship_to_city'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_city'] ?? '');
-                $order_infos['ship_to_country_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_country_code'] ?? '');
-                $order_infos['ship_to_state'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_state'] ?? '');
-                $order_infos['ship_to_zip_code'] = $data['address_name'] != 'TEMP' ? '' : ($data['address_zip_code'] ?? '');
-                $order_infos['ship_to_phone'] = $data['address_name'] != 'TEMP' ? '' : ($data['shipping_phone'] ?? '');
+                $order_infos['ship_to_address1'] = $data['address_1'] ?? '';
+                $order_infos['ship_to_address2'] = $data['address_2'] ?? '';
+                $order_infos['ship_to_address3'] = $data['address_3'] ?? '';
+                $order_infos['ship_to_city'] = $data['address_city'] ?? '';
+                $order_infos['ship_to_country_code'] = $data['address_country_code'] ?? '';
+                $order_infos['ship_to_state'] = $data['address_state'] ?? '';
+                $order_infos['ship_to_zip_code'] = $data['address_zip_code'] ?? '';
+                $order_infos['ship_to_phone'] = $data['shipping_phone'] ?? $data['phone'] ?? '';
             }
 
             if (isset($data['order_type'])) {

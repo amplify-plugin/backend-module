@@ -9,7 +9,7 @@
                 Search
             </button>
             <span class="float-left  mr-3 mt-2">or Enter {{
-                    calledFrom === 'SKUS' ? 'Product SKU ID' : 'Product ID'
+                    calledFrom === 'SKUS' ? 'Product ID or Product Code' : 'Product ID'
                 }}:</span>
             <div class="btn-group">
                 <input @keydown.enter.prevent="getProducts(search_by_product_id, calledFrom)" type="text"

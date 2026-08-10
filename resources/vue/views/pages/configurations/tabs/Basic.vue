@@ -217,6 +217,23 @@
                 </div>
 
                 <div class="form-group">
+                    <label>First Day of Week</label>
+                    <select
+                        name="first_day_of_week"
+                        class="form-control custom-select"
+                        v-model="coreConfigurationData.first_day_of_week"
+                    >
+                        <option
+                            :value="index"
+                            v-for="(day, index) in weekStartDays"
+                            :key="index"
+                        >
+                            {{ day }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Default Reorder Limit</label>
                     <input
                         type="number"
@@ -568,6 +585,9 @@ export default {
                 nxt_available_web_order_number: this.$parent.coreConfigurationData.basic.nxt_available_web_order_number,
                 date_time_format: this.$parent.coreConfigurationData.basic.date_time_format,
                 date_format: this.$parent.coreConfigurationData.basic.date_format,
+                first_day_of_week: String(
+                    this.$parent.coreConfigurationData.basic.first_day_of_week ?? 0
+                ),
                 default_reorder_limit: this.$parent.coreConfigurationData.basic.default_reorder_limit,
                 navbar_brand: this.$parent.coreConfigurationData.basic.navbar_brand,
                 length_options: this.$parent.coreConfigurationData.basic.length_options,
@@ -594,6 +614,12 @@ export default {
                 break;
             }
         }
+    },
+    computed: {
+        weekStartDays() {
+            const weekdays = this.$parent.coreConfigurationData?.constant?.weekdays || {};
+            return Object.fromEntries(Object.entries(weekdays).filter(([key]) => key !== '*'));
+        },
     },
     methods: {
         prepareModal(type) {

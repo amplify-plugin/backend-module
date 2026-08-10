@@ -54,7 +54,6 @@ class CustomerCrudController extends BackpackCustomCrudController
         CRUD::setModel(Customer::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
         CRUD::setEntityNameStrings('customer', 'customers');
-        CRUD::addBaseClause('active');
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -105,8 +104,9 @@ class CustomerCrudController extends BackpackCustomCrudController
             'label' => 'Approved?',
         ],
             ['1' => 'Yes', '0' => 'No',],
-            fn($value) => $this->crud->addClause('where', 'approved', $value),
-            fn() => $this->crud->addClause('where', 'approved', 1));
+            fn($value) => $this->crud->addClause('where', 'approved', "=", intval($value)),
+            fn() => $this->crud->addClause('where', 'approved', "=", 1)
+        );
 
         CRUD::addFilter([
             'name' => 'created_between',
@@ -178,8 +178,6 @@ class CustomerCrudController extends BackpackCustomCrudController
             'name' => 'customer_type',
             'label' => 'Customer Type',
         ]);
-
-        $this->crud->addClause('active');
     }
 
     /**

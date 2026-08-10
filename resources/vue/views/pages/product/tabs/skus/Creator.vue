@@ -285,6 +285,20 @@
                                class="text-danger mt-3">{{ $parent.validationErrors.qty_interval[0] }}</small>
                     </div>
 
+                    <div class="form-group col-sm-12">
+                        <label>Manufacturer</label>
+                        <div>
+                            <treeselect
+                                :multiple="false"
+                                name="manufacturer_id"
+                                placeholder="Select a manufacturer"
+                                :options="$parent.$parent.manufacturers"
+                                :disabled="$parent.disableFields"
+                                v-model="$parent.productData.manufacturer_id"
+                            />
+                        </div>
+                    </div>
+
                     <div class="form-group col-sm-12 mt-3 mb-0">
                         <div v-if="$parent.creatorTitle === 'Create'">
                             <button type="button" class="btn btn-primary"
@@ -384,6 +398,8 @@
 import allDisksMixin from '../../../../../allDisks.mixin';
 import $ from "jquery";
 import Multiselect  from "vue-multiselect";
+import Treeselect from '@riophae/vue-treeselect';
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import InlineCreate from "../../../attribute/InlineCreate";
 
 
@@ -404,7 +420,7 @@ export default {
     },
 
     components: {
-        Multiselect, InlineCreate
+        Multiselect, Treeselect, InlineCreate
     },
 
     mounted() {

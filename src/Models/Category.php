@@ -122,7 +122,7 @@ class Category extends Model implements ContractsAuditable
         $locale = $_GET['locale'] ?? app()->getLocale();
         $data = $this->getTranslation($original_field_name, $locale);
 
-        if (empty($data) && !empty($this->$this->attributes[$original_field_name])) {
+        if (empty($data) && !empty($this->attributes[$original_field_name])) {
             $original_data = json_decode($this->attributes[$original_field_name] ?? '',
                 false,
                 512,

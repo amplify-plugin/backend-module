@@ -233,6 +233,45 @@ class Product extends Model implements ContractsAuditable
         }
     }
 
+    /**
+     * Archive this product and suffix product_code so the original code can be reused.
+     */
+    public function archiveAndReleaseCode(?string $previousStatus = null): void
+    {
+        $baseCode = explode('-archived-', (string) $this->product_code)[0];
+        $archivedPrefix = $baseCode.'-archived-';
+
+        if ($this->status === 'archived' && str_starts_with((string) $this->product_code, $archivedPrefix)) {
+            return;
+        }
+
+        if ($this->status !== 'archived') {
+            $this->previous_status = $previousStatus ?? $this->status;
+        }
+
+        $this->status = 'archived';
+        $this->published_at = null;
+        $this->archived_at = now();
+        $this->product_code = $this->nextArchivedProductCode($archivedPrefix);
+        $this->save();
+    }
+
+    private function nextArchivedProductCode(string $archivedPrefix): string
+    {
+        $latestArchivedCode = static::query()
+            ->where('product_code', 'like', $archivedPrefix.'%')
+            ->orderByDesc('id')
+            ->value('product_code');
+
+        $serial = 0;
+        if (is_string($latestArchivedCode)) {
+            $suffix = explode('-archived-', $latestArchivedCode)[1] ?? '0';
+            $serial = (int) $suffix;
+        }
+
+        return $archivedPrefix.($serial + 1);
+    }
+
     protected static function booted()
     {
         static::addGlobalScope(new DatabaseScope);

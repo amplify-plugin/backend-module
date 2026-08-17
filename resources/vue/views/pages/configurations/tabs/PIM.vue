@@ -253,7 +253,7 @@
             Allow Back Order on catalog sync
           </label>
           <small class="text-muted mt-2 d-block"
-            >If enabled, back orders are allowed when catalog sync items are created and when those items are processed into products. If disabled, the ERP Allow Back Order value is used.</small
+            >If enabled, back orders are allowed when catalog sync items are created, when those items are processed into products, and when products are created or updated by Import Jobs. If disabled, the ERP or mapped import value is used.</small
           >
         </div>
       </div>

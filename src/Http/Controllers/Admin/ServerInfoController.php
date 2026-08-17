@@ -7,31 +7,105 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 use PDO;
 
 class ServerInfoController extends Controller
 {
+
+    private function fileSize(string $path): string
+    {
+        $output = exec("du -sh {$path}");
+
+        return preg_replace('/(\d+[KMG]?)(.+)/i', '$1', $output);
+    }
+
+    private function fileInfo(string $path): bool|string
+    {
+        $output = exec("stat -c \"<b>Owner:</b> %U, <b>Permissions:</b> %A, <b>Last Modified:</b> %y\" {$path}");
+        $output .= ",<b>Size:</b> {$this->fileSize($path)}";
+
+        return $output;
+    }
+
+    private function getMemoryUsage(): array
+    {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $output = shell_exec(
+                'powershell.exe -NoProfile -Command "Get-CimInstance Win32_OperatingSystem | Select-Object TotalVisibleMemorySize,FreePhysicalMemory | ConvertTo-Json -Compress"'
+            );
+
+            $memory = json_decode($output, true);
+
+            $totalBytes = ((int) ($memory['TotalVisibleMemorySize'] ?? 0)) * 1024;
+            $freeBytes = ((int) ($memory['FreePhysicalMemory'] ?? 0)) * 1024;
+        } elseif (is_readable('/proc/meminfo')) {
+            $memory = file_get_contents('/proc/meminfo');
+
+            preg_match('/MemTotal:\s+(\d+)/', $memory, $total);
+            preg_match('/MemAvailable:\s+(\d+)/', $memory, $available);
+
+            $totalBytes = ((int) ($total[1] ?? 0)) * 1024;
+            $freeBytes = ((int) ($available[1] ?? 0)) * 1024;
+        } else {
+            return [
+                'total' => null,
+                'used' => null,
+                'percent' => null,
+            ];
+        }
+
+        $usedBytes = $totalBytes - $freeBytes;
+
+        return [
+            'total' => Number::fileSize($totalBytes),
+            'used' => Number::fileSize($usedBytes),
+            'percent' => $totalBytes > 0
+                ? round(($usedBytes / $totalBytes) * 100)
+                : 0,
+        ];
+    }
+    
     public function __invoke(): View|Application|Factory|array|\Illuminate\Contracts\Foundation\Application
     {
         $path = base_path(); // Laravel project root
 
-        $total = disk_total_space($path);
-        $free  = disk_free_space($path);
-        $used  = $total - $free;
-        $percent = round(($used / $total) * 100);
-        $total = Number::fileSize($total);
-        $used = Number::fileSize($used);
+        $storageTotal = disk_total_space($path);
+        $storageFree  = disk_free_space($path);
+        $storageUsed  = $storageTotal - $storageFree;
+        $storagePercent = round(($storageUsed / $storageTotal) * 100);
+        $storageTotal = Number::fileSize($storageTotal);
+        $storageUsed = Number::fileSize($storageUsed);
+
+        $composerPhpVersion = json_decode(file_get_contents(base_path('composer.json')), true)['require']['php'] ?? '^7.4';
+
+        $packages = json_decode(file_get_contents(base_path('some.json')), true)['installed'] ?? [];
+
+        $health = Storage::disk(config('health.result_stores.Spatie\Health\ResultStores\JsonFileHealthResultStore.disk', 'local'))
+            ->json(config('health.result_stores.Spatie\Health\ResultStores\JsonFileHealthResultStore.path', 'health/status.json'));
+
+
+        foreach ($packages as $index => $package) {
+            $packages[$index]['name'] = preg_replace('/\//', ' ', $package['name']);
+        }
+
+        $memory = $this->getMemoryUsage();
+
+        $ramTotal = $memory['total'] ?? 'N/A';
+        $ramUsed = $memory['used'] ?? 'N/A';
+        $ramPercent = $memory['percent'] ?? 'N/A';
 
         $statistics = [
-            ['Server Storage', "{$used}/{$total} ($percent%)"],
+            ['Server Storage', "{$storageUsed}/{$storageTotal} ($storagePercent%)", "30GB"],
+            ['Memory Usage', "{$ramUsed}/{$ramTotal} ($ramPercent%)", "4GB"],
             ['OS', php_uname()],
             ['Web Server', match (php_sapi_name()) {
                 'apache2handler' => 'Apache2',
                 default => 'CLI'
             }, 'Apache2, NGINX'],
             ['User', exec('whoami'), 'ubuntu,www-data'],
-            ['PHP', phpversion(), '8.1'],
+            ['PHP', phpversion(), $composerPhpVersion],
             ['Default INI', php_ini_loaded_file()],
             ['Laravel', app()->version(), '10.48.14'],
             ['Environment', ucfirst(app()->environment())],
@@ -54,21 +128,16 @@ class ServerInfoController extends Controller
             ['Webserver Access Log', $this->fileSize('/var/log/apache2')],
         ];
 
-        return view('backend::pages.server-info.index', compact('statistics'));
+        return view('backend::pages.server-info.index', [
+            'statistics' => $statistics,
+            'packages' => $packages,
+            'health' => $health ?? [],
+        ]);
     }
 
-    private function fileSize(string $path): string
+    public function healthCheck()
     {
-        $output = exec("du -sh {$path}");
-
-        return preg_replace('/(\d+[KMG]?)(.+)/i', '$1', $output);
+        
     }
-
-    private function fileInfo(string $path): bool|string
-    {
-        $output = exec("stat -c \"<b>Owner:</b> %U, <b>Permissions:</b> %A, <b>Last Modified:</b> %y\" {$path}");
-        $output .= ",<b>Size:</b> {$this->fileSize($path)}";
-
-        return $output;
-    }
+    
 }

@@ -258,16 +258,11 @@ class Product extends Model implements ContractsAuditable
 
     private function nextArchivedProductCode(string $archivedPrefix): string
     {
-        $latestArchivedCode = static::query()
-            ->where('product_code', 'like', $archivedPrefix.'%')
-            ->orderByDesc('id')
+        $latestArchivedCode = static::where('product_code', 'like', $archivedPrefix.'%')
+            ->latest('id')
             ->value('product_code');
 
-        $serial = 0;
-        if (is_string($latestArchivedCode)) {
-            $suffix = explode('-archived-', $latestArchivedCode)[1] ?? '0';
-            $serial = (int) $suffix;
-        }
+        $serial = (int) (explode('-archived-', (string) $latestArchivedCode)[1] ?? 0);
 
         return $archivedPrefix.($serial + 1);
     }

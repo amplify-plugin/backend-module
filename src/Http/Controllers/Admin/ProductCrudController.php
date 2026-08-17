@@ -272,8 +272,7 @@ class ProductCrudController extends BackpackCustomCrudController
             return;
         }
 
-        Product::query()
-            ->whereIn('id', $selectedItems)
+        Product::whereIn('id', $selectedItems)
             ->where('status', '!=', 'archived')
             ->each(fn (Product $product) => $product->archiveAndReleaseCode());
 
@@ -1404,11 +1403,10 @@ class ProductCrudController extends BackpackCustomCrudController
         $product->status = $status;
         $product->product_code = explode('-archived-', $product->product_code)[0];
 
-        $codeTaken = Product::query()
-            ->where('product_code', $product->product_code)
+        $codeTaken = Product::where('product_code', $product->product_code)
             ->when(
                 config('amplify.pim.use_product_code_unique_check', true),
-                fn ($query) => $query->where('id', '!=', $product->id)
+                fn ($query) => $query->whereKeyNot($product->id)
             )
             ->exists();
 

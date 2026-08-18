@@ -120,6 +120,7 @@ class Product extends Model implements ContractsAuditable
     public static function guessSingleProductDetail()
     {
         $parameter = request()->route('identifier');
+        $slug = request()->route('slug');
 
         if (! $parameter) {
             abort('404', 'Product is not available.');
@@ -129,16 +130,88 @@ class Product extends Model implements ContractsAuditable
             $parameter = product_code_url_map($parameter, true);
         }
 
-        $query = Product::query();
+        $column = config('amplify.frontend.easyask_single_product_index', 'id');
 
+        $product = static::queryViaProductDetailPipeline(
+            fn (Builder $query) => $query->where($column, $parameter)->first()
+        );
+
+        if ($product) {
+            return $product;
+        }
+
+        return static::resolveSingleProductDetailFromEasyAsk($parameter, $slug);
+    }
+
+    protected static function queryViaProductDetailPipeline(callable $callback): mixed
+    {
         return app(Pipeline::class)
-            ->send($query)
+            ->send(Product::query())
             ->through(config('amplify.product_detail_pipeline', []))
-            ->then(function(Builder $query) use ($parameter) {
-                return $query
-                    ->where(config('amplify.frontend.easyask_single_product_index', 'id'), $parameter)
-                    ->first();
-            });
+            ->then($callback);
+    }
+
+    protected static function resolveSingleProductDetailFromEasyAsk(string $identifier, ?string $slug = null): ?self
+    {
+        try {
+            $eaProduct = \Sayt::storeProductDetail($identifier, null)->getFirstProduct();
+
+            if (! $eaProduct) {
+                return $slug
+                    ? static::queryViaProductDetailPipeline(
+                        fn (Builder $query) => $query->where('product_slug', $slug)->first()
+                    )
+                    : null;
+            }
+
+            foreach ([
+                ['id', $eaProduct->Amplify_Id ?? null],
+                ['id', is_numeric($identifier) ? (int) $identifier : null],
+                ['product_code', $eaProduct->Product_Code ?? null],
+                ['product_slug', $slug],
+                ['product_slug', $eaProduct->Product_Slug ?? null],
+            ] as [$column, $value]) {
+                if (empty($value)) {
+                    continue;
+                }
+
+                $product = static::queryViaProductDetailPipeline(
+                    fn (Builder $query) => $query->where($column, $value)->first()
+                );
+
+                if ($product) {
+                    return $product;
+                }
+            }
+
+            return static::fromEasyAskItem($eaProduct);
+        } catch (\Throwable) {
+            return $slug
+                ? static::queryViaProductDetailPipeline(
+                    fn (Builder $query) => $query->where('product_slug', $slug)->first()
+                )
+                : null;
+        }
+    }
+
+    public static function fromEasyAskItem(\Amplify\System\Sayt\Classes\ItemRow $eaProduct): self
+    {
+        $product = new static([
+            'product_code' => $eaProduct->Product_Code,
+            'product_slug' => $eaProduct->Product_Slug,
+            'product_name' => $eaProduct->Product_Name,
+            'status' => in_array(strtolower((string) ($eaProduct->Status ?? 'published')), ['draft', 'archived'], true)
+                ? $eaProduct->Status
+                : 'published',
+            'uom' => $eaProduct->UoM ?? 'EA',
+            'min_order_qty' => 1,
+            'qty_interval' => 1,
+        ]);
+
+        $product->id = $eaProduct->Amplify_Id ?? $eaProduct->Product_Id;
+        $product->exists = false;
+
+        return $product;
     }
 
     public function scopeGetEaProductsData()

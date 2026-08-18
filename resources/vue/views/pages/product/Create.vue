@@ -408,7 +408,6 @@ export default {
             timer: null,
             allSingleProductPages: JSON.parse(this.all_single_product_pages),
             allDocumentTypes: JSON.parse(this.all_document_types),
-            selectedDocumentTypes: [],
             useMinimumOrderQuantity: !!this.use_minimum_order_quantity,
         };
     },

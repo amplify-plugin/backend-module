@@ -361,10 +361,23 @@ trait ProductTrait
         if (! empty($request->url) && File::exists(public_path($request->url))) {
             File::delete(public_path($request->url));
         }
-        DB::table('document_type_product')
-            ->where('product_id', $request->product_id)
-            ->where('document_type_id', $request->document_type_id)
-            ->delete();
+
+        $query = DB::table('document_type_product')
+            ->where('product_id', $request->product_id);
+
+        if (! empty($request->document_id)) {
+            $query->where('id', $request->document_id);
+        } else {
+            $query->where('document_type_id', $request->document_type_id);
+
+            if (! empty($request->url)) {
+                $query->where('file_path', $request->url);
+            } elseif (! empty($request->content)) {
+                $query->where('content', $request->content);
+            }
+        }
+
+        $query->delete();
 
         return $request->url;
     }

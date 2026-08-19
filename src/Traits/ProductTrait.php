@@ -667,13 +667,25 @@ trait ProductTrait
         return Option::all();
     }
 
-    public function fetchEasyAskProducts(): JsonResponse
+    protected function fetchEasyAskProducts(): JsonResponse
     {
-        $site_search = request('site_search') === '-' || ! request()->filled('site_search')
-            ? ''
-            : request('site_search');
-        $response = \Sayt::storeProducts($site_search);
-        // $response['product_search_by_id_prefix'] = config('amplify.sayt.product_search_by_id_prefix');
+        $seoPath = request('site_search');
+
+        $query = null;
+
+        if (!Str::contains($seoPath, '/') && Str::startsWith($seoPath, '-')) {
+                $query = ltrim($seoPath, '-');
+                $seoPath = null;
+        }
+
+        $options = [
+            'return_skus' => request('returnSKUS', false),
+            'per_page' => request('resultsPerPage',  15),
+            'page' => request('currentPage', request('page')) == 1 ? null : request('currentPage', request('page')),
+            'q' => $query
+        ];
+
+        $response = \Sayt::storeProducts($seoPath, $options);
 
         return response()->json($response->getNode());
     }

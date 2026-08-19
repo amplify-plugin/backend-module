@@ -64,7 +64,8 @@ class ContactCrudController extends BackpackCustomCrudController
         CRUD::setModel(Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
-        CRUD::addBaseClause('approved');
+//        CRUD::addBaseClause('approved');
+        CRUD::addBaseClause(fn($query) => $query->whereNotNull('enabled_at'));
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)

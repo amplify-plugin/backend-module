@@ -7,7 +7,7 @@
             </div>
 
             <div v-if="$parent.productData.productDocuments.length > 0" class="w-100">
-                <div v-for="(document, index) in $parent.productData.productDocuments" :key="index">
+                <div v-for="(document, index) in $parent.productData.productDocuments" :key="document.id ?? index">
                     <div class="form-group col-sm-12">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -50,10 +50,9 @@
                                                     >
                                                         <option :value="null" disabled>Select a document type</option>
                                                         <option
-                                                            v-for="(documentType, index) in $parent.allDocumentTypes"
-                                                            :key="index"
+                                                            v-for="documentType in $parent.allDocumentTypes"
+                                                            :key="documentType.id"
                                                             :value="documentType.id"
-                                                            :disabled="documentType?.disabled ?? false"
                                                         >
                                                             {{ documentType.name }}
                                                         </option>
@@ -165,13 +164,7 @@
                                                         class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer mt-4"
                                                         style="margin-top: 2.3rem !important; font-weight: 900"
                                                         title="Delete Document"
-                                                        @click="
-                                                            removeDocument(
-                                                                index,
-                                                                document.file_path,
-                                                                document.document_type_id,
-                                                            )
-                                                        "
+                                                        @click="removeDocument(index)"
                                                         data-handle="remove"
                                                     ></i>
                                                 </div>
@@ -215,13 +208,7 @@
                                                         class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer mt-4"
                                                         style="margin-top: 2.3rem !important; font-weight: 900"
                                                         title="Delete Document"
-                                                        @click="
-                                                            removeDocument(
-                                                                index,
-                                                                document.file_path,
-                                                                document.document_type_id,
-                                                            )
-                                                        "
+                                                        @click="removeDocument(index)"
                                                         data-handle="remove"
                                                     ></i>
                                                 </div>
@@ -240,7 +227,7 @@
                 </div>
             </div>
 
-            <div v-if="$parent.productData.productDocuments < $parent.allDocumentTypes" class="ml-3">
+            <div class="ml-3">
                 <button class="btn btn-sm btn-link border-primary" type="button" @click="addDocument()">
                     + Add Document
                 </button>
@@ -365,54 +352,74 @@ export default {
             });
         },
 
-        removeDocument(index, url, document_type_id) {
+        removeDocument(index) {
+            const document = this.$parent.productData.productDocuments[index];
+            const isPersisted = document.id != null;
+            const hasFilePath = document.file_path != null && String(document.file_path).trim() !== '';
+            const hasEmbeddedContent = document.content != null && String(document.content).trim() !== '';
+
             this.$swal
                 .fire({
                     title: 'Are you sure?',
-                    //icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#42ba96',
                     cancelButtonColor: '#ff7979',
                     confirmButtonText: 'Yes, delete it!',
                 })
                 .then((result) => {
-                    if (result.isConfirmed) {
-                        let document_type_id = this.$parent.productData.productDocuments[index].document_type_id;
-                        if (document_type_id) {
-                            this.$parent.productData.productDocuments[index].document_type_id = null;
-                        }
+                    if (!result.isConfirmed) {
+                        return;
+                    }
 
-                        if (url === null || url.trim() === '') {
+                    if (!isPersisted && !hasFilePath && !hasEmbeddedContent) {
+                        this.$parent.productData.productDocuments.splice(index, 1);
+                        new Noty({
+                            type: 'success',
+                            text: 'Document removed successfully',
+                        }).show();
+                        return;
+                    }
+
+                    axios
+                        .post('/admin/product/remove_document', {
+                            product_id: this.$parent.productData.id,
+                            document_id: document.id ?? null,
+                            document_type_id: document.document_type_id,
+                            url: document.file_path,
+                            content: document.content ?? null,
+                        })
+                        .then(() => {
                             this.$parent.productData.productDocuments.splice(index, 1);
+
                             new Noty({
                                 type: 'success',
                                 text: 'Document removed successfully',
                             }).show();
-                            return;
-                        }
-
-                        axios
-                            .post('/admin/product/remove_document', {
-                                product_id: this.$parent.productData.id,
-                                document_type_id: document_type_id,
-                                url: url,
-                            })
-                            .then((res) => {
-                                this.$parent.productData.productDocuments.splice(index, 1);
-
-                                new Noty({
-                                    type: 'success',
-                                    text: 'Document removed successfully',
-                                }).show();
-                            })
-                            .catch((e) => {
-                                new Noty({
-                                    type: 'error',
-                                    text: e.response.data.message,
-                                }).show();
-                            });
-                    }
+                        })
+                        .catch((e) => {
+                            new Noty({
+                                type: 'error',
+                                text: e.response?.data?.message ?? 'Unable to remove document.',
+                            }).show();
+                        });
                 });
+        },
+
+        syncDocumentTypeMetadata(document) {
+            if (!document.document_type_id) {
+                return;
+            }
+
+            const documentType = this.$parent.allDocumentTypes.find(
+                (docType) => docType.id == document.document_type_id,
+            );
+
+            if (!documentType) {
+                return;
+            }
+
+            document.media_type = documentType.media_type;
+            document.file_type = this.allFileTypes[documentType.media_type] ?? null;
         },
 
         removeSelectedFiles(index, length = 1) {
@@ -510,31 +517,9 @@ export default {
             },
         },
         '$parent.productData.productDocuments': {
-            handler(newData, o) {
-                const self = this;
-
-                self.$parent.selectedDocumentTypes = [];
+            handler(newData) {
                 newData.forEach((document) => {
-                    if (document.document_type_id) {
-                        let documentType = self.$parent.allDocumentTypes.find(
-                            (docType) => docType.id == document.document_type_id,
-                        );
-                        documentType.disabled = true;
-
-                        document.media_type = documentType.media_type;
-                        document.file_type = self.allFileTypes[documentType.media_type] ?? null;
-
-                        self.$parent.selectedDocumentTypes.push(documentType);
-                    }
-                });
-
-                self.$parent.allDocumentTypes.forEach((docType) => {
-                    let isSelected = self.$parent.selectedDocumentTypes.some(
-                        (selectedDocType) => selectedDocType.id == docType.id,
-                    );
-                    if (!isSelected) {
-                        docType.disabled = false;
-                    }
+                    this.syncDocumentTypeMetadata(document);
                 });
             },
             deep: true,

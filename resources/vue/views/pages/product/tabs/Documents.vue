@@ -150,7 +150,7 @@
                                                             </button>
                                                         </div>
                                                         <input
-                                                            placeholder="file path or URL"
+                                                            placeholder="Select a File or Enter URL"
                                                             type="text"
                                                             class="form-control"
                                                             @click="

@@ -34902,7 +34902,23 @@ var render = function render() {
           "class": {
             "text-danger": _vm.documentError("file_path", index)
           }
-        }, [_vm._v("\n                                                    File Path\n                                                ")]), _vm._v(" "), _c("div", {
+        }, [_vm._v("\n                                                    File Path/URL\n                                                    "), _c("span", {
+          staticClass: "document-path-info",
+          attrs: {
+            tabindex: "0",
+            "aria-label": "Use Upload to pick a file from the file manager, or paste any valid file URL such as an S3 or CDN link."
+          }
+        }, [_c("i", {
+          staticClass: "la la-info-circle",
+          attrs: {
+            "aria-hidden": "true"
+          }
+        }), _vm._v(" "), _c("span", {
+          staticClass: "document-path-info-tip",
+          attrs: {
+            role: "tooltip"
+          }
+        }, [_vm._v("\n                                                            Use Upload to pick a file from the file manager, or\n                                                            paste any valid file URL (S3, CDN, or other direct\n                                                            link to a PDF, image, video, or document).\n                                                        ")])])]), _vm._v(" "), _c("div", {
           staticClass: "input-group document-path-group"
         }, [_c("div", {
           staticClass: "input-group-prepend"
@@ -34954,7 +34970,7 @@ var render = function render() {
             "is-invalid": _vm.documentError("file_path", index)
           },
           attrs: {
-            placeholder: "file path",
+            placeholder: "file path or URL",
             type: "text"
           },
           domProps: {
@@ -35070,7 +35086,7 @@ var render = function render() {
           }
         })])])])]) : _vm._e()])], 1)])])];
       }
-    }], null, false, 3907519818)
+    }], null, false, 3397177948)
   })], 1) : _c("div", {
     staticClass: "form-group col-sm-12"
   }, [_vm._m(1)]), _vm._v(" "), _c("div", {
@@ -38814,7 +38830,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-99b08418] {\r\n    background: aliceblue;\n}\n.w-one-third[data-v-99b08418] {\r\n    width: 33.33%;\n}\n.gap-3[data-v-99b08418] {\r\n    gap: 16px;\n}\n.document-card-row[data-v-99b08418] {\r\n    display: flex;\r\n    align-items: flex-start;\r\n    gap: 12px;\r\n    min-width: 0;\n}\n.document-fields-row[data-v-99b08418] {\r\n    display: flex;\r\n    flex: 1 1 auto;\r\n    min-width: 0;\r\n    flex-wrap: wrap;\r\n    align-items: flex-start;\r\n    gap: 12px;\n}\n.document-type-col[data-v-99b08418] {\r\n    flex: 1 1 200px;\r\n    min-width: 0;\r\n    max-width: 100%;\n}\n.document-meta-col[data-v-99b08418] {\r\n    flex: 2 1 320px;\r\n    min-width: 0;\n}\n.document-meta-row[data-v-99b08418] {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    align-items: flex-start;\r\n    gap: 12px;\n}\n.document-label-col[data-v-99b08418] {\r\n    flex: 1 1 180px;\r\n    min-width: 0;\r\n    max-width: 100%;\n}\n.document-path-wrap[data-v-99b08418] {\r\n    display: flex;\r\n    flex: 2 1 240px;\r\n    min-width: 0;\r\n    max-width: 100%;\r\n    align-items: flex-start;\r\n    gap: 8px;\n}\n.document-path-col[data-v-99b08418] {\r\n    flex: 1 1 auto;\r\n    min-width: 0;\r\n    overflow: hidden;\n}\n.document-path-label[data-v-99b08418] {\r\n    white-space: nowrap;\n}\n.document-path-group[data-v-99b08418] {\r\n    flex-wrap: nowrap;\r\n    width: 100%;\n}\n.document-path-group .form-control[data-v-99b08418] {\r\n    min-width: 0;\r\n    width: 1%;\n}\n.document-delete-col[data-v-99b08418] {\r\n    flex: 0 0 auto;\r\n    padding-top: 1.7rem;\r\n    font-weight: 900;\n}\n.document-upload-addon[data-v-99b08418] {\r\n    display: inline-flex;\r\n    align-items: center;\r\n    gap: 6px;\r\n    white-space: nowrap;\n}\n@media (max-width: 991.98px) {\n.document-card-row[data-v-99b08418] {\r\n        align-items: stretch;\n}\n.document-fields-row[data-v-99b08418],\r\n    .document-meta-row[data-v-99b08418] {\r\n        flex-direction: column;\r\n        flex-wrap: nowrap;\n}\n.document-type-col[data-v-99b08418],\r\n    .document-meta-col[data-v-99b08418],\r\n    .document-label-col[data-v-99b08418],\r\n    .document-path-wrap[data-v-99b08418] {\r\n        flex: 1 1 auto;\r\n        width: 100%;\r\n        max-width: 100%;\n}\n}\n@media (min-width: 1400px) {\n.document-type-col[data-v-99b08418] {\r\n        flex: 0 0 280px;\r\n        max-width: 280px;\n}\n.document-label-col[data-v-99b08418] {\r\n        flex: 0 0 380px;\r\n        max-width: 380px;\n}\n}\n.document-order-badge[data-v-99b08418] {\r\n    display: inline-flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    min-width: 22px;\r\n    height: 22px;\r\n    padding: 0 6px;\r\n    border-radius: 999px;\r\n    background: #eef2f6;\r\n    color: #495057;\r\n    font-size: 11px;\r\n    font-weight: 700;\r\n    line-height: 1;\r\n    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.is-sorting .document-order-badge[data-v-99b08418] {\r\n    background: #42ba96;\r\n    color: #fff;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-header[data-v-99b08418] {\r\n    background: aliceblue;\n}\n.w-one-third[data-v-99b08418] {\r\n    width: 33.33%;\n}\n.gap-3[data-v-99b08418] {\r\n    gap: 16px;\n}\n.document-card-row[data-v-99b08418] {\r\n    display: flex;\r\n    align-items: flex-start;\r\n    gap: 12px;\r\n    min-width: 0;\n}\n.document-fields-row[data-v-99b08418] {\r\n    display: flex;\r\n    flex: 1 1 auto;\r\n    min-width: 0;\r\n    flex-wrap: wrap;\r\n    align-items: flex-start;\r\n    gap: 12px;\n}\n.document-type-col[data-v-99b08418] {\r\n    flex: 1 1 200px;\r\n    min-width: 0;\r\n    max-width: 100%;\n}\n.document-meta-col[data-v-99b08418] {\r\n    flex: 2 1 320px;\r\n    min-width: 0;\n}\n.document-meta-row[data-v-99b08418] {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    align-items: flex-start;\r\n    gap: 12px;\n}\n.document-label-col[data-v-99b08418] {\r\n    flex: 1 1 180px;\r\n    min-width: 0;\r\n    max-width: 100%;\n}\n.document-path-wrap[data-v-99b08418] {\r\n    display: flex;\r\n    flex: 2 1 240px;\r\n    min-width: 0;\r\n    max-width: 100%;\r\n    align-items: flex-start;\r\n    gap: 8px;\n}\n.document-path-col[data-v-99b08418] {\r\n    flex: 1 1 auto;\r\n    min-width: 0;\n}\n.document-path-label[data-v-99b08418] {\r\n    display: inline-flex;\r\n    align-items: center;\r\n    gap: 6px;\r\n    white-space: nowrap;\n}\n.document-path-info[data-v-99b08418] {\r\n    position: relative;\r\n    display: inline-flex;\r\n    align-items: center;\r\n    color: #6c757d;\r\n    cursor: help;\r\n    font-size: 15px;\r\n    line-height: 1;\n}\n.document-path-info[data-v-99b08418]:hover,\r\n.document-path-info[data-v-99b08418]:focus {\r\n    color: #42ba96;\r\n    outline: none;\n}\n.document-path-info-tip[data-v-99b08418] {\r\n    position: absolute;\r\n    top: calc(100% + 8px);\r\n    left: 0;\r\n    z-index: 20;\r\n    width: min(280px, 70vw);\r\n    padding: 8px 10px;\r\n    border-radius: 4px;\r\n    background: #343a40;\r\n    color: #fff;\r\n    font-size: 12px;\r\n    font-weight: 400;\r\n    line-height: 1.4;\r\n    white-space: normal;\r\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    pointer-events: none;\r\n    transition: opacity 0.15s ease, visibility 0.15s ease;\n}\n.document-path-info:hover .document-path-info-tip[data-v-99b08418],\r\n.document-path-info:focus .document-path-info-tip[data-v-99b08418] {\r\n    opacity: 1;\r\n    visibility: visible;\n}\n.document-path-group[data-v-99b08418] {\r\n    flex-wrap: nowrap;\r\n    width: 100%;\r\n    overflow: hidden;\n}\n.document-path-group .form-control[data-v-99b08418] {\r\n    min-width: 0;\r\n    width: 1%;\n}\n.document-delete-col[data-v-99b08418] {\r\n    flex: 0 0 auto;\r\n    padding-top: 1.7rem;\r\n    font-weight: 900;\n}\n.document-upload-addon[data-v-99b08418] {\r\n    display: inline-flex;\r\n    align-items: center;\r\n    gap: 6px;\r\n    white-space: nowrap;\n}\n@media (max-width: 991.98px) {\n.document-card-row[data-v-99b08418] {\r\n        align-items: stretch;\n}\n.document-fields-row[data-v-99b08418],\r\n    .document-meta-row[data-v-99b08418] {\r\n        flex-direction: column;\r\n        flex-wrap: nowrap;\n}\n.document-type-col[data-v-99b08418],\r\n    .document-meta-col[data-v-99b08418],\r\n    .document-label-col[data-v-99b08418],\r\n    .document-path-wrap[data-v-99b08418] {\r\n        flex: 1 1 auto;\r\n        width: 100%;\r\n        max-width: 100%;\n}\n}\n@media (min-width: 1400px) {\n.document-type-col[data-v-99b08418] {\r\n        flex: 0 0 280px;\r\n        max-width: 280px;\n}\n.document-label-col[data-v-99b08418] {\r\n        flex: 0 0 380px;\r\n        max-width: 380px;\n}\n}\n.document-order-badge[data-v-99b08418] {\r\n    display: inline-flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    min-width: 22px;\r\n    height: 22px;\r\n    padding: 0 6px;\r\n    border-radius: 999px;\r\n    background: #eef2f6;\r\n    color: #495057;\r\n    font-size: 11px;\r\n    font-weight: 700;\r\n    line-height: 1;\r\n    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;\n}\n.is-sorting .document-order-badge[data-v-99b08418] {\r\n    background: #42ba96;\r\n    color: #fff;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

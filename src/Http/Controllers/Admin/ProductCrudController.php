@@ -1308,12 +1308,15 @@ class ProductCrudController extends BackpackCustomCrudController
             DocumentTypeProduct::query()->where('product_id', $productId)->delete();
 
             $productDocuments = collect($productDocuments)->map(function ($item) use ($productId) {
+                $label = isset($item['label']) ? trim((string) $item['label']) : '';
+
                 return [
                     'product_id' => $productId,
                     'document_type_id' => $item['document_type_id'],
                     'order' => $item['order'],
                     'file_path' => isset($item['file_path']) ? $item['file_path'] : null,
                     'content' => isset($item['content']) ? $item['content'] : null,
+                    'label' => $label !== '' ? $label : null,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];

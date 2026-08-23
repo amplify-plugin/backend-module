@@ -385,7 +385,7 @@ class Product extends Model implements ContractsAuditable
     {
         return $this
             ->belongsToMany(DocumentType::class, 'document_type_product')
-            ->withPivot('file_path');
+            ->withPivot(['file_path', 'label']);
     }
 
     public function getDefaultDocumentTypeAttribute(): ?DocumentType

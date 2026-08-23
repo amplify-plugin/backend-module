@@ -6,8 +6,8 @@
         :title="title"
         role="button"
         :aria-label="title"
-        @dragstart="onDragStart"
-        @dragend="onDragEnd"
+        @dragstart.stop="onDragStart"
+        @dragend.stop="onDragEnd"
     >
         <slot>
             <span class="sortable-grip" aria-hidden="true">
@@ -79,12 +79,13 @@ export default {
 .sortable-handle {
     cursor: grab;
     user-select: none;
+    -webkit-user-select: none;
     width: 28px;
     min-width: 28px;
     color: #6c757d;
     text-align: center;
     flex-shrink: 0;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: color 0.2s ease;
 }
 
 .sortable-handle.is-fields {
@@ -93,7 +94,6 @@ export default {
 
 .sortable-handle:hover {
     color: #42ba96;
-    transform: scale(1.08);
 }
 
 .sortable-handle:active {

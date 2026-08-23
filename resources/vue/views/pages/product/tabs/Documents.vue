@@ -93,9 +93,22 @@
                                                         class="document-path-label"
                                                         :class="{ 'text-danger': documentError('file_path', index) }"
                                                     >
-                                                        File Path
+                                                        File Path/URL
+                                                        <span
+                                                            class="document-path-info"
+                                                            tabindex="0"
+                                                            aria-label="Use Upload to pick a file from the file manager, or paste any valid file URL such as an S3 or CDN link."
+                                                        >
+                                                            <i class="la la-info-circle" aria-hidden="true"></i>
+                                                            <span class="document-path-info-tip" role="tooltip">
+                                                                Use Upload to pick a file from the file manager, or
+                                                                paste any valid file URL (S3, CDN, or other direct
+                                                                link to a PDF, image, video, or document).
+                                                            </span>
+                                                        </span>
                                                     </label>
-                                                    <div class="input-group document-path-group">
+                                                    <div class="document-path-input-row">
+                                                        <div class="input-group document-path-group">
                                                         <div class="input-group-prepend">
                                                             <label
                                                                 v-if="
@@ -137,7 +150,7 @@
                                                             </button>
                                                         </div>
                                                         <input
-                                                            placeholder="file path"
+                                                            placeholder="file path or URL"
                                                             type="text"
                                                             class="form-control"
                                                             @click="
@@ -149,6 +162,15 @@
                                                             v-model="document.file_path"
                                                             @blur="suggestDocumentLabelFromPath(document)"
                                                         />
+                                                    </div>
+                                                        <div class="document-delete-col">
+                                                            <i
+                                                                class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
+                                                                title="Delete Document"
+                                                                @click="removeDocument(index)"
+                                                                data-handle="remove"
+                                                            ></i>
+                                                        </div>
                                                     </div>
                                                     <small
                                                         v-if="documentError('file_path', index)"
@@ -166,14 +188,6 @@
                                                     class="d-none justify-content-center mt-4"
                                                 >
                                                     <ProgressBar></ProgressBar>
-                                                </div>
-                                                <div class="document-delete-col">
-                                                    <i
-                                                        class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
-                                                        title="Delete Document"
-                                                        @click="removeDocument(index)"
-                                                        data-handle="remove"
-                                                    ></i>
                                                 </div>
                                                 </div>
                                             </div>
@@ -203,6 +217,7 @@
                                                             :class="{ 'text-danger': documentError('content', index) }"
                                                             >Script</label
                                                         >
+                                                        <div class="document-path-input-row is-multiline">
                                                         <textarea
                                                             name="content"
                                                             class="form-control"
@@ -213,6 +228,15 @@
                                                             v-model="document.content"
                                                         >
                                                         </textarea>
+                                                        <div class="document-delete-col">
+                                                            <i
+                                                                class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
+                                                                title="Delete Document"
+                                                                @click="removeDocument(index)"
+                                                                data-handle="remove"
+                                                            ></i>
+                                                        </div>
+                                                        </div>
                                                         <small
                                                             v-if="documentError('content', index)"
                                                             class="text-danger mt-3"
@@ -223,14 +247,6 @@
                                                                 ][0]
                                                             }}
                                                         </small>
-                                                    </div>
-                                                    <div class="document-delete-col">
-                                                        <i
-                                                            class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
-                                                            title="Delete Document"
-                                                            @click="removeDocument(index)"
-                                                            data-handle="remove"
-                                                        ></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -756,16 +772,79 @@ export default {
 .document-path-col {
     flex: 1 1 auto;
     min-width: 0;
-    overflow: hidden;
+}
+
+.document-path-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.document-path-input-row .document-path-group,
+.document-path-input-row textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.document-path-input-row.is-multiline {
+    align-items: flex-start;
 }
 
 .document-path-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     white-space: nowrap;
+}
+
+.document-path-info {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    color: #6c757d;
+    cursor: help;
+    font-size: 15px;
+    line-height: 1;
+}
+
+.document-path-info:hover,
+.document-path-info:focus {
+    color: #42ba96;
+    outline: none;
+}
+
+.document-path-info-tip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 20;
+    width: min(280px, 70vw);
+    padding: 8px 10px;
+    border-radius: 4px;
+    background: #343a40;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.document-path-info:hover .document-path-info-tip,
+.document-path-info:focus .document-path-info-tip {
+    opacity: 1;
+    visibility: visible;
 }
 
 .document-path-group {
     flex-wrap: nowrap;
     width: 100%;
+    overflow: hidden;
 }
 
 .document-path-group .form-control {
@@ -775,8 +854,16 @@ export default {
 
 .document-delete-col {
     flex: 0 0 auto;
-    padding-top: 1.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(1.5em + 0.75rem + 2px);
     font-weight: 900;
+}
+
+.document-path-input-row.is-multiline .document-delete-col {
+    height: auto;
+    padding-top: 0.45rem;
 }
 
 .document-upload-addon {

@@ -134,6 +134,7 @@ class ProductRequest extends FormRequest
             $rules['productDocuments.*.document_type_id'] = 'required';
             $rules['productDocuments.*.file_path'] = 'required_unless:productDocuments.*.media_type,embedded';
             $rules['productDocuments.*.content'] = 'required_if:productDocuments.*.media_type,embedded';
+            $rules['productDocuments.*.label'] = 'nullable|string|max:255';
         }
 
         return $rules;

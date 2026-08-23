@@ -70,7 +70,7 @@ class DocumentType extends Model implements Auditable
     {
         return $this
             ->belongsToMany(Product::class, 'document_type_product')
-            ->withPivot('file_path');
+            ->withPivot(['file_path', 'label']);
     }
 
     /*

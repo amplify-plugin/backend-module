@@ -109,6 +109,10 @@ export default {
         };
     },
 
+    created() {
+        this.nativeDragIndex = null;
+    },
+
     beforeDestroy() {
         this.clearDragGhost();
     },
@@ -120,17 +124,19 @@ export default {
         },
 
         itemWrapperClass(item, index) {
+            const fromIndex = this.activeDragIndex();
+
             return [
                 this.itemClass,
                 {
                     'is-dragging': this.draggedIndex === index,
                     'is-drop-before':
                         this.dragOverIndex === index &&
-                        this.draggedIndex !== index &&
+                        fromIndex !== index &&
                         this.dropPosition === 'before',
                     'is-drop-after':
                         this.dragOverIndex === index &&
-                        this.draggedIndex !== index &&
+                        fromIndex !== index &&
                         this.dropPosition === 'after',
                     'is-just-dropped': this.justDroppedKey === this.getItemKey(item, index),
                 },
@@ -166,34 +172,57 @@ export default {
                 return;
             }
 
-            this.draggedIndex = index;
+            event.stopPropagation();
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', String(index));
+            this.nativeDragIndex = index;
 
             const source = this.resolveGhostSource(event);
-            if (!source) {
-                return;
+            if (source) {
+                const ghost = source.cloneNode(true);
+                ghost.classList.add('sortable-drag-ghost');
+                ghost.querySelectorAll('input, select, textarea, button').forEach((node) => {
+                    node.setAttribute('disabled', 'disabled');
+                    node.removeAttribute('id');
+                    node.removeAttribute('name');
+                });
+                ghost.style.position = 'absolute';
+                ghost.style.top = '-1000px';
+                ghost.style.left = '-1000px';
+                ghost.style.width = `${source.offsetWidth}px`;
+                ghost.style.opacity = '0.95';
+                ghost.style.boxShadow = '0 18px 40px rgba(15, 23, 42, 0.22)';
+                ghost.style.pointerEvents = 'none';
+                document.body.appendChild(ghost);
+                event.dataTransfer.setDragImage(ghost, 36, 28);
+                this.dragGhost = ghost;
             }
 
-            const ghost = source.cloneNode(true);
-            ghost.classList.add('sortable-drag-ghost');
-            ghost.style.position = 'absolute';
-            ghost.style.top = '-1000px';
-            ghost.style.left = '-1000px';
-            ghost.style.width = `${source.offsetWidth}px`;
-            ghost.style.opacity = '0.95';
-            ghost.style.boxShadow = '0 18px 40px rgba(15, 23, 42, 0.22)';
-            ghost.style.transform = 'rotate(1.5deg) scale(1.02)';
-            ghost.style.pointerEvents = 'none';
-            document.body.appendChild(ghost);
-            event.dataTransfer.setDragImage(ghost, 36, 28);
-            this.dragGhost = ghost;
+            // Updating Vue state in dragstart re-renders the node Chrome is dragging
+            // (and any transform on that node cancels the drag). Wait until the
+            // native drag has started.
+            this.$nextTick(() => {
+                window.requestAnimationFrame(() => {
+                    if (this.dragGhost) {
+                        this.draggedIndex = index;
+                    }
+                });
+            });
 
             this.$emit('drag-start', { index, item: this.items[index] });
         },
 
+        activeDragIndex() {
+            if (this.draggedIndex !== null) {
+                return this.draggedIndex;
+            }
+
+            return this.nativeDragIndex;
+        },
+
         onDragOver(event, index) {
-            if (this.disabled || this.draggedIndex === null || this.draggedIndex === index) {
+            const fromIndex = this.activeDragIndex();
+            if (this.disabled || fromIndex === null || fromIndex === index) {
                 this.dragOverIndex = null;
                 return;
             }
@@ -204,11 +233,10 @@ export default {
         },
 
         onDrop(index) {
-            if (this.disabled || this.draggedIndex === null || this.draggedIndex === index) {
+            const fromIndex = this.activeDragIndex();
+            if (this.disabled || fromIndex === null || fromIndex === index) {
                 return;
             }
-
-            const fromIndex = this.draggedIndex;
             let toIndex = this.dropPosition === 'after' ? index + 1 : index;
             if (fromIndex < toIndex) {
                 toIndex -= 1;
@@ -254,6 +282,7 @@ export default {
         },
 
         resetDragState() {
+            this.nativeDragIndex = null;
             this.draggedIndex = null;
             this.dragOverIndex = null;
             this.clearDragGhost();
@@ -271,7 +300,7 @@ export default {
 
 <style scoped>
 .sortable-list.is-sorting ::v-deep .card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .sortable-move {
@@ -285,8 +314,13 @@ export default {
 }
 
 .sortable-item.is-dragging {
-    opacity: 0.4;
-    transform: scale(0.98);
+    opacity: 0.45;
+}
+
+.sortable-item.is-dragging,
+.sortable-item.is-dragging ::v-deep .card {
+    transition: none;
+    transform: none;
 }
 
 .sortable-item.is-dragging ::v-deep .card {

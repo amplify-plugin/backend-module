@@ -85,6 +85,13 @@ export default {
             type: String,
             default: '',
         },
+        dropAxis: {
+            type: String,
+            default: 'vertical',
+            validator(value) {
+                return value === 'vertical' || value === 'horizontal';
+            },
+        },
         ghostSelector: {
             type: String,
             default: '',
@@ -119,6 +126,10 @@ export default {
 
     methods: {
         getItemKey(item, index) {
+            if (typeof item === 'string' || typeof item === 'number') {
+                return String(item);
+            }
+
             const key = item && item[this.itemKey];
             return key != null && key !== '' ? key : `sortable-index-${index}`;
         },
@@ -129,6 +140,7 @@ export default {
             return [
                 this.itemClass,
                 {
+                    'is-axis-horizontal': this.dropAxis === 'horizontal',
                     'is-dragging': this.draggedIndex === index,
                     'is-drop-before':
                         this.dragOverIndex === index &&
@@ -149,6 +161,10 @@ export default {
             }
 
             this.items.forEach((item, index) => {
+                if (!item || typeof item !== 'object') {
+                    return;
+                }
+
                 item[this.orderKey] = this.orderStart + index;
             });
         },
@@ -228,7 +244,11 @@ export default {
             }
 
             const rect = event.currentTarget.getBoundingClientRect();
-            this.dropPosition = event.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+            if (this.dropAxis === 'horizontal') {
+                this.dropPosition = event.clientX < rect.left + rect.width / 2 ? 'before' : 'after';
+            } else {
+                this.dropPosition = event.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+            }
             this.dragOverIndex = index;
         },
 
@@ -347,6 +367,25 @@ export default {
 
 .sortable-item.is-drop-after::after {
     bottom: 10px;
+}
+
+.sortable-item.is-axis-horizontal.is-drop-before::before,
+.sortable-item.is-axis-horizontal.is-drop-after::after {
+    top: 8px;
+    bottom: 8px;
+    left: auto;
+    right: auto;
+    width: 4px;
+    height: auto;
+}
+
+.sortable-item.is-axis-horizontal.is-drop-before::before {
+    left: -2px;
+}
+
+.sortable-item.is-axis-horizontal.is-drop-after::after {
+    right: -2px;
+    bottom: 8px;
 }
 
 .sortable-item.is-just-dropped ::v-deep .card {

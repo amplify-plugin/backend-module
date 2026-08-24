@@ -444,8 +444,24 @@ export default {
 
             return tabs;
         },
+
+        resolveActiveTab(requested) {
+            const tabNames = Object.keys(this.getAllTabs());
+            const requestedName = String(requested || '').trim();
+
+            if (tabNames.includes(requestedName)) {
+                return requestedName;
+            }
+
+            return (
+                tabNames.find((name) => name.toLowerCase() === requestedName.toLowerCase()) || 'BasicInfo'
+            );
+        },
         init() {
             this.tabs = this.getAllTabs();
+            this.activeTab = this.resolveActiveTab(
+                this.queryString.activeTab || this.queryString.activetab || this.active_tab,
+            );
             let customerGroups = JSON.parse(this.customer_groups);
             this.customer_group_price_list = customerGroups.map((ele) => {
                 return { ...ele, price: '' };

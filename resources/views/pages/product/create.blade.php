@@ -7,6 +7,7 @@
     ];
 
     parse_str(request()->getQueryString(), $query_string);
+    $activeTab = request()->input('activeTab') ?? request()->input('activetab') ?? 'BasicInfo';
 @endphp
 
 @section('header')
@@ -50,7 +51,7 @@
                     attributes="{{ json_encode($attributes) }}" options="{{ json_encode($options) }}"
                     method="{{ $crud->getCurrentOperation() === 'update' ? 'put' : 'post' }}"
                     locale="{{ request('locale', 'en') }}"
-                    active_tab="{{ request()->activeTab ?? 'BasicInfo' }}"
+                    active_tab="{{ $activeTab }}"
                     show_order_quantity_config_tab="{{ $show_order_quantity_config_tab }}"
                     can_publish="{{ backpack_user()->can(['product.publish']) }}"
                     customer_groups="{{ json_encode($customer_groups) }}"

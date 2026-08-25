@@ -371,7 +371,7 @@ trait HasBackendMenu
 
         $sidebar->group('Marketing')
             ->icon('las la-chalkboard')
-            ->canAny('campaign.list', 'merchandising-zone.list', 'subscriber.list')
+            ->canAny('campaign.list', 'merchandising-zone.list', 'subscriber.list', 'recently-viewed-product.list')
             ->items(function ($marketing) {
                 $marketing->item('Campaigns')
                     ->icon('las la-bullhorn')
@@ -387,6 +387,11 @@ trait HasBackendMenu
                     ->icon('las la-user-friends')
                     ->can('subscriber.list')
                     ->url(backpack_url('subscriber'));
+
+                $marketing->item('Recently Viewed Products')
+                    ->icon('las la-history')
+                    ->can('recently-viewed-product.list')
+                    ->url(backpack_url('recently-viewed-product'));
             });
 
         $sidebar->group('Settings')

@@ -3,34 +3,28 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Http\Requests\RecentlyViewedProductRequest;
 use Amplify\System\Backend\Models\Contact;
-use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\RecentlyViewedProduct;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Number;
 
 /**
- * Class RecentlyViewedProductCrudController
+ * Class ProductAnalyticsCrudController
  *
  * @property-read CrudPanel $crud
  */
-class RecentlyViewedProductCrudController extends BackpackCustomCrudController
+class ProductAnalyticsCrudController extends BackpackCustomCrudController
 {
-    use CreateOperation;
-    use DeleteOperation;
     use FetchOperation;
     use ListOperation;
     use ShowOperation;
-    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -38,8 +32,56 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
     public function setup(): void
     {
         CRUD::setModel(RecentlyViewedProduct::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/recently-viewed-product');
-        CRUD::setEntityNameStrings('recently-viewed-product', 'recently viewed products');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-analytics');
+        CRUD::setEntityNameStrings('product-analytics', 'product analytics');
+    }
+
+    private function widgets()
+    {
+        $stats = RecentlyViewedProduct::query()
+            ->selectRaw('COUNT(*) AS `total`')
+            ->selectRaw('COUNT(CASE WHEN `repeat` > 1 THEN 1 END) AS `repeated`')
+            ->selectRaw('COUNT(`add_to_cart_at`) AS `add_to_cart`')
+            ->selectRaw('COUNT(`ordered_at`) AS `ordered`')
+            ->selectRaw('COUNT(`rfq_at`) AS `quoted`')
+            ->when(request()->filled('customer_id'), fn ($query)  => $query->where('customer_id', request()->input('customer_id')))
+            ->when(request()->filled('contact_id'), fn ($query)  => $query->where('contact_id', request()->input('contact_id')))
+            ->first();
+
+        Widget::add([
+            'type' => 'div',
+            'class' => 'row mb-3',
+            'content' => [
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-primary mb-2',
+                    'value'       => $stats->add_to_cart > 0 ? Number::percentage($stats->total / $stats->add_to_cart) : 'N/A',
+                    'description' => 'Add To Cart',
+                    'hint'        => $stats->add_to_cart > 0 ? 'Ratio between viewed and added to the cart' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-warning mb-2',
+                    'value'       => $stats->quoted > 0 ? Number::percentage($stats->total / $stats->quoted) : 'N/A',
+                    'description' => 'Quoted',
+                    'hint'        => $stats->quoted > 0 ? 'Ratio between viewed and quoted items' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-success mb-2',
+                    'value'       => $stats->ordered > 0 ? Number::percentage($stats->total / $stats->ordered) : 'N/A',
+                    'description' => 'Purchased',
+                    'hint'        => $stats->ordered > 0 ? 'Ratio between viewed and purchased items' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-secondary mb-2',
+                    'value'       => $stats->repeated > 0 ? Number::percentage($stats->total / $stats->repeated) : 'N/A',
+                    'description' => 'Repeated',
+                    'hint'        => $stats->total > 0 ? 'Ratio of revisited items' : 'No data available',
+                ],
+            ]
+        ]);
     }
 
     /**
@@ -47,6 +89,8 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation(): void
     {
+        $this->widgets();
+
         CRUD::addFilter([
             'name' => 'customer_id',
             'type' => 'select2_ajax',
@@ -106,8 +150,32 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addColumn([
-            'name' => 'last_viewed_at',
-            'label' => 'Last Viewed At',
+            'name' => 'repeat',
+            'label' => 'Occurrence',
+            'type' => 'number',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'viewed_at',
+            'label' => 'Viewed At',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'add_to_cart_at',
+            'label' => 'Add To Cart At',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'rfq_at',
+            'label' => 'Quoted At',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'ordered_at',
+            'label' => 'Ordered At',
             'type' => 'datetime',
         ]);
 
@@ -117,84 +185,9 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
             'type' => 'datetime',
         ]);
 
-        $this->crud->orderBy('last_viewed_at', 'desc');
+        $this->crud->orderBy('viewed_at', 'desc');
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     */
-    protected function setupCreateOperation(): void
-    {
-        CRUD::setValidation(RecentlyViewedProductRequest::class);
-
-        CRUD::addField([
-            'name' => 'customer_id',
-            'label' => 'Customer',
-            'type' => 'select2_from_ajax',
-            'entity' => 'customer',
-            'attribute' => 'display_name',
-            'model' => Customer::class,
-            'data_source' => backpack_url('contact/fetch/customer'),
-            'placeholder' => 'Optional — search customer',
-            'minimum_input_length' => 1,
-            'delay' => 200,
-            'method' => 'POST',
-            'allows_null' => true,
-            'hint' => 'Optional. Used to narrow contacts and attach the row to a customer account.',
-            'default' => old('customer_id', $this->crud->entry->customer_id ?? null),
-        ]);
-
-        CRUD::addField([
-            'name' => 'contact_id',
-            'label' => 'Contact',
-            'type' => 'select2_from_ajax',
-            'entity' => 'contact',
-            'attribute' => 'name',
-            'model' => Contact::class,
-            'data_source' => backpack_url('recently-viewed-product/fetch/contact'),
-            'placeholder' => 'Optional — search contact',
-            'minimum_input_length' => 0,
-            'delay' => 200,
-            'method' => 'POST',
-            'dependencies' => ['customer_id'],
-            'include_all_form_fields' => true,
-            'allows_null' => true,
-            'hint' => 'Optional. When set, the product appears in that contact\'s storefront recently viewed list. Customer is auto-filled from the contact when empty.',
-            'default' => old('contact_id', $this->crud->entry->contact_id ?? null),
-        ]);
-
-        CRUD::addField([
-            'name' => 'product_id',
-            'label' => 'Product',
-            'type' => 'select2_from_ajax',
-            'entity' => 'product',
-            'attribute' => 'display_name',
-            'model' => Product::class,
-            'data_source' => backpack_url('recently-viewed-product/fetch/product'),
-            'placeholder' => 'Search by product name or code',
-            'minimum_input_length' => 1,
-            'delay' => 200,
-            'method' => 'POST',
-            'hint' => 'Required. Search products by name or product code.',
-            'default' => old('product_id', $this->crud->entry->product_id ?? null),
-        ]);
-
-        CRUD::addField([
-            'name' => 'last_viewed_at',
-            'label' => 'Last Viewed At',
-            'type' => 'datetime',
-            'default' => old('last_viewed_at', $this->crud->entry->last_viewed_at ?? now()),
-            'hint' => 'Defaults to now when left empty.',
-        ]);
-    }
-
-    /**
-     * Define what happens when the Update operation is loaded.
-     */
-    protected function setupUpdateOperation(): void
-    {
-        $this->setupCreateOperation();
-    }
 
     /**
      * Define what happens when the Show operation is loaded.

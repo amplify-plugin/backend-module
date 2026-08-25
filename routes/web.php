@@ -76,7 +76,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('merchandising-zone', 'MerchandisingZoneCrudController');
     Route::crud('subscriber', 'SubscriberCrudController');
     Route::crud('campaign', 'CampaignCrudController');
-    Route::crud('recently-viewed-product', 'RecentlyViewedProductCrudController');
+    Route::crud('product-analytics', 'ProductAnalyticsCrudController');
 
     Route::crud('email', 'EmailCrudController');
     Route::crud('shipping', 'ShippingCrudController');

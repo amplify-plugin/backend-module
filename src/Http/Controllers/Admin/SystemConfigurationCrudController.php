@@ -617,7 +617,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             }
         }
 
-        cacheAll(true);
+//        cacheAll(true);
 
         return [
             'status' => 'success',

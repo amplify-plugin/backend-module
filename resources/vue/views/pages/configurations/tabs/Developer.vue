@@ -187,19 +187,34 @@
 
 <script>
 
+function safeHostname(value) {
+  if (typeof value !== 'string' || value.trim() === '') {
+    return '';
+  }
+
+  try {
+    return new URL(value).hostname;
+  } catch (error) {
+    return '';
+  }
+}
+
 export default {
   name: 'Developer',
   data() {
+    const developerConfig = this.$parent.coreConfigurationData?.developer ?? {};
+    const bugRecipients = developerConfig.bug_recipient;
+
     return {
       systemConfiguration: this.$parent.coreConfigurationData,
       coreConfigurationData: {
         tab: 'developer',
-        log_search: this.$parent.coreConfigurationData.developer.log_search ?? false,
-        log_payment: this.$parent.coreConfigurationData.developer.log_payment ?? false,
-        log_erp_api: this.$parent.coreConfigurationData.developer.log_erp_api ?? false,
-        log_trace_parts_api: this.$parent.coreConfigurationData.developer.log_trace_parts_api ?? false,
-        log_email: this.$parent.coreConfigurationData.developer.log_email ?? false,
-        bug_recipient: this.$parent.coreConfigurationData.developer.bug_recipient ?? [],
+        log_search: developerConfig.log_search ?? false,
+        log_payment: developerConfig.log_payment ?? false,
+        log_erp_api: developerConfig.log_erp_api ?? false,
+        log_trace_parts_api: developerConfig.log_trace_parts_api ?? false,
+        log_email: developerConfig.log_email ?? false,
+        bug_recipient: Array.isArray(bugRecipients) ? bugRecipients : [],
       },
     };
   },
@@ -208,16 +223,20 @@ export default {
       return this.systemConfiguration?.sayt?.dictionary?.host ?? '';
     },
     erpAPiUrl() {
+      const defaultErp = this.systemConfiguration?.erp?.default;
+      const erpUrl = defaultErp
+          ? this.systemConfiguration?.erp?.configurations?.[defaultErp]?.url
+          : null;
 
-      const defaultErp = this.systemConfiguration.erp.default;
-
-      return new URL(this.systemConfiguration?.erp?.configurations[defaultErp]?.url ?? '').hostname;
+      return safeHostname(erpUrl);
     },
     paymentGatewayUrl() {
+      const defaultGateway = this.systemConfiguration?.payment?.default;
+      const gatewayUrl = defaultGateway
+          ? this.systemConfiguration?.payment?.gateways?.[defaultGateway]?.payment_url
+          : null;
 
-      const defaultGateway = this.systemConfiguration.payment.default;
-
-      return new URL(this.systemConfiguration?.payment?.gateways[defaultGateway]?.payment_url ?? '').hostname;
+      return safeHostname(gatewayUrl);
     },
   }
 };

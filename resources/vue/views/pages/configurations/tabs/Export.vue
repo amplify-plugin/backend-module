@@ -66,7 +66,7 @@ export default {
     },
 
     mounted() {
-        this.coreConfigurationData = this.$parent.coreConfigurationData.export;
+        this.coreConfigurationData = this.$parent.coreConfigurationData.export ?? {};
         this.coreConfigurationData.tab = 'export';
     },
 };

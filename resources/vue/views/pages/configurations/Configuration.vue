@@ -294,7 +294,7 @@ export default {
         };
     },
     mounted() {
-        this.activeTab = localStorage.getItem('systemTabActiveTab' ?? 'Basic');
+        this.activeTab = localStorage.getItem('systemTabActiveTab') || 'Basic';
         this.pageTypes = JSON.parse(this.page_types);
         for (let key in JSON.parse(this.product_indexes)) {
             this.productIndexes.push({
@@ -335,10 +335,12 @@ export default {
         },
         saveCoreConfigInfo(params = null) {
             // getFullPageLoader();
+            this.validationErrors = {};
             axios
                 .put(this.axios_url, params)
                 .then((response) => {
                     // removeFullPageLoader();
+                    this.validationErrors = {};
                     new Noty({
                         type: response.data.status,
                         text: response.data.message,
@@ -347,10 +349,18 @@ export default {
                 .catch((err) => {
                     // removeFullPageLoader();
                     console.error(err);
-                    new Noty({
-                        type: 'error',
-                        text: err.response.data.message,
-                    }).show();
+
+                    if (err.response && err.response.status === 422) {
+                        this.validationErrors = err.response.data.errors ?? {};
+                        return;
+                    }
+
+                    if (err.response) {
+                        new Noty({
+                            type: 'error',
+                            text: err.response.data.message,
+                        }).show();
+                    }
                 });
         },
         saveAndAction() {

@@ -183,6 +183,20 @@ class ContactCrudController extends BackpackCustomCrudController
             }
         );
 
+        if (backpack_user()->isAdmin()) {
+            CRUD::addFilter([
+                'name' => 'source',
+                'type' => 'dropdown',
+                'label' => 'Source',
+            ], [
+                'admin' => 'Admin Panel',
+                'request_account' => 'Request Account',
+                'retail_customer' => 'Retail/Cash Customer',
+            ],
+                fn($value) => $this->crud->addClause('where', 'source', "=", $value),
+            );
+        }
+
         if (request()->has('role')) {
             [$role_id, $team_id] = explode('-', request('role'));
             set_customer_team_id($team_id);

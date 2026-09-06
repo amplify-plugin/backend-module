@@ -111,6 +111,7 @@ if (!function_exists('backend_permissions')) {
             'campaign' => 'l,c,u,d',
             'merchandising-zone' => 'l,c,u,d',
             'subscriber' => 'l,c,u,d',
+            'recently-viewed-product' => 'l,c,u,d',
 
             //Settings
             'system-configuration' => 'l,u',

@@ -268,9 +268,15 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         // CRUD::hasAccessOrFail('archive');
         $selectedItems = $request->input('entries');
-        if (! empty($selectedItems)) {
-            return Product::whereIn('id', $selectedItems)->where('status', '!=', 'archived')->update(['status' => 'archived']);
+        if (empty($selectedItems)) {
+            return;
         }
+
+        Product::whereIn('id', $selectedItems)
+            ->where('status', '!=', 'archived')
+            ->each(fn (Product $product) => $product->archiveAndReleaseCode());
+
+        return true;
     }
 
     /**
@@ -1302,12 +1308,15 @@ class ProductCrudController extends BackpackCustomCrudController
             DocumentTypeProduct::query()->where('product_id', $productId)->delete();
 
             $productDocuments = collect($productDocuments)->map(function ($item) use ($productId) {
+                $label = isset($item['label']) ? trim((string) $item['label']) : '';
+
                 return [
                     'product_id' => $productId,
                     'document_type_id' => $item['document_type_id'],
                     'order' => $item['order'],
                     'file_path' => isset($item['file_path']) ? $item['file_path'] : null,
                     'content' => isset($item['content']) ? $item['content'] : null,
+                    'label' => $label !== '' ? $label : null,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
@@ -1385,36 +1394,39 @@ class ProductCrudController extends BackpackCustomCrudController
 
     public function statusUpdate(Product $product, $status, $previous_status): RedirectResponse
     {
+        if ($status === 'archived') {
+            $product->archiveAndReleaseCode($previous_status);
+
+            return $this->flashStatusUpdate('Product status updated');
+        }
+
         $product->published_at = $status === 'published' ? now() : null;
-        $product->archived_at = $status === 'archived' ? now() : null;
+        $product->archived_at = null;
         $product->previous_status = $previous_status;
         $product->status = $status;
+        $product->product_code = explode('-archived-', $product->product_code)[0];
 
-        $product_code = explode('-archived-', $product->product_code)[0];
+        $codeTaken = Product::where('product_code', $product->product_code)
+            ->when(
+                config('amplify.pim.use_product_code_unique_check', true),
+                fn ($query) => $query->whereKeyNot($product->id)
+            )
+            ->exists();
 
-        switch ($status) {
-            case 'archived':
-                $lastProduct = Product::where('product_code', 'like', $product_code.'-archived-'.'%')->latest()->first();
-                $serial = $lastProduct ? explode('-archived-', $lastProduct->product_code)[1] : 0;
-                $product->product_code = $product_code.'-archived-'.($serial + 1);
-                break;
-            default:
-                $product->product_code = $product_code;
-                $existingProduct = Product::where('product_code', $product->product_code)
-                    ->when(config('amplify.pim.use_product_code_unique_check', true), function ($query) use ($product) {
-                        $query->where('id', '!=', $product->id);
-                    })
-                    ->first();
-                if ($existingProduct) {
-                    Alert::warning('Product code already exists')->flash();
+        if ($codeTaken) {
+            Alert::warning('Product code already exists')->flash();
 
-                    return Redirect::route('product.index');
-                }
+            return Redirect::route('product.index');
         }
 
         $product->save();
 
-        Alert::success('Product status updated')->flash();
+        return $this->flashStatusUpdate('Product status updated');
+    }
+
+    private function flashStatusUpdate(string $message): RedirectResponse
+    {
+        Alert::success($message)->flash();
 
         return Redirect::route('product.index');
     }

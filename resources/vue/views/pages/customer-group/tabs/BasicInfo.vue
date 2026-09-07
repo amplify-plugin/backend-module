@@ -592,7 +592,7 @@
 
 <script>
 import Multiselect from "vue-multiselect";
-import _           from "lodash";
+import _ from "lodash";
 
 export default {
     name      : "BasicInfo",

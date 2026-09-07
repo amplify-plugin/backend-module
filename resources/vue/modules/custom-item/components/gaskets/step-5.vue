@@ -73,9 +73,10 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import PopoverComponent from './components/popover.vue';
-import { checkPrice } from '../../../../store/gasket/getters';
+import {checkPrice} from '../../../../store/gasket/getters';
+
 export default {
     name: 'step-5',
     props: ['orderStep', 'stepFourProductGasketProfile', 'stepOneValue', 'stepFiveProductGasketModal', 'handleStepOne'],

@@ -69,16 +69,16 @@
 </template>
 
 <script>
-import InlineCreate       from "../attribute/InlineCreate";
+import InlineCreate from "../attribute/InlineCreate";
 import OptionInlineCreate from "../options/InlineCreate";
-import AvailableLocales   from "../../components/AvailableLocales";
-import Tabs               from "./tabs/Tabs";
-import BasicInfo          from "./tabs/BasicInfo";
-import Products           from "./tabs/Products";
-import _                  from "lodash";
+import AvailableLocales from "../../components/AvailableLocales";
+import Tabs from "./tabs/Tabs";
+import BasicInfo from "./tabs/BasicInfo";
+import Products from "./tabs/Products";
+import _ from "lodash";
 import "vue-multiselect/dist/vue-multiselect.min.css";
-import SwitchTabs         from "../../components/SwitchTabs";
-import Loader             from "../../components/Loader";
+import SwitchTabs from "../../components/SwitchTabs";
+import Loader from "../../components/Loader";
 
 export default {
     name      : 'ProductClassificationCreate',

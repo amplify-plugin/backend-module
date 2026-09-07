@@ -45,8 +45,9 @@
 </template>
 
 <script>
-import $     from 'jquery';
+import $ from 'jquery';
 import 'jquery-ui-dist/jquery-ui';
+
 export default {
     name: "ShowSampleModal",
     mounted(){

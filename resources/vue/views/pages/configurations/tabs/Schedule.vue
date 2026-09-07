@@ -283,9 +283,9 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
-import { highlight } from 'prismjs';
+import {highlight} from 'prismjs';
 import 'prismjs/components/prism-json';
-import { PrismEditor } from 'vue-prism-editor';
+import {PrismEditor} from 'vue-prism-editor';
 import 'vue-prism-editor/dist/prismeditor.min.css';
 
 export default {

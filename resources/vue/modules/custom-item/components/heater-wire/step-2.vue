@@ -78,7 +78,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions, mapState} from 'vuex';
+
 export default {
   name: 'HeaterWireStep-2',
   data(){

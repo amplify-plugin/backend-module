@@ -105,10 +105,10 @@
 </template>
 
 <script>
-    import Multiselect from "vue-multiselect";
-    import CreateShippingModal from './create-shipping-modal.vue';
+import Multiselect from "vue-multiselect";
+import CreateShippingModal from './create-shipping-modal.vue';
 
-    export default {
+export default {
         name: "Shipping",
         props: ['isActive', 'stepId'],
         components: { Multiselect, CreateShippingModal },

@@ -42,9 +42,9 @@
 </template>
 
 <script>
-import FormFields   from "../../../options/FormFields";
+import FormFields from "../../../options/FormFields";
 import InlineCreate from "../../../options/InlineCreate";
-import _            from "lodash";
+import _ from "lodash";
 
 export default {
     name      : "Optional",

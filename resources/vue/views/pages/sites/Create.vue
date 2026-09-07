@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import Tabs                from "./tabs/Tabs";
-import BasicInfo           from "./tabs/BasicInfo";
-import PageConfiguration   from "./tabs/PageConfiguration";
+import Tabs from "./tabs/Tabs";
+import BasicInfo from "./tabs/BasicInfo";
+import PageConfiguration from "./tabs/PageConfiguration";
 import SearchConfiguration from "./tabs/SearchConfiguration";
-import _                   from "lodash";
-import SwitchTabs          from "../../components/SwitchTabs";
-import Loader              from "../../components/Loader";
+import _ from "lodash";
+import SwitchTabs from "../../components/SwitchTabs";
+import Loader from "../../components/Loader";
 
 export default {
     name      : 'SiteCreate',

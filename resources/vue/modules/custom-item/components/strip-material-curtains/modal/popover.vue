@@ -31,7 +31,8 @@
 
 </template>
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
+
 export default {
     name: 'CustomModal',
     props: ['closeModel', 'confirmModel', 'getStripLength'],

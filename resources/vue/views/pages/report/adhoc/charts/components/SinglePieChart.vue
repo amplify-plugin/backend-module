@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { Pie } from 'vue-chartjs';
-import { Colors } from 'chart.js';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import {Pie} from 'vue-chartjs';
+import {ArcElement, Chart as ChartJS, Colors, Legend, Tooltip} from 'chart.js';
+
 ChartJS.register(ArcElement, Tooltip, Legend, Colors);
 
 export default {

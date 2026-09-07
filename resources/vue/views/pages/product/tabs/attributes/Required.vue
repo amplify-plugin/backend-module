@@ -110,7 +110,7 @@
 
 <script>
 import FormFields from "../../../attribute/FormFields";
-import _          from "lodash";
+import _ from "lodash";
 
 export default {
     name: "Required",

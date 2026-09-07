@@ -1,4 +1,4 @@
-import { CKEDITOR_EXTRA_PLUGINS, CKEDITOR_SHARED_CONFIG } from './toolbar';
+import {CKEDITOR_EXTRA_PLUGINS, CKEDITOR_SHARED_CONFIG} from './toolbar';
 
 const PRESERVE_KEYS = [
     'height',

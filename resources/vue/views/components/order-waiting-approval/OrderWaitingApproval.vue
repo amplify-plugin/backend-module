@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import _ from "lodash";
 import Multiselect from 'vue-multiselect';
 import axios from 'axios'
+
 export default {
     components: {
         Multiselect

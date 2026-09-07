@@ -7,11 +7,11 @@
 // Routes you generate using Backpack\Generators will be placed here.
 
 use Amplify\System\Backend\Http\Controllers\Admin\BulkProductImageUpdateController;
+use Amplify\System\Backend\Http\Controllers\Admin\ClassificationCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ContactCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\CustomerGroupCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventActionCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\EventVariableCrudController;
-use Amplify\System\Backend\Http\Controllers\Admin\ClassificationCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ProductCrudController;
 use Amplify\System\Backend\Http\Controllers\Admin\ServerInfoController;
 use Amplify\System\Backend\Http\Controllers\Admin\SiteCrudController;

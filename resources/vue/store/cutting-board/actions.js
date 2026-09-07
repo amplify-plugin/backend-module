@@ -1,4 +1,4 @@
-import { sweetAlertToaster } from '../../modules/custom-item/helper';
+import {sweetAlertToaster} from '../../modules/custom-item/helper';
 import customAxios from '../../utilities/customAxios';
 
 export const getDepth = ({ commit, state }, params) => {

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import _ from "lodash";
 import Form from "../../../utilities/Form";
 import FormFields from "./FormFields";
 

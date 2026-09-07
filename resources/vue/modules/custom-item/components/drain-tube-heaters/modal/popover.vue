@@ -48,7 +48,8 @@
 
 </template>
 <script>
-import {checkInputValue } from '../lib/helper'
+import {checkInputValue} from '../lib/helper'
+
 export default {
     name: 'CustomModal',
     props: ['closeModel', 'confirmModel'],

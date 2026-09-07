@@ -49,6 +49,7 @@
 <script>
 import _ from "lodash";
 import FormFields from "./FormFields";
+
 export default {
     name: "BannerCreate",
     components: { FormFields },

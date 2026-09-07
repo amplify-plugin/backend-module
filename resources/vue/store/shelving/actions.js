@@ -1,6 +1,4 @@
-import Api from "../apis";
-import { generateProduct , getWireSelfPrice} from "../helper";
-import { sweetAlertToaster } from '../../modules/custom-item/helper';
+import {sweetAlertToaster} from '../../modules/custom-item/helper';
 import customAxios from "../../utilities/customAxios";
 
 export const getDepth = ({ commit }, params) => {

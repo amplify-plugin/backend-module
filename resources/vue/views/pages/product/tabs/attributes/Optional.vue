@@ -114,9 +114,9 @@
 </template>
 
 <script>
-import FormFields   from "../../../attribute/FormFields";
+import FormFields from "../../../attribute/FormFields";
 import InlineCreate from "../../../attribute/InlineCreate";
-import _            from "lodash";
+import _ from "lodash";
 
 export default {
     name      : "Optional",

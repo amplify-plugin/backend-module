@@ -52,9 +52,10 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 // import CustomModal from './modal/modal.vue';
 import PopoverComponent from './modal/popover.vue';
+
 export default {
   name: 'Strip_Replacement_Curtains_two',
   props: ['stepTwoProductCurtainsArea', 'curtainsStatus', 'stepTwoProductCurtainsPerFoot', 'stepThreeProductCurtains'],

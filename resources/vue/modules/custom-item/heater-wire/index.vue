@@ -84,7 +84,8 @@
 <script>
 import HeaterWireStepOne from '../components/heater-wire/step-1.vue';
 import HeaterWireStepTwo from '../components/heater-wire/step-2.vue';
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+
 export default {
   name: 'Heater-wire',
   components: {

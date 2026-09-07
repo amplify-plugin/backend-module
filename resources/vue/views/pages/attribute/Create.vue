@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import FormFields       from "./FormFields";
+import FormFields from "./FormFields";
 import AvailableLocales from "../../components/AvailableLocales";
 
 export default {

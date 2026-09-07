@@ -1,5 +1,5 @@
-import axios from 'axios'
 import customAxios from '../../utilities/customAxios'
+
 export const GASKET_STYLE = (state, data) => {
     state.gasket_style = data
 }

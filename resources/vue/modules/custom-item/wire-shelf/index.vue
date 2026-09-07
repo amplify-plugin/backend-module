@@ -37,7 +37,8 @@
 <script>
 import WireShelfStepOne from '../components/wire-shelf/wire-shelf-step-one.vue';
 import WireShelfStepTwo from '../components/wire-shelf/wire-shelf-step-two.vue';
-import { mapActions, mapState ,mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
+
 export default {
     name: 'WireShelf',
     components: {

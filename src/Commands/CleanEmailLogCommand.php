@@ -5,7 +5,6 @@ namespace Amplify\System\Backend\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class CleanEmailLogCommand extends Command
 {

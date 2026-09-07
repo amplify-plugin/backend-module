@@ -284,8 +284,8 @@
 </template>
 
 <script>
-import _           from "lodash";
-import $           from 'jquery';
+import _ from "lodash";
+import $ from 'jquery';
 import 'jquery-ui-dist/jquery-ui';
 import NoItemFound from "../NoItemFound";
 

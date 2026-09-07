@@ -27,7 +27,8 @@
     </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import {mapState} from 'vuex';
+
 export default {
     name: 'GasketsstepOne',
     props: ['orderStep', 'stepOneProductGaskets', 'gasketStatus', 'nextStep'],

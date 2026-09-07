@@ -378,7 +378,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
-import { isNull } from 'lodash';
+import {isNull} from 'lodash';
 
 export default {
     name: 'Customer',

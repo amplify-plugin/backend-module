@@ -1,6 +1,3 @@
-import axios from 'axios'
-import { generateProduct, getWireSelfPrice } from "../helper"
-
 export const setMeasurement = (state, param) => {
     if(param.step =='input-one'){
         state.measurement.measurement_one = Math.ceil(param.val)

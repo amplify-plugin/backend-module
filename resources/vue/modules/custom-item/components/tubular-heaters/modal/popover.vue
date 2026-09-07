@@ -54,8 +54,8 @@
     </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
-import { getValidatedData, checkInputValue } from './helper.js';
+import {mapActions} from 'vuex';
+import {checkInputValue, getValidatedData} from './helper.js';
 
 export default {
     name: 'CustomModal',

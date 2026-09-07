@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import _                from "lodash";
+import _ from "lodash";
 import SelectedProducts from "../../components/icecat-selected-products/SelectedProducts";
 
 export default {

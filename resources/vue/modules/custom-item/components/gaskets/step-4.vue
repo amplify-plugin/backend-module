@@ -38,7 +38,8 @@
       </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import {mapActions} from 'vuex';
+
 export default {
     name: 'step-4',
     props: ['orderStep', 'gasketProfileStatus', 'stepFourProductGasketProfile', 'nextStep'],

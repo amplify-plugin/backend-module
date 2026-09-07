@@ -47,7 +47,6 @@
     </form>
 </template>
 <script>
-import _ from "lodash";
 import saveActionMixin from "../../../mixin/saveAction.js";
 
 function updateProgress(value) {

@@ -197,7 +197,6 @@
 
 <script>
 import allDisksMixin from '../../../../allDisks.mixin';
-import _ from 'lodash'
 import {PrismEditor} from 'vue-prism-editor'
 
 // import highlighting library (you can use any library you want just return html string)

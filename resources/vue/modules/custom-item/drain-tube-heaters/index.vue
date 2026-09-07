@@ -25,6 +25,7 @@
 <script>
 import DrainTubeHeaterStepOne from '../components/drain-tube-heaters/step-1.vue';
 import DrainTubeHeaterStepTwo from '../components/drain-tube-heaters/step-2.vue';
+
 export default {
     name: 'DrainTubeHeatersComponent',
     components: {

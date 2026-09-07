@@ -56,7 +56,7 @@
 import GasketStepOne from '../components/tubular-heaters/step-1.vue';
 import GasketStepTwo from '../components/tubular-heaters/step-2.vue';
 import GasketStepThree from '../components/tubular-heaters/step-3.vue';
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
     name: 'TubularHeaters',

@@ -114,8 +114,6 @@
 
 <script>
 import allDisksMixin from '../../../../allDisks.mixin';
-import _ from 'lodash'
-import {PrismEditor} from 'vue-prism-editor'
 
 export default {
     name: "Prop65",

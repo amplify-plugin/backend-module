@@ -397,7 +397,7 @@
 <script>
 import allDisksMixin from '../../../../../allDisks.mixin';
 import $ from "jquery";
-import Multiselect  from "vue-multiselect";
+import Multiselect from "vue-multiselect";
 import Treeselect from '@riophae/vue-treeselect';
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 import InlineCreate from "../../../attribute/InlineCreate";

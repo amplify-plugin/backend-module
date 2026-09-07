@@ -258,6 +258,7 @@
 
 <script>
 import allDisksMixin from '../../../allDisks.mixin';
+
 export default {
     name: 'ImageUpdateForBulkProduct',
     mixins: [allDisksMixin],

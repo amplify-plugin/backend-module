@@ -47,14 +47,14 @@
 </template>
 
 <script>
-    import Review from "./inc/review.vue";
-    import Billing from "./inc/billing.vue";
-    import CenposBilling from "./inc/cenpos-billing.vue";
-    import Shipping from "./inc/shipping.vue";
-    import Customer from "./inc/customer.vue";
-    import TabNavigator from './inc/tab-navigator.vue';
+import Review from "./inc/review.vue";
+import Billing from "./inc/billing.vue";
+import CenposBilling from "./inc/cenpos-billing.vue";
+import Shipping from "./inc/shipping.vue";
+import Customer from "./inc/customer.vue";
+import TabNavigator from './inc/tab-navigator.vue';
 
-    export default {
+export default {
         name: "OrderCheckout",
         props: ['customer_info', 'contact_info', 'steps_info', 'order_info', 'addresses_info', 'states_info', 'countries_info', 'ship_options_info', 'choose_ship_permission'],
         components: { Customer, Shipping, Billing, CenposBilling, Review, TabNavigator },

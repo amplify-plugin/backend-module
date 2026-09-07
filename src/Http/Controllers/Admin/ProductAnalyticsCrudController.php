@@ -6,12 +6,12 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\RecentlyViewedProduct;
+use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\CRUD\app\Library\Widget;
-use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Number;
 

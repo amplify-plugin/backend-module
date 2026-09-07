@@ -1,4 +1,4 @@
-import { sweetAlertToaster } from "../../modules/custom-item/helper";
+import {sweetAlertToaster} from "../../modules/custom-item/helper";
 import Api from "../apis";
 
 export const validateMeasurement = ({commit,state},data) => {

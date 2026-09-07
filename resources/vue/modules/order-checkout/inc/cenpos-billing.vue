@@ -32,10 +32,10 @@
 </template>
 
 <script>
-    import './card-list.css'
-    import CreateCardModal from "./create-card-modal.vue";
+import './card-list.css'
+import CreateCardModal from "./create-card-modal.vue";
 
-    export default {
+export default {
         name: "Cenpos-Billing",
         props: ['isActive', 'stepId'],
         components: { CreateCardModal },

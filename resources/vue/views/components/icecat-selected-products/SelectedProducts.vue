@@ -284,7 +284,7 @@
 </template>
 
 <script>
-import Bottom      from "../../components/selected-products/Bottom";
+import Bottom from "../../components/selected-products/Bottom";
 import SearchModal from "../../components/search-product-modal/SearchProductModal";
 import Top from "../search-product-modal/body/Top";
 import NoItemFound from "../NoItemFound";

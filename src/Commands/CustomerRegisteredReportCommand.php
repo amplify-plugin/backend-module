@@ -5,7 +5,6 @@ namespace Amplify\System\Backend\Commands;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Exports\CustomerRegisteredExport;
 use Amplify\System\Factories\NotificationFactory;
-use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;

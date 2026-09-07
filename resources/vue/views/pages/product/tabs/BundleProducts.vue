@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import _                from "lodash";
+import _ from "lodash";
 import SelectedProducts from "../../../components/selected-products/SelectedProducts";
 
 export default {

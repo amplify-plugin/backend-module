@@ -121,9 +121,9 @@
 </template>
 
 <script>
-    import Multiselect from "vue-multiselect";
+import Multiselect from "vue-multiselect";
 
-    export default {
+export default {
         name: "Billing",
         props: ['isActive', 'stepId'],
         components: { Multiselect },

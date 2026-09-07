@@ -100,8 +100,9 @@
 <script>
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import Multiselect from "vue-multiselect";
-import { mapActions, mapState } from 'vuex';
+import {mapActions} from 'vuex';
 import permission from './inc/permission.vue';
+
 export default {
   name: 'step-7',
   data() {

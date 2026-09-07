@@ -70,7 +70,8 @@
     </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+
 export default {
     name: 'step-6',
     props: ['orderStep', 'currentWidth', 'stepOneValue', 'stepSixProductGasketProfile', 'stepSixProductGasketDoor'],

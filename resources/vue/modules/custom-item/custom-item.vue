@@ -14,7 +14,7 @@ import TubularHeaters from './tubular-heaters/index.vue';
 import DrainTubeHeaters from './drain-tube-heaters/index.vue';
 
 
-    export default {
+export default {
         name: 'CustomItem',
         props: ['currentComponent'],
         components : [EvaporateCoil, CuttingBoard,WireShelf,TubularHeaters,DrainTubeHeaters],

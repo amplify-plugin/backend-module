@@ -10,12 +10,12 @@ import DataTable from 'laravel-vue-datatable';
 import FileManager from './modules/file-manager/init';
 import './componentRegister';
 import EasyEditor from './views/components/EasyEditor.vue';
-import { applyCkeditorDefaults } from '../js/ckeditor/build-config';
+import {applyCkeditorDefaults} from '../js/ckeditor/build-config';
 
 import store from './store';
+import VueClipboard from 'vue-clipboard2';
 
 Vue.config.productionTip = false;
-import VueClipboard from 'vue-clipboard2';
 // register globally
 Vue.component('multiselect', Multiselect);
 Vue.component('easy-editor', EasyEditor);

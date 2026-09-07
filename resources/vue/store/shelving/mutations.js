@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { generateProduct, getWireSelfPrice } from "../helper"
+import {generateProduct} from "../helper"
 import customAxios from "../../utilities/customAxios";
 
 export const setDepth = (state, depth) => {

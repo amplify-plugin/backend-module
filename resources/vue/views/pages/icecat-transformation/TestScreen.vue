@@ -179,8 +179,8 @@
 </template>
 
 <script>
-import _           from "lodash";
-import Bottom      from "../../components/selected-products/Bottom";
+import _ from "lodash";
+import Bottom from "../../components/selected-products/Bottom";
 import SearchModal from "../../components/search-product-modal/SearchProductModal";
 
 

@@ -79,11 +79,11 @@
 
 <script>
 import AvailableLocales from "../../components/AvailableLocales";
-import _                from "lodash";
+import _ from "lodash";
 import SwitchTabs from "../../components/SwitchTabs";
-import Tabs       from ".//tabs/Tabs";
-import BasicInfo  from ".//tabs/BasicInfo";
-import Customers  from ".//tabs/Customers";
+import Tabs from ".//tabs/Tabs";
+import BasicInfo from ".//tabs/BasicInfo";
+import Customers from ".//tabs/Customers";
 
 
 export default {

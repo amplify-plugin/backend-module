@@ -67,8 +67,7 @@ import GasketStepFour from '../components/gaskets/step-4.vue';
 import GasketStepFive from '../components/gaskets/step-5.vue';
 import GasketStepSix from '../components/gaskets/step-6.vue';
 import GasketStepSeven from '../components/gaskets/step-7.vue';
-import { mapState, mapActions, mapGetters } from 'vuex';
-import { nextTick } from 'vue';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
     name: 'Gaskets',

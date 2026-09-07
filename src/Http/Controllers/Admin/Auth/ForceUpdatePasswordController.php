@@ -4,8 +4,8 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Amplify\System\Backend\Http\Requests\ForceUpdatePasswordRequest;
 use Amplify\System\Backend\Models\User;
-use Illuminate\Routing\Controller;
 use Backpack\CRUD\app\Library\Auth\RedirectsUsers;
+use Illuminate\Routing\Controller;
 use Prologue\Alerts\Facades\Alert;
 
 class ForceUpdatePasswordController extends Controller

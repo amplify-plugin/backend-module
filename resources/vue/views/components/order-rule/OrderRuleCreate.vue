@@ -111,11 +111,10 @@
 </template>
 
 <script>
-import _ from "lodash";
 import Multiselect from 'vue-multiselect';
-import Form from '../../../utilities/Form'
 import axios from 'axios'
-  export default {
+
+export default {
       name: "OrderRuleCreate",
       components: {
           Multiselect

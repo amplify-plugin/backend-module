@@ -285,13 +285,13 @@
 </template>
 
 <script>
-import Creator     from "./Creator";
-import Selector    from "./Selector";
-import _           from "lodash";
+import Creator from "./Creator";
+import Selector from "./Selector";
+import _ from "lodash";
 import NoItemFound from "../../../../components/NoItemFound";
-import Top         from "../../../../components/search-product-modal/body/Top";
-import Loader      from "../../../../components/Loader";
-import $           from "jquery";
+import Top from "../../../../components/search-product-modal/body/Top";
+import Loader from "../../../../components/Loader";
+import $ from "jquery";
 
 
 export default {

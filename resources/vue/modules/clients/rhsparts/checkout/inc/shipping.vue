@@ -67,7 +67,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
-import { mapState, mapGetters } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import ShippingTab from './shipping-tab.vue';
 import MethodNotFound from './method-not-found.vue';
 

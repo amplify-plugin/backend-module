@@ -72,7 +72,6 @@
 
 import {PrismEditor} from "vue-prism-editor";
 import "vue-prism-editor/dist/prismeditor.min.css"; // import the styles somewhere
-
 // import highlighting library (you can use any library you want to return HTML string)
 import {highlight, languages} from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";

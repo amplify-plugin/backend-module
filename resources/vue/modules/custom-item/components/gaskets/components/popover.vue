@@ -46,8 +46,9 @@
 
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
-import { checkInputValue } from './helper.js'
+import {mapActions, mapState} from 'vuex';
+import {checkInputValue} from './helper.js'
+
 export default {
   name: 'CustomModal',
   props: ['range', 'fractional', 'step', 'closeModel', 'confirmModel'],

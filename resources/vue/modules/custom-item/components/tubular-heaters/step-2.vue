@@ -215,7 +215,7 @@
     </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import PopoverComponent from './modal/popover.vue';
 import NotificationComponent from './modal/notification.vue';
 

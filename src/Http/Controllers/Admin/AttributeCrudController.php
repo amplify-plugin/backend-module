@@ -9,11 +9,9 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -25,7 +23,6 @@ class AttributeCrudController extends BackpackCustomCrudController
 {
     use CreateOperation;
     use DeleteOperation;
-    use FetchOperation;
     use InlineCreateOperation;
     use ListOperation;
     use UpdateOperation;

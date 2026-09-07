@@ -51,7 +51,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions} from 'vuex';
+
 export default {
   name: 'Replacement-step-one',
   props: ['curtainsStatus', 'stepOneProductCurtains'],

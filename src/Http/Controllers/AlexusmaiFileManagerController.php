@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class AlexusmaiFileManagerController extends Controller
 {

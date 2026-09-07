@@ -26,9 +26,10 @@
       </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import MaterialStripOne from '../components/strip-material-curtains/step-1.vue';
 import MaterialStripTwo from '../components/strip-material-curtains/step-2.vue';
+
 export default {
     name    : 'stripMaterialCurtainsBulk',
     components:  {

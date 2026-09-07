@@ -16,12 +16,12 @@
 </template>
 
 <script>
-    import DataTable from '../table/DataTable.vue';
-    import PieChart from '../charts/PieChart.vue';
-    import BarChart from '../charts/BarChart.vue';
-    import LineChart from '../charts/LineChart.vue';
+import DataTable from '../table/DataTable.vue';
+import PieChart from '../charts/PieChart.vue';
+import BarChart from '../charts/BarChart.vue';
+import LineChart from '../charts/LineChart.vue';
 
-    export default {
+export default {
         name: "Table-Inc",
         props: ['prompt_data', 'inc_number'],
         components: { DataTable, PieChart, BarChart, LineChart },

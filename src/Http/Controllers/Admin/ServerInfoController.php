@@ -2,10 +2,10 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;

@@ -1,5 +1,5 @@
-
 import Api from './apis/products/api'
+
 export const calculateTotalFeet = (state) => {
     let qty = state.qty;
     let feet = state.incToFeet;

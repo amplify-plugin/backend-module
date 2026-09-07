@@ -62,7 +62,7 @@ import Shipping from './inc/shipping.vue';
 import Customer from './inc/customer.vue';
 import TabNavigator from './inc/tab-navigator.vue';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 
 export default {
     name: 'OrderCheckout',

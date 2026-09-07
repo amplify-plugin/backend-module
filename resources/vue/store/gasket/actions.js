@@ -1,8 +1,5 @@
-import axios from 'axios'
-import Api from "../apis";
-import { sweetAlertToaster } from '../../modules/custom-item/helper';
+import {sweetAlertToaster} from '../../modules/custom-item/helper';
 import customAxios from '../../utilities/customAxios';
-import { param } from 'jquery';
 
 export const getProductType = ({ commit }) => {
     getFullPageLoader();

@@ -7,8 +7,8 @@ use Amplify\System\Backend\Facades\CenPos;
 use Amplify\System\Backend\Models\CustomerOrder;
 use Amplify\System\Backend\Models\Event;
 use Amplify\System\Factories\NotificationFactory;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class CenPosPaymentController extends Controller
 {

@@ -64,9 +64,9 @@
 </template>
 <script>
 import PopoverComponent from './modal/popover.vue'
-import { sweetAlertToasterForERPerror } from '../../helper';
+import {sweetAlertToaster, sweetAlertToasterForERPerror} from '../../helper';
 import customAxios from "../../../../utilities/customAxios";
-import { sweetAlertToaster } from '../../helper';
+
 export default {
   name: 'DrainTubeHeaterStepTwo',
   components: {

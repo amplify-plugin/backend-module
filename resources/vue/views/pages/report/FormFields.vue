@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import _ from "lodash";
 import Condition from './source/Condition.vue';
 
 export default {

@@ -47,7 +47,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
+
 export default {
   name: 'tublarHeater04',
   props: ['orderStep', 'stepTwo', 'stepOneValue', 'stepThree', 'stepFour'],

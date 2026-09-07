@@ -20,7 +20,7 @@
 
 <script>
 import CKEditor from "ckeditor4-vue";
-import { buildCkeditorConfig, getCkeditorEditorUrl } from "../../../js/ckeditor/build-config";
+import {buildCkeditorConfig, getCkeditorEditorUrl} from "../../../js/ckeditor/build-config";
 
 export default {
   name: "EasyEditor",

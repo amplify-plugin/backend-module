@@ -13,7 +13,7 @@
 
 <script>
 import SelectedProducts from "../../../components/selected-products/SelectedProducts";
-import _                from "lodash";
+import _ from "lodash";
 
 export default {
     name: "Products",

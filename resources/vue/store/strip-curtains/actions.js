@@ -1,6 +1,6 @@
-import { event } from "jquery";
 import Api from "../apis";
-import { sweetAlertToaster } from "../../modules/custom-item/helper";
+import {sweetAlertToaster} from "../../modules/custom-item/helper";
+
 export const getStrip = ({ commit }, params) => {
     getFullPageLoader();
     Api.get('/custom-item/strip-replacement/strips').then((res)=>{

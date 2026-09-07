@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { codemirror } from 'vue-codemirror';
+import {codemirror} from 'vue-codemirror';
 import 'codemirror/mode/shell/shell';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/sass/sass';

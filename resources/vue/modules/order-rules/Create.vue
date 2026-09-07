@@ -114,7 +114,6 @@ import SubTotal from './rules/SubTotal';
 import ForbiddenProduct from "./rules/ForbiddenProduct";
 import CartItemCount from "./rules/CartItemCount";
 import axios from 'axios';
-import _ from 'lodash';
 
 export default {
     name: "CustomerOrderRoleCreate",

@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import _              from "lodash";
-import Bottom         from "../../../../components/selected-products/Bottom";
+import _ from "lodash";
+import Bottom from "../../../../components/selected-products/Bottom";
 import SearchSkuModal from "../../../../components/search-sku-product-modal/SearchSkuProductModal";
 
 export default {

@@ -3,9 +3,9 @@
 namespace Amplify\System\Backend\Http\Controllers;
 
 use Amplify\System\Backend\Models\Webinar;
-use Illuminate\Routing\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 class WebinarController extends Controller

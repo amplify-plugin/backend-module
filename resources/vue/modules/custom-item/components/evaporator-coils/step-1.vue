@@ -70,8 +70,9 @@
     </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex';
+import {mapState} from 'vuex';
 import PopoverComponent from './inc/popover.vue';
+
 export default {
     name: 'step-one',
     props: ['orderStep', 'stepOneValue', 'handleStepOne', 'stepOne'],

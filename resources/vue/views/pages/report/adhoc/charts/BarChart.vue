@@ -9,11 +9,11 @@
 </template>
 
 <script>
-    import Navigator from './Navigator.vue';
-    import { Bar } from 'vue-chartjs'
-    import { Colors } from 'chart.js';
-    import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-    ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Colors);
+import Navigator from './Navigator.vue';
+import {Bar} from 'vue-chartjs'
+import {BarElement, CategoryScale, Chart as ChartJS, Colors, Legend, LinearScale, Title, Tooltip} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Colors);
 
     export default {
         name: "Bar-Chart",

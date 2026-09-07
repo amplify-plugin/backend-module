@@ -1,4 +1,4 @@
-import { sweetAlertToaster, sweetAlertToasterForCoils } from "../../modules/custom-item/helper";
+import {sweetAlertToasterForCoils} from "../../modules/custom-item/helper";
 import customAxios from "../../utilities/customAxios";
 
 export const setMeasurement = ({ commit }, params) => {

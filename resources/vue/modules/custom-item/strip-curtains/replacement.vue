@@ -29,7 +29,8 @@
 import ReplacementStripOne from '../components/replacement-strip-curtains/step-1.vue';
 import ReplacementStripTwo from '../components/replacement-strip-curtains/step-2.vue';
 import ReplacementStripFour from '../components/replacement-strip-curtains/step-4.vue';
-import { mapActions, mapState ,mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
+
 export default {
     name: 'ReplacementStripCurtains',
     components: {

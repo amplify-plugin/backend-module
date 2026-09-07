@@ -48,15 +48,15 @@
 </template>
 
 <script>
-    import Review from "./inc/review.vue";
-    import Billing from "./inc/billing.vue";
-    import CenposBilling from "./inc/cenpos-billing.vue";
-    import Shipping from "./inc/shipping.vue";
-    import Customer from "./inc/customer.vue";
-    import TabNavigator from './inc/tab-navigator.vue';
-    import 'vue-multiselect/dist/vue-multiselect.min.css';
+import Review from "./inc/review.vue";
+import Billing from "./inc/billing.vue";
+import CenposBilling from "./inc/cenpos-billing.vue";
+import Shipping from "./inc/shipping.vue";
+import Customer from "./inc/customer.vue";
+import TabNavigator from './inc/tab-navigator.vue';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
 
-    export default {
+export default {
         name: "OrderCheckout",
         props: ['is_auth_user', 'is_redirect_order_complete', 'contact_info', 'customer_info', 'steps_info', 'cart_info', 'addresses_info', 'countries_info', 'states_info', 'ship_options_info', 'choose_ship_permission'],
         components: { Customer, Shipping, Billing, CenposBilling, Review, TabNavigator },

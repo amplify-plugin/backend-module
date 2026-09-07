@@ -46,8 +46,9 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
-import { getFactionalNumber, fractionalPart, checkInputValue } from '../../helper'
+import {mapActions, mapState} from 'vuex';
+import {checkInputValue} from '../../helper'
+
 export default {
   name: 'CustomModal',
   props: ['range', 'fractional', 'step', 'closeModel', 'confirmModel'],

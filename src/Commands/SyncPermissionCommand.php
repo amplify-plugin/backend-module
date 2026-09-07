@@ -5,7 +5,6 @@ namespace Amplify\System\Backend\Commands;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 

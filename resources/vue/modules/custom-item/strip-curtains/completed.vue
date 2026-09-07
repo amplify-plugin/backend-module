@@ -290,7 +290,7 @@
 </template>
 <script>
 import PopoverComponent from './modal/completed-popover.vue';
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import SpinnerComponent from '../components/spinner.vue';
 
 export default {

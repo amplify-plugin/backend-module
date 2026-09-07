@@ -1,4 +1,5 @@
 import Api from "../apis";
+
 export const setStrips = (state, product) => {
     state.replacementProduct = product;
 }

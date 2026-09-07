@@ -1,5 +1,3 @@
-import axios from 'axios'
-import { generateProduct, getWireSelfPrice } from "../helper"
 import Api from "../apis";
 
 export const setDepth = (state, depth) => {

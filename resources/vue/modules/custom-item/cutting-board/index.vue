@@ -38,8 +38,8 @@
 <script>
 import CuttingBoardStepOne from '../components/cutting-board/step-1.vue';
 import CuttingBoardStepTwo from '../components/cutting-board/step-2.vue';
-import { mapActions} from 'vuex';
-import { mapGetters } from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
+
 export default {
     name: 'CuttingBoard',
     components: {

@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Commands;
 
-use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Jobs\GenerateProductSlugJob;
+use Amplify\System\Backend\Models\Product;
 use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Bus;

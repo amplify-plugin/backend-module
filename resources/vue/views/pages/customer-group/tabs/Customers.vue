@@ -148,7 +148,6 @@
 </template>
 
 <script>
-import _      from "lodash";
 import Loader from "../../../components/Loader";
 
 

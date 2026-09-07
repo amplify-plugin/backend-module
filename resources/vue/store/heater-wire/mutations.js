@@ -1,4 +1,4 @@
-import { calculateTotalFeet } from "../helper";
+import {calculateTotalFeet} from "../helper";
 
 export const setPrice = (state, price) => {
     state.wireStepOneWire = true;

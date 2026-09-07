@@ -4,8 +4,8 @@ namespace Amplify\System\Backend\Http\Controllers\Payments;
 
 use Amplify\System\Backend\Models\CustomerCreditCard;
 use Amplify\System\Payment\CenPos\PaymentService;
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class CenposController extends Controller
 {

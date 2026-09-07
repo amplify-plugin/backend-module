@@ -39,11 +39,12 @@
     </div>
 </template>
 <script>
-import { mapActions, mapState ,mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import CoilStepOne from '../components/evaporator-coils/step-1.vue';
 import CoilStepTwoSix from '../components/evaporator-coils/step-2-6.vue';
 import CoilStepTwoSeven from '../components/evaporator-coils/step-7.vue';
-import { isString } from 'lodash/lang';
+import {isString} from 'lodash/lang';
+
 export default {
     name: 'EvaporateCoil',
     components: {

@@ -55,8 +55,9 @@
 
 </template>
 <script>
-import { getStepValue, checkInputValue } from './helper'
-import { mapActions, mapState } from 'vuex';
+import {checkInputValue, getStepValue} from './helper'
+import {mapActions, mapState} from 'vuex';
+
 export default {
     name: 'CustomModal',
     data() {

@@ -127,8 +127,9 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import SpinnerComponent from '../spinner.vue';
+
 export default {
   name: 'WireShelfStepTwo',
   data() {

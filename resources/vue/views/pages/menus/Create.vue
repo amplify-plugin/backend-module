@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import _ from "lodash";
 import AvailableLocales from "../../components/AvailableLocales";
 import Form from "../../../utilities/Form";
 import FormFields from "./FormFields";

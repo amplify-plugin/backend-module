@@ -206,8 +206,8 @@
 
 <script>
 import AvailableLocales from "../../components/AvailableLocales";
-import Treeselect       from "@riophae/vue-treeselect";
-import _                from "lodash";
+import Treeselect from "@riophae/vue-treeselect";
+import _ from "lodash";
 import '@riophae/vue-treeselect/dist/vue-treeselect.min.css'
 
 export default {

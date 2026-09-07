@@ -70,7 +70,8 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
+
 export default {
   name: 'Cutting-Board-Step-2',
   data(){

@@ -61,10 +61,6 @@ Vue.component('OrderWaitingApproval', () => import('./views/components/order-wai
 // Checkout
 Vue.component('OrderCheckout', () => import('./modules/checkout/index.vue'));
 Vue.component('CustomerOrderCheckout', () => import('./modules/order-checkout/index.vue'));
-Vue.component('CustomerCheckout', () => import('./modules/clients/rhsparts/checkout/index.vue'));
-Vue.component('CalToolCheckout', () => import('./modules/clients/cal-tool/checkout/index.vue'));
-Vue.component('DkLokCheckout', () => import('./modules/clients/dk-lok/checkout/index.vue'));
-Vue.component('NudraulixCheckout', () => import('./modules/clients/nudraulix/checkout/index.vue'));
 Vue.component('CodeEditor', () => import('./views/pages/code-editor.vue'));
 Vue.component('CodeField', () => import('./views/components/CodeField.vue'));
 Vue.component('ImageBulkProduct', () => import('./views/pages/product/ImageBulkProduct.vue'));

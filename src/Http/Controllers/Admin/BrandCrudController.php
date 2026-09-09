@@ -5,6 +5,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\BrandRequest;
 use Amplify\System\Backend\Models\Brand;
+use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -27,6 +28,7 @@ class BrandCrudController extends BackpackCustomCrudController
     }
     use ListOperation;
     use UpdateOperation;
+    use BulkDeleteOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.

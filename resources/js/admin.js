@@ -3,6 +3,7 @@
  */
 
 $(document).ready(function () {
+
     $('.large_text_toggle_button').on('click', function () {
         if ($('.large_text').hasClass('d-none')) {
             $('.large_text').removeClass('d-none');
@@ -20,4 +21,11 @@ $(document).ready(function () {
             document.querySelector('.sidebar-pills').classList.remove('top');
         }
     });
+
+    if ($('select#dt-length-0')) {
+        console.log($('select#dt-length-0'));
+        $('select#dt-length-0').addClass('form-control');
+    } else {
+        console.log("Please select the dt-length 0");
+    }
 });

@@ -9,6 +9,7 @@ use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Traits\ProductCategoryTrait;
 use Amplify\System\Backend\Traits\ReorderTrait;
 use Amplify\System\Jobs\CategoryCloneJob;
+use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
@@ -45,6 +46,7 @@ class CategoryCrudController extends BackpackCustomCrudController
     use ReorderOperation;
     use ReorderTrait;
     use UpdateOperation;
+    use BulkDeleteOperation;
 
     public string $reorderLabel = 'category_name';
 

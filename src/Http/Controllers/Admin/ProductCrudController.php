@@ -24,6 +24,7 @@ use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\ProductHelper;
 use Amplify\System\Utility\Services\DataTransformation\ExecuteScriptService;
 use Backpack\CRUD\app\Exceptions\BackpackProRequiredException;
+use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
@@ -71,6 +72,7 @@ class ProductCrudController extends BackpackCustomCrudController
     use UpdateOperation {
         update as traitUpdate;
     }
+    use BulkDeleteOperation;
 
     protected $tabs = [];
 

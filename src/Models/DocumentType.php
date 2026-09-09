@@ -32,7 +32,7 @@ class DocumentType extends Model implements Auditable
     // protected $fillable = [];
     // protected $hidden = [];
 
-    protected $appends = ['label'];
+//    protected $appends = ['label'];
 
     public const MEDIA_TYPES = [
         'image' => 'Image',

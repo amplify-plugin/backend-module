@@ -49,7 +49,7 @@ class SellingProductsSettingSeeder extends Seeder
                     'name' => 'value',
                     'type' => 'boolean',
                     'label' => 'Selling Products',
-                    'hint' => 'When enabled, the Selling Products widget appears on the customer dashboard.',
+                    'hint' => 'When enabled, the Selling Products carousel widget can appear on storefront pages (home, shop, product, cart).',
                 ],
             ],
             [
@@ -65,7 +65,18 @@ class SellingProductsSettingSeeder extends Seeder
                         10 => '10',
                         20 => '20',
                     ],
-                    'hint' => 'Maximum number of top-selling products shown in the widget.',
+                    'hint' => 'Default maximum number of top-selling products shown in the carousel widget.',
+                ],
+            ],
+            [
+                'option' => 'cache_ttl',
+                'value' => 3600,
+                'type' => 'integer',
+                'field' => [
+                    'name' => 'value',
+                    'type' => 'number',
+                    'label' => 'Cache TTL (seconds)',
+                    'hint' => 'How long to cache the top-selling products query. Default 3600 (1 hour). Set 0 to disable caching.',
                 ],
             ],
             [

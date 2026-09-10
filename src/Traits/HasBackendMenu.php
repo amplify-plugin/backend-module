@@ -388,10 +388,10 @@ trait HasBackendMenu
                     ->can('subscriber.list')
                     ->url(backpack_url('subscriber'));
 
-                $marketing->item('Recently Viewed Products')
+                $marketing->item('Product Analytics')
                     ->icon('las la-history')
-                    ->can('recently-viewed-product.list')
-                    ->url(backpack_url('recently-viewed-product'));
+                    ->can('product-analytics.list')
+                    ->url(backpack_url('product-analytics'));
             });
 
         $sidebar->group('Settings')

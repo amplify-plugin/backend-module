@@ -250,10 +250,10 @@
             id="allow_back_order_on_catalog_sync"
           />
           <label class="form-check-label" for="allow_back_order_on_catalog_sync">
-            Allow Back Order while processing catalog sync
+            Allow Back Order on catalog sync
           </label>
           <small class="text-muted mt-2 d-block"
-            >If enabled, products created or updated by catalog synchronization will allow back orders. If disabled, the ERP Allow Back Order value is used.</small
+            >If enabled, back orders are allowed when catalog sync items are created, when those items are processed into products, and when products are created or updated by Import Jobs. If disabled, the ERP or mapped import value is used.</small
           >
         </div>
       </div>

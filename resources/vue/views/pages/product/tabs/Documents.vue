@@ -7,36 +7,35 @@
             </div>
 
             <div v-if="$parent.productData.productDocuments.length > 0" class="w-100">
-                <div v-for="(document, index) in $parent.productData.productDocuments" :key="index">
-                    <div class="form-group col-sm-12">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <div class="row w-100">
-                                        <div class="col-4">
-                                            <div class="float-left w-25">
-                                                <label :class="{ 'text-danger': documentError('order', index) }"
-                                                    >Order</label
-                                                >
-                                                <input
-                                                    placeholder="Order"
-                                                    type="text"
-                                                    class="form-control"
-                                                    @click="removeError(documentError('order', index, true))"
-                                                    :class="{ 'border border-danger': documentError('order', index) }"
-                                                    v-model="document.order"
-                                                />
-                                                <small v-if="documentError('order', index)" class="text-danger mt-3">
-                                                    {{
-                                                        $parent.validationErrors[documentError('order', index, true)][0]
-                                                    }}
-                                                </small>
-                                            </div>
-                                            <div class="float-right pl-3 w-75">
-                                                <label
-                                                    :class="{ 'text-danger': documentError('document_type_id', index) }"
-                                                    >Document Type</label
-                                                >
+                <sortable-list
+                    :items="$parent.productData.productDocuments"
+                    item-key="_uid"
+                    order-key="order"
+                    hint="Drag the handle to change document order."
+                    ghost-selector=".card"
+                    item-class="form-group col-sm-12"
+                    @before-reorder="onDocumentBeforeReorder"
+                >
+                    <template #item="{ item: document, index, dragStart, dragEnd }">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="document-card-row">
+                                <sortable-handle
+                                    :index="index"
+                                    align="fields"
+                                    :drag-start="dragStart"
+                                    :drag-end="dragEnd"
+                                />
+                                <div class="document-fields-row">
+                                    <div class="document-type-col">
+                                        <div class="w-100">
+                                            <label
+                                                class="d-flex align-items-center"
+                                                :class="{ 'text-danger': documentError('document_type_id', index) }"
+                                            >
+                                                Document Type
+                                                <span class="document-order-badge ml-2">{{ document.order }}</span>
+                                            </label>
                                                 <div>
                                                     <select
                                                         class="form-control"
@@ -50,10 +49,9 @@
                                                     >
                                                         <option :value="null" disabled>Select a document type</option>
                                                         <option
-                                                            v-for="(documentType, index) in $parent.allDocumentTypes"
-                                                            :key="index"
+                                                            v-for="documentType in $parent.allDocumentTypes"
+                                                            :key="documentType.id"
                                                             :value="documentType.id"
-                                                            :disabled="documentType?.disabled ?? false"
                                                         >
                                                             {{ documentType.name }}
                                                         </option>
@@ -74,48 +72,109 @@
 
                                         <div
                                             v-if="$parent.productData.productDocuments[index].media_type != 'embedded'"
-                                            class="col-4 text-center px-3 m-auto"
+                                            class="document-meta-col"
                                         >
-                                            <div class="btn-group w-100">
-                                                <div
-                                                    class="w-100"
-                                                    v-if="
-                                                        document.document_type_id !== null &&
-                                                        document.document_type_id !== undefined
-                                                    "
-                                                >
+                                            <div class="document-meta-row">
+                                                <div class="document-label-col">
+                                                    <label>Label</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        :placeholder="documentLabelPlaceholder(document)"
+                                                        :value="document.label || ''"
+                                                        title="Leave empty to use the file name"
+                                                        @input="document.label = $event.target.value"
+                                                        @blur="commitDocumentLabel(document)"
+                                                    />
+                                                </div>
+                                                <div class="document-path-wrap">
+                                                <div :id="`file_path_${index}`" class="document-path-col">
                                                     <label
+                                                        class="document-path-label"
                                                         :class="{ 'text-danger': documentError('file_path', index) }"
-                                                        class="btn btn-light btn-sm btn-file py-2 mb-0 cursor-pointer w-100"
-                                                        style="margin-top: 2rem !important"
-                                                        title="select file"
-                                                        :for="`documentFile_${index}`"
                                                     >
-                                                        <i class="la la-cloud-upload-alt"></i>
-                                                        Upload Document
+                                                        File Path/URL
+                                                        <span
+                                                            class="document-path-info"
+                                                            tabindex="0"
+                                                            aria-label="Use Upload to pick a file from the file manager, or paste any valid file URL such as an S3 or CDN link."
+                                                        >
+                                                            <i class="la la-info-circle" aria-hidden="true"></i>
+                                                            <span class="document-path-info-tip" role="tooltip">
+                                                                Use Upload to pick a file from the file manager, or
+                                                                paste any valid file URL (S3, CDN, or other direct
+                                                                link to a PDF, image, video, or document).
+                                                            </span>
+                                                        </span>
+                                                    </label>
+                                                    <div class="document-path-input-row">
+                                                        <div class="input-group document-path-group">
+                                                        <div class="input-group-prepend">
+                                                            <label
+                                                                v-if="
+                                                                    document.document_type_id !== null &&
+                                                                    document.document_type_id !== undefined
+                                                                "
+                                                                class="btn btn-light mb-0 cursor-pointer document-upload-addon"
+                                                                :class="{
+                                                                    'text-danger': documentError('file_path', index),
+                                                                }"
+                                                                title="Upload document"
+                                                                :for="`documentFile_${index}`"
+                                                            >
+                                                                <i class="la la-cloud-upload-alt"></i>
+                                                                Upload
+                                                                <input
+                                                                    :id="`documentFile_${index}`"
+                                                                    type="file"
+                                                                    class="form-control d-none file_design"
+                                                                    title="select file"
+                                                                    :accept="document.file_type"
+                                                                    @click="
+                                                                        processImagesByType(index);
+                                                                        getImageBrowseModal();
+                                                                        canMultiple = false;
+                                                                        browseThumbImage($event);
+                                                                    "
+                                                                />
+                                                            </label>
+                                                            <button
+                                                                v-else
+                                                                type="button"
+                                                                class="btn btn-light document-upload-addon"
+                                                                disabled
+                                                                title="Select a document type first"
+                                                            >
+                                                                <i class="la la-cloud-upload-alt"></i>
+                                                                Upload
+                                                            </button>
+                                                        </div>
                                                         <input
-                                                            :id="`documentFile_${index}`"
-                                                            type="file"
-                                                            class="form-control d-none file_design"
-                                                            title="select file"
-                                                            :class="{
-                                                                'border border-danger': documentError(
-                                                                    'file_path',
-                                                                    index,
-                                                                ),
-                                                            }"
-                                                            :accept="document.file_type"
+                                                            placeholder="Select a file or Enter URL"
+                                                            type="text"
+                                                            class="form-control"
                                                             @click="
-                                                                processImagesByType(index);
-                                                                getImageBrowseModal();
-                                                                canMultiple = false;
-                                                                browseThumbImage($event);
+                                                                removeError(documentError('file_path', index, true))
                                                             "
-                                                        /> </label
-                                                    ><br />
+                                                            :class="{
+                                                                'is-invalid': documentError('file_path', index),
+                                                            }"
+                                                            v-model="document.file_path"
+                                                            @blur="suggestDocumentLabelFromPath(document)"
+                                                        />
+                                                    </div>
+                                                        <div class="document-delete-col">
+                                                            <i
+                                                                class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
+                                                                title="Delete Document"
+                                                                @click="removeDocument(index)"
+                                                                data-handle="remove"
+                                                            ></i>
+                                                        </div>
+                                                    </div>
                                                     <small
                                                         v-if="documentError('file_path', index)"
-                                                        class="text-danger mt-3"
+                                                        class="text-danger d-block mt-1"
                                                     >
                                                         {{
                                                             $parent.validationErrors[
@@ -124,115 +183,80 @@
                                                         }}
                                                     </small>
                                                 </div>
-                                                <label
-                                                    v-else
-                                                    class="btn btn-light btn-sm btn-file py-2 mb-0 disabled"
-                                                    style="margin-top: 2rem !important"
-                                                    title="select file"
-                                                >
-                                                    <i class="la la-cloud-upload-alt"></i>
-                                                    Upload Document
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div
-                                            v-if="$parent.productData.productDocuments[index].media_type != 'embedded'"
-                                            class="col-4"
-                                        >
-                                            <div class="d-flex gap-3 justify-content-between">
-                                                <div :id="`file_path_${index}`" class="w-100">
-                                                    <label>File Path</label>
-                                                    <input
-                                                        placeholder="file path"
-                                                        type="text"
-                                                        class="form-control"
-                                                        @click="removeError(documentError('file_path', index, true))"
-                                                        :class="{
-                                                            'border border-danger': documentError('file_path', index),
-                                                        }"
-                                                        v-model="document.file_path"
-                                                    />
-                                                </div>
                                                 <div
                                                     :id="`progressbar_${index}`"
                                                     class="d-none justify-content-center mt-4"
                                                 >
                                                     <ProgressBar></ProgressBar>
                                                 </div>
-                                                <div>
-                                                    <i
-                                                        class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer mt-4"
-                                                        style="margin-top: 2.3rem !important; font-weight: 900"
-                                                        title="Delete Document"
-                                                        @click="
-                                                            removeDocument(
-                                                                index,
-                                                                document.file_path,
-                                                                document.document_type_id,
-                                                            )
-                                                        "
-                                                        data-handle="remove"
-                                                    ></i>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div
                                             v-if="$parent.productData.productDocuments[index].media_type == 'embedded'"
-                                            class="col-8"
+                                            class="document-meta-col"
                                         >
-                                            <div class="d-flex gap-3 justify-content-between">
-                                                <div class="w-100">
-                                                    <label
-                                                        for="content"
-                                                        :class="{ 'text-danger': documentError('content', index) }"
-                                                        >Script</label
-                                                    >
-                                                    <textarea
-                                                        name="content"
+                                            <div class="document-meta-row">
+                                                <div class="document-label-col">
+                                                    <label>Label</label>
+                                                    <input
+                                                        type="text"
                                                         class="form-control"
-                                                        @click="removeError(documentError('content', index, true))"
-                                                        :class="{
-                                                            'border border-danger': documentError('content', index),
-                                                        }"
-                                                        v-model="document.content"
-                                                    >
-                                                    </textarea>
-                                                    <small
-                                                        v-if="documentError('content', index)"
-                                                        class="text-danger mt-3"
-                                                    >
-                                                        {{
-                                                            $parent.validationErrors[
-                                                                documentError('content', index, true)
-                                                            ][0]
-                                                        }}
-                                                    </small>
+                                                        :placeholder="documentLabelPlaceholder(document)"
+                                                        :value="document.label || ''"
+                                                        title="Leave empty to use the file name"
+                                                        @input="document.label = $event.target.value"
+                                                        @blur="commitDocumentLabel(document)"
+                                                    />
                                                 </div>
-                                                <div>
-                                                    <i
-                                                        class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer mt-4"
-                                                        style="margin-top: 2.3rem !important; font-weight: 900"
-                                                        title="Delete Document"
-                                                        @click="
-                                                            removeDocument(
-                                                                index,
-                                                                document.file_path,
-                                                                document.document_type_id,
-                                                            )
-                                                        "
-                                                        data-handle="remove"
-                                                    ></i>
+                                                <div class="document-path-wrap">
+                                                    <div class="document-path-col">
+                                                        <label
+                                                            for="content"
+                                                            :class="{ 'text-danger': documentError('content', index) }"
+                                                            >Script</label
+                                                        >
+                                                        <div class="document-path-input-row is-multiline">
+                                                        <textarea
+                                                            name="content"
+                                                            class="form-control"
+                                                            @click="removeError(documentError('content', index, true))"
+                                                            :class="{
+                                                                'border border-danger': documentError('content', index),
+                                                            }"
+                                                            v-model="document.content"
+                                                        >
+                                                        </textarea>
+                                                        <div class="document-delete-col">
+                                                            <i
+                                                                class="la la-times bg-danger rounded-circle p-1 e-0 cursor-pointer"
+                                                                title="Delete Document"
+                                                                @click="removeDocument(index)"
+                                                                data-handle="remove"
+                                                            ></i>
+                                                        </div>
+                                                        </div>
+                                                        <small
+                                                            v-if="documentError('content', index)"
+                                                            class="text-danger mt-3"
+                                                        >
+                                                            {{
+                                                                $parent.validationErrors[
+                                                                    documentError('content', index, true)
+                                                                ][0]
+                                                            }}
+                                                        </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
-                </div>
+                    </template>
+                </sortable-list>
             </div>
             <div v-else class="form-group col-sm-12">
                 <div class="card mb-3">
@@ -240,7 +264,7 @@
                 </div>
             </div>
 
-            <div v-if="$parent.productData.productDocuments < $parent.allDocumentTypes" class="ml-3">
+            <div class="ml-3">
                 <button class="btn btn-sm btn-link border-primary" type="button" @click="addDocument()">
                     + Add Document
                 </button>
@@ -259,11 +283,13 @@ import allDisksMixin from '../../../../allDisks.mixin';
 import Treeselect from '@riophae/vue-treeselect';
 import _ from 'lodash';
 import $ from 'jquery';
+import SortableList from '../../../components/sortable-list/SortableList.vue';
+import SortableHandle from '../../../components/sortable-list/SortableHandle.vue';
 
 export default {
     name: 'Documents',
     mixins: [allDisksMixin],
-    components: { Treeselect },
+    components: { Treeselect, SortableList, SortableHandle },
     data() {
         return {
             documentDirectory: 'uploads/product_documents',
@@ -273,16 +299,145 @@ export default {
     },
 
     methods: {
+        filenameWithoutExtension(filePath) {
+            if (!filePath) {
+                return '';
+            }
+
+            const path = String(filePath).split('?')[0];
+            const basename = decodeURIComponent(path.split('/').pop() || '');
+            const lastDot = basename.lastIndexOf('.');
+
+            if (lastDot > 0) {
+                return basename.slice(0, lastDot);
+            }
+
+            return basename;
+        },
+
+        documentLabelPlaceholder(document) {
+            return this.filenameWithoutExtension(document.file_path) || 'Uses file name if empty';
+        },
+
+        commitDocumentLabel(document) {
+            const trimmed = String(document.label ?? '').trim();
+            if (trimmed !== '') {
+                document.label = trimmed;
+                return;
+            }
+
+            document.label = this.filenameWithoutExtension(document.file_path) || null;
+        },
+
+        suggestDocumentLabelFromPath(document, previousFilePath = null) {
+            const nextName = this.filenameWithoutExtension(document.file_path);
+            if (!nextName) {
+                return;
+            }
+
+            const current = String(document.label ?? '').trim();
+            const previousName = this.filenameWithoutExtension(previousFilePath);
+            if (current === '' || current === previousName) {
+                document.label = nextName;
+            }
+        },
+
+        ensureDocumentUid(document) {
+            if (!document._uid) {
+                document._uid = document.id
+                    ? `doc-${document.id}`
+                    : `new-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+            }
+        },
+
+        reindexDocumentOrder() {
+            this.$parent.productData.productDocuments.forEach((document, index) => {
+                document.order = index + 1;
+            });
+        },
+
+        onDocumentBeforeReorder({ fromIndex, toIndex, length }) {
+            this.moveDocumentValidationErrors(fromIndex, toIndex, length);
+        },
+
+        getValidationErrors() {
+            const errors = this.$parent.validationErrors;
+            if (!errors || typeof errors !== 'object') {
+                return {};
+            }
+
+            return errors;
+        },
+
+        setValidationErrors(errors) {
+            this.$parent.validationErrors = { ...errors };
+        },
+
         removeError(key) {
-            let errorsObject = this.$parent.validationErrors;
-            let errorExist = errorsObject.hasOwnProperty(key);
-            if (errorExist) {
-                delete errorsObject[key];
+            if (!key) {
+                return;
             }
-            if (Object.keys(errorsObject).length <= 0) {
-                this.$parent.validationErrors = '';
+
+            const errors = { ...this.getValidationErrors() };
+            delete errors[key];
+            this.setValidationErrors(errors);
+        },
+
+        rekeyDocumentValidationErrors(indexMap) {
+            const next = {};
+
+            Object.entries(this.getValidationErrors()).forEach(([key, value]) => {
+                const match = key.match(/^productDocuments\.(\d+)\.(.+)$/);
+                if (!match) {
+                    next[key] = value;
+                    return;
+                }
+
+                const oldIndex = Number(match[1]);
+                if (!Object.prototype.hasOwnProperty.call(indexMap, oldIndex)) {
+                    return;
+                }
+
+                next[`productDocuments.${indexMap[oldIndex]}.${match[2]}`] = value;
+            });
+
+            this.setValidationErrors(next);
+        },
+
+        removeDocumentValidationErrors(removedIndex) {
+            const length = this.$parent.productData.productDocuments.length;
+            const indexMap = {};
+
+            for (let i = 0; i < length; i++) {
+                if (i === removedIndex) {
+                    continue;
+                }
+
+                indexMap[i] = i > removedIndex ? i - 1 : i;
             }
-            this.$parent.validationErrors = errorsObject;
+
+            this.rekeyDocumentValidationErrors(indexMap);
+        },
+
+        moveDocumentValidationErrors(fromIndex, toIndex, length) {
+            if (fromIndex === toIndex) {
+                return;
+            }
+
+            const indexMap = {};
+            for (let i = 0; i < length; i++) {
+                if (i === fromIndex) {
+                    indexMap[i] = toIndex;
+                } else if (fromIndex < toIndex && i > fromIndex && i <= toIndex) {
+                    indexMap[i] = i - 1;
+                } else if (fromIndex > toIndex && i >= toIndex && i < fromIndex) {
+                    indexMap[i] = i + 1;
+                } else {
+                    indexMap[i] = i;
+                }
+            }
+
+            this.rekeyDocumentValidationErrors(indexMap);
         },
 
         uploadDocument(event) {
@@ -327,8 +482,10 @@ export default {
                     fileExtension: fileExtension,
                 })
                 .then((res) => {
-                    let imgLink = '/' + res.data;
-                    this.$parent.productData.productDocuments[index].file_path = imgLink;
+                    const document = this.$parent.productData.productDocuments[index];
+                    const previousFilePath = document.file_path;
+                    document.file_path = '/' + res.data;
+                    this.suggestDocumentLabelFromPath(document, previousFilePath);
 
                     new Noty({
                         type: 'success',
@@ -362,57 +519,84 @@ export default {
                 file_type: '.pdf',
                 order: this.$parent.productData.productDocuments.length + 1,
                 file_path: null,
+                label: null,
+                _uid: `new-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
             });
+            this.reindexDocumentOrder();
         },
 
-        removeDocument(index, url, document_type_id) {
+        removeDocument(index) {
+            const document = this.$parent.productData.productDocuments[index];
+            const isPersisted = document.id != null;
+            const hasFilePath = document.file_path != null && String(document.file_path).trim() !== '';
+            const hasEmbeddedContent = document.content != null && String(document.content).trim() !== '';
+
             this.$swal
                 .fire({
                     title: 'Are you sure?',
-                    //icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#42ba96',
                     cancelButtonColor: '#ff7979',
                     confirmButtonText: 'Yes, delete it!',
                 })
                 .then((result) => {
-                    if (result.isConfirmed) {
-                        let document_type_id = this.$parent.productData.productDocuments[index].document_type_id;
-                        if (document_type_id) {
-                            this.$parent.productData.productDocuments[index].document_type_id = null;
-                        }
+                    if (!result.isConfirmed) {
+                        return;
+                    }
 
-                        if (url === null || url.trim() === '') {
+                    if (!isPersisted && !hasFilePath && !hasEmbeddedContent) {
+                        this.removeDocumentValidationErrors(index);
+                        this.$parent.productData.productDocuments.splice(index, 1);
+                        this.reindexDocumentOrder();
+                        new Noty({
+                            type: 'success',
+                            text: 'Document removed successfully',
+                        }).show();
+                        return;
+                    }
+
+                    axios
+                        .post('/admin/product/remove_document', {
+                            product_id: this.$parent.productData.id,
+                            document_id: document.id ?? null,
+                            document_type_id: document.document_type_id,
+                            url: document.file_path,
+                            content: document.content ?? null,
+                        })
+                        .then(() => {
+                            this.removeDocumentValidationErrors(index);
                             this.$parent.productData.productDocuments.splice(index, 1);
+                            this.reindexDocumentOrder();
+
                             new Noty({
                                 type: 'success',
                                 text: 'Document removed successfully',
                             }).show();
-                            return;
-                        }
-
-                        axios
-                            .post('/admin/product/remove_document', {
-                                product_id: this.$parent.productData.id,
-                                document_type_id: document_type_id,
-                                url: url,
-                            })
-                            .then((res) => {
-                                this.$parent.productData.productDocuments.splice(index, 1);
-
-                                new Noty({
-                                    type: 'success',
-                                    text: 'Document removed successfully',
-                                }).show();
-                            })
-                            .catch((e) => {
-                                new Noty({
-                                    type: 'error',
-                                    text: e.response.data.message,
-                                }).show();
-                            });
-                    }
+                        })
+                        .catch((e) => {
+                            new Noty({
+                                type: 'error',
+                                text: e.response?.data?.message ?? 'Unable to remove document.',
+                            }).show();
+                        });
                 });
+        },
+
+        syncDocumentTypeMetadata(document) {
+            if (!document.document_type_id) {
+                return;
+            }
+
+            const documentType = this.$parent.allDocumentTypes.find(
+                (docType) => docType.id == document.document_type_id,
+            );
+
+            if (!documentType) {
+                return;
+            }
+
+            document.media_type = documentType.media_type;
+            document.file_type = this.allFileTypes[documentType.media_type] ?? null;
         },
 
         removeSelectedFiles(index, length = 1) {
@@ -498,46 +682,27 @@ export default {
                     });
 
                     if (filePath) {
-                        self.$parent.productData.productDocuments[self.index].file_path = self.all_disks[
-                            self.$store.state.fm.left.selectedDisk
-                        ].url
+                        const document = self.$parent.productData.productDocuments[self.index];
+                        const previousFilePath = document.file_path;
+                        document.file_path = self.all_disks[self.$store.state.fm.left.selectedDisk].url
                             ? self.all_disks[self.$store.state.fm.left.selectedDisk].url + '/' + filePath
                             : '/' + filePath;
-                        self.$parent.selectedFiles = self.$parent.productData.productDocuments[self.index].file_path;
+                        self.suggestDocumentLabelFromPath(document, previousFilePath);
+                        self.$parent.selectedFiles = document.file_path;
                     }
                     self.getFileAddedMessage();
                 }
             },
         },
         '$parent.productData.productDocuments': {
-            handler(newData, o) {
-                const self = this;
-
-                self.$parent.selectedDocumentTypes = [];
-                newData.forEach((document) => {
-                    if (document.document_type_id) {
-                        let documentType = self.$parent.allDocumentTypes.find(
-                            (docType) => docType.id == document.document_type_id,
-                        );
-                        documentType.disabled = true;
-
-                        document.media_type = documentType.media_type;
-                        document.file_type = self.allFileTypes[documentType.media_type] ?? null;
-
-                        self.$parent.selectedDocumentTypes.push(documentType);
-                    }
-                });
-
-                self.$parent.allDocumentTypes.forEach((docType) => {
-                    let isSelected = self.$parent.selectedDocumentTypes.some(
-                        (selectedDocType) => selectedDocType.id == docType.id,
-                    );
-                    if (!isSelected) {
-                        docType.disabled = false;
-                    }
+            handler(newData) {
+                (newData || []).forEach((document) => {
+                    this.ensureDocumentUid(document);
+                    this.syncDocumentTypeMetadata(document);
                 });
             },
             deep: true,
+            immediate: true,
         },
     },
 };
@@ -553,5 +718,212 @@ export default {
 }
 .gap-3 {
     gap: 16px;
+}
+
+.document-card-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.document-fields-row {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.document-type-col {
+    flex: 1 1 200px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.document-meta-col {
+    flex: 2 1 320px;
+    min-width: 0;
+}
+
+.document-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.document-label-col {
+    flex: 1 1 180px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.document-path-wrap {
+    display: flex;
+    flex: 2 1 240px;
+    min-width: 0;
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.document-path-col {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.document-path-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.document-path-input-row .document-path-group,
+.document-path-input-row textarea {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.document-path-input-row.is-multiline {
+    align-items: flex-start;
+}
+
+.document-path-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.document-path-info {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    color: #6c757d;
+    cursor: help;
+    font-size: 15px;
+    line-height: 1;
+}
+
+.document-path-info:hover,
+.document-path-info:focus {
+    color: #42ba96;
+    outline: none;
+}
+
+.document-path-info-tip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 20;
+    width: min(280px, 70vw);
+    padding: 8px 10px;
+    border-radius: 4px;
+    background: #343a40;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.document-path-info:hover .document-path-info-tip,
+.document-path-info:focus .document-path-info-tip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.document-path-group {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow: hidden;
+}
+
+.document-path-group .form-control {
+    min-width: 0;
+    width: 1%;
+}
+
+.document-delete-col {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(1.5em + 0.75rem + 2px);
+    font-weight: 900;
+}
+
+.document-path-input-row.is-multiline .document-delete-col {
+    height: auto;
+    padding-top: 0.45rem;
+}
+
+.document-upload-addon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+    .document-card-row {
+        align-items: stretch;
+    }
+
+    .document-fields-row,
+    .document-meta-row {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    .document-type-col,
+    .document-meta-col,
+    .document-label-col,
+    .document-path-wrap {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .document-type-col {
+        flex: 0 0 280px;
+        max-width: 280px;
+    }
+
+    .document-label-col {
+        flex: 0 0 380px;
+        max-width: 380px;
+    }
+}
+
+.document-order-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #eef2f6;
+    color: #495057;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.is-sorting .document-order-badge {
+    background: #42ba96;
+    color: #fff;
 }
 </style>

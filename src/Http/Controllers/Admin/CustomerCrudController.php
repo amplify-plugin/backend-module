@@ -108,6 +108,21 @@ class CustomerCrudController extends BackpackCustomCrudController
             fn() => $this->crud->addClause('where', 'approved', "=", 1)
         );
 
+
+        if (backpack_user()->isAdmin()) {
+            CRUD::addFilter([
+                'name' => 'source',
+                'type' => 'dropdown',
+                'label' => 'Source',
+            ], [
+                'admin' => 'Admin Panel',
+                'request_account' => 'Request Account',
+                'retail_customer' => 'Retail/Cash Customer',
+            ],
+                fn($value) => $this->crud->addClause('where', 'source', "=", $value),
+            );
+        }
+
         CRUD::addFilter([
             'name' => 'created_between',
             'type' => 'date_range',

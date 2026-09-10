@@ -64,7 +64,8 @@ class ContactCrudController extends BackpackCustomCrudController
         CRUD::setModel(Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/contact');
         CRUD::setEntityNameStrings('contact', 'contacts');
-        CRUD::addBaseClause('approved');
+//        CRUD::addBaseClause('approved');
+        CRUD::addBaseClause(fn($query) => $query->whereNotNull('enabled_at'));
     }
 
     protected function setupCustomRoutes($segment, $routeName, $controller)
@@ -181,6 +182,20 @@ class ContactCrudController extends BackpackCustomCrudController
                 });
             }
         );
+
+        if (backpack_user()->isAdmin()) {
+            CRUD::addFilter([
+                'name' => 'source',
+                'type' => 'dropdown',
+                'label' => 'Source',
+            ], [
+                'admin' => 'Admin Panel',
+                'request_account' => 'Request Account',
+                'retail_customer' => 'Retail/Cash Customer',
+            ],
+                fn($value) => $this->crud->addClause('where', 'source', "=", $value),
+            );
+        }
 
         if (request()->has('role')) {
             [$role_id, $team_id] = explode('-', request('role'));

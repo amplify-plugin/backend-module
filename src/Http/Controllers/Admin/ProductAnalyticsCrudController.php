@@ -3,34 +3,28 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Http\Requests\RecentlyViewedProductRequest;
 use Amplify\System\Backend\Models\Contact;
-use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\RecentlyViewedProduct;
-use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Backpack\CRUD\app\Library\Widget;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Number;
 
 /**
- * Class RecentlyViewedProductCrudController
+ * Class ProductAnalyticsCrudController
  *
  * @property-read CrudPanel $crud
  */
-class RecentlyViewedProductCrudController extends BackpackCustomCrudController
+class ProductAnalyticsCrudController extends BackpackCustomCrudController
 {
-    use CreateOperation;
-    use DeleteOperation;
     use FetchOperation;
     use ListOperation;
     use ShowOperation;
-    use UpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -38,8 +32,56 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
     public function setup(): void
     {
         CRUD::setModel(RecentlyViewedProduct::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/recently-viewed-product');
-        CRUD::setEntityNameStrings('recently-viewed-product', 'recently viewed products');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/product-analytics');
+        CRUD::setEntityNameStrings('product-analytics', 'product analytics');
+    }
+
+    private function widgets()
+    {
+        $stats = RecentlyViewedProduct::query()
+            ->selectRaw('COUNT(*) AS `total`')
+            ->selectRaw('COUNT(CASE WHEN `repeat` > 1 THEN 1 END) AS `repeated`')
+            ->selectRaw('COUNT(`add_to_cart_at`) AS `add_to_cart`')
+            ->selectRaw('COUNT(`ordered_at`) AS `ordered`')
+            ->selectRaw('COUNT(`rfq_at`) AS `quoted`')
+            ->when(request()->filled('customer_id'), fn ($query)  => $query->where('customer_id', request()->input('customer_id')))
+            ->when(request()->filled('contact_id'), fn ($query)  => $query->where('contact_id', request()->input('contact_id')))
+            ->first();
+
+        Widget::add([
+            'type' => 'div',
+            'class' => 'row mb-3',
+            'content' => [
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-primary mb-2',
+                    'value'       => $stats->add_to_cart > 0 ? Number::percentage($stats->total / $stats->add_to_cart) : 'N/A',
+                    'description' => 'Add To Cart',
+                    'hint'        => $stats->add_to_cart > 0 ? 'Ratio between viewed and added to the cart' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-warning mb-2',
+                    'value'       => $stats->quoted > 0 ? Number::percentage($stats->total / $stats->quoted) : 'N/A',
+                    'description' => 'Quoted',
+                    'hint'        => $stats->quoted > 0 ? 'Ratio between viewed and quoted items' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-success mb-2',
+                    'value'       => $stats->ordered > 0 ? Number::percentage($stats->total / $stats->ordered) : 'N/A',
+                    'description' => 'Purchased',
+                    'hint'        => $stats->ordered > 0 ? 'Ratio between viewed and purchased items' : 'No data available',
+                ],
+                [
+                    'type'        => 'progress',
+                    'class'       => 'card text-white bg-secondary mb-2',
+                    'value'       => $stats->repeated > 0 ? Number::percentage($stats->total / $stats->repeated) : 'N/A',
+                    'description' => 'Repeated',
+                    'hint'        => $stats->total > 0 ? 'Ratio of revisited items' : 'No data available',
+                ],
+            ]
+        ]);
     }
 
     /**
@@ -47,6 +89,8 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation(): void
     {
+        $this->widgets();
+
         CRUD::addFilter([
             'name' => 'customer_id',
             'type' => 'select2_ajax',

@@ -106,8 +106,39 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addColumn([
-            'name' => 'last_viewed_at',
-            'label' => 'Last Viewed At',
+            'name' => 'session',
+            'label' => 'Session',
+            'type' => 'text',
+            'limit' => 12,
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'repeat',
+            'label' => 'Repeat',
+            'type' => 'number',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'viewed_at',
+            'label' => 'Viewed At',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'add_to_cart_at',
+            'label' => 'Added To Cart',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'rfq_at',
+            'label' => 'RFQ At',
+            'type' => 'datetime',
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'ordered_at',
+            'label' => 'Ordered At',
             'type' => 'datetime',
         ]);
 
@@ -117,7 +148,7 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
             'type' => 'datetime',
         ]);
 
-        $this->crud->orderBy('last_viewed_at', 'desc');
+        $this->crud->orderBy('viewed_at', 'desc');
     }
 
     /**
@@ -180,11 +211,47 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addField([
-            'name' => 'last_viewed_at',
-            'label' => 'Last Viewed At',
+            'name' => 'viewed_at',
+            'label' => 'Viewed At',
             'type' => 'datetime',
-            'default' => old('last_viewed_at', $this->crud->entry->last_viewed_at ?? now()),
+            'default' => old('viewed_at', $this->crud->entry->viewed_at ?? now()),
             'hint' => 'Defaults to now when left empty.',
+        ]);
+
+        CRUD::addField([
+            'name' => 'repeat',
+            'label' => 'Repeat',
+            'type' => 'number',
+            'default' => old('repeat', $this->crud->entry->repeat ?? 1),
+            'attributes' => ['min' => 1],
+        ]);
+
+        CRUD::addField([
+            'name' => 'session',
+            'label' => 'Session',
+            'type' => 'text',
+            'default' => old('session', $this->crud->entry->session ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'add_to_cart_at',
+            'label' => 'Added To Cart At',
+            'type' => 'datetime',
+            'default' => old('add_to_cart_at', $this->crud->entry->add_to_cart_at ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'rfq_at',
+            'label' => 'RFQ At',
+            'type' => 'datetime',
+            'default' => old('rfq_at', $this->crud->entry->rfq_at ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'ordered_at',
+            'label' => 'Ordered At',
+            'type' => 'datetime',
+            'default' => old('ordered_at', $this->crud->entry->ordered_at ?? null),
         ]);
     }
 
@@ -227,7 +294,12 @@ class RecentlyViewedProductCrudController extends BackpackCustomCrudController
             'attribute' => 'name',
         ]);
 
-        CRUD::column('last_viewed_at')->type('datetime');
+        CRUD::column('session');
+        CRUD::column('repeat')->type('number');
+        CRUD::column('viewed_at')->type('datetime');
+        CRUD::column('add_to_cart_at')->type('datetime');
+        CRUD::column('rfq_at')->type('datetime');
+        CRUD::column('ordered_at')->type('datetime');
         CRUD::column('created_at')->type('datetime');
         CRUD::column('updated_at')->type('datetime');
     }

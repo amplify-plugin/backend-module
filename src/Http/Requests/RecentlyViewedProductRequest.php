@@ -21,7 +21,15 @@ class RecentlyViewedProductRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $nullableKeys = ['customer_id', 'contact_id', 'last_viewed_at'];
+        $nullableKeys = [
+            'customer_id',
+            'contact_id',
+            'session',
+            'viewed_at',
+            'add_to_cart_at',
+            'rfq_at',
+            'ordered_at',
+        ];
 
         foreach ($nullableKeys as $key) {
             if ($this->exists($key) && $this->input($key) === '') {
@@ -42,9 +50,15 @@ class RecentlyViewedProductRequest extends FormRequest
             }
         }
 
-        if (! $this->filled('last_viewed_at')) {
+        if (! $this->filled('viewed_at')) {
             $this->merge([
-                'last_viewed_at' => now()->format('Y-m-d H:i:s'),
+                'viewed_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        if (! $this->filled('repeat')) {
+            $this->merge([
+                'repeat' => 1,
             ]);
         }
     }
@@ -86,7 +100,29 @@ class RecentlyViewedProductRequest extends FormRequest
                 'integer',
                 'exists:contacts,id',
             ],
-            'last_viewed_at' => [
+            'session' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'repeat' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'viewed_at' => [
+                'nullable',
+                'date',
+            ],
+            'add_to_cart_at' => [
+                'nullable',
+                'date',
+            ],
+            'rfq_at' => [
+                'nullable',
+                'date',
+            ],
+            'ordered_at' => [
                 'nullable',
                 'date',
             ],
@@ -126,7 +162,10 @@ class RecentlyViewedProductRequest extends FormRequest
             'product_id' => 'product',
             'customer_id' => 'customer',
             'contact_id' => 'contact',
-            'last_viewed_at' => 'last viewed at',
+            'viewed_at' => 'viewed at',
+            'add_to_cart_at' => 'added to cart at',
+            'rfq_at' => 'rfq at',
+            'ordered_at' => 'ordered at',
         ];
     }
 

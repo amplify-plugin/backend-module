@@ -12,15 +12,32 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('recently_viewed_products', function (Blueprint $table) {
-            $table->renameColumn('last_viewed_at', 'viewed_at')->change();
-            $table->string('session')->after('product_id')->nullable()->index();
-            $table->integer('repeat')->default(1)->after('session');
+            if (Schema::hasColumn('recently_viewed_products', 'last_viewed_at')
+                && ! Schema::hasColumn('recently_viewed_products', 'viewed_at')) {
+                $table->renameColumn('last_viewed_at', 'viewed_at');
+            }
         });
 
         Schema::table('recently_viewed_products', function (Blueprint $table) {
-            $table->dateTime('add_to_cart_at')->nullable()->after('viewed_at');
-            $table->dateTime('rfq_at')->nullable()->after('add_to_cart_at');
-            $table->dateTime('ordered_at')->nullable()->after('rfq_at');
+            if (! Schema::hasColumn('recently_viewed_products', 'session')) {
+                $table->string('session')->nullable()->after('product_id')->index();
+            }
+
+            if (! Schema::hasColumn('recently_viewed_products', 'repeat')) {
+                $table->unsignedInteger('repeat')->default(1)->after('session');
+            }
+
+            if (! Schema::hasColumn('recently_viewed_products', 'add_to_cart_at')) {
+                $table->dateTime('add_to_cart_at')->nullable()->after('viewed_at');
+            }
+
+            if (! Schema::hasColumn('recently_viewed_products', 'rfq_at')) {
+                $table->dateTime('rfq_at')->nullable()->after('add_to_cart_at');
+            }
+
+            if (! Schema::hasColumn('recently_viewed_products', 'ordered_at')) {
+                $table->dateTime('ordered_at')->nullable()->after('rfq_at');
+            }
         });
     }
 
@@ -30,12 +47,32 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('recently_viewed_products', function (Blueprint $table) {
-            $table->renameColumn('viewed_at', 'last_viewed_at')->change();
-            $table->removeColumn('session');
-            $table->removeColumn('repeat');
-            $table->removeColumn('add_to_cart_at');
-            $table->removeColumn('rfq_at');
-            $table->removeColumn('ordered_at');
+            if (Schema::hasColumn('recently_viewed_products', 'session')) {
+                $table->dropColumn('session');
+            }
+
+            if (Schema::hasColumn('recently_viewed_products', 'repeat')) {
+                $table->dropColumn('repeat');
+            }
+
+            if (Schema::hasColumn('recently_viewed_products', 'add_to_cart_at')) {
+                $table->dropColumn('add_to_cart_at');
+            }
+
+            if (Schema::hasColumn('recently_viewed_products', 'rfq_at')) {
+                $table->dropColumn('rfq_at');
+            }
+
+            if (Schema::hasColumn('recently_viewed_products', 'ordered_at')) {
+                $table->dropColumn('ordered_at');
+            }
+        });
+
+        Schema::table('recently_viewed_products', function (Blueprint $table) {
+            if (Schema::hasColumn('recently_viewed_products', 'viewed_at')
+                && ! Schema::hasColumn('recently_viewed_products', 'last_viewed_at')) {
+                $table->renameColumn('viewed_at', 'last_viewed_at');
+            }
         });
     }
 };

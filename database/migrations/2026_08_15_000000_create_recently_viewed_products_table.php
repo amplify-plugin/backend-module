@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('contact_id')->constrained('contacts')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->timestamp('last_viewed_at');
+            $table->timestamp('viewed_at');
             $table->timestamps();
 
             $table->unique(['contact_id', 'product_id'], 'uq_recently_viewed_contact_product');
-            $table->index(['contact_id', 'last_viewed_at'], 'idx_recently_viewed_contact_viewed_at');
-            $table->index(['customer_id', 'contact_id', 'last_viewed_at'], 'idx_recently_viewed_customer_contact_viewed_at');
+            $table->index(['contact_id', 'viewed_at'], 'idx_recently_viewed_contact_viewed_at');
+            $table->index(['customer_id', 'contact_id', 'viewed_at'], 'idx_recently_viewed_customer_contact_viewed_at');
         });
     }
 

@@ -150,8 +150,15 @@ class ProductAnalyticsCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addColumn([
+            'name' => 'session',
+            'label' => 'Session',
+            'type' => 'text',
+            'limit' => 12,
+        ]);
+
+        CRUD::addColumn([
             'name' => 'repeat',
-            'label' => 'Occurrence',
+            'label' => 'Repeat',
             'type' => 'number',
         ]);
 
@@ -163,13 +170,13 @@ class ProductAnalyticsCrudController extends BackpackCustomCrudController
 
         CRUD::addColumn([
             'name' => 'add_to_cart_at',
-            'label' => 'Add To Cart At',
+            'label' => 'Added To Cart',
             'type' => 'datetime',
         ]);
 
         CRUD::addColumn([
             'name' => 'rfq_at',
-            'label' => 'Quoted At',
+            'label' => 'RFQ At',
             'type' => 'datetime',
         ]);
 
@@ -188,6 +195,117 @@ class ProductAnalyticsCrudController extends BackpackCustomCrudController
         $this->crud->orderBy('viewed_at', 'desc');
     }
 
+    /**
+     * Define what happens when the Create operation is loaded.
+     */
+    protected function setupCreateOperation(): void
+    {
+        CRUD::setValidation(RecentlyViewedProductRequest::class);
+
+        CRUD::addField([
+            'name' => 'customer_id',
+            'label' => 'Customer',
+            'type' => 'select2_from_ajax',
+            'entity' => 'customer',
+            'attribute' => 'display_name',
+            'model' => Customer::class,
+            'data_source' => backpack_url('contact/fetch/customer'),
+            'placeholder' => 'Optional — search customer',
+            'minimum_input_length' => 1,
+            'delay' => 200,
+            'method' => 'POST',
+            'allows_null' => true,
+            'hint' => 'Optional. Used to narrow contacts and attach the row to a customer account.',
+            'default' => old('customer_id', $this->crud->entry->customer_id ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'contact_id',
+            'label' => 'Contact',
+            'type' => 'select2_from_ajax',
+            'entity' => 'contact',
+            'attribute' => 'name',
+            'model' => Contact::class,
+            'data_source' => backpack_url('recently-viewed-product/fetch/contact'),
+            'placeholder' => 'Optional — search contact',
+            'minimum_input_length' => 0,
+            'delay' => 200,
+            'method' => 'POST',
+            'dependencies' => ['customer_id'],
+            'include_all_form_fields' => true,
+            'allows_null' => true,
+            'hint' => 'Optional. When set, the product appears in that contact\'s storefront recently viewed list. Customer is auto-filled from the contact when empty.',
+            'default' => old('contact_id', $this->crud->entry->contact_id ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'product_id',
+            'label' => 'Product',
+            'type' => 'select2_from_ajax',
+            'entity' => 'product',
+            'attribute' => 'display_name',
+            'model' => Product::class,
+            'data_source' => backpack_url('recently-viewed-product/fetch/product'),
+            'placeholder' => 'Search by product name or code',
+            'minimum_input_length' => 1,
+            'delay' => 200,
+            'method' => 'POST',
+            'hint' => 'Required. Search products by name or product code.',
+            'default' => old('product_id', $this->crud->entry->product_id ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'viewed_at',
+            'label' => 'Viewed At',
+            'type' => 'datetime',
+            'default' => old('viewed_at', $this->crud->entry->viewed_at ?? now()),
+            'hint' => 'Defaults to now when left empty.',
+        ]);
+
+        CRUD::addField([
+            'name' => 'repeat',
+            'label' => 'Repeat',
+            'type' => 'number',
+            'default' => old('repeat', $this->crud->entry->repeat ?? 1),
+            'attributes' => ['min' => 1],
+        ]);
+
+        CRUD::addField([
+            'name' => 'session',
+            'label' => 'Session',
+            'type' => 'text',
+            'default' => old('session', $this->crud->entry->session ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'add_to_cart_at',
+            'label' => 'Added To Cart At',
+            'type' => 'datetime',
+            'default' => old('add_to_cart_at', $this->crud->entry->add_to_cart_at ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'rfq_at',
+            'label' => 'RFQ At',
+            'type' => 'datetime',
+            'default' => old('rfq_at', $this->crud->entry->rfq_at ?? null),
+        ]);
+
+        CRUD::addField([
+            'name' => 'ordered_at',
+            'label' => 'Ordered At',
+            'type' => 'datetime',
+            'default' => old('ordered_at', $this->crud->entry->ordered_at ?? null),
+        ]);
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     */
+    protected function setupUpdateOperation(): void
+    {
+        $this->setupCreateOperation();
+    }
 
     /**
      * Define what happens when the Show operation is loaded.
@@ -220,7 +338,12 @@ class ProductAnalyticsCrudController extends BackpackCustomCrudController
             'attribute' => 'name',
         ]);
 
-        CRUD::column('last_viewed_at')->type('datetime');
+        CRUD::column('session');
+        CRUD::column('repeat')->type('number');
+        CRUD::column('viewed_at')->type('datetime');
+        CRUD::column('add_to_cart_at')->type('datetime');
+        CRUD::column('rfq_at')->type('datetime');
+        CRUD::column('ordered_at')->type('datetime');
         CRUD::column('created_at')->type('datetime');
         CRUD::column('updated_at')->type('datetime');
     }

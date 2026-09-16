@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Models;
 
 use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\System\Backend\Services\RecentlyViewedAnalyticsService;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\OrderRule\Models\CustomerOrderRuleTrack;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
@@ -228,7 +229,7 @@ class CustomerOrder extends Model implements Auditable
                 'customer_order_ref' => $this->customer_order_number,
                 'shipping_method' => $data['shipping_method'] ?? '',
                 'ship_to_number' => $data['shipping_number'] ?? '',
-                'ship_to_name' => $data['customer_name'] ?? '',
+                'ship_to_name' => $data['shipping_name'] ?? $data['customer_name'] ?? '',
                 'freight_amount' => $data['freight_amount'] ?? '',
                 'warehouse_id' => $products->first()['WarehouseID'] ?? '',
                 'po_number' => $data['po_number'] ?? '',
@@ -294,6 +295,8 @@ class CustomerOrder extends Model implements Auditable
                             'guest_customer_name' => ! customer_check() ? $order_infos['customer_name'] : null,
                         ]);
 
+                        $this->stampRecentlyViewedFunnel('ordered_at');
+
                         return [
                             'success' => true,
                             'message' => 'Order Received',
@@ -317,6 +320,8 @@ class CustomerOrder extends Model implements Auditable
                 } elseif ($data['order_type'] == 'T') {
                     $order_infos['payment_type'] = 'Standard';
                     $orderResponse = ErpApi::createQuotation(['order' => $order_infos, 'items' => $products->toArray()]);
+
+                    $this->stampRecentlyViewedFunnel('rfq_at');
 
                     return [
                         'success' => true,
@@ -350,6 +355,8 @@ class CustomerOrder extends Model implements Auditable
                             'contact_id' => $this->contact_id ?? null,
                         ]);
 
+                        $this->stampRecentlyViewedFunnel('rfq_at');
+
                         return [
                             'success' => true,
                             'message' => 'Quotation Received',
@@ -380,6 +387,44 @@ class CustomerOrder extends Model implements Auditable
                 'message' => $exception->getMessage(),
             ];
         }
+    }
+
+    /**
+     * Stamp funnel timestamps on matching recently-viewed rows (first touch only).
+     */
+    protected function stampRecentlyViewedFunnel(string $column): void
+    {
+        if (! $this->contact_id) {
+            return;
+        }
+
+        $contact = Contact::query()->find($this->contact_id);
+
+        if ($contact === null) {
+            return;
+        }
+
+        $this->loadMissing('orderLines');
+
+        $productIds = $this->orderLines
+            ->pluck('product_id')
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($productIds === []) {
+            return;
+        }
+
+        $analytics = app(RecentlyViewedAnalyticsService::class);
+
+        match ($column) {
+            'ordered_at' => $analytics->markOrdered($contact, $productIds),
+            'rfq_at' => $analytics->markQuoted($contact, $productIds),
+            default => null,
+        };
     }
 
     public function getErpInfoAttribute()

@@ -21,6 +21,7 @@ class RecentlyViewedProduct extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
+        'repeat' => 'integer',
         'viewed_at' => 'datetime',
         'add_to_cart_at' => 'datetime',
         'rfq_at' => 'datetime',

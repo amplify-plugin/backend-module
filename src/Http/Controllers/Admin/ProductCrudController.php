@@ -29,6 +29,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -73,6 +74,7 @@ class ProductCrudController extends BackpackCustomCrudController
         update as traitUpdate;
     }
     use BulkDeleteOperation;
+    use ShowOperation;
 
     protected $tabs = [];
 
@@ -107,7 +109,6 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::setModel(Product::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/product');
         CRUD::setEntityNameStrings('product', 'products');
-        $this->crud->enableBulkActions();
         $this->crud->addButton('top', 'bulk_archive', 'view', 'crud::buttons.bulk_archive');
         $this->crud->addButton('top', 'bulk_publish', 'view', 'crud::buttons.bulk_publish');
 
@@ -306,8 +307,10 @@ class ProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->enableBulkActions();
         // Customizing Action Buttons
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
+        CRUD::modifyButton('show', ['content' => 'backend::buttons.product_preview']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
 
         CRUD::enableExportButtons();

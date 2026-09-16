@@ -72,6 +72,7 @@ class ProductCrudController extends BackpackCustomCrudController
     use UpdateOperation {
         update as traitUpdate;
     }
+    use ShowOperation;
 
     protected $tabs = [];
 
@@ -106,7 +107,6 @@ class ProductCrudController extends BackpackCustomCrudController
         CRUD::setModel(Product::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/product');
         CRUD::setEntityNameStrings('product', 'products');
-        $this->crud->enableBulkActions();
         $this->crud->addButton('top', 'bulk_archive', 'view', 'crud::buttons.bulk_archive');
         $this->crud->addButton('top', 'bulk_publish', 'view', 'crud::buttons.bulk_publish');
 
@@ -305,8 +305,10 @@ class ProductCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->enableBulkActions();
         // Customizing Action Buttons
         CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
+        CRUD::modifyButton('show', ['content' => 'backend::buttons.product_preview']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
 
         CRUD::enableExportButtons();

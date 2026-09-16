@@ -229,7 +229,7 @@ class CustomerOrder extends Model implements Auditable
                 'customer_order_ref' => $this->customer_order_number,
                 'shipping_method' => $data['shipping_method'] ?? '',
                 'ship_to_number' => $data['shipping_number'] ?? '',
-                'ship_to_name' => $data['customer_name'] ?? '',
+                'ship_to_name' => $data['shipping_name'] ?? $data['customer_name'] ?? '',
                 'freight_amount' => $data['freight_amount'] ?? '',
                 'warehouse_id' => $products->first()['WarehouseID'] ?? '',
                 'po_number' => $data['po_number'] ?? '',

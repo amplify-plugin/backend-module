@@ -241,6 +241,9 @@ class CustomerOrder extends Model implements Auditable
                 'wtdo_note' => isset($data['wtdo_note']) ? $data['wtdo_note'] : '',
                 'freight_terms_type' => isset($data['freight_terms_type']) ? $data['freight_terms_type'] : '',
                 'payment_method' => isset($data['payment_method']) ? $data['payment_method'] : '',
+                'ach_token' => $data['ach_token'] ?? '',
+                'account_number' => $data['account_number'] ?? '',
+                'aba_number' => $data['aba_number'] ?? '',
                 'review_order_hold' => isset($data['review_order_hold']) ? $data['review_order_hold'] : '',
                 'request' => request()->all(),
             ];
@@ -260,7 +263,15 @@ class CustomerOrder extends Model implements Auditable
             if (isset($data['order_type'])) {
 
                 if ($data['order_type'] == 'O') {
-                    $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
+                    $isACH = strtolower((string) ($data['payment_method'] ?? '')) === 'ach'
+                        && filled($data['ach_token'] ?? null);
+
+                    if ($isACH) {
+                        $order_infos['payment_type'] = 'ACH';
+                        $order_infos['card_token'] = $data['ach_token'];
+                    } else {
+                        $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
+                    }
                     $orderResponse = ErpApi::createOrder([
                         'order' => $order_infos,
                         'items' => $products->toArray(),

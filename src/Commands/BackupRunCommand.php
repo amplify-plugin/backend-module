@@ -167,6 +167,9 @@ class BackupRunCommand extends Command
             $connections[] = 'pim_db';
         }
 
+        $excludeTables = config('amplify.backend.backup.exclude_tables', '');
+
+
         foreach ($connections as $connection) {
             $config = config("database.connections.{$connection}", []);
 
@@ -186,6 +189,16 @@ class BackupRunCommand extends Command
                     '.sql')
             );
 
+            $ignoredTableOptions = collect(explode(',', $excludeTables))
+                ->map(fn ($table) => trim($table))
+                ->filter()
+                ->map(function ($table) use ($database) {
+                    $table = str_contains($table, '.') ? $table : "{$database}.{$table}";
+
+                    return '--ignore-table=' . escapeshellarg($table);
+                })
+                ->all();
+
             $command = [
                 'mysqldump',
                 "--host={$host}",
@@ -197,6 +210,7 @@ class BackupRunCommand extends Command
                 "--no-tablespaces",
                 "--set-gtid-purged=OFF",
                 "--column-statistics=0",
+                ...$ignoredTableOptions,
                 "--result-file={$sqlFile}",
                 escapeshellarg($database),
             ];

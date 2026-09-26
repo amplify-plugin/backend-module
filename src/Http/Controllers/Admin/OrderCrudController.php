@@ -156,6 +156,7 @@ class OrderCrudController extends BackpackCustomCrudController
             [
                 'Pending' => 'Pending',
                 'Approved' => 'Approved',
+                'Rejected' => 'Rejected',
             ],
             function ($value) {
                 // if the filter is active
@@ -580,6 +581,33 @@ class OrderCrudController extends BackpackCustomCrudController
                 'label' => 'Erp Order Id',
             ],
             [
+                'name' => 'erp_error_message',
+                'type' => 'textarea',
+                'label' => 'ERP Error',
+            ],
+            [
+                'name' => 'erp_request_at',
+                'type' => 'datetime',
+                'label' => 'ERP Request At',
+            ],
+            [
+                'name' => 'erp_response_at',
+                'type' => 'datetime',
+                'label' => 'ERP Response At',
+            ],
+            [
+                'name' => 'erp_request_body',
+                'label' => 'ERP Request Body',
+                'type' => 'custom_html',
+                'value' => fn ($order) => $this->formatErpBody($order->erp_request_body),
+            ],
+            [
+                'name' => 'erp_response_body',
+                'label' => 'ERP Response Body',
+                'type' => 'custom_html',
+                'value' => fn ($order) => $this->formatErpBody($order->erp_response_body),
+            ],
+            [
                 'name' => 'created_at',
                 'label' => 'Created At', // Table column heading
                 'type' => 'model_function',
@@ -712,6 +740,22 @@ class OrderCrudController extends BackpackCustomCrudController
         ]);
     }
 
+    private function formatErpBody(?string $body): string
+    {
+        if ($body === null || $body === '') {
+            return '<span class="text-muted">N/A</span>';
+        }
+
+        $decoded = json_decode($body, true);
+        $formatted = json_last_error() === JSON_ERROR_NONE
+            ? json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+            : $body;
+
+        return '<pre class="mb-0" style="max-width:78vw; max-height:70vh; overflow:auto; white-space:pre;">'
+            .e($formatted ?: $body)
+            .'</pre>';
+    }
+
     public function destroy($id)
     {
         $this->crud->hasAccessOrFail('delete');
@@ -723,3 +767,4 @@ class OrderCrudController extends BackpackCustomCrudController
         return $this->crud->delete($id);
     }
 }
+

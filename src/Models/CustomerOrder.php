@@ -264,9 +264,15 @@ class CustomerOrder extends Model implements Auditable
                     $orderResponse = ErpApi::createOrder([
                         'order' => $order_infos,
                         'items' => $products->toArray(),
+                        'customer_order_id' => $this->id,
                     ]);
 
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_error_message' => $orderResponse->Message,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -306,6 +312,7 @@ class CustomerOrder extends Model implements Auditable
 
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_error_message' => $orderResponse->Message ?? 'Order rejected by ERP.',
                     ]);
 
                     NotificationFactory::call([Event::ORDER_REJECTED], [
@@ -331,9 +338,15 @@ class CustomerOrder extends Model implements Auditable
                     $orderResponse = ErpApi::createOrder([
                         'order' => $order_infos,
                         'items' => $products->toArray(),
+                        'customer_order_id' => $this->id,
                     ]);
 
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_error_message' => $orderResponse->Message,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -366,6 +379,7 @@ class CustomerOrder extends Model implements Auditable
 
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_error_message' => $orderResponse->Message ?? 'Quotation rejected by ERP.',
                     ]);
 
                     return [
@@ -380,6 +394,11 @@ class CustomerOrder extends Model implements Auditable
                 'message' => 'Order Received Failed',
             ];
         } catch (\Exception $exception) {
+            $this->update([
+                'order_status' => 'Rejected',
+                'erp_error_message' => $exception->getMessage(),
+            ]);
+
             Log::error($exception);
 
             return [

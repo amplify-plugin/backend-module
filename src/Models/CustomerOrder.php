@@ -7,6 +7,7 @@ use Amplify\System\Backend\Services\RecentlyViewedAnalyticsService;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\OrderRule\Models\CustomerOrderRuleTrack;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,10 @@ class CustomerOrder extends Model implements Auditable
 
     protected $table = 'customer_orders';
 
-    protected $casts = ['temp_address' => 'array'];
+    protected $casts = [
+        'temp_address' => 'array',
+        'erp_log' => 'array'
+    ];
 
     protected $guarded = ['id'];
 
@@ -262,6 +266,7 @@ class CustomerOrder extends Model implements Auditable
                 if ($data['order_type'] == 'O') {
                     $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
                     $orderResponse = ErpApi::createOrder([
+                        'order_id' => $this->getKey(),
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
@@ -329,6 +334,7 @@ class CustomerOrder extends Model implements Auditable
                     ];
                 } elseif ($data['order_type'] == 'Q') {
                     $orderResponse = ErpApi::createOrder([
+                        'order_id' => $this->getKey(),
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
@@ -435,6 +441,52 @@ class CustomerOrder extends Model implements Auditable
 
         return null;
     }
+
+    public function getErpLogErrorAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['error'] ?? null;
+    }
+
+    public function getErpLogStartedAtAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return CarbonImmutable::parse($this->erp_log['started_at']);
+    }
+
+    public function getErpLogFinishedAtAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return CarbonImmutable::parse($this->erp_log['finished_at']);
+    }
+
+    public function getErpLogRequestAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['request'] ?? null;
+    }
+
+    public function getErpLogResponseAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['response'] ?? null;
+    }
+
 
     public function getHazmatChargeFromJson()
     {

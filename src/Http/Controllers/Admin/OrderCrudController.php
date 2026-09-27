@@ -710,6 +710,44 @@ class OrderCrudController extends BackpackCustomCrudController
                 'function_name' => 'getFormattedSubmittedAtValue',
             ],
         ]);
+
+        if (backpack_user()->isAdmin()) {
+            CRUD::addColumns([
+                [
+                    'name' => 'erp_log_started_at',
+                    'label' => 'ERP Log Started At',
+                    'type' => 'datetime',
+                ],
+                [
+                    'name' => 'erp_log_finished_at',
+                    'label' => 'ERP Log Finished At',
+                    'type' => 'datetime',
+                ],
+                [
+                    'name' => 'erp_log_request',
+                    'label' => 'ERP Log Payload',
+                    'type' => 'json',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ],
+                [
+                    'name' => 'erp_log_response',
+                    'label' => 'ERP Log Response',
+                    'type' => 'json',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ],
+                [
+                    'name' => 'erp_log_error',
+                    'label' => 'ERP Log Error',
+                    'type' => 'text',
+                ]
+            ]);
+        }
     }
 
     public function destroy($id)

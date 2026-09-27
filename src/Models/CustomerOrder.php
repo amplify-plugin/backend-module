@@ -272,6 +272,17 @@ class CustomerOrder extends Model implements Auditable
                     ]);
 
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+
+                        $erpLog = $this->erp_log;
+                        $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message])
+                            ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_log' => $erpLog,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -309,13 +320,21 @@ class CustomerOrder extends Model implements Auditable
                         ];
                     }
 
+                    $erpLog = $this->erp_log;
+
+                    $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message ?? 'Order Rejected By ERP'])
+                        ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_log' => $erpLog,
                     ]);
 
                     NotificationFactory::call([Event::ORDER_REJECTED], [
                         'order_id' => $this->id,
                         'customer_id' => $this->customer_id,
+                        'customer_order_id' => $this->getKey()
                     ]);
 
                     return [
@@ -340,6 +359,17 @@ class CustomerOrder extends Model implements Auditable
                     ]);
 
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+
+                        $erpLog = $this->erp_log;
+                        $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message])
+                            ->filter(fn($item) => ! empty($item))
+                            ->implode(' | ');
+
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_log' => $erpLog,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -370,8 +400,14 @@ class CustomerOrder extends Model implements Auditable
                         ];
                     }
 
+                    $erpLog = $this->erp_log;
+                    $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message ?? 'Quotation Rejected By ERP'])
+                        ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_log' => $erpLog,
                     ]);
 
                     return [
@@ -386,7 +422,18 @@ class CustomerOrder extends Model implements Auditable
                 'message' => 'Order Received Failed',
             ];
         } catch (\Exception $exception) {
+
             Log::error($exception);
+
+            $erpLog = $this->erp_log;
+            $erpLog['error'] = collect([$erpLog['error'], $exception->getMessage()])
+                ->filter(fn($item) => ! empty($item))
+                ->implode(' | ');
+
+            $this->update([
+                'order_status' => 'Rejected',
+                'erp_log' => $erpLog,
+            ]);
 
             return [
                 'success' => false,

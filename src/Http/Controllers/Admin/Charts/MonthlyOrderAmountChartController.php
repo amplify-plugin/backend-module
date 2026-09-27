@@ -50,6 +50,7 @@ class MonthlyOrderAmountChartController extends ChartController
             // Could also be an array_push if using an array rather than a collection.
             $orders[] = CustomerOrder::whereDate('created_at', Carbon::now()->firstOfMonth()
                 ->addDays($days_backwards - 1))
+                ->where('order_status', '!=', 'Rejected')
                 ->sum('total_amount');
         }
 

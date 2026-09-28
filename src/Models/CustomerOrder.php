@@ -186,7 +186,8 @@ class CustomerOrder extends Model implements Auditable
                 }
 
                 $data = [
-                    'ItemNumber' => $orderLine->product_code,
+                    'ItemNumber' => $orderLine->backpackProduct?->product_code ?? '',
+                    'ItemName' => $orderLine->backpackProduct?->product_name ?? '',
                     'WarehouseID' => $orderLine?->warehouse->code ?? $CustomerDetails->DefaultWarehouse,
                     // @TODO: warehouse set from customer default
                     // 'WarehouseID' => customer()->warehouse->code ?? $CustomerDetails->DefaultWarehouse,

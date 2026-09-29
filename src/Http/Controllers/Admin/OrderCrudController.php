@@ -745,7 +745,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 [
                     'name' => 'erp_log_error',
                     'label' => 'ERP Log Error',
-                    'type' => 'text',
+                    'type' => 'textarea',
                 ]
             ]);
         }

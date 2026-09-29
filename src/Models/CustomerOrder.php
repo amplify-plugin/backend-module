@@ -32,6 +32,8 @@ class CustomerOrder extends Model implements Auditable
         'erp_log' => 'array'
     ];
 
+    protected $attributes = ['erp_log' => '{}'];
+
     protected $guarded = ['id'];
 
     /**
@@ -265,16 +267,21 @@ class CustomerOrder extends Model implements Auditable
 
                 if ($data['order_type'] == 'O') {
                     $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
+
+
                     $orderResponse = ErpApi::createOrder([
                         'order_id' => $this->getKey(),
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
 
+                    $this->refresh();
+
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
 
                         $erpLog = $this->erp_log;
-                        $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message])
+
+                        $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message])
                             ->filter(fn($item) => ! empty($item))
                         ->implode(' | ');
 
@@ -322,7 +329,7 @@ class CustomerOrder extends Model implements Auditable
 
                     $erpLog = $this->erp_log;
 
-                    $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message ?? 'Order Rejected By ERP'])
+                    $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message ?? 'Order Rejected By ERP'])
                         ->filter(fn($item) => ! empty($item))
                         ->implode(' | ');
 
@@ -358,10 +365,12 @@ class CustomerOrder extends Model implements Auditable
                         'items' => $products->toArray(),
                     ]);
 
+                    $this->refresh();
+
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
 
                         $erpLog = $this->erp_log;
-                        $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message])
+                        $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message])
                             ->filter(fn($item) => ! empty($item))
                             ->implode(' | ');
 
@@ -401,7 +410,7 @@ class CustomerOrder extends Model implements Auditable
                     }
 
                     $erpLog = $this->erp_log;
-                    $erpLog['error'] = collect([$erpLog['error'], $orderResponse->Message ?? 'Quotation Rejected By ERP'])
+                    $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message ?? 'Quotation Rejected By ERP'])
                         ->filter(fn($item) => ! empty($item))
                         ->implode(' | ');
 
@@ -426,7 +435,7 @@ class CustomerOrder extends Model implements Auditable
             Log::error($exception);
 
             $erpLog = $this->erp_log;
-            $erpLog['error'] = collect([$erpLog['error'], $exception->getMessage()])
+            $erpLog['error'] = collect([$erpLog['error'] ?? '', $exception->getMessage()])
                 ->filter(fn($item) => ! empty($item))
                 ->implode(' | ');
 

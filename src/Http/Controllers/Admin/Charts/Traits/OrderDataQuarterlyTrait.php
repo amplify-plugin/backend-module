@@ -38,6 +38,7 @@ trait OrderDataQuarterlyTrait
             DB::raw('COUNT(*) as order_count')
         )
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('order_status', '!=', 'Rejected')
             ->groupBy('year', 'week')
             ->get()->toArray();
 

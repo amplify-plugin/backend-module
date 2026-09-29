@@ -156,6 +156,7 @@ class OrderCrudController extends BackpackCustomCrudController
             [
                 'Pending' => 'Pending',
                 'Approved' => 'Approved',
+                'Rejected' => 'Rejected',
             ],
             function ($value) {
                 // if the filter is active

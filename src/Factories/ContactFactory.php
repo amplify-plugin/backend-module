@@ -25,6 +25,8 @@ class ContactFactory extends Factory
         $email = $this->faker->email;
 
         return [
+            'customer_id' => CustomerFactory::new(),
+
             'name' => $this->faker->name,
 
             'email' => $email,
@@ -34,6 +36,7 @@ class ContactFactory extends Factory
 
             'login_id' => $email,
             'password' => Hash::make('12345678'),
+            'enabled' => true,
 
             // 'limit_type' => $this->faker->randomElement(['Per Day', 'Per Month']),
 
@@ -43,5 +46,48 @@ class ContactFactory extends Factory
             'spend_today' => $this->faker->randomFloat(3, 2),
             'spend_this_month' => $this->faker->randomFloat(3, 2),
         ];
+    }
+
+    /**
+     * A contact whose login ID intentionally differs from the email address
+     * (mirrors the existing production rows that must never be overwritten).
+     */
+    public function withCustomLoginId(string $loginId): static
+    {
+        return $this->state(fn () => [
+            'login_id' => $loginId,
+        ]);
+    }
+
+    public function nullLoginId(): static
+    {
+        return $this->state(fn () => [
+            'login_id' => null,
+        ]);
+    }
+
+    public function emptyLoginId(): static
+    {
+        return $this->state(fn () => [
+            'login_id' => '',
+        ]);
+    }
+
+    /**
+     * A contact without a usable email address (empty string — the email
+     * column is NOT NULL in the schema).
+     */
+    public function withoutEmail(): static
+    {
+        return $this->state(fn () => [
+            'email' => '',
+        ]);
+    }
+
+    public function disabled(): static
+    {
+        return $this->state(fn () => [
+            'enabled' => false,
+        ]);
     }
 }

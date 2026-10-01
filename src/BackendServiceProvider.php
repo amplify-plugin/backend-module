@@ -9,6 +9,7 @@ use Amplify\System\Backend\Commands\CustomerRegisteredReportCommand;
 use Amplify\System\Backend\Commands\BackupRunCommand;
 use Amplify\System\Backend\Commands\SyncPermissionCommand;
 use Amplify\System\Backend\Commands\AddProductSlugCommand;
+use Amplify\System\Backend\Commands\BackfillContactLoginIdCommand;
 use Amplify\System\Backend\Commands\UpdateProductImageFromStorage;
 use Amplify\System\Backend\Models\Attribute;
 use Amplify\System\Backend\Models\Category;
@@ -72,6 +73,7 @@ class BackendServiceProvider extends ServiceProvider
                 CustomerRegisteredReportCommand::class,
                 AddProductSlugCommand::class,
                 UpdateProductImageFromStorage::class,
+                BackfillContactLoginIdCommand::class,
             ]);
         }
 

@@ -22,6 +22,7 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
+            'company_id' => CompanyFactory::new(),
             'customer_code' => $this->faker->uuid,
             'customer_name' => $this->faker->company,
             'email' => $this->faker->safeEmail,

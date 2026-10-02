@@ -7,6 +7,7 @@ use Amplify\System\Backend\Services\RecentlyViewedAnalyticsService;
 use Amplify\System\Factories\NotificationFactory;
 use Amplify\System\OrderRule\Models\CustomerOrderRuleTrack;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,12 @@ class CustomerOrder extends Model implements Auditable
 
     protected $table = 'customer_orders';
 
-    protected $casts = ['temp_address' => 'array'];
+    protected $casts = [
+        'temp_address' => 'array',
+        'erp_log' => 'array'
+    ];
+
+    protected $attributes = ['erp_log' => '{}'];
 
     protected $guarded = ['id'];
 
@@ -262,12 +268,29 @@ class CustomerOrder extends Model implements Auditable
 
                 if ($data['order_type'] == 'O') {
                     $order_infos['payment_type'] = $CustomerDetails->CreditCardOnly === 'Y' ? 'CreditCard' : 'Standard';
+
+
                     $orderResponse = ErpApi::createOrder([
+                        'order_id' => $this->getKey(),
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
 
+                    $this->refresh();
+
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+
+                        $erpLog = $this->erp_log;
+
+                        $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message])
+                            ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_log' => $erpLog,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -305,13 +328,21 @@ class CustomerOrder extends Model implements Auditable
                         ];
                     }
 
+                    $erpLog = $this->erp_log;
+
+                    $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message ?? 'Order Rejected By ERP'])
+                        ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_log' => $erpLog,
                     ]);
 
                     NotificationFactory::call([Event::ORDER_REJECTED], [
                         'order_id' => $this->id,
                         'customer_id' => $this->customer_id,
+                        'customer_order_id' => $this->getKey()
                     ]);
 
                     return [
@@ -330,11 +361,25 @@ class CustomerOrder extends Model implements Auditable
                     ];
                 } elseif ($data['order_type'] == 'Q') {
                     $orderResponse = ErpApi::createOrder([
+                        'order_id' => $this->getKey(),
                         'order' => $order_infos,
                         'items' => $products->toArray(),
                     ]);
 
+                    $this->refresh();
+
                     if (isset($orderResponse->Message) && ! empty($orderResponse->Message)) {
+
+                        $erpLog = $this->erp_log;
+                        $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message])
+                            ->filter(fn($item) => ! empty($item))
+                            ->implode(' | ');
+
+                        $this->update([
+                            'order_status' => 'Rejected',
+                            'erp_log' => $erpLog,
+                        ]);
+
                         return [
                             'success' => false,
                             'message' => $orderResponse->Message,
@@ -365,8 +410,14 @@ class CustomerOrder extends Model implements Auditable
                         ];
                     }
 
+                    $erpLog = $this->erp_log;
+                    $erpLog['error'] = collect([$erpLog['error'] ?? '', $orderResponse->Message ?? 'Quotation Rejected By ERP'])
+                        ->filter(fn($item) => ! empty($item))
+                        ->implode(' | ');
+
                     $this->update([
                         'order_status' => 'Rejected',
+                        'erp_log' => $erpLog,
                     ]);
 
                     return [
@@ -381,7 +432,18 @@ class CustomerOrder extends Model implements Auditable
                 'message' => 'Order Received Failed',
             ];
         } catch (\Exception $exception) {
+
             Log::error($exception);
+
+            $erpLog = $this->erp_log;
+            $erpLog['error'] = collect([$erpLog['error'] ?? '', $exception->getMessage()])
+                ->filter(fn($item) => ! empty($item))
+                ->implode(' | ');
+
+            $this->update([
+                'order_status' => 'Rejected',
+                'erp_log' => $erpLog,
+            ]);
 
             return [
                 'success' => false,
@@ -436,6 +498,52 @@ class CustomerOrder extends Model implements Auditable
 
         return null;
     }
+
+    public function getErpLogErrorAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['error'] ?? null;
+    }
+
+    public function getErpLogStartedAtAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return CarbonImmutable::parse($this->erp_log['started_at']);
+    }
+
+    public function getErpLogFinishedAtAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return CarbonImmutable::parse($this->erp_log['finished_at']);
+    }
+
+    public function getErpLogRequestAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['request'] ?? null;
+    }
+
+    public function getErpLogResponseAttribute()
+    {
+        if (empty($this->erp_log)) {
+            return null;
+        }
+
+        return $this->erp_log['response'] ?? null;
+    }
+
 
     public function getHazmatChargeFromJson()
     {

@@ -43,7 +43,8 @@
                         $parent.validationErrors.order_details_page_id[0]
                     }}</small>
             </div>
-            <div class="form-group">
+          <!-- CenPOS -->
+            <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'cenpos'">
                 <label>Credit Card Payment url</label>
                 <input type="text" name="payment_url" placeholder="Enter Payment url"
                        v-model="paymentConfigurationData.payment_url" class="form-control"
@@ -52,7 +53,7 @@
                         $parent.validationErrors.payment_url[0]
                     }}</small>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'cenpos'">
                 <label>ACH Payment url</label>
                 <input type="text" name="ach_payment_url" placeholder="Enter ACH Payment url"
                        v-model="paymentConfigurationData.ach_payment_url" class="form-control"
@@ -61,7 +62,7 @@
                         $parent.validationErrors.ach_payment_url[0]
                     }}</small>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'cenpos'">
                 <label>Merchant ID</label>
                 <input type="text" name="merchant_id" placeholder="Merchant ID"
                        v-model="paymentConfigurationData.merchant_id" class="form-control"
@@ -70,9 +71,9 @@
                         $parent.validationErrors.merchant_id[0]
                     }}</small>
             </div>
-            <div class="form-group">
-                <label>Cenpos encrypted mid</label>
-                <input :type="encryptedMidType" name="cenpos_encrypted_mid" placeholder="Enter Cenpos encrypted mid"
+            <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'cenpos'">
+                <label>Encrypted mid</label>
+                <input :type="encryptedMidType" name="cenpos_encrypted_mid" placeholder="Enter Encrypted mid"
                        v-model="paymentConfigurationData.cenpos_encrypted_mid" class="form-control"
                        :class="{ 'is-invalid': $parent.validationErrors.cenpos_encrypted_mid }">
                 <i @click="toggleEncryptMidShow"
@@ -82,7 +83,7 @@
                         $parent.validationErrors.cenpos_encrypted_mid[0]
                     }}</small>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'cenpos'">
                 <label>Secret key</label>
                 <input :type="secretKeyType" name="secret_key" placeholder="Enter Secret key"
                        v-model="paymentConfigurationData.secret_key" class="form-control"
@@ -93,6 +94,46 @@
                         $parent.validationErrors.secret_key[0]
                     }}</small>
             </div>
+
+          <!-- Aptean Pay SDK -->
+          <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'aptean'">
+            <label>API Key</label>
+            <input type="text" name="api_key" placeholder="Enter API Key"
+                   v-model="paymentConfigurationData.api_key" class="form-control"
+                   :class="{ 'is-invalid': $parent.validationErrors.api_key }">
+            <small v-if="$parent.validationErrors.api_key" class="text-danger mt-3">{{
+                $parent.validationErrors.api_key[0]
+              }}</small>
+          </div>
+          <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'aptean'">
+            <label>Product ID</label>
+            <input type="text" name="product_id" placeholder="Enter Product ID"
+                   v-model="paymentConfigurationData.product_id" class="form-control"
+                   :class="{ 'is-invalid': $parent.validationErrors.product_id }">
+            <small v-if="$parent.validationErrors.product_id" class="text-danger mt-3">{{
+                $parent.validationErrors.product_id[0]
+              }}</small>
+          </div>
+          <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'aptean'">
+            <label>Tenant ID</label>
+            <input type="text" name="tenant_id" placeholder="Tenant ID"
+                   v-model="paymentConfigurationData.tenant_id" class="form-control"
+                   :class="{ 'is-invalid': $parent.validationErrors.tenant_id }">
+            <small v-if="$parent.validationErrors.tenant_id" class="text-danger mt-3">{{
+                $parent.validationErrors.tenant_id[0]
+              }}</small>
+          </div>
+          <div class="form-group" v-if="paymentConfigurationData.payment_gateway == 'aptean'">
+            <label>Account ID</label>
+            <input type="text" name="account_id" placeholder="Enter Account ID"
+                   v-model="paymentConfigurationData.account_id" class="form-control"
+                   :class="{ 'is-invalid': $parent.validationErrors.account_id }">
+            <small v-if="$parent.validationErrors.account_id"
+                   class="text-danger mt-3">{{
+                $parent.validationErrors.account_id[0]
+              }}</small>
+          </div>
+
             <div class="form-group">
                 <input type="checkbox" name="allow_payments" id="payment_allow_payments"
                        v-model="paymentConfigurationData.allow_payments"

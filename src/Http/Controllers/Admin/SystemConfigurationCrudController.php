@@ -459,12 +459,22 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $payment_config['allow_payments'] = $request->boolean('allow_payments');
         $payment_config['allow_bulk_invoice_payments'] = $request->boolean('allow_bulk_invoice_payments');
 
-        $payment_config['gateways.' . $payment_config['default'] . '.merchant_id'] = $request->input('merchant_id', null);
-        $payment_config['gateways.' . $payment_config['default'] . '.payment_url'] = $request->input('payment_url', null);
-        $payment_config['gateways.' . $payment_config['default'] . '.ach_payment_url'] = $request->input('ach_payment_url', null);
-        $payment_config['gateways.' . $payment_config['default'] . '.cenpos_encrypted_mid'] = $request->input('cenpos_encrypted_mid',
-            null);
-        $payment_config['gateways.' . $payment_config['default'] . '.secret_key'] = $request->input('secret_key');
+        $prefix = "gateways.{$payment_config['default']}";
+
+        if ($payment_config['default'] == 'cenpos') {
+            $payment_config["{$prefix}.merchant_id"] = $request->input('merchant_id', null);
+            $payment_config["{$prefix}.payment_url"] = $request->input('payment_url', null);
+            $payment_config["{$prefix}.ach_payment_url"] = $request->input('ach_payment_url', null);
+            $payment_config["{$prefix}.cenpos_encrypted_mid"] = $request->input('cenpos_encrypted_mid', null);
+            $payment_config["{$prefix}.secret_key"] = $request->input('secret_key');
+        }
+
+        if ($payment_config['default'] == 'aptean') {
+            $payment_config["{$prefix}.api_key"] = $request->input('api_key', null);
+            $payment_config["{$prefix}.product_id"] = $request->input('product_id', null);
+            $payment_config["{$prefix}.tenant_id"] = $request->input('tenant_id', null);
+            $payment_config["{$prefix}.account_id"] = $request->input('account_id', null);
+        }
 
         return $payment_config;
     }

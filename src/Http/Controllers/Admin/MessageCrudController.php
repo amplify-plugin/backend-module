@@ -16,6 +16,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -43,10 +44,13 @@ class MessageCrudController extends BackpackCustomCrudController
 
     public function setupShowOperation()
     {
-        $this->data['threads'] = backpack_user()->threads;
         $this->data['currentThread'] = $this->crud->getCurrentEntry();
 
-        backpack_user()->markThreadAsRead($this->data['currentThread']->id);
+        $user = backpack_user();
+        $user->markThreadAsRead($this->data['currentThread']->id);
+        $user->unsetRelation('threads');
+
+        $this->data['threads'] = $user->threads;
 
         $this->crud->setShowView('backend::pages.messages.index');
     }
@@ -123,5 +127,165 @@ class MessageCrudController extends BackpackCustomCrudController
         Messenger::from($from)->to($thread)->attachmentTitle($attachmentTitle)->message($request->msg)->attachment($request->file('attachment'))->send();
 
         return back();
+    }
+
+    public function recent(): JsonResponse
+    {
+        $threads = backpack_user()->threads
+            ->map(function ($thread) {
+                $last = $thread->lastMessage;
+
+                if (! $last || ! $last->created_at) {
+                    return null;
+                }
+
+                $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($last->body ?? ''))));
+
+                return [
+                    'id' => (int) $thread->id,
+                    'sent_at' => $last->created_at->toIso8601String(),
+                    'unread' => (int) ($thread->unreadMessagesCount ?? 0),
+                    'preview' => $text === '' ? ($last->attachment ? 'Attachment' : '') : \Illuminate\Support\Str::limit($text, 42),
+                ];
+            })
+            ->filter()
+            ->sortByDesc('sent_at')
+            ->values();
+
+        return response()->json([
+            'threads' => $threads,
+        ])->header('Cache-Control', 'no-store');
+    }
+
+    public function messages(Request $request, int $thread): JsonResponse
+    {
+        $thread = $this->findReadableThread($thread);
+        backpack_user()->markThreadAsRead($thread->id);
+
+        $afterId = max(0, (int) $request->query('after', 0));
+        $table = (new Message)->getTable();
+
+        $messages = $thread->messages()
+            ->where($table.'.id', '>', $afterId)
+            ->orderBy($table.'.id')
+            ->limit(100)
+            ->get()
+            ->map(fn (Message $message) => $this->presentMessage($message))
+            ->values();
+
+        return response()->json([
+            'messages' => $messages,
+        ])->header('Cache-Control', 'no-store');
+    }
+
+    public function reply(Request $request, int $thread): JsonResponse|RedirectResponse
+    {
+        $thread = $this->findReadableThread($thread);
+        $sender = backpack_user();
+
+        if (! $sender) {
+            abort(403);
+        }
+
+        $body = $request->input('msg');
+
+        if (is_string($body)) {
+            $body = trim($body);
+            $request->merge(['msg' => $body === '' ? null : $body]);
+        }
+
+        $file = $request->file('attachment');
+
+        if (! $file || ! $file->isValid()) {
+            $request->files->remove('attachment');
+        }
+
+        $request->validate([
+            'msg' => 'required_without:attachment|nullable|string|min:1|max:10000',
+            'attachment' => 'required_without:msg|file|max:1000',
+        ]);
+
+        $file = $request->file('attachment');
+
+        $message = Messenger::from($sender)
+            ->to($thread)
+            ->attachmentTitle($file ? $file->getClientOriginalName() : null)
+            ->message($request->input('msg'))
+            ->attachment($file)
+            ->send();
+
+        if (! $message instanceof Message) {
+            abort(500, 'Unable to save the message.');
+        }
+
+        backpack_user()->markThreadAsRead($thread->id);
+
+        if (! $request->expectsJson()) {
+            return redirect()->route('message.show', $thread->id);
+        }
+
+        return response()->json([
+            'message' => $this->presentMessage($message),
+        ]);
+    }
+
+    private function findReadableThread(int $threadId): MessageThread
+    {
+        $thread = MessageThread::query()
+            ->without('messages')
+            ->with('participants')
+            ->find($threadId);
+
+        if (! $thread instanceof MessageThread) {
+            abort(404);
+        }
+
+        $user = backpack_user();
+
+        if (! $user) {
+            abort(403);
+        }
+
+        $allowed = $thread->participants->contains(function ($participant) use ($user) {
+            return $participant->model === $user::class
+                && (int) $participant->user_id === (int) $user->id;
+        });
+
+        if (! $allowed) {
+            abort(404);
+        }
+
+        return $thread;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function presentMessage(Message $message): array
+    {
+        $user = backpack_user();
+        $url = is_string($message->attachment) ? $message->attachment : '';
+        $path = parse_url($url, PHP_URL_PATH) ?: $url;
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $safeUrl = $url !== '' && (
+            (str_starts_with($url, '/') && ! str_starts_with($url, '//'))
+            || str_starts_with($url, 'http://')
+            || str_starts_with($url, 'https://')
+        );
+
+        return [
+            'id' => (int) $message->id,
+            'body' => (string) ($message->body ?? ''),
+            'mine' => $user
+                && (int) $message->sender_id === (int) $user->id
+                && ($message->model === null || $message->model === '' || $message->model === $user::class),
+            'time' => optional($message->created_at)->diffForHumans() ?? '',
+            'sent_at' => optional($message->created_at)->toIso8601String() ?? '',
+            'attachment' => $safeUrl ? [
+                'url' => $url,
+                'name' => $message->attachment_title ?: 'Attachment',
+                'is_image' => in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true),
+            ] : null,
+        ];
     }
 }

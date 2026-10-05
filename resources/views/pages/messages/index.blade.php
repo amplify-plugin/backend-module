@@ -34,7 +34,7 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card chat-app">
-                    <div id="plist" class="people-list">
+                    <div id="plist" class="people-list" data-recent-url="{{ route('admin.message.recent') }}">
                         <div class="text-right">
                             <a href="{{ route('message.index') }}" class="btn btn-info btn-block mt-0">
                                 <i class="la la-edit"></i> New message
@@ -52,6 +52,7 @@
 
 @section('after_scripts')
     <script src="{{ asset('packages/lightbox2/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('vendor/backend/js/message-chat.js') }}"></script>
     <script>
         try {
             const chatBox = document.querySelector('.chat-history ul');

@@ -18,7 +18,8 @@ class CustomerOrderLine extends Model implements Auditable
     protected $guarded = ['id'];
 
     protected $casts = [
-        'additional_info' => 'json',
+        'additional_info' => 'array',
+        'options' => 'array',
     ];
 
     /**

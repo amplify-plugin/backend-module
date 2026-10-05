@@ -244,7 +244,447 @@ class OrderCrudController extends BackpackCustomCrudController
 
     protected function setupShowOperation()
     {
-        $this->addShowColumns();
+        //Basic
+        CRUD::addColumns([
+            [
+                'name' => 'web_order_number',
+                'type' => 'text',
+                'label' => 'Order Number',
+                'tab' => 'Basic'
+            ],
+            [
+                'name' => 'order_status',
+                'type' => 'text',
+                'label' => 'Order Status',
+                'tab' => 'Basic'
+            ],
+            [
+                'name' => 'po_number',
+                'type' => 'text',
+                'label' => 'PO Number',
+                'tab' => 'Basic'
+            ],
+            [
+                'name' => 'erp_order_id',
+                'type' => 'text',
+                'label' => 'Erp Order Id',
+                'tab' => 'Basic'
+            ],
+            [
+                'name' => 'orderNotes',
+                'label' => 'Order Notes',
+                'type' => 'table-related',
+                'columns' => [
+                    [
+                        'name' => 'subject',
+                        'label' => 'Subject',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'formatted_date',
+                        'label' => 'Date',
+                        'type' => 'model_function',
+                        'function_name' => 'getFormattedDateValue',
+                    ],
+                    [
+                        'name' => 'note',
+                        'label' => 'Note',
+                        'type' => 'text',
+                    ],
+                ],
+                'tab' => 'Basic'
+            ],
+            [
+                'name' => 'erp_log_error',
+                'label' => 'Error Log',
+                'type' => 'textarea',
+                'tab' => 'Basic',
+            ]
+        ]);
+
+        //Customer
+        CRUD::addColumns([
+            [
+                'name' => 'contact',
+                'attribute' => 'contact_name',
+                'type' => 'custom_html',
+                'label' => 'Contact',
+                'value' => function ($order) {
+                    return $order->contact ? '<a href="' . route('contact.edit', $order->contact->id) . '" target="_blank" class="text-dark">' . $order->contact->name . ' - ' . $order->contact->email . '</a>' : 'Guest Customer';
+                },
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'name',
+                'type' => 'text',
+                'label' => 'Name',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'email',
+                'type' => 'text',
+                'label' => 'Email',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'phone',
+                'type' => 'text',
+                'label' => 'Phone',
+                'tab' => 'Customer'
+            ],
+
+            [
+                'name' => 'customer',
+                'attribute' => 'customer_name',
+                'type' => 'custom_html',
+                'value' => function ($order) {
+                    return $order->customer ? '<a href="' . route('customer.edit', $order->customer->id) . '" target="_blank" class="text-dark">' . $order->customer->customer_name . ' - ' . $order->customer->customer_code . '</a>' : 'Guest Customer - ' . config('amplify.frontend.guest_default');
+                },
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_name',
+                'label' => 'Company',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_code',
+                'label' => 'ERP Code',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_address_1',
+                'label' => 'Street Address',
+                'type' => 'custom_html',
+                'value' => function ($order) {
+                    return implode(
+                        "<br>",
+                        array_filter(
+                            [$order->customer_address_1, $order->customer_address_2, $order->customer_address_3],
+                            fn($t) => !empty($t))
+                    );
+                },
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_city',
+                'label' => 'City',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_state',
+                'label' => 'State',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_zip_code',
+                'label' => 'Postal Code',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'customer_country_code',
+                'label' => 'Country',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+        ]);
+
+        //Order Lines
+        CRUD::addColumns([
+            [
+                'name' => 'orderLines',
+                'label' => 'Order Lines',
+                'type' => 'table-related',
+                'namespace' => 'backend::columns',
+                'tab' => 'Products',
+                'columns' => [
+                    [
+                        'name' => 'product_code',
+                        'label' => 'Product Code',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'local_product_name',
+                        'label' => 'Name',
+                        'type' => 'text',
+                        'entity' => 'product', // the relationship name in Model
+                        'attribute' => 'local_product_name', // attribute on Product that is shown to admin
+                    ],
+                    [
+                        'name' => 'customer_price',
+                        'label' => 'Unit Price',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'qty',
+                        'label' => 'Quantity',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'sub_total',
+                        'label' => 'Sub Total', // Table column heading
+                        'type' => 'model_function',
+                        'function_name' => 'getSubTotal', // the method in your Model
+                    ],
+                    [
+                        'name' => 'warehouse',
+                        'label' => 'Warehouse',
+                        'type' => 'relationship',
+                        'entity' => 'warehouse',
+                        'attribute' => 'name',
+                    ],
+                ],
+            ],
+        ]);
+
+        //Shipping
+        CRUD::addColumns([
+            [
+                'name' => 'ship_to_method',
+                'type' => 'custom_html',
+                'label' => 'Shipping Method',
+                'tab' => 'Shipping',
+                'value' => function ($order) {
+                    return "{$order->ship_to_method} - {$order->ship_to_method_label}";
+                }
+            ],
+            [
+                'name' => 'ship_to_contact',
+                'label' => 'Contact',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_phone',
+                'label' => 'Phone',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_number',
+                'label' => 'ERP Code',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'customer_code',
+                'label' => 'ERP Code',
+                'type' => 'text',
+                'tab' => 'Customer'
+            ],
+            [
+                'name' => 'ship_to_address',
+                'type' => 'textarea',
+                'label' => 'Street Address',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_city',
+                'label' => 'City',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_state',
+                'label' => 'State',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_zip_code',
+                'label' => 'Postal Code',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_country_code',
+                'label' => 'Country',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'ship_to_instruction',
+                'label' => 'Instructions',
+                'type' => 'text',
+                'tab' => 'Shipping'
+            ],
+            [
+                'name' => 'orderNotes',
+                'label' => 'Order Notes',
+                'type' => 'table-related',
+                'columns' => [
+                    [
+                        'name' => 'subject',
+                        'label' => 'Subject',
+                        'type' => 'text',
+                    ],
+                    [
+                        'name' => 'formatted_date',
+                        'label' => 'Date',
+                        'type' => 'model_function',
+                        'function_name' => 'getFormattedDateValue',
+                    ],
+                    [
+                        'name' => 'note',
+                        'label' => 'Note',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->addAdditionalColumns($this->crud->getCurrentEntry(), 'ship_to_additional', 'Shipping');
+
+        //Billing
+        CRUD::addColumns([
+            [
+                'name' => 'total_net_price',
+                'type' => 'number',
+                'label' => 'Total Net Price',
+                'decimals' => 2,
+                'tab' => 'Billing',
+            ],
+            [
+                'name' => 'total_tax_amount',
+                'type' => 'number',
+                'label' => 'Total Tax Amount',
+                'decimals' => 2,
+                'tab' => 'Billing',
+            ],
+            [
+                'name' => 'total_shipping_cost',
+                'type' => 'number',
+                'label' => 'Total Shipping Cost',
+                'decimals' => 2,
+                'tab' => 'Billing',
+            ],
+        ]);
+
+        $this->addAdditionalColumns($this->crud->getCurrentEntry(), 'total_additional', 'Billing');
+
+        CRUD::addColumns([
+            [
+                'name' => 'total_amount',
+                'type' => 'number',
+                'label' => 'Total Amount',
+                'decimals' => 2,
+                'tab' => 'Billing',
+            ],
+            [
+                'name' => 'pay_to_method',
+                'type' => 'custom_html',
+                'label' => 'Payment Method',
+                'tab' => 'Billing',
+                'value' => function ($order) {
+                    return ucwords(str_replace('_', ' ', $order->pay_to_method));
+                }
+            ],
+            [
+                'name' => 'pay_to_name',
+                'label' => 'Account Title/Card Holder',
+                'type' => 'text',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_address',
+                'type' => 'textarea',
+                'label' => 'Street Address',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_city',
+                'label' => 'City',
+                'type' => 'text',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_state',
+                'label' => 'State',
+                'type' => 'text',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_zip_code',
+                'label' => 'Postal Code',
+                'type' => 'text',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_country_code',
+                'label' => 'Country',
+                'type' => 'text',
+                'tab' => 'Billing'
+            ],
+            [
+                'name' => 'pay_to_additional',
+                'label' => 'Meta Data',
+                'type' => 'json',
+                'tab' => 'Billing'
+            ],
+        ]);
+
+        if (backpack_user()->isAdmin()) {
+            CRUD::addColumns([
+                [
+                    'name' => 'erp_log_started_at',
+                    'label' => 'Log Started',
+                    'type' => 'datetime',
+                    'tab' => 'ERP',
+                ],
+                [
+                    'name' => 'erp_log_request',
+                    'label' => 'Log Payload',
+                    'type' => 'json',
+                    'tab' => 'ERP',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ],
+                [
+                    'name' => 'erp_log_finished_at',
+                    'label' => 'Log Finished',
+                    'type' => 'datetime',
+                    'tab' => 'ERP',
+                ],
+                [
+                    'name' => 'erp_log_response',
+                    'label' => 'Log Response',
+                    'type' => 'json',
+                    'tab' => 'ERP',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ]
+            ]);
+        }
+    }
+
+    private function addAdditionalColumns($model, $attribute, $tab = 'Basic')
+    {
+        $entries = data_get($model, $attribute);
+
+        if (!$entries) {
+            return;
+        }
+
+        foreach ($entries as $entry) {
+            CRUD::addColumn([
+                'name' => $entry['field'],
+                'label' => $entry['label'],
+                'type' => 'text',
+                'tab' => $tab,
+                'value' => $entry['value'],
+            ]);
+        }
+
+        
     }
 
     /**
@@ -519,236 +959,6 @@ class OrderCrudController extends BackpackCustomCrudController
         }
 
         return $redirect_location;
-    }
-
-    private function addShowColumns()
-    {
-        CRUD::addColumns([
-            [
-                'name' => 'order_status',
-                'type' => 'text',
-                'label' => 'Order Status',
-            ],
-            [
-                'name' => 'web_order_number',
-                'type' => 'text',
-                'label' => 'Web Order Number',
-            ],
-            [
-                'name' => 'customer',
-                'attribute' => 'customer_name',
-                'type' => 'custom_html',
-                'value' => function ($order) {
-                    return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
-                },
-            ],
-            [
-                'name' => 'contact',
-                'attribute' => 'contact_name',
-                'type' => 'custom_html',
-                'value' => function ($order) {
-                    return $order->contact ? '<a href="'.route('contact.edit', $order->contact->id).'" target="_blank" class="text-dark">'.$order->contact->name.' - '.$order->contact->email.'</a>' : 'Guest Customer';
-                },
-            ],
-            [
-                'name' => 'customer_order_number',
-                'type' => 'text',
-                'label' => 'Customer Order Number',
-            ],
-            [
-                'name' => 'customer_name',
-                'type' => 'text',
-                'label' => 'Customer Name',
-            ],
-            [
-                'name' => 'email',
-                'type' => 'text',
-                'label' => 'Email',
-            ],
-            [
-                'name' => 'phone',
-                'type' => 'text',
-                'label' => 'Phone',
-            ],
-            [
-                'name' => 'ship_address',
-                'type' => 'textarea',
-                'label' => 'Shipping Address',
-            ],
-            [
-                'name' => 'erp_order_id',
-                'type' => 'text',
-                'label' => 'Erp Order Id',
-            ],
-            [
-                'name' => 'created_at',
-                'label' => 'Created At', // Table column heading
-                'type' => 'model_function',
-                'function_name' => 'getFormattedCreatedAtValue',
-            ],
-            [
-                'name' => 'updated_at',
-                'label' => 'Last Changed', // Table column heading
-                'type' => 'model_function',
-                'function_name' => 'getFormattedUpdatedAtValue',
-            ],
-            [
-                'name' => 'orderLines',
-                'label' => 'Order Lines',
-                'type' => 'table-related',
-                'columns' => [
-                    [
-                        'name' => 'product_code',
-                        'label' => 'Product Code',
-                        'type' => 'text',
-                    ],
-                    [
-                        'name' => 'local_product_name',
-                        'label' => 'Name',
-                        'type' => 'text',
-                        'entity' => 'product', // the relationship name in Model
-                        'attribute' => 'local_product_name', // attribute on Product that is shown to admin
-                    ],
-                    [
-                        'name' => 'customer_price',
-                        'label' => 'Unit Price',
-                        'type' => 'text',
-                    ],
-                    [
-                        'name' => 'qty',
-                        'label' => 'Quantity',
-                        'type' => 'text',
-                    ],
-                    [
-                        'name' => 'sub_total',
-                        'label' => 'Sub Total', // Table column heading
-                        'type' => 'model_function',
-                        'function_name' => 'getSubTotal', // the method in your Model
-                    ],
-                    [
-                        'name' => 'warehouse',
-                        'label' => 'Warehouse',
-                        'type' => 'relationship',
-                        'entity' => 'warehouse',
-                        'attribute' => 'name',
-                    ],
-                ],
-            ],
-            [
-                'name' => 'total_net_price',
-                'type' => 'number',
-                'label' => 'Total Net Price',
-                'decimals' => 2,
-            ],
-            [
-                'name' => 'shipping_method',
-                'type' => 'text',
-                'label' => 'Shipping Option',
-            ],
-            [
-                'name' => 'total_tax_amount',
-                'type' => 'number',
-                'label' => 'Total Tax Amount',
-                'decimals' => 2,
-            ],
-            [
-                'name' => 'total_shipping_cost',
-                'type' => 'number',
-                'label' => 'Total Shipping Cost',
-                'decimals' => 2,
-            ],
-            [
-                'name' => 'hazmat_charge_from_json',
-                'label' => 'Hazmat Charge',
-                'type' => 'model_function',
-                'function_name' => 'getHazmatChargeFromJson',
-                'decimals' => 2,
-            ],
-            [
-                'name' => 'total_amount',
-                'type' => 'number',
-                'label' => 'Total Amount',
-                'decimals' => 2,
-            ],
-            [
-                'name' => 'orderNotes',
-                'label' => 'Order Notes',
-                'type' => 'table-related',
-                'columns' => [
-                    [
-                        'name' => 'subject',
-                        'label' => 'Subject',
-                        'type' => 'text',
-                    ],
-                    [
-                        'name' => 'formatted_date',
-                        'label' => 'Date',
-                        'type' => 'model_function',
-                        'function_name' => 'getFormattedDateValue',
-                    ],
-                    [
-                        'name' => 'note',
-                        'label' => 'Note',
-                        'type' => 'text',
-                    ],
-                ],
-            ],
-            [
-                'name' => 'draft_name',
-                'type' => 'text',
-                'label' => 'Draft Name',
-            ],
-            [
-                'name' => 'approver_name',
-                'label' => 'Approver',
-                'entity' => 'approver',
-                'attribute' => 'name',
-            ],
-            [
-                'name' => 'submitted_at',
-                'label' => 'Submitted At',
-                'type' => 'model_function',
-                'function_name' => 'getFormattedSubmittedAtValue',
-            ],
-        ]);
-
-        if (backpack_user()->isAdmin()) {
-            CRUD::addColumns([
-                [
-                    'name' => 'erp_log_started_at',
-                    'label' => 'ERP Log Started At',
-                    'type' => 'datetime',
-                ],
-                [
-                    'name' => 'erp_log_finished_at',
-                    'label' => 'ERP Log Finished At',
-                    'type' => 'datetime',
-                ],
-                [
-                    'name' => 'erp_log_request',
-                    'label' => 'ERP Log Payload',
-                    'type' => 'json',
-                    'wrapper' => [
-                        'element' => 'pre',
-                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
-                    ],
-                ],
-                [
-                    'name' => 'erp_log_response',
-                    'label' => 'ERP Log Response',
-                    'type' => 'json',
-                    'wrapper' => [
-                        'element' => 'pre',
-                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
-                    ],
-                ],
-                [
-                    'name' => 'erp_log_error',
-                    'label' => 'ERP Log Error',
-                    'type' => 'textarea',
-                ]
-            ]);
-        }
     }
 
     public function destroy($id)

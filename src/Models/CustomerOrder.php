@@ -29,7 +29,10 @@ class CustomerOrder extends Model implements Auditable
 
     protected $casts = [
         'temp_address' => 'array',
-        'erp_log' => 'array'
+        'erp_log' => 'array',
+        'total_additional' => 'array',
+        'ship_to_additional' => 'array',
+        'pay_to_additional' => 'array'
     ];
 
     protected $attributes = ['erp_log' => '{}'];
@@ -44,9 +47,9 @@ class CustomerOrder extends Model implements Auditable
         return $this->hasMany(CustomerOrderLine::class, 'customer_order_id', 'id');
     }
 
-    public function orderNotes()
+    public function orderNotes(): HasMany
     {
-        return $this->hasMany(CustomerOrderNote::class);
+        return $this->hasMany(CustomerOrderNote::class, 'customer_order_id', 'id');
     }
 
     public function customer()

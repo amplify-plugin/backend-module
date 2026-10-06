@@ -87,7 +87,7 @@
                     if ($headerSender instanceof \Amplify\System\Backend\Models\Contact) {
                         $headerSubtitle = $headerSender->customer->customer_name ?? null;
                     } elseif ($headerSender instanceof \Amplify\System\Backend\Models\User) {
-                        $headerSubtitle = 'User';
+                        $headerSubtitle = 'Internal User';
                     }
                 @endphp
                 @if (filled($headerSubtitle))

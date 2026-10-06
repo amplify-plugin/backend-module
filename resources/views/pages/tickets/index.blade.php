@@ -99,6 +99,36 @@
             flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px;
         }
         @keyframes chat-spin { to { transform: rotate(360deg); } }
+        .chat-app-tall {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 188px);
+            min-height: 560px;
+            margin-bottom: 0;
+        }
+        .chat-app-tall > .chat {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+        .chat-app-tall .chat-history {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .chat-app-tall .chat-history ul {
+            height: auto !important;
+            max-height: none !important;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+        }
+        .chat-app-tall .chat-message {
+            flex: 0 0 auto;
+        }
     </style>
 @endpush
 
@@ -106,7 +136,7 @@
     <div id="app">
         <div class="row clearfix">
             <div class="col-lg-12">
-                <div class="card chat-app"
+                <div class="card chat-app chat-app-tall"
                      @if ($threadMsg)
                          id="ticket-chat"
                          data-mode="admin"

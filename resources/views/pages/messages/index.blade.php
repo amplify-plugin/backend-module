@@ -2,6 +2,55 @@
 
 @push('after_styles')
     <link rel="stylesheet" href="{{ asset('packages/lightbox2/css/lightbox.min.css') }}">
+    <style>
+        .chat-app-tall {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 188px);
+            min-height: 560px;
+            margin-bottom: 0;
+        }
+        .chat-app-tall > .chat {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+        .chat-app-tall .chat-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+        .chat-app-tall .chat-history {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .chat-app-tall .chat-history ul {
+            height: auto !important;
+            max-height: none !important;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+        }
+        .chat-app-tall .chat-message {
+            flex: 0 0 auto;
+        }
+        .chat-app-tall .people-list {
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-app-tall .people-list .chat-list {
+            height: auto !important;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+    </style>
 @endpush
 
 @php
@@ -33,7 +82,7 @@
 @section('content')
         <div class="row clearfix">
             <div class="col-lg-12">
-                <div class="card chat-app">
+                <div class="card chat-app chat-app-tall">
                     <div id="plist" class="people-list" data-recent-url="{{ route('admin.message.recent') }}">
                         <div class="text-right">
                             <a href="{{ route('message.index') }}" class="btn btn-info btn-block mt-0">

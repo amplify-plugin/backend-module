@@ -71,7 +71,7 @@
     }
     @keyframes chat-spin { to { transform: rotate(360deg); } }
 </style>
-<div @if ($thread && ! $as_customer) id="message-chat" data-poll-url="{{ route('admin.message.messages', $thread->id) }}" data-send-url="{{ route('admin.message.messages.store', $thread->id) }}" @endif>
+<div class="chat-panel" @if ($thread && ! $as_customer) id="message-chat" data-poll-url="{{ route('admin.message.messages', $thread->id) }}" data-send-url="{{ route('admin.message.messages.store', $thread->id) }}" @endif>
 <div class="chat-header clearfix">
     <div class="row">
         <div class="col-lg-12">
@@ -80,7 +80,19 @@
                      alt="avatar">
             </a>
             <div class="chat-about">
-                <h6 class="mt-2">{{ $threadTitle() }}</h6>
+                <h6 class="mb-0 mt-1">{{ $threadTitle() }}</h6>
+                @php
+                    $headerSender = $thread?->sender;
+                    $headerSubtitle = null;
+                    if ($headerSender instanceof \Amplify\System\Backend\Models\Contact) {
+                        $headerSubtitle = $headerSender->customer->customer_name ?? null;
+                    } elseif ($headerSender instanceof \Amplify\System\Backend\Models\User) {
+                        $headerSubtitle = 'User';
+                    }
+                @endphp
+                @if (filled($headerSubtitle))
+                    <small class="text-muted d-block text-truncate" style="max-width: 280px; margin-top: 3px; font-size: 12px; line-height: 1.3;">{{ $headerSubtitle }}</small>
+                @endif
             </div>
             <div class="chat-toggle-icon d-md-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

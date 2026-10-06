@@ -4,7 +4,6 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Backpack\CRUD\app\Library\Auth\AuthenticatesUsers;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Prologue\Alerts\Facades\Alert;
@@ -14,6 +13,10 @@ use Prologue\Alerts\Facades\Alert;
  */
 class LoginController extends Controller
 {
+    protected ?string $loginPath = null;
+    protected ?string $redirectTo = null;
+    protected ?string $redirectAfterLogout = null;
+
     protected $data = []; // the information we send to the view
 
     /*
@@ -26,13 +29,6 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
-    public string $loginPath;
-
-    public string $redirectTo;
-
-    public string $redirectAfterLogout;
-
     use AuthenticatesUsers {
         logout as defaultLogout;
     }
@@ -53,13 +49,13 @@ class LoginController extends Controller
         // ----------------------------------
 
         // If not logged in redirect here.
-        $this->loginPath = backpack_url('login');
+        $this->loginPath ??= backpack_url('login');
 
         // Redirect here after successful login.
-        $this->redirectTo = backpack_url('dashboard');
+        $this->redirectTo ??= backpack_url('dashboard');
 
         // Redirect here after logout.
-        $this->redirectAfterLogout = backpack_url('login');
+        $this->redirectAfterLogout ??= backpack_url('login');
     }
 
     /**
@@ -75,6 +71,7 @@ class LoginController extends Controller
     /**
      * The user has logged out of the application.
      *
+     * @param Request $request
      * @return mixed
      */
     protected function loggedOut(Request $request)
@@ -98,7 +95,7 @@ class LoginController extends Controller
      * @overwrite Backpack\CRUD\app\Library\Auth\AuthenticatesUsers::authenticated
      *
      * @param  mixed  $user
-     * @return void|RedirectResponse
+     * @return void|\Illuminate\Http\RedirectResponse
      */
     protected function authenticated(Request $request, $user)
     {

@@ -38,6 +38,17 @@ class BackendServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
         $this->mergeConfigFrom(__DIR__.'/../config/pim.php', 'amplify.pim');
 
+        // Laravel 12 stores an APP_KEY-keyed HMAC of the password hash in the session,
+        // while Backpack's AuthenticateSession still compares the raw password hash,
+        // which invalidates every admin session right after login. Substitute the
+        // module's Laravel 12 compatible implementation whenever Backpack's class
+        // is resolved (Backpack pushes its own class string into the 'admin'
+        // middleware group from config, which the container resolves per request).
+        $this->app->bind(
+            \Backpack\CRUD\app\Http\Middleware\AuthenticateSession::class,
+            Http\Middlewares\AuthenticateSession::class
+        );
+
         $this->app->register(SingletonServiceProvider::class);
 
         $this->app->register(AmplifyServiceProvider::class);

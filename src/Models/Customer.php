@@ -107,7 +107,7 @@ class Customer extends Model implements Auditable
         return Subscriber::where('email', $this->email)->first() ? Subscriber::where('email', $this->email)->first()->status : null;
     }
 
-    public function customer_group(): BelongsTo
+    public function customerGroup(): BelongsTo
     {
         return $this->belongsTo(CustomerGroup::class);
     }

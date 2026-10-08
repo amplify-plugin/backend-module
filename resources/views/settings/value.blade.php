@@ -10,17 +10,19 @@
         $value = json_encode($value);
     }
 
-    $fieldType = match($entry->field['type']) {
-        'ckeditor' => 'text',
-        'browse', 'url' => 'view',
-        default => $entry->field['type'] ?? 'text'
+    if (empty($entry->field)) {
+        $entry->field['type'] = 'text';
+    }
+
+    $viewPath = match($entry->field['type']) {
+        'ckeditor' => 'crud::columns.text',
+        'browse', 'url' => 'backend::settings.link',
+        'select2_from_ajax' => 'backend::settings.model',
+        default => str_contains($entry->field['type'], '::') ? $entry->field['type'] : "crud::columns.{$entry->field['type']}"
     };
     $field = $entry->field ?? [];
     unset($field['value'], $field['default']);
     $column = array_merge($column, $field);
-    if ($fieldType == 'view') {
-        $column['view'] = 'backend::settings.link';
-    }
 @endphp
 
-@include("crud::columns.{$fieldType}")
+@include($viewPath)

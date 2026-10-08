@@ -465,6 +465,15 @@ trait HasBackendMenu
                     ->icon('la la-building')
                     ->url(backpack_url('company'));
 
+                $settings->item('Reports')
+                    ->can('report-setting.list')
+                    ->icon('las la-file-alt')
+                    ->url(backpack_url('report-setting'));
+
+                $settings->item('Exports')
+                    ->can('export-setting.list')
+                    ->icon('la la-download')
+                    ->url(backpack_url('export-setting'));
             });
 
         $sidebar->group('Notification')

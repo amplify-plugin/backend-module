@@ -15,8 +15,6 @@ class AmplifyApiSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'api')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'api';
             SystemConfiguration::create($datum);
@@ -47,7 +45,8 @@ class AmplifyApiSettingSeeder extends Seeder
                     'default' => 'id',
                     'options' => [
                         'id' => 'Database ID Number',
-                        'contact_code' => 'Contact Erp Code',
+                        'contact_code' => 'Contact ERP Code',
+                        'login_id' => 'Username/Login ID',
                         'email' => 'Email Address',
                         'phone' => 'Phone Number',
                     ],

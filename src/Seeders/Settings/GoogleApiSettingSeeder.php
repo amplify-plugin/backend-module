@@ -15,11 +15,10 @@ class GoogleApiSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'google')->delete();
 
         foreach ($this->data() as $datum) {
             $datum['name'] = 'google';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 
@@ -28,7 +27,8 @@ class GoogleApiSettingSeeder extends Seeder
         return [
             [
                 'option' => 'google_map_api_key',
-                'value' => '',
+                'value' => null,
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
@@ -37,7 +37,8 @@ class GoogleApiSettingSeeder extends Seeder
             ],
             [
                 'option' => 'google_analytics_id',
-                'value' => '',
+                'value' => null,
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
@@ -46,7 +47,8 @@ class GoogleApiSettingSeeder extends Seeder
             ],
             [
                 'option' => 'google_tag_manager_id',
-                'value' => '',
+                'value' => null,
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
@@ -55,7 +57,8 @@ class GoogleApiSettingSeeder extends Seeder
             ],
             [
                 'option' => 'google_analytics_url',
-                'value' => '',
+                'value' => null,
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'url',

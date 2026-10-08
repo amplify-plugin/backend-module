@@ -125,6 +125,9 @@ if (!function_exists('backend_permissions')) {
             'prop65-setting' => 'l,u',
             'google-api-setting' => 'l,u',
             'api-setting' => 'l,u',
+            'sayt-setting' => 'l,u',
+            'export-setting' => 'l,u',
+            'report-setting' => 'l,u',
 
             //Notification
             'trigger' => 'l,u',

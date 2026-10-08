@@ -176,20 +176,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['title'] = 'System Configuration';
         $this->data['currencies'] = UtilityHelper::currencyDropdown();
         $this->data['coreConfigurationData'] = config('amplify', []);
-        $this->data['hierarchies'] = getModelNames(app_path('Models') . '/*.php') ?? [];
+        $this->data['hierarchies'] = getModelNames(base_path('vendor/amplify/backend/src/Models') . '/*.php') ?? [];
         $this->data['countries'] = Country::select('name', 'id')->orderBy('name')->get();
         $this->data['product_indexes'] = (new Product)->getTableColumns() ?? [];
-        $this->data['mail_configuration_data'] = config('mail');
-        $this->data['pageTypes'] = Page::getConfigurableTypes();
         $this->data['menuGroups'] = MenuGroup::select('name', 'short_code')->get()->toArray();
-        $this->data['catalogs'] = Category::select('category_name', 'id')
-            ->whereNull('parent_id')
-            ->get()
-            ->map(function ($item) {
-                $item->name = $item->category_name;
-
-                return $item;
-            })->toArray();
 
         $this->data['documentTypes'] = DocumentType::select('name', 'id', 'media_type')->orderBy('name')->get();
         $this->data['availableLocales'] = [];
@@ -198,8 +188,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'Developer' => backpack_user()->isAdmin(),
             'Basic' => backpack_user()->canAny('system-configuration.update'),
             'PIM' => backpack_user()->canAny('system-configuration.update'),
-            'Report' => backpack_user()->canAny('system-configuration.update'),
-            'Sayt' => backpack_user()->canAny('system-configuration.update'),
             'Frontend' => backpack_user()->canAny('system-configuration.update'),
             'Payment' => backpack_user()->canAny('system-configuration.update'),
             'ERP' => backpack_user()->canAny('system-configuration.update'),
@@ -207,15 +195,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'Schedule' => backpack_user()->canAny('system-configuration.update'),
             'Marketing' => backpack_user()->canAny('system-configuration.update'),
             'AlertMessage' => backpack_user()->canAny('system-configuration.update'),
-
             'Icecat' => !empty(config('amplify.icecat.icecat_username', '')),
             'DDS' => false,
-            'Google' => backpack_user()->canAny('google-api-setting.update'),
             'Invoice' => backpack_user()->canAny('invoice-setting.update'),
             'CMS' => backpack_user()->canAny('cms-setting.update'),
-            'API' => backpack_user()->canAny('api-setting.update'),
-            'Order' => backpack_user()->canAny('order-setting.update'),
-            'Prop65' => backpack_user()->canAny('prop65-setting.update'),
             'Security' => backpack_user()->canAny('security-setting.update'),
         ];
 
@@ -287,10 +270,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             $data = match ($tab) {
                 SystemConfiguration::BASIC_TAB => $this->basicTabFormat($request),
                 SystemConfiguration::PIM_TAB => $this->pimTabFormat($request),
-                SystemConfiguration::REPORT_TAB => $this->reportTabFormat($request),
-                SystemConfiguration::SAYT_TAB => $this->saytTabFormat($request),
                 SystemConfiguration::ICECAT_TAB => $this->icecatTabFormat($request),
-                SystemConfiguration::GOOGLE_TAB => $this->googleTabFormat($request),
                 SystemConfiguration::FRONTEND_TAB => $this->frontendTabFormat($request),
                 SystemConfiguration::PAYMENT_TAB => $this->paymentTabFormat($request),
                 SystemConfiguration::ERP_TAB => $this->erpTabFormat($request),
@@ -298,12 +278,8 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
                 SystemConfiguration::SCHEDULE_TAB => $this->scheduleTabFormat($request),
                 SystemConfiguration::CMS_TAB => $this->cmsTabFormat($request),
                 SystemConfiguration::MARKETING_TAB => $this->marketingTabFormat($request),
-                SystemConfiguration::AMPLIFY_API_TAB => $this->amplifyApiTabFormat($request),
-                SystemConfiguration::ORDER_TAB => $this->orderTabFormat($request),
-                SystemConfiguration::PROP65_TAB => $this->prop65TabFormat($request),
                 SystemConfiguration::SECURITY_TAB => $this->securityTabFormat($request),
                 SystemConfiguration::DEVELOPER_TAB => $this->developerTabFormat($request),
-                SystemConfiguration::EXPORT_TAB => $this->exportTabFormat($request),
                 SystemConfiguration::MESSAGE_TAB => $this->messagesTabFormat($request),
             };
 
@@ -387,51 +363,10 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
-    private function reportTabFormat($request)
-    {
-        return [
-            'protocol' => $request->input('protocol', 'http'),
-            'host' => $request->input('host', 'demov16.easyaskondemand1.com/EasyAsk/apps/TranslateToResults.jsp'),
-            'port' => $request->input('port', null),
-            'business_query_dictionary' => $request->input('business_query_dictionary', 'query-amplify'),
-        ];
-    }
-
-    private function saytTabFormat($request)
-    {
-        return [
-            'sayt_product_id' => $request->input('sayt_product_id', 'Product_Id'),
-            'sayt_product_image' => $request->input('sayt_product_image', 'Product_Image'),
-            'sayt_product_name' => $request->input('sayt_product_name', 'Product_Name'),
-            'sayt_product_code' => $request->input('sayt_product_code', 'Product_Code'),
-            'sayt_product_price' => $request->input('sayt_product_price', 'Price'),
-            'sayt_product_description' => $request->input('sayt_product_description', 'Short_Description'),
-            'sayt_product_type' => $request->input('sayt_product_type', 'Type_Id'),
-            'sayt_product_sizes' => $request->input('sayt_product_sizes', 'Sku_Sizes'),
-            'product_search_by_id_prefix' => $request->input('product_search_by_id_prefix', 'Products.Product Id'),
-            'use_product_restriction' => $request->boolean('use_product_restriction', true),
-            'search_box_placeholder' => $request->input('search_box_placeholder', 'Search Product all'),
-            'default_catalog' => $request->input('default_catalog'),
-        ];
-    }
-
     private function icecatTabFormat($request)
     {
         return [
             'icecat_username' => $request->input('icecat_username', null),
-        ];
-    }
-
-    private function googleTabFormat($request)
-    {
-        return [
-            // Google Map
-            'google_map_api_key' => $request->input('google_map_api_key', null),
-
-            // Google Analytics
-            'google_analytics_id' => $request->input('google_analytics_id', null),
-            'google_tag_manager_id' => $request->input('google_tag_manager_id', null),
-            'google_analytics_url' => $request->input('google_analytics_url', null),
         ];
     }
 
@@ -557,33 +492,6 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
-    private function amplifyAPITabFormat($request): array
-    {
-        return [
-            'contact_detail' => $request->boolean('contact_detail', false),
-            'contact_id_key' => $request->input('contact_id_key', 'id'),
-        ];
-    }
-
-    private function orderTabFormat($request): array
-    {
-        return [
-            'order_rule_check' => $request->boolean('order_rule_check', false),
-            'send_email_to_create_order_from_quote' => $request->boolean('send_email_to_create_order_from_quote', false),
-            'use_pickup_enable_warehouses_as_shipping_methods' => $request->boolean('use_pickup_enable_warehouses_as_shipping_methods', false),
-        ];
-    }
-
-    private function prop65TabFormat($request): array
-    {
-        return [
-            'prop65_icon' => $request->input('prop65_icon', null),
-            'prop65_title' => $request->input('prop65_title', null),
-            'prop65_message' => $request->input('prop65_message', null),
-            'prop65_status' => $request->input('prop65_status', true),
-        ];
-    }
-
     private function securityTabFormat($request): array
     {
         return [
@@ -598,9 +506,26 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
+    private function developerTabFormat(Request $request)
+    {
+        return [
+            'log_search' => $request->boolean('log_search', false),
+            'log_payment' => $request->boolean('log_payment', false),
+            'log_erp_api' => $request->boolean('log_erp_api', false),
+            'log_email' => $request->boolean('log_email', false),
+            'log_trace_parts_api' => $request->boolean('log_trace_parts_api', false),
+            'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
+        ];
+    }
+
+    private function messagesTabFormat(Request $request)
+    {
+        return $request->input('messages');
+    }
+
     /**
      * @return array
-     *               TODO: db transaction cause error need to solve this
+     * TODO: db transaction cause error need to solve this
      */
     private function updateSystemConfiguration(string $name, array $options): array
     {
@@ -623,29 +548,5 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'status' => 'success',
             'message' => ucfirst($name) . ' configuration updated successfully',
         ];
-    }
-
-    private function developerTabFormat(Request $request)
-    {
-        return [
-            'log_search' => $request->boolean('log_search', false),
-            'log_payment' => $request->boolean('log_payment', false),
-            'log_erp_api' => $request->boolean('log_erp_api', false),
-            'log_email' => $request->boolean('log_email', false),
-            'log_trace_parts_api' => $request->boolean('log_trace_parts_api', false),
-            'bug_recipient' => filter_var_array($request->input('bug_recipient', []), FILTER_SANITIZE_EMAIL),
-        ];
-    }
-
-    private function exportTabFormat(Request $request)
-    {
-        return [
-            'export_max_limit' => $request->input('export_max_limit', 10000)
-        ];
-    }
-
-    private function messagesTabFormat(Request $request)
-    {
-        return $request->input('messages');
     }
 }

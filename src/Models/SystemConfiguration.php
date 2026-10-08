@@ -21,22 +21,13 @@ class SystemConfiguration extends Model implements Auditable
     const BASIC_TAB = 'basic';
 
     const PIM_TAB = 'pim';
-
-    const REPORT_TAB = 'report';
-
-    const SAYT_TAB = 'sayt';
-
     const ICECAT_TAB = 'icecat';
-
-    const GOOGLE_TAB = 'google';
 
     const FRONTEND_TAB = 'frontend';
 
     const PAYMENT_TAB = 'payment';
 
     const ERP_TAB = 'erp';
-
-    const EXPORT_TAB = 'export';
 
     const INVOICE_TAB = 'invoice';
 
@@ -46,16 +37,9 @@ class SystemConfiguration extends Model implements Auditable
 
     const MARKETING_TAB = 'marketing';
 
-    const ORDER_TAB = 'order';
-
-    const PROP65_TAB = 'prop65';
-
     const DDS_TAB = 'dds';
 
     const SECURITY_TAB = 'security';
-
-    const AMPLIFY_API_TAB = 'api';
-
     const DEVELOPER_TAB = 'developer';
 
     const MESSAGE_TAB = 'messages';
@@ -177,32 +161,49 @@ class SystemConfiguration extends Model implements Auditable
 
     }
 
+    public static function seed(array $attributes = []): SystemConfiguration
+    {
+        $attributes['active'] = $attributes['active'] ?? true;
+
+        /**
+         * @var SystemConfiguration $entry
+         */
+        $entry = self::where(['name' => $attributes['name'], 'option' => $attributes['option']])->first();
+
+        if ($entry) {
+            $entry->field = $attributes['field'] ?? null;
+            $entry->active = $attributes['active'];
+            $entry->save();
+
+            return $entry;
+        }
+
+        return self::create($attributes);
+    }
+
     /**
+     * @param $value
+     * @param null $type
      * @return bool|string
      */
-    private static function checkType($value, $type = null)
+    private static function checkType($value, $type = null): bool|string
     {
         if ($type != null) {
             return $type;
         }
 
+        if (is_string($value) && json_validate($value)) {
+            $value = json_decode($value, true);
+        }
+
         $valueType = strtolower((gettype($value) ?? ''));
 
-        switch ($valueType) {
-            case 'array' :
-            case 'object' :
-                return 'json';
-
-            case 'boolean' :
-                return 'bool';
-
-            case 'string' :
-            case 'null':
-                return 'string';
-
-            default:
-                return $valueType;
-        }
+        return match ($valueType) {
+            'array', 'object' => 'json',
+            'boolean' => 'bool',
+            'string', 'null' => 'string',
+            default => $valueType,
+        };
     }
 
     public static function getValue(string $group, string $option)

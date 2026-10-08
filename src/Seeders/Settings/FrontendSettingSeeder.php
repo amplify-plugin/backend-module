@@ -16,8 +16,6 @@ class FrontendSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'frontend')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'frontend';
             SystemConfiguration::create($datum);

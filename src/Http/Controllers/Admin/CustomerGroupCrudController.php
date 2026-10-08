@@ -142,6 +142,7 @@ class CustomerGroupCrudController extends BackpackCustomCrudController
         CRUD::field('customers');
         CRUD::field('users');
         CRUD::field('pricing_rules');
+        CRUD::field('category_id');
 
         $this->data['customer_group_pricing_type'] = CustomerGroup::CUSTOMER_GROUP_PRICING_TYPE;
     }

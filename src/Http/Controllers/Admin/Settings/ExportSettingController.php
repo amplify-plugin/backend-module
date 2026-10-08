@@ -4,17 +4,18 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
-use Amplify\System\Backend\Seeders\Settings\GoogleApiSettingSeeder;
+use Amplify\System\Backend\Seeders\Settings\ExportSettingSeeder;
+use Amplify\System\Backend\Seeders\Settings\ReportSettingSeeder;
 use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class GoogleSettingCrudController
+ * Class ExportSettingController
  *
  * @property-read CrudPanel $crud
  */
-class GoogleSettingController extends BackpackCustomCrudController
+class ExportSettingController extends BackpackCustomCrudController
 {
     use SettingOperation;
 
@@ -26,8 +27,8 @@ class GoogleSettingController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(SystemConfiguration::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/google-setting');
-        CRUD::setEntityNameStrings('google-api-setting', 'Google API Settings');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/export-setting');
+        CRUD::setEntityNameStrings('export-setting', 'Export Settings');
     }
 
     /**
@@ -35,11 +36,11 @@ class GoogleSettingController extends BackpackCustomCrudController
      */
     public function getSettingName(): string
     {
-        return 'google';
+        return 'export';
     }
 
     public function getSeederClass(): ?string
     {
-        return GoogleApiSettingSeeder::class;
+        return ExportSettingSeeder::class;
     }
 }

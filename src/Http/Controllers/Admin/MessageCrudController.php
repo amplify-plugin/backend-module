@@ -110,8 +110,10 @@ class MessageCrudController extends BackpackCustomCrudController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'msg' => 'required_without:attachment|nullable|min:1',
-            'attachment' => 'required_without:msg',
+            'msg' => 'required_without:attachment|nullable|string|min:1|max:10000',
+            'attachment' => MessageRequest::attachmentRules(),
+        ], [
+            'attachment.mimes' => 'Attach an image, PDF, Word, Excel, PowerPoint, CSV, or text file.',
         ]);
 
         $thread = MessageThread::findOrFail($id);
@@ -244,7 +246,9 @@ class MessageCrudController extends BackpackCustomCrudController
 
         $request->validate([
             'msg' => 'required_without:attachment|nullable|string|min:1|max:10000',
-            'attachment' => 'required_without:msg|file|max:1000',
+            'attachment' => MessageRequest::attachmentRules(),
+        ], [
+            'attachment.mimes' => 'Attach an image, PDF, Word, Excel, PowerPoint, CSV, or text file.',
         ]);
 
         $file = $request->file('attachment');

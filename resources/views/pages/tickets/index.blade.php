@@ -244,7 +244,7 @@
                                             <i class="la la-paper-plane" data-send-icon></i>
                                             <span class="chat-spinner" data-send-spinner hidden></span>
                                         </button>
-                                        <input type="file" class="chat-file-input" data-compose-file name="attachments[]" multiple tabindex="-1" aria-hidden="true">
+                                        <input type="file" class="chat-file-input" data-compose-file name="attachments[]" multiple tabindex="-1" aria-hidden="true" accept="{{ \Amplify\System\Ticket\Requests\TicketRequest::acceptAttribute() }}">
                                     </div>
                                     <div data-ticket-errors class="text-danger small mt-1"></div>
                                     @error('message')

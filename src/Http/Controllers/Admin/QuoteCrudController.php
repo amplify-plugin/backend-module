@@ -105,6 +105,7 @@ class QuoteCrudController extends BackpackCustomCrudController
             [
                 'Pending' => 'Pending',
                 'Approved' => 'Approved',
+                'Rejected' => 'Rejected',
                 'Draft' => 'Draft',
             ],
             function ($value) {
@@ -358,6 +359,44 @@ class QuoteCrudController extends BackpackCustomCrudController
             ],
         ]);
 
+        if (backpack_user()->can('quote.erp-log')) {
+            CRUD::addColumns([
+                [
+                    'name' => 'erp_log_started_at',
+                    'label' => 'ERP Log Started At',
+                    'type' => 'datetime',
+                ],
+                [
+                    'name' => 'erp_log_finished_at',
+                    'label' => 'ERP Log Finished At',
+                    'type' => 'datetime',
+                ],
+                [
+                    'name' => 'erp_log_request',
+                    'label' => 'ERP Log Payload',
+                    'type' => 'json',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ],
+                [
+                    'name' => 'erp_log_response',
+                    'label' => 'ERP Log Response',
+                    'type' => 'json',
+                    'wrapper' => [
+                        'element' => 'pre',
+                        'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                    ],
+                ],
+                [
+                    'name' => 'erp_log_error',
+                    'label' => 'ERP Log Error',
+                    'type' => 'textarea',
+                ],
+            ]);
+        }
+
         $this->crud->removeFields(['order_type']);
     }
 
@@ -376,7 +415,7 @@ class QuoteCrudController extends BackpackCustomCrudController
             'name' => 'order_status',
             'label' => 'Status',
             'type' => 'select2_from_array',
-            'options' => ['Approved' => 'Approved', 'Pending' => 'Pending'],
+            'options' => ['Approved' => 'Approved', 'Pending' => 'Pending', 'Rejected' => 'Rejected'],
             'allows_null' => false,
             'default' => 'one',
             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;

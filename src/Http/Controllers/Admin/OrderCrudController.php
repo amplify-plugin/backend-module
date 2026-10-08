@@ -712,7 +712,7 @@ class OrderCrudController extends BackpackCustomCrudController
             ],
         ]);
 
-        if (backpack_user()->isAdmin()) {
+        if (backpack_user()->can('order.erp-log')) {
             CRUD::addColumns([
                 [
                     'name' => 'erp_log_started_at',

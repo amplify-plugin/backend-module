@@ -85,9 +85,11 @@
             object-fit: cover; border-radius: 8px;
         }
         .chat-attach-file {
-            display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;
-            margin-top: 8px; padding: 6px 10px 6px 6px; border-radius: 8px;
-            background: #f4f5f7; border: 1px solid #e4e6eb; text-decoration: none !important; color: #1b2a4e;
+            display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+            width: fit-content; max-width: 100%; box-sizing: border-box;
+            margin: 8px auto 0 0; padding: 6px 10px 6px 6px; border-radius: 8px;
+            background: #f4f5f7; border: 1px solid #e4e6eb; text-decoration: none !important;
+            text-align: left; line-height: 1.2; color: #1b2a4e;
         }
         .chat-attach-file__icon {
             flex: 0 0 32px; width: 32px; height: 32px; border-radius: 6px;
@@ -96,7 +98,8 @@
         }
         .chat-attach-file__icon i { font-size: 16px; line-height: 1; padding: 0; background: none; }
         .chat-attach-file__name {
-            flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px;
+            flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; font-size: 13px; text-align: left;
         }
         @keyframes chat-spin { to { transform: rotate(360deg); } }
         .chat-app-tall {
@@ -118,13 +121,36 @@
             flex: 1 1 auto;
             min-height: 0;
             overflow: hidden;
+            position: relative;
         }
+        .chat-app-tall .chat-boot {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            color: #20a8d8;
+        }
+        .chat-app-tall .chat-stage.is-loading .chat-boot { display: flex; }
+        .chat-app-tall .chat-booting > * { visibility: hidden; }
+        .chat-app-tall .chat-boot__spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(32, 168, 216, 0.25);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: chat-boot-spin .7s linear infinite;
+        }
+        @keyframes chat-boot-spin { to { transform: rotate(360deg); } }
         .chat-app-tall .chat-history ul {
-            height: auto !important;
+            height: 0 !important;
             max-height: none !important;
-            flex: 1 1 auto;
-            min-height: 0;
-            overflow-y: auto;
+            flex: 1 1 0% !important;
+            min-height: 0 !important;
+            overflow-y: auto !important;
+            overflow-anchor: none;
         }
         .chat-app-tall .chat-message {
             flex: 0 0 auto;
@@ -158,9 +184,12 @@
                                 </div>
                             </div>
 
-                            <div class="chat-history py-0 pr-0">
+                            <div class="chat-history chat-stage is-loading py-0 pr-0">
+                                <div class="chat-boot" role="status" aria-label="Loading messages">
+                                    <span class="chat-boot__spinner"></span>
+                                </div>
                                 @if (isset($threadMsg->tickets) && $threadMsg->tickets->count() > 0)
-                                    <ul data-ticket-list data-ticket-scroll class="mb-0 pl-0">
+                                    <ul data-ticket-list data-ticket-scroll class="chat-booting mb-0 pl-0">
                                         @foreach ($threadMsg->tickets as $message)
                                             <li data-message-id="{{ $message->id }}" class="clearfix my-2">
                                                 <div
@@ -196,7 +225,7 @@
                                         @endforeach
                                     </ul>
                                 @else
-                                    <ul data-ticket-list data-ticket-scroll class="mb-0 pl-0" style="height: 480px"></ul>
+                                    <ul data-ticket-list data-ticket-scroll class="chat-booting mb-0 pl-0" style="height: 480px"></ul>
                                 @endif
                             </div>
 

@@ -77,15 +77,117 @@
         return (payload && payload.message) || 'Could not send the message.';
     }
 
-    function scrollToLatest(scrollEl, force) {
+    function scrollToEnd(scrollEl) {
+        scrollEl.scrollTop = scrollEl.scrollHeight;
+        var nodes = scrollEl.querySelectorAll('[data-message-id]');
+        var last = nodes[nodes.length - 1];
+        if (!last) {
+            return;
+        }
+        var lastBox = last.getBoundingClientRect();
+        var box = scrollEl.getBoundingClientRect();
+        if (lastBox.bottom > box.bottom + 1) {
+            scrollEl.scrollTop += lastBox.bottom - box.bottom + 8;
+        }
+    }
+
+    function stickToLatest(scrollEl) {
         if (!scrollEl) {
             return;
         }
+        scrollToEnd(scrollEl);
+        followImages(scrollEl);
+        requestAnimationFrame(function () {
+            scrollToEnd(scrollEl);
+            requestAnimationFrame(function () {
+                scrollToEnd(scrollEl);
+            });
+        });
+    }
 
-        var distance = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
-        if (force || distance < 120) {
+    function followImages(scrollEl) {
+        scrollEl.querySelectorAll('img').forEach(function (img) {
+            if (img.complete || img.dataset.scrollFollow === '1') {
+                return;
+            }
+            img.dataset.scrollFollow = '1';
+            var follow = function () {
+                var gap = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
+                var slack = (img.offsetHeight || 0) + 80;
+                if (gap < Math.max(180, slack)) {
+                    scrollToEnd(scrollEl);
+                }
+            };
+            img.addEventListener('load', follow);
+            img.addEventListener('error', follow);
+        });
+    }
+
+    function pinToLatest(scrollEl) {
+        if (!scrollEl || scrollEl.dataset.pinScroll === '1') {
+            return;
+        }
+        scrollEl.dataset.pinScroll = '1';
+        var revealed = false;
+        var pending = 0;
+
+        function apply() {
+            if (revealed) {
+                return;
+            }
             scrollEl.scrollTop = scrollEl.scrollHeight;
         }
+
+        function reveal() {
+            if (revealed) {
+                return;
+            }
+            revealed = true;
+            scrollEl.scrollTop = scrollEl.scrollHeight;
+            requestAnimationFrame(function () {
+                scrollEl.scrollTop = scrollEl.scrollHeight;
+                scrollEl.classList.remove('chat-booting');
+                var stage = scrollEl.closest('.chat-stage');
+                if (stage) {
+                    stage.classList.remove('is-loading');
+                }
+            });
+        }
+
+        scrollEl.querySelectorAll('img').forEach(function (img) {
+            if (img.complete) {
+                return;
+            }
+            pending += 1;
+            var done = function () {
+                pending = Math.max(0, pending - 1);
+                apply();
+            };
+            img.addEventListener('load', done);
+            img.addEventListener('error', done);
+        });
+
+        apply();
+        var lastHeight = 0;
+        var stableFor = 0;
+        var timer = setInterval(function () {
+            apply();
+            if (scrollEl.scrollHeight === lastHeight) {
+                stableFor += 50;
+            } else {
+                stableFor = 0;
+                lastHeight = scrollEl.scrollHeight;
+            }
+            if (pending === 0 && stableFor >= 150) {
+                clearInterval(timer);
+                reveal();
+            }
+        }, 50);
+        setTimeout(function () {
+            clearInterval(timer);
+            pending = 0;
+            reveal();
+        }, 2500);
     }
 
     function attachmentHtml(attachment) {
@@ -406,7 +508,7 @@
         }
 
         refreshTimes();
-        scrollToLatest(scrollEl, true);
+        pinToLatest(scrollEl);
 
         function lastId() {
             var maxId = 0;
@@ -426,7 +528,7 @@
             errors.textContent = text || '';
         }
 
-        function append(messages, forceScroll) {
+        function append(messages) {
             if (!list) {
                 return 0;
             }
@@ -442,16 +544,13 @@
                 list.appendChild(renderMessage(message));
                 latestSentAt = message.sent_at || latestSentAt;
                 added += 1;
-                if (message.mine) {
-                    forceScroll = true;
-                }
             });
             touchActiveChat(latestSentAt);
 
             if (added > 0) {
                 list.style.height = '';
                 refreshTimes();
-                scrollToLatest(scrollEl, forceScroll);
+                stickToLatest(scrollEl);
             }
 
             return added;

@@ -56,9 +56,11 @@
         object-fit: cover; border-radius: 8px;
     }
     .chat-attach-file {
-        display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;
-        margin-top: 8px; padding: 6px 10px 6px 6px; border-radius: 8px;
-        background: #f4f5f7; border: 1px solid #e4e6eb; text-decoration: none; color: #1b2a4e;
+        display: flex; align-items: center; justify-content: flex-start; gap: 8px;
+        width: fit-content; max-width: 100%; box-sizing: border-box;
+        margin: 8px auto 0 0; padding: 6px 10px 6px 6px; border-radius: 8px;
+        background: #f4f5f7; border: 1px solid #e4e6eb; text-decoration: none;
+        text-align: left; line-height: 1.2; color: #1b2a4e;
     }
     .chat-attach-file__icon {
         flex: 0 0 32px; width: 32px; height: 32px; border-radius: 6px;
@@ -67,8 +69,24 @@
     }
     .chat-attach-file__icon i { font-size: 16px; line-height: 1; }
     .chat-attach-file__name {
-        flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px;
+        flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+        white-space: nowrap; font-size: 13px; text-align: left;
     }
+    .recipient-search { position: relative; }
+    .recipient-results {
+        position: absolute; z-index: 40; left: 0; right: 0; bottom: calc(100% + 4px); top: auto;
+        max-height: 360px; overflow-y: auto; background: #fff; color: #1b2a4e;
+        border: 1px solid #c5cdd6; border-radius: 4px; box-shadow: 0 -8px 18px rgba(0,0,0,.12);
+    }
+    .recipient-results__group {
+        padding: 8px 12px 2px; font-weight: 700; color: #1b2a4e; background: #fff;
+    }
+    .recipient-results button {
+        display: block; width: 100%; text-align: left; background: #fff; color: #1b2a4e;
+        border: 0; padding: 4px 12px 4px 28px; cursor: pointer; font-weight: 400;
+    }
+    .recipient-results button:hover { background: #1e6fd9; color: #fff; }
+    .recipient-results__empty { padding: 8px 12px; color: #73818f; }
     @keyframes chat-spin { to { transform: rotate(360deg); } }
 </style>
 <div class="chat-panel" @if ($thread && ! $as_customer) id="message-chat" data-poll-url="{{ route('admin.message.messages', $thread->id) }}" data-send-url="{{ route('admin.message.messages.store', $thread->id) }}" @endif>
@@ -115,8 +133,13 @@
     </div>
 </div>
 
-<div class="chat-history py-0 pr-0">
-    <ul class="mb-0 pl-0" data-message-list data-message-scroll @if($messages->isEmpty()) style="height: 480px" @endif>
+<div class="chat-history py-0 pr-0 {{ ($thread && ! $as_customer) ? 'chat-stage is-loading' : '' }}">
+    @if ($thread && ! $as_customer)
+        <div class="chat-boot" role="status" aria-label="Loading messages">
+            <span class="chat-boot__spinner"></span>
+        </div>
+    @endif
+    <ul class="mb-0 pl-0 {{ ($thread && ! $as_customer) ? 'chat-booting' : '' }}" data-message-list data-message-scroll @if($messages->isEmpty()) style="height: 480px" @endif>
         @foreach ($messages as $message)
             <li class="clearfix my-2" data-message-id="{{ $message->id }}">
                 <div
@@ -175,10 +198,12 @@
                         </select>
                     </div>
                     <div class="form-group col-md-8">
-                        <label>Message to<span class="text-danger">*</span></label>
-                        <select name="msg_to" class="form-control custom-select" id="messageableUser" required disabled oninput="checkTextArea();">
-                            <option value="">Select User Type First</option>
-                        </select>
+                        <label for="messageRecipientSearch">Message to<span class="text-danger">*</span></label>
+                        <div class="recipient-search">
+                            <input type="text" id="messageRecipientSearch" class="form-control" placeholder="Select user type first" autocomplete="off" disabled>
+                            <input type="hidden" name="msg_to" id="messageableUser" value="">
+                            <div id="messageRecipientResults" class="recipient-results" hidden></div>
+                        </div>
                     </div>
                 </div>
             @endif
@@ -233,35 +258,157 @@
         document.querySelector('.people-list').classList.toggle('show')
     });
 
-    function changeMessageAbleUser(value) {
-        var select = $("#messageableUser");
-        select.empty();
-        select.prop("disabled", true);
-        if (value.length > 0) {
-            var url = ("{{ route('messages.recipients', '##') }}").replace("##", value).toString();
-            $.get(url, {
-                'as_customer': '{{ $as_customer ? 'true' : 'false' }}'
-            }, function (response) {
-                if (response.type === 'user') {
-                    $.each(response.account, function (index, account) {
-                        select.append(`<option value='${account.id}'>${account.name}`);
-                    });
-                } else if (response.type === 'contact') {
-                    $.each(response.account, function (index, accountGroup) {
-                        let optgroup = $(`<optgroup label='${accountGroup.customer_name}'></optgroup>`);
+    var recipientSearchUrls = {
+        user: @json(route('admin.message.recipients', ['type' => 'user'])),
+        contact: @json(route('admin.message.recipients', ['type' => 'contact']))
+    };
+    var recipientChoices = [];
 
-                        $.each(accountGroup.contacts, function (index, account) {
-                            optgroup.append(`<option value='${account.id}'>${account.name}</option>`);
-                        });
-
-                        select.append(optgroup);
-                    });
-                }
-                select.prop("disabled", false);
-            });
-        } else {
-            $('#send-msg').prop("disabled", true);
-            select.append("<option value=''>Select User Type First</option>");
+    function showRecipientMessage(text) {
+        var results = document.getElementById('messageRecipientResults');
+        if (!results) {
+            return;
         }
+        results.hidden = false;
+        results.innerHTML = '';
+        var note = document.createElement('div');
+        note.className = 'recipient-results__empty';
+        note.textContent = text;
+        results.appendChild(note);
     }
+
+    function renderRecipientResults(items) {
+        var results = document.getElementById('messageRecipientResults');
+        var hidden = document.getElementById('messageableUser');
+        var search = document.getElementById('messageRecipientSearch');
+        if (!results || !hidden || !search) {
+            return;
+        }
+
+        results.innerHTML = '';
+        if (!items.length) {
+            showRecipientMessage('No matches');
+            return;
+        }
+
+        var fragment = document.createDocumentFragment();
+        var lastGroup = null;
+        items.forEach(function (item) {
+            if (item.group && item.group !== lastGroup) {
+                var header = document.createElement('div');
+                header.className = 'recipient-results__group';
+                header.textContent = item.group;
+                fragment.appendChild(header);
+                lastGroup = item.group;
+            }
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = item.text;
+            button.addEventListener('click', function () {
+                hidden.value = String(item.id);
+                search.value = item.text;
+                results.hidden = true;
+                checkTextArea();
+            });
+            fragment.appendChild(button);
+        });
+        results.appendChild(fragment);
+        results.hidden = false;
+    }
+
+    function filteredRecipients() {
+        var search = document.getElementById('messageRecipientSearch');
+        var term = search ? search.value.trim().toLowerCase() : '';
+        if (!term) {
+            return recipientChoices;
+        }
+
+        return recipientChoices.filter(function (item) {
+            var name = String(item.text || '').toLowerCase();
+            var group = String(item.group || '').toLowerCase();
+            return name.indexOf(term) !== -1 || group.indexOf(term) !== -1;
+        });
+    }
+
+    function changeMessageAbleUser() {
+        var hidden = document.getElementById('messageableUser');
+        var search = document.getElementById('messageRecipientSearch');
+        var results = document.getElementById('messageRecipientResults');
+        var type = document.getElementById('user_type');
+
+        if (!hidden || !search || !results || !type) {
+            return;
+        }
+
+        hidden.value = '';
+        search.value = '';
+        recipientChoices = [];
+        results.hidden = true;
+        results.innerHTML = '';
+
+        if (!recipientSearchUrls[type.value]) {
+            search.disabled = true;
+            search.placeholder = 'Select user type first';
+            checkTextArea();
+            return;
+        }
+
+        search.disabled = false;
+        search.placeholder = 'Search by name';
+        showRecipientMessage('Loading…');
+        checkTextArea();
+
+        fetch(recipientSearchUrls[type.value], {
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error('load failed');
+            }
+            return response.json();
+        }).then(function (data) {
+            if (document.getElementById('user_type').value !== type.value) {
+                return;
+            }
+            recipientChoices = (data && data.results) || [];
+            renderRecipientResults(filteredRecipients());
+            search.focus();
+        }).catch(function () {
+            showRecipientMessage('Could not load the list. Try again.');
+        });
+    }
+
+    (function () {
+        var search = document.getElementById('messageRecipientSearch');
+        var hidden = document.getElementById('messageableUser');
+        var results = document.getElementById('messageRecipientResults');
+
+        if (!search || !hidden || !results) {
+            return;
+        }
+
+        search.addEventListener('input', function () {
+            hidden.value = '';
+            checkTextArea();
+            if (!recipientChoices.length) {
+                return;
+            }
+            renderRecipientResults(filteredRecipients());
+        });
+
+        search.addEventListener('focus', function () {
+            if (recipientChoices.length) {
+                renderRecipientResults(filteredRecipients());
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!search.parentElement.contains(event.target)) {
+                results.hidden = true;
+            }
+        });
+    })();
 </script>

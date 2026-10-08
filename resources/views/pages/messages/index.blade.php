@@ -28,13 +28,36 @@
             flex: 1 1 auto;
             min-height: 0;
             overflow: hidden;
+            position: relative;
         }
+        .chat-app-tall .chat-boot {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            color: #20a8d8;
+        }
+        .chat-app-tall .chat-stage.is-loading .chat-boot { display: flex; }
+        .chat-app-tall .chat-booting > * { visibility: hidden; }
+        .chat-app-tall .chat-boot__spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(32, 168, 216, 0.25);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: chat-boot-spin .7s linear infinite;
+        }
+        @keyframes chat-boot-spin { to { transform: rotate(360deg); } }
         .chat-app-tall .chat-history ul {
             height: auto !important;
             max-height: none !important;
             flex: 1 1 auto;
             min-height: 0;
             overflow-y: auto;
+            overflow-anchor: none;
         }
         .chat-app-tall .chat-message {
             flex: 0 0 auto;
@@ -103,11 +126,9 @@
     <script src="{{ asset('packages/lightbox2/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('vendor/backend/js/message-chat.js') }}"></script>
     <script>
-        try {
-            const chatBox = document.querySelector('.chat-history ul');
+        var chatBox = document.querySelector('.chat-history ul');
+        if (chatBox) {
             chatBox.scrollTop = chatBox.scrollHeight;
-        } catch (error) {
-            console.warn(error);
         }
     </script>
 @endsection

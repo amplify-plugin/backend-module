@@ -129,6 +129,48 @@ class MessageCrudController extends BackpackCustomCrudController
         return back();
     }
 
+    public function recipients(Request $request, string $type): JsonResponse
+    {
+        $term = trim(str_replace(['%', '_'], '', (string) $request->query('q', '')));
+        $like = $term === '' ? null : '%'.$term.'%';
+
+        if ($type === 'user') {
+            $results = User::query()
+                ->where('id', '!=', backpack_user()->id)
+                ->when($like, fn ($query) => $query->where('name', 'like', $like))
+                ->orderBy('name')
+                ->get(['id', 'name'])
+                ->map(fn (User $user) => [
+                    'id' => (int) $user->id,
+                    'text' => (string) $user->name,
+                ])
+                ->values();
+        } else {
+            $results = Contact::query()
+                ->with('customer:id,customer_name')
+                ->when($like, function ($query) use ($like) {
+                    $query->where(function ($inner) use ($like) {
+                        $inner->where('name', 'like', $like)
+                            ->orWhereHas('customer', function ($customer) use ($like) {
+                                $customer->where('customer_name', 'like', $like);
+                            });
+                    });
+                })
+                ->get(['id', 'name', 'customer_id'])
+                ->sortBy(fn (Contact $contact) => strtolower(($contact->customer->customer_name ?? '').' '.$contact->name))
+                ->map(function (Contact $contact) {
+                    return [
+                        'id' => (int) $contact->id,
+                        'text' => (string) $contact->name,
+                        'group' => (string) ($contact->customer->customer_name ?? ''),
+                    ];
+                })
+                ->values();
+        }
+
+        return response()->json(['results' => $results])->header('Cache-Control', 'no-store');
+    }
+
     public function recent(): JsonResponse
     {
         $threads = backpack_user()->threads

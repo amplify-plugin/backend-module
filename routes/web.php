@@ -119,6 +119,10 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('report', 'ReportCrudController');
     Route::crud('tag', 'TagCrudController');
     Route::get('message/recent', 'MessageCrudController@recent')->middleware('throttle:60,1')->name('admin.message.recent');
+    Route::get('message/recipients/{type}', 'MessageCrudController@recipients')
+        ->whereIn('type', ['user', 'contact'])
+        ->middleware('throttle:60,1')
+        ->name('admin.message.recipients');
     Route::get('message/{thread}/messages', 'MessageCrudController@messages')->whereNumber('thread')->middleware('throttle:60,1')->name('admin.message.messages');
     Route::post('message/{thread}/messages', 'MessageCrudController@reply')->whereNumber('thread')->middleware('throttle:60,1')->name('admin.message.messages.store');
     Route::crud('message', 'MessageCrudController');

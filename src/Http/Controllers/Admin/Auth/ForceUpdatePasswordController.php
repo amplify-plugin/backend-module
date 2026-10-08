@@ -20,7 +20,7 @@ class ForceUpdatePasswordController extends Controller
             return redirect()->intended('/');
         }
 
-        return view(backpack_view('base.password_update'), ['user' => backpack_user()]);
+        return view('backend::auth.password_update', ['user' => backpack_user()]);
     }
 
     public function update(User $user, ForceUpdatePasswordRequest $request)

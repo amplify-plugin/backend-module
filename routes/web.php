@@ -31,7 +31,7 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
         ->name('admin.force-password.reset')->withoutMiddleware('admin_password_reset_required');
 
     Route::post('force-reset-password/{user}', 'Auth\ForceUpdatePasswordController@update')
-        ->withoutMiddleware('admin_password_reset_required');
+        ->name('admin.force-password.update')->withoutMiddleware('admin_password_reset_required');
 
     Route::get('logout', function () {
         backpack_auth()->logout();

@@ -2,6 +2,78 @@
 
 @push('after_styles')
     <link rel="stylesheet" href="{{ asset('packages/lightbox2/css/lightbox.min.css') }}">
+    <style>
+        .chat-app-tall {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 188px);
+            min-height: 560px;
+            margin-bottom: 0;
+        }
+        .chat-app-tall > .chat {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+        .chat-app-tall .chat-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+        .chat-app-tall .chat-history {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .chat-app-tall .chat-boot {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            color: #20a8d8;
+        }
+        .chat-app-tall .chat-stage.is-loading .chat-boot { display: flex; }
+        .chat-app-tall .chat-booting > * { visibility: hidden; }
+        .chat-app-tall .chat-boot__spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(32, 168, 216, 0.25);
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: chat-boot-spin .7s linear infinite;
+        }
+        @keyframes chat-boot-spin { to { transform: rotate(360deg); } }
+        .chat-app-tall .chat-history ul {
+            height: auto !important;
+            max-height: none !important;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-anchor: none;
+        }
+        .chat-app-tall .chat-message {
+            flex: 0 0 auto;
+        }
+        .chat-app-tall .people-list {
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-app-tall .people-list .chat-list {
+            height: auto !important;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+    </style>
 @endpush
 
 @php
@@ -33,8 +105,8 @@
 @section('content')
         <div class="row clearfix">
             <div class="col-lg-12">
-                <div class="card chat-app">
-                    <div id="plist" class="people-list">
+                <div class="card chat-app chat-app-tall">
+                    <div id="plist" class="people-list" data-recent-url="{{ route('admin.message.recent') }}">
                         <div class="text-right">
                             <a href="{{ route('message.index') }}" class="btn btn-info btn-block mt-0">
                                 <i class="la la-edit"></i> New message
@@ -52,12 +124,11 @@
 
 @section('after_scripts')
     <script src="{{ asset('packages/lightbox2/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('vendor/backend/js/message-chat.js') }}"></script>
     <script>
-        try {
-            const chatBox = document.querySelector('.chat-history ul');
+        var chatBox = document.querySelector('.chat-history ul');
+        if (chatBox) {
             chatBox.scrollTop = chatBox.scrollHeight;
-        } catch (error) {
-            console.warn(error);
         }
     </script>
 @endsection

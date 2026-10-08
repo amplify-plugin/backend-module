@@ -55,6 +55,8 @@ class BackendServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
 
+        View::prependNamespace('message', __DIR__.'/../resources/views/message');
+
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/backend'),
         ], 'backend-asset');
@@ -80,6 +82,8 @@ class BackendServiceProvider extends ServiceProvider
         $this->registerCkeditorScriptComposer();
 
         $this->app->booted(function () {
+            Blade::component('message-profile', \Amplify\System\Backend\View\Components\MessageProfile::class);
+
             $backpackStyles = Config::get('backpack.base.styles');
             $color = Config::get('amplify.basic.color_scheme');
             $stylePath = "vendor/backend/css/color-schemes/{$color}-bundle.css";

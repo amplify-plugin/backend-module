@@ -684,7 +684,7 @@ class OrderCrudController extends BackpackCustomCrudController
             ]);
         }
 
-        
+
     }
 
     /**

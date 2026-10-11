@@ -69,9 +69,9 @@ if (!function_exists('backend_permissions')) {
             'icecat-transformation' => 'l,c,u,d',
 
             //Orders
-            'order' => 'l,u,d',
+            'order' => 'l,u,d,erp-log',
             'draft-order' => 'l,c,u,d',
-            'quote' => 'l,c,u,d',
+            'quote' => 'l,c,u,d,erp-log',
             'invoice' => 'l,c,u,d',
             'order-list' => 'l,c,u,d',
 

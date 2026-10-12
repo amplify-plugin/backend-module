@@ -195,9 +195,14 @@ export default {
                 tab: "payment",
                 payment_gateway: this.$parent.coreConfigurationData.payment.default,
                 payment_url: "",
+                ach_payment_url: "",
                 merchant_id: "",
                 cenpos_encrypted_mid: "",
                 secret_key: "",
+                api_key: "",
+                product_id: "",
+                tenant_id: "",
+                account_id: "",
                 allow_credit_payments: this.$parent.coreConfigurationData.payment.allow_credit_payments,
                 allow_payments: this.$parent.coreConfigurationData.payment.allow_payments,
                 allow_bulk_invoice_payments: this.$parent.coreConfigurationData.payment.allow_bulk_invoice_payments,
@@ -226,6 +231,10 @@ export default {
                     this.paymentConfigurationData.merchant_id = value.merchant_id ?? "";
                     this.paymentConfigurationData.secret_key = value.secret_key ?? "";
                     this.paymentConfigurationData.cenpos_encrypted_mid = value.cenpos_encrypted_mid ?? "";
+                    this.paymentConfigurationData.api_key = value.api_key ?? "";
+                    this.paymentConfigurationData.product_id = value.product_id ?? "";
+                    this.paymentConfigurationData.tenant_id = value.tenant_id ?? "";
+                    this.paymentConfigurationData.account_id = value.account_id ?? "";
                 }
             }
         }

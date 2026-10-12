@@ -140,7 +140,7 @@ class Product extends Model implements ContractsAuditable
             return $product;
         }
 
-        return static::resolveSingleProductDetailFromEasyAsk($parameter, $slug);
+        return null;
     }
 
     protected static function queryViaProductDetailPipeline(callable $callback): mixed

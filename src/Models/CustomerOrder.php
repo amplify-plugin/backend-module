@@ -32,7 +32,8 @@ class CustomerOrder extends Model implements Auditable
         'erp_log' => 'array',
         'total_additional' => 'array',
         'ship_to_additional' => 'array',
-        'pay_to_additional' => 'array'
+        'pay_to_additional' => 'array',
+        'request' => 'array'
     ];
 
     protected $attributes = ['erp_log' => '{}'];

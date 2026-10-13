@@ -55,7 +55,7 @@ return new class extends Migration
             $table->string('pay_to_state')->nullable()->after('pay_to_city');
             $table->string('pay_to_country_code')->nullable()->after('pay_to_state');
             $table->string('pay_to_zip_code')->nullable()->after('pay_to_country_code');
-            $table->string('pay_to_additional')->nullable()->after('pay_to_zip_code');
+            $table->json('pay_to_additional')->nullable()->after('pay_to_zip_code');
 
             $table->string('customer_name')->nullable()->after('customer_id')->change();
             $table->string('customer_code')->nullable()->after('customer_name');
@@ -70,6 +70,7 @@ return new class extends Migration
             $table->string('name')->nullable()->after('contact_id')->comment('contact information');
             $table->string('email')->nullable()->after('name')->comment('contact information')->change();
             $table->string('phone')->nullable()->after('email')->comment('contact information')->change();
+            $table->json('request')->nullable()->after('erp_log');
         });
 
         Schema::table('customer_order_lines', function (Blueprint $table) {

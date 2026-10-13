@@ -50,7 +50,7 @@ class OrderCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(CustomerOrder::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/order');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/order');
         CRUD::setEntityNameStrings('order', 'orders');
     }
 
@@ -63,7 +63,7 @@ class OrderCrudController extends BackpackCustomCrudController
     {
         return $this->fetch([
             'model' => Product::class,
-            'query' => fn ($model) => $model->orderBy('product_name'),
+            'query' => fn($model) => $model->orderBy('product_name'),
         ]);
     }
 
@@ -114,7 +114,7 @@ class OrderCrudController extends BackpackCustomCrudController
         ], false, function ($value) {
             $dates = json_decode($value);
             $this->crud->addClause('where', 'created_at', '>=', $dates->from);
-            $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
+            $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
         });
 
         $this->crud->addFilter(
@@ -128,7 +128,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 // if the filter is active, apply these constraints
                 $dates = json_decode($value);
                 $this->crud->addClause('where', 'created_at', '>=', $dates->from);
-                $this->crud->addClause('where', 'created_at', '<=', $dates->to.' 23:59:59');
+                $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
             },
         );
 
@@ -143,7 +143,7 @@ class OrderCrudController extends BackpackCustomCrudController
                 // if the filter is active, apply these constraints
                 $dates = json_decode($value);
                 $this->crud->addClause('where', 'updated_at', '>=', $dates->from);
-                $this->crud->addClause('where', 'updated_at', '<=', $dates->to.' 23:59:59');
+                $this->crud->addClause('where', 'updated_at', '<=', $dates->to . ' 23:59:59');
             },
         );
 
@@ -180,7 +180,7 @@ class OrderCrudController extends BackpackCustomCrudController
             'attribute' => 'customer_name',
             'type' => 'custom_html',
             'value' => function ($order) {
-                return $order->customer ? '<a href="'.route('customer.edit', $order->customer->id).'" target="_blank" class="text-dark">'.$order->customer->customer_name.' - '.$order->customer->customer_code.'</a>' : 'Guest Customer - '.config('amplify.frontend.guest_default');
+                return $order->customer ? '<a href="' . route('customer.edit', $order->customer->id) . '" target="_blank" class="text-dark">' . $order->customer->customer_name . ' - ' . $order->customer->customer_code . '</a>' : 'Guest Customer - ' . config('amplify.frontend.guest_default');
             },
         ]);
         CRUD::addColumn([
@@ -202,7 +202,7 @@ class OrderCrudController extends BackpackCustomCrudController
             'label' => 'Total',
             'type' => 'custom_html',
             'value' => function ($order) {
-                return "<span class='text-right'>".currency_format($order->total_amount).'</span>';
+                return "<span class='text-right'>" . currency_format($order->total_amount) . '</span>';
             },
         ]);
 
@@ -620,13 +620,9 @@ class OrderCrudController extends BackpackCustomCrudController
                 'type' => 'text',
                 'tab' => 'Billing'
             ],
-            [
-                'name' => 'pay_to_additional',
-                'label' => 'Meta Data',
-                'type' => 'json',
-                'tab' => 'Billing'
-            ],
         ]);
+
+        $this->addAdditionalColumns($this->crud->getCurrentEntry(), 'pay_to_additional', 'Billing');
 
         if (backpack_user()->isAdmin()) {
             CRUD::addColumns([
@@ -664,13 +660,27 @@ class OrderCrudController extends BackpackCustomCrudController
                 ]
             ]);
         }
+
+        if (backpack_user()->isAdmin()) {
+            CRUD::addColumn([
+                'name' => 'request',
+                'type' => 'json',
+                'label' => 'Request',
+                'tab' => 'Request',
+                'wrapper' => [
+                    'element' => 'pre',
+                    'style' => 'max-width: 100% !important; max-height: 500px; display:block; overflow: auto;',
+                ],
+            ]);
+        }
+
     }
 
     private function addAdditionalColumns($model, $attribute, $tab = 'Basic')
     {
         $entries = data_get($model, $attribute);
 
-        if (!$entries) {
+        if (empty($entries)) {
             return;
         }
 
@@ -678,12 +688,11 @@ class OrderCrudController extends BackpackCustomCrudController
             CRUD::addColumn([
                 'name' => $entry['field'],
                 'label' => $entry['label'],
-                'type' => 'text',
+                'type' => json_validate($entry['value']) ? 'json' : 'text',
                 'tab' => $tab,
                 'value' => $entry['value'],
             ]);
         }
-
 
     }
 

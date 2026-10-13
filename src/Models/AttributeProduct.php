@@ -22,6 +22,17 @@ class AttributeProduct extends Model implements Auditable
 
     protected $append = ['local_attribute_value'];
 
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+
+        foreach ($this->translatable as $key) {
+            $array[$key] = $this->getTranslation($key, app()->getLocale());
+        }
+
+        return $array;
+    }
+
     /**
      * @return string
      *

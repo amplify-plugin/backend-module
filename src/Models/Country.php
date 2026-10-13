@@ -45,6 +45,14 @@ class Country extends Model
         });
 
     }
+
+    public static function findByISO(string $value): self
+    {
+        $col = strlen($value) == 2 ? 'iso2' : 'iso3';
+
+        return static::query()->where($col, $value)->firstOrFail();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

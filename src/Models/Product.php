@@ -117,6 +117,17 @@ class Product extends Model implements ContractsAuditable
     |--------------------------------------------------------------------------
     */
 
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+
+        foreach (['short_description', 'description', 'model_name', 'product_name'] as $key) {
+            $array[$key] = $this->getTranslation($key, app()->getLocale());
+        }
+
+        return $array;
+    }
+
     public static function guessSingleProductDetail()
     {
         $parameter = request()->route('identifier');

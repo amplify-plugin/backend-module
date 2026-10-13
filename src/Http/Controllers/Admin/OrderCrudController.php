@@ -584,12 +584,11 @@ class OrderCrudController extends BackpackCustomCrudController
                     return ucwords(str_replace('_', ' ', $order->pay_to_method));
                 }
             ],
-            [
-                'name' => 'pay_to_name',
-                'label' => 'Account Title/Card Holder',
-                'type' => 'text',
-                'tab' => 'Billing'
-            ],
+        ]);
+
+        $this->addAdditionalColumns($this->crud->getCurrentEntry(), 'pay_to_additional', 'Billing');
+
+        CRUD::addColumns([
             [
                 'name' => 'pay_to_address',
                 'type' => 'textarea',
@@ -621,8 +620,6 @@ class OrderCrudController extends BackpackCustomCrudController
                 'tab' => 'Billing'
             ],
         ]);
-
-        $this->addAdditionalColumns($this->crud->getCurrentEntry(), 'pay_to_additional', 'Billing');
 
         if (backpack_user()->isAdmin()) {
             CRUD::addColumns([

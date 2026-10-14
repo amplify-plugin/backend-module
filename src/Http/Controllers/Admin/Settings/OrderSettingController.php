@@ -4,6 +4,8 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Amplify\System\Backend\Seeders\Settings\GoogleApiSettingSeeder;
+use Amplify\System\Backend\Seeders\Settings\OrderSettingSeeder;
 use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -35,5 +37,10 @@ class OrderSettingController extends BackpackCustomCrudController
     public function getSettingName(): string
     {
         return 'order';
+    }
+
+    public function getSeederClass(): ?string
+    {
+        return OrderSettingSeeder::class;
     }
 }

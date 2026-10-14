@@ -15,8 +15,6 @@ class CMSSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'cms')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'cms';
             SystemConfiguration::create($datum);

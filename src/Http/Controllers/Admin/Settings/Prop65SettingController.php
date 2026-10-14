@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Amplify\System\Backend\Seeders\Settings\Prop65SettingSeeder;
 use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -35,5 +36,10 @@ class Prop65SettingController extends BackpackCustomCrudController
     public function getSettingName(): string
     {
         return 'prop65';
+    }
+
+    public function getSeederClass(): ?string
+    {
+        return Prop65SettingSeeder::class;
     }
 }

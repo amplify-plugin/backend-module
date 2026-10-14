@@ -15,11 +15,9 @@ class OrderSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'order')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'order';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 
@@ -55,8 +53,19 @@ class OrderSettingSeeder extends Seeder
                 'field' => [
                     'name' => 'value',
                     'type' => 'boolean',
-                    'label' => 'Use Pickup Enable Warehouses as Shipping Methods',
+                    'label' => 'Use Pickup Enabled Warehouses as Shipping Method?',
                     'hint' => 'If enabled a system display pickup enabled warehouses as one of shipping options under pickup shipping method.',
+                ],
+            ],
+            [
+                'option' => 'contact_budget_check',
+                'value' => false,
+                'type' => 'bool',
+                'field' => [
+                    'name' => 'value',
+                    'type' => 'boolean',
+                    'label' => 'Enable Contact Budget to Restrict Order Submission?',
+                    'hint' => 'If enabled system will hold any order submitted by contact that cross assigned daily, monthly budget limit.',
                 ],
             ],
         ];

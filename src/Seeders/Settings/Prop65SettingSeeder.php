@@ -15,11 +15,9 @@ class Prop65SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'prop65')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'prop65';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 
@@ -29,29 +27,35 @@ class Prop65SettingSeeder extends Seeder
             [
                 'option' => 'prop65_icon',
                 'value' => null,
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'browse',
-                    'label' => 'Select Icon File',
+                    'label' => 'Icon File',
+                    'hint' => 'This is a visual representation of Prop65 warning message.'
                 ],
             ],
             [
                 'option' => 'prop65_title',
                 'value' => 'PROP 65 Warning',
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'text',
-                    'label' => 'Value',
-                    'default' => 'PROP 65 Warning',
+                    'label' => 'Warning Title',
+                    'default' => 'PROP 65 Warning Title',
+                    'hint' => 'This title will be shown on the pop up of Prop65 Alert message.'
                 ],
             ],
             [
                 'option' => 'prop65_message',
                 'value' => 'PROP 65 Warning',
+                'type' => 'string',
                 'field' => [
                     'name' => 'value',
                     'type' => 'ckeditor',
-                    'label' => 'Value',
+                    'label' => 'Warning Message',
+                    'hint' => 'This description will be shown inside of the pop up of Prop65 Alert message.'
                 ],
             ],
             [
@@ -63,6 +67,7 @@ class Prop65SettingSeeder extends Seeder
                     'type' => 'boolean',
                     'label' => 'Enabled?',
                     'default' => true,
+                    'hint' => 'If enabled and the item has a prop65 flagged then system will show the message.',
                 ],
             ],
         ];

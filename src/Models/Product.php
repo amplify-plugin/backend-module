@@ -131,7 +131,6 @@ class Product extends Model implements ContractsAuditable
     public static function guessSingleProductDetail()
     {
         $parameter = request()->route('identifier');
-        $slug = request()->route('slug');
 
         if (! $parameter) {
             abort('404', 'Product is not available.');
@@ -143,15 +142,9 @@ class Product extends Model implements ContractsAuditable
 
         $column = config('amplify.frontend.easyask_single_product_index', 'id');
 
-        $product = static::queryViaProductDetailPipeline(
+        return static::queryViaProductDetailPipeline(
             fn (Builder $query) => $query->where($column, $parameter)->first()
         );
-
-        if ($product) {
-            return $product;
-        }
-
-        return static::resolveSingleProductDetailFromEasyAsk($parameter, $slug);
     }
 
     protected static function queryViaProductDetailPipeline(callable $callback): mixed
@@ -161,6 +154,8 @@ class Product extends Model implements ContractsAuditable
             ->through(config('amplify.product_detail_pipeline', []))
             ->then($callback);
     }
+
+    //@TODO need explanation from Sahadat vai
 
     protected static function resolveSingleProductDetailFromEasyAsk(string $identifier, ?string $slug = null): ?self
     {

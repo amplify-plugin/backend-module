@@ -15,8 +15,6 @@ class InvoiceSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'invoice')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'invoice';
             SystemConfiguration::create($datum);

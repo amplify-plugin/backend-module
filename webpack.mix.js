@@ -14,7 +14,6 @@ const {exec} = require("child_process");
  |
  */
 
-
 class PublishBackendAssets {
     apply(compiler) {
         compiler.hooks.done.tap('RunCommandIfArtisanExists', (stats) => {

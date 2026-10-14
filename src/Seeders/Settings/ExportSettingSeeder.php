@@ -15,11 +15,9 @@ class ExportSettingSeeder extends Seeder
      */
     public function run(): void
     {
-        SystemConfiguration::where('name', 'export')->delete();
-
         foreach ($this->data() as $datum) {
             $datum['name'] = 'export';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 
@@ -32,7 +30,7 @@ class ExportSettingSeeder extends Seeder
                 'type' => 'integer',
                 'field' => [
                     'name' => 'value',
-                    'type' => 'integer',
+                    'type' => 'number',
                     'label' => 'Export Max Limit',
                     'hint' => 'Maximum number of records to export at a time',
                 ],

@@ -162,10 +162,7 @@ import SwitchTabs from '../../components/SwitchTabs';
 import _ from 'lodash';
 import Basic from './tabs/Basic';
 import PIM from './tabs/PIM';
-import Report from './tabs/Report';
-import Sayt from './tabs/Sayt';
 import Icecat from './tabs/Icecat';
-import Google from './tabs/Google';
 import Frontend from './tabs/Frontend';
 import Payment from './tabs/Payment';
 import ERP from './tabs/ERP';
@@ -173,14 +170,10 @@ import Invoice from './tabs/Invoice';
 import CMS from './tabs/CMS';
 import Schedule from './tabs/Schedule';
 import Marketing from './tabs/Marketing';
-import API from './tabs/API';
-import Order from './tabs/Order';
-import Prop65 from './tabs/Prop65';
 import DDS from './tabs/DDS';
 import Security from "./tabs/Security";
 import AlertMessage from './tabs/AlertMessage';
 import Developer from './tabs/Developer';
-import Export from './tabs/Export';
 
 export default {
     name: 'Configuration',
@@ -227,9 +220,6 @@ export default {
         Tabs,
         Basic,
         PIM,
-        Report,
-        Sayt,
-        Google,
         Frontend,
         Payment,
         ERP,
@@ -237,14 +227,10 @@ export default {
         Schedule,
         CMS,
         Marketing,
-        API,
-        Order,
-        Prop65,
         DDS,
         Security,
         AlertMessage,
         Developer,
-        Export,
         Icecat
     },
     data() {
@@ -262,19 +248,13 @@ export default {
             tabs: {
                 Basic: { title: 'Basic', hash: 'basic' },
                 PIM: { title: 'PIM', hash: 'pim' },
-                Sayt: { title: 'SAYT', hash: 'sayt' },
-                Google: { title: 'Google', hash: 'google' },
                 Frontend: { title: 'Frontend', hash: 'frontend' },
                 Payment: { title: 'Payment', hash: 'payment' },
                 ERP: { title: 'ERP', hash: 'erp' },
-                Export: { title: 'Export', hash: 'export' },
                 Invoice: { title: 'Invoice', hash: 'invoice' },
                 Schedule: { title: 'Schedule', hash: 'schedule' },
                 CMS: { title: 'CMS', hash: 'cms' },
                 Marketing: { title: 'Marketing', hash: 'marketing' },
-                API: { title: 'Amplify API', hash: 'api' },
-                Order: { title: 'Order', hash: 'order' },
-                Prop65: { title: 'Prop65', hash: 'prop65' },
                 Security: { title: 'Security', hash: 'security' },
                 AlertMessage: { title: 'Alert Message', hash: 'message' },
                 Developer: { title: 'Developer Options', hash: 'developer' }
@@ -288,14 +268,12 @@ export default {
             countriesData: JSON.parse(this.countries),
             dateTimes: JSON.parse(this.date_time_formats),
             dates: JSON.parse(this.date_formats),
-            mailConfigurationData: JSON.parse(this.mail_configuration_data),
             documentTypes: JSON.parse(this.document_types),
             pageTypes: {},
         };
     },
     mounted() {
         this.activeTab = localStorage.getItem('systemTabActiveTab' ?? 'Basic');
-        this.pageTypes = JSON.parse(this.page_types);
         for (let key in JSON.parse(this.product_indexes)) {
             this.productIndexes.push({
                 code: key,
@@ -306,10 +284,6 @@ export default {
     created() {
         if (this.coreConfigurationData.basic.client_code === 'ACT') {
             this.$set(this.tabs, 'DDS', { title: 'DDS', hash: 'dds' });
-        }
-
-        if (this.coreConfigurationData.report.dictionary.length > 0) {
-            this.$set(this.tabs, 'Report', { title: 'Report', hash: 'report' });
         }
 
         if (this.coreConfigurationData.icecat.icecat_username != null) {

@@ -19,9 +19,11 @@
         $column['text'] = $column['value'];
     }
 @endphp
-
-<span>
+<div style="display: grid; gap:0.5rem">
     @includeWhen(!empty($column['wrapper']), 'crud::columns.inc.wrapper_start')
     {{ $column['text'] }}
     @includeWhen(!empty($column['wrapper']), 'crud::columns.inc.wrapper_end')
-</span>
+    <small class="text-muted">
+        {{ data_get($entry, 'field.hint') }}
+    </small>
+</div>

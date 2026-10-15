@@ -20,6 +20,7 @@ use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
 use Amplify\System\Backend\Traits\HasBackendMenu;
+use Backpack\CRUD\ViewNamespaces;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
@@ -54,6 +55,12 @@ class BackendServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'backend');
+
+        ViewNamespaces::addFor('columns', 'backend::columns');
+        ViewNamespaces::addFor('buttons', 'backend::buttons');
+        ViewNamespaces::addFor('widgets', 'backend::widgets');
+        ViewNamespaces::addFor('filters', 'backend::filters');
+        ViewNamespaces::addFor('fields', 'backend::fields');
 
         View::prependNamespace('message', __DIR__.'/../resources/views/message');
 

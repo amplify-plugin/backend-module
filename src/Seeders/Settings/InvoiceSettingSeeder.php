@@ -17,7 +17,7 @@ class InvoiceSettingSeeder extends Seeder
     {
         foreach ($this->data() as $datum) {
             $datum['name'] = 'invoice';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 

@@ -17,7 +17,7 @@ class CMSSettingSeeder extends Seeder
     {
         foreach ($this->data() as $datum) {
             $datum['name'] = 'cms';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 

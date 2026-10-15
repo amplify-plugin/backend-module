@@ -18,7 +18,7 @@ class SeoSettingSeeder extends Seeder
         //
         //        foreach ($this->data() as $datum) {
         //            $datum['name'] = 'seo';
-        //            SystemConfiguration::create($datum);
+        //            SystemConfiguration::seed($datum);
         //        }
     }
 

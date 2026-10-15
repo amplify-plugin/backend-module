@@ -19,7 +19,7 @@ class SecuritySettingSeeder extends Seeder
 
         foreach ($this->data() as $datum) {
             $datum['name'] = 'security';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 

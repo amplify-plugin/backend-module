@@ -17,7 +17,7 @@ class AmplifyApiSettingSeeder extends Seeder
     {
         foreach ($this->data() as $datum) {
             $datum['name'] = 'api';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 

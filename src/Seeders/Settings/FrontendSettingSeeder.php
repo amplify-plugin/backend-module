@@ -18,7 +18,7 @@ class FrontendSettingSeeder extends Seeder
     {
         foreach ($this->data() as $datum) {
             $datum['name'] = 'frontend';
-            SystemConfiguration::create($datum);
+            SystemConfiguration::seed($datum);
         }
     }
 

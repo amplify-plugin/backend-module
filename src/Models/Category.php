@@ -51,7 +51,7 @@ class Category extends Model implements ContractsAuditable
     public function showCloneCategoryAndCreateCatalogBtn(): string
     {
         return '<a class="btn btn-sm btn-link" href="' . route('category.clone-and-create-catalog', $this->id)
-            . '" data-toggle="tooltip" title="Clone Category & Create Catalog"><i class="lar la-clone"></i> Clone Category & Create Catalog</a>';
+            . '" data-toggle="tooltip" title="Create Catalog"><i class="lar la-clone"></i> Create Catalog</a>';
     }
 
     /*

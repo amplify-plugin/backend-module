@@ -28,7 +28,7 @@ class SellingProductsSettingSeeder extends Seeder
     {
         $type = $datum['type'] ?? 'string';
 
-        SystemConfiguration::create([
+        SystemConfiguration::seed([
             'name' => 'selling_products',
             'option' => $datum['option'],
             'type' => $type,

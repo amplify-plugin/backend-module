@@ -58,7 +58,8 @@ class BackendServiceProvider extends ServiceProvider
 
         ViewNamespaces::addFor('columns', 'backend::columns');
         ViewNamespaces::addFor('buttons', 'backend::buttons');
-//        ViewNamespaces::addFor('filters', 'backend::filters');
+        ViewNamespaces::addFor('widgets', 'backend::widgets');
+        ViewNamespaces::addFor('filters', 'backend::filters');
         ViewNamespaces::addFor('fields', 'backend::fields');
 
         View::prependNamespace('message', __DIR__.'/../resources/views/message');

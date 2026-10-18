@@ -4,6 +4,7 @@ namespace Amplify\System\Backend\Http\Requests;
 
 use Amplify\System\Helpers\SecurityHelper;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FrontendContactRequest extends FormRequest
 {
@@ -41,13 +42,29 @@ class FrontendContactRequest extends FormRequest
     public function rules()
     {
         $passLength = SecurityHelper::passwordLength();
+        $emailAsLoginId = config('amplify.security.use_email_as_login_id', true);
+
         // on update statement
         if ($this->isMethod('PUT')) {
             $this->rules['password'] = "nullable|min:$passLength|confirmed";
-            $this->rules['email'] = 'required|email:rfc,dns|unique:contacts,email,'.request('contact')->id;
+            $this->rules['email'] = $emailAsLoginId
+                ? 'required|email:rfc,dns|unique:contacts,email,'.request('contact')->id
+                : 'required|email:rfc,dns';
         } else {
-            $this->rules['email'] = 'required|email:rfc,dns|unique:contacts';
+            $this->rules['email'] = $emailAsLoginId
+                ? 'required|email:rfc,dns|unique:contacts'
+                : 'required|email:rfc,dns';
             $this->rules['password'] = "required|min:$passLength|confirmed";
+        }
+
+        if (! $emailAsLoginId) {
+            $loginIdRule = ['required', 'string', 'max:255', 'ascii', 'unique:contacts,login_id'];
+
+            if ($this->isMethod('PUT') && request('contact')) {
+                $loginIdRule[] = Rule::unique('contacts', 'login_id')->ignore(request('contact')->id);
+            }
+
+            $this->rules['login_id'] = $loginIdRule;
         }
 
         $this->rules['password_reset_required'] = ['required', 'boolean'];

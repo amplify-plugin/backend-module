@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin\Settings;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
+use Amplify\System\Backend\Http\Requests\SecuritySettingRequest;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Backend\Traits\SettingOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
@@ -27,6 +28,7 @@ class SecuritySettingController extends BackpackCustomCrudController
         CRUD::setModel(SystemConfiguration::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/security-setting');
         CRUD::setEntityNameStrings('security-setting', 'Security Settings');
+        CRUD::setValidation(SecuritySettingRequest::class);
     }
 
     /**

@@ -29,6 +29,28 @@
         >
       </div>
       <div class="form-group">
+        <div class="form-check">
+          <input
+              type="checkbox"
+              name="use_email_as_login_id"
+              id="use_email_as_login_id"
+              v-model="coreConfigurationData.use_email_as_login_id"
+              :class="{
+                            'is-invalid': $parent.validationErrors.use_email_as_login_id,
+                            'form-check-input': true,
+                        }"
+          />
+          <label for="use_email_as_login_id"> Use e-mail as login id</label>
+          <small v-if="$parent.validationErrors.use_email_as_login_id" class="text-danger mt-3">{{
+              $parent.validationErrors.use_email_as_login_id[0]
+            }}</small>
+        </div>
+        <small class="text-muted d-block"
+        >If enabled, contact login IDs are generated from the email address. If disabled, a unique Login ID is required
+          for every contact and emails may be duplicated.</small
+        >
+      </div>
+      <div class="form-group">
         <label>System Password Minimum Length</label>
         <input
             type="number"
@@ -184,6 +206,9 @@ export default {
     return {
       coreConfigurationData: {
         tab: 'security',
+        use_email_as_login_id: this.$parent.coreConfigurationData.security.use_email_as_login_id !== undefined
+            ? this.$parent.coreConfigurationData.security.use_email_as_login_id
+            : true,
         force_password_reset_enabled: this.$parent.coreConfigurationData.security.force_password_reset_enabled,
         password_length: this.$parent.coreConfigurationData.security.password_length,
         cookie_title: this.$parent.coreConfigurationData.security.cookie_title,

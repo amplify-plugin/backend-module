@@ -27,6 +27,18 @@ class SecuritySettingSeeder extends Seeder
     {
         return [
             [
+                'option' => 'use_email_as_login_id',
+                'value' => true,
+                'type' => 'bool',
+                'field' => [
+                    'name' => 'value',
+                    'type' => 'boolean',
+                    'default' => true,
+                    'label' => 'Use e-mail as login id',
+                    'hint' => 'If enabled, contact login IDs are generated from the email address. If disabled, a unique Login ID is required for every contact and emails may be duplicated.',
+                ],
+            ],
+            [
                 'option' => 'force_password_reset_enabled',
                 'value' => true,
                 'type' => 'bool',

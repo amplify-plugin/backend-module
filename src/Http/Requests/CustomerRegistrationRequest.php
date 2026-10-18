@@ -65,13 +65,19 @@ class CustomerRegistrationRequest extends FormRequest
         }
 
         // on update statement
+        $emailAsLoginId = config('amplify.security.use_email_as_login_id', true);
+
         if ($this->method() == 'PUT') {
             $rules['contact.*.password'] = "nullable|min:$minPassLen|same:contact.*.password_confirmation";
             $rules['contact.*.password_confirmation'] = "nullable|min:$minPassLen";
             $contactId = Customer::find(request()->route('id'))->contact->id ?? 'null';
-            $rules['contact.*.email'] = 'required|email|unique:contacts,email,'.$contactId;
+            $rules['contact.*.email'] = $emailAsLoginId
+                ? 'required|email|unique:contacts,email,'.$contactId
+                : 'required|email';
         } else {
-            $rules['contact.*.email'] = 'required|email|unique:contacts,email';
+            $rules['contact.*.email'] = $emailAsLoginId
+                ? 'required|email|unique:contacts,email'
+                : 'required|email';
         }
 
         return $rules;

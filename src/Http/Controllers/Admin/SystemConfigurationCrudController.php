@@ -26,6 +26,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
@@ -309,6 +310,17 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
 
             $response = [];
 
+            if ($tab === SystemConfiguration::SECURITY_TAB
+                && ($data['use_email_as_login_id'] ?? false)
+                && ($duplicates = $this->duplicateContactEmails())->isNotEmpty()) {
+                return [
+                    'status' => 'error',
+                    'message' => 'Cannot enable "Use e-mail as login id": duplicate contact emails exist ('
+                        .$duplicates->map(fn ($count, $email) => "\"{$email}\" x{$count}")->implode(', ')
+                        .'). Resolve the duplicate emails first.',
+                ];
+            }
+
             if (!empty($data)) {
                 $response = $this->updateSystemConfiguration($tab, $data);
             }
@@ -584,9 +596,22 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         ];
     }
 
+    private function duplicateContactEmails()
+    {
+        return DB::table('contacts')
+            ->selectRaw('email, COUNT(*) AS total')
+            ->whereNotNull('email')
+            ->where('email', '<>', '')
+            ->groupBy('email')
+            ->havingRaw('COUNT(*) > 1')
+            ->limit(5)
+            ->pluck('total', 'email');
+    }
+
     private function securityTabFormat($request): array
     {
         return [
+            'use_email_as_login_id' => $request->boolean('use_email_as_login_id', true),
             'force_password_reset_enabled' => $request->boolean('force_password_reset_enabled', false),
             'password_length' => $request->input('password_length', null),
             'cookie_title' => $request->input('cookie_title', null),

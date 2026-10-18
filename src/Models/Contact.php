@@ -101,9 +101,9 @@ class Contact extends Authenticatable implements Auditable, MessageableInterface
                 unset($model->password);
             }
 
-            // if (empty($model->login_id)) {
-            //     $model->login_id = $model->email;
-            // }
+            if (config('amplify.security.use_email_as_login_id', true) && ! empty($model->email)) {
+                $model->login_id = $model->email;
+            }
 
             if (! config('amplify.basic.enable_multi_customer_manage')) {
                 $model->active_customer_id = null;

@@ -363,7 +363,7 @@ class ContactCrudController extends BackpackCustomCrudController
                 'name' => 'login_id',
                 'label' => 'Login ID',
                 'tab' => 'Basic',
-                'type' => 'text',
+                'type' => config('amplify.security.use_email_as_login_id', true) ? 'hidden' : 'text',
                 'attributes' => [
                     'autocomplete' => 'off',
                     'id' => 'new-account',

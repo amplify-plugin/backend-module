@@ -44,6 +44,12 @@
                     </div>
                 </div>
             </div>
+            <p class="text-muted mb-3">
+                Supported formatting tags: <code>&lt;br&gt;</code>, <code>&lt;p&gt;</code>,
+                <code>&lt;b&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;i&gt;</code>, and
+                <code>&lt;em&gt;</code>. Other HTML tags are removed. Use <code>&lt;br&gt;</code>
+                for a line break or <code>&lt;p&gt;...&lt;/p&gt;</code> for a paragraph.
+            </p>
             <div class="form-group" v-for="(message, key) in config.messages" :key>
                 <label :for="`message-${key}`">{{ humanLabel(key) }}</label>
                 <input class="form-control" v-model="config.messages[key]"  :name="`message-${key}`" :id="`message-${key}`">

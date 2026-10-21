@@ -350,6 +350,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'auto_publish' => $request->boolean('auto_publish', false),
             'required_fields' => $request->boolean('required_fields', true),
             'use_classifications' => $request->boolean('use_classifications', true),
+            'use_master_sku' => $request->boolean('use_master_sku', false),
             'use_product_specific_detail_page' => $request->boolean('use_product_specific_detail_page', true),
             'categorization_required' => $request->boolean('categorization_required', true),
             'use_minimum_order_quantity' => $request->boolean('use_minimum_order_quantity', false),

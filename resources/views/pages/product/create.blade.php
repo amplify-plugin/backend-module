@@ -73,6 +73,7 @@
                     accept_file_types="{{ json_encode(\Amplify\System\Backend\Models\DocumentType::ACCEPT_FILE_TYPES, JSON_THROW_ON_ERROR) }}"
                     use_minimum_order_quantity="{{ config('amplify.pim.use_minimum_order_quantity') }}"
                     save_action="{{ json_encode($saveAction) }}"
+                    :use-master-sku="{{ $use_master_sku ? 'true' : 'false' }}"
                     model_codes="{{ isset($product->modelCodes)
             ? json_encode(
                 $product->modelCodes->map(

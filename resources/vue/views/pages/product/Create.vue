@@ -299,7 +299,8 @@ export default {
         'save_action',
         'published_status',
         'model_codes',
-        'unitOfMeasurements'
+        'unitOfMeasurements',
+        'useMasterSku'
     ],
 
     components: {
@@ -409,6 +410,7 @@ export default {
             allSingleProductPages: JSON.parse(this.all_single_product_pages),
             allDocumentTypes: JSON.parse(this.all_document_types),
             useMinimumOrderQuantity: !!this.use_minimum_order_quantity,
+            allowMasterSku: this.useMasterSku,
         };
     },
 

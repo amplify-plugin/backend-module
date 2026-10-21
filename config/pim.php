@@ -6,6 +6,7 @@ return [
     'use_classifications' => true,
     'categorization_required' => true,
     'use_product_specific_detail_page' => true,
+    'use_master_sku' => false,
     'use_minimum_order_quantity' => false,
     'use_product_code_unique_check' => true,
     'allow_back_order_on_catalog_sync' => false,

@@ -342,7 +342,7 @@ class CustomerCrudController extends BackpackCustomCrudController
                 'label' => 'Customer Group',
                 'name' => 'customer_group_id',
                 'type' => 'select2',
-                'entity' => 'customer_group',
+                'entity' => 'customerGroup',
                 'model' => CustomerGroup::class,
                 'attribute' => 'group_name',
                 'ajax' => true,

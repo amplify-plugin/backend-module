@@ -456,6 +456,19 @@ class CategoryCrudController extends BackpackCustomCrudController
             return Redirect::to('admin/category');
         }
 
+        // Block cloning when a parent (root) category with the same name already exists.
+        $duplicateParent = Category::query()
+            ->whereNull('parent_id')
+            ->whereKeyNot($category->getKey())
+            ->get()
+            ->first(fn (Category $root) => strcasecmp(trim($root->label), trim($category->label)) === 0);
+
+        if ($duplicateParent !== null) {
+            Alert::add('error', 'Cloning blocked: a parent category named "'.$duplicateParent->label.'" already exists.')->flash();
+
+            return Redirect::to('admin/category');
+        }
+
         try {
             CloneCategoryAndCreateCatalogJob::dispatch($category);
 

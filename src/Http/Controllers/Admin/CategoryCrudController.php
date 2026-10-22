@@ -9,6 +9,7 @@ use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Traits\ProductCategoryTrait;
 use Amplify\System\Backend\Traits\ReorderTrait;
 use Amplify\System\Jobs\CategoryCloneJob;
+use Amplify\System\Jobs\CloneCategoryAndCreateCatalogJob;
 use Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -70,6 +71,12 @@ class CategoryCrudController extends BackpackCustomCrudController
             'as' => $routeName.'.clone',
             'uses' => $controller.'@cloneCategory',
             'operation' => 'cloneCategory',
+        ]);
+
+        Route::get($segment.'/clone-and-create-catalog/{category}', [
+            'as' => $routeName.'.clone-and-create-catalog',
+            'uses' => $controller.'@cloneCategoryAndCreateCatalog',
+            'operation' => 'cloneCategoryAndCreateCatalog',
         ]);
     }
 
@@ -135,6 +142,8 @@ class CategoryCrudController extends BackpackCustomCrudController
         );
 
         $this->crud->addButtonFromModelFunction('line', 'show-clone_category-btn', 'showCloneCategoryBtn', 'ending');
+
+        $this->crud->addButtonFromModelFunction('line', 'show-clone_category_and_create_catalog-btn', 'showCloneCategoryAndCreateCatalogBtn', 'ending');
 
         if (! backpack_user()->can('category.create') && ! (is_super_admin())) {
             $this->crud->removeButton('create');
@@ -437,5 +446,39 @@ class CategoryCrudController extends BackpackCustomCrudController
         Alert::add('success', 'Creating classification process started successfully!')->flash();
 
         return Redirect::to('admin/category');
+    }
+
+    public function cloneCategoryAndCreateCatalog(Category $category): RedirectResponse
+    {
+        if (! backpack_user()->can('category.create') && ! is_super_admin()) {
+            Alert::add('error', 'You do not have permission to clone categories.')->flash();
+
+            return Redirect::to(backpack_url('category'));
+        }
+
+        // Block cloning when a parent (root) category with the same name already exists.
+        $duplicateParent = Category::query()
+            ->whereNull('parent_id')
+            ->whereKeyNot($category->getKey())
+            ->get()
+            ->first(fn (Category $root) => strcasecmp(trim($root->label), trim($category->label)) === 0);
+
+        if ($duplicateParent !== null) {
+            Alert::add('error', 'Cloning blocked: a parent category named "'.$duplicateParent->label.'" already exists.')->flash();
+
+            return Redirect::to(backpack_url('category'));
+        }
+
+        try {
+            CloneCategoryAndCreateCatalogJob::dispatch($category);
+
+            Alert::add('success', 'Clone category & create catalog process started successfully!')->flash();
+        } catch (\Throwable $e) {
+            report($e);
+
+            Alert::add('error', 'Failed to start the clone category & create catalog process.')->flash();
+        }
+
+        return Redirect::to(backpack_url('category'));
     }
 }

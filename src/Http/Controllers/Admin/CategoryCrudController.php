@@ -453,7 +453,7 @@ class CategoryCrudController extends BackpackCustomCrudController
         if (! backpack_user()->can('category.create') && ! is_super_admin()) {
             Alert::add('error', 'You do not have permission to clone categories.')->flash();
 
-            return Redirect::to('admin/category');
+            return Redirect::to(backpack_url('category'));
         }
 
         // Block cloning when a parent (root) category with the same name already exists.
@@ -466,7 +466,7 @@ class CategoryCrudController extends BackpackCustomCrudController
         if ($duplicateParent !== null) {
             Alert::add('error', 'Cloning blocked: a parent category named "'.$duplicateParent->label.'" already exists.')->flash();
 
-            return Redirect::to('admin/category');
+            return Redirect::to(backpack_url('category'));
         }
 
         try {
@@ -479,6 +479,6 @@ class CategoryCrudController extends BackpackCustomCrudController
             Alert::add('error', 'Failed to start the clone category & create catalog process.')->flash();
         }
 
-        return Redirect::to('admin/category');
+        return Redirect::to(backpack_url('category'));
     }
 }

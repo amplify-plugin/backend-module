@@ -44,8 +44,8 @@
                         ? 'put'
                         : ($crud->getCurrentOperation() === 'show' ? 'get' : 'post')}}"
             query_string="{{ json_encode($query_string) }}"
-            footer_templates="{{ json_encode(array_values(config('amplify.cms.themes'))) }}"
-            active_template="{{ theme()->id }}"
+            :footer_templates='@json($footer_templates)'
+            active_template="{{ theme()->slug }}"
             merch_zones="{{ json_encode($merchandising_zones ?? []) }}"
             banner_zones="{{ json_encode($banner_zones ?? []) }}"
             banner_item_codes="{{ json_encode($banner_item_codes ?? []) }}"

@@ -18,7 +18,6 @@ Vue.component('DataTransformationRunScreen', () => import('./views/pages/data-tr
 Vue.component('IcecatTransformationRunScreen', () => import('./views/pages/icecat-transformation/RunScreen'));
 Vue.component('PageCreate', () => import('./views/pages/pages/Create.vue'));
 Vue.component('SiteCreate', () => import('./views/pages/sites/Create.vue'));
-Vue.component('TemplateCreate', () => import('./views/pages/templates/Create.vue'));
 Vue.component('MerchandisingZoneCreate', () => import('./views/pages/merchandising-zones/Create.vue'));
 Vue.component('MenusCreate', () => import('./views/pages/menus/Create.vue'));
 Vue.component('MegamenuCreate', () => import('./views/pages/mega-menus/Create.vue'));

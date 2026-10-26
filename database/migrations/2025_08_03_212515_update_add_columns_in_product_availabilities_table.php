@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::table('product_availabilities', function (Blueprint $table) {
             $table->foreignId('product_id')->nullable()->after('item_number');
-            $table->renameColumn('list_price', 'list_price_1');
-            $table->double('list_price_2', 10, 2)->nullable()->after('list_price');
+            $columnExists = Schema::hasColumn('product_availabilities', 'list_price');
+            if ($columnExists) {
+                $table->renameColumn('list_price', 'list_price_1');
+            }
+            $table->double('list_price_2', 10, 2)->nullable()->after($columnExists ? 'list_price_1' : 'list_price');
             $table->double('list_price_3', 10, 2)->nullable()->after('list_price_2');
             $table->double('list_price_4', 10, 2)->nullable()->after('list_price_3');
             $table->double('list_price_5', 10, 2)->nullable()->after('list_price_4');
@@ -31,7 +34,10 @@ return new class extends Migration
     {
         Schema::table('product_availabilities', function (Blueprint $table) {
             $table->dropColumn('product_id');
-            $table->renameColumn('list_price_1', 'list_price');
+            $columnExists = Schema::hasColumn('product_availabilities', 'list_price_1');
+            if ($columnExists) {
+                $table->renameColumn('list_price_1', 'list_price');
+            }
             $table->dropColumn('list_price_2');
             $table->dropColumn('list_price_3');
             $table->dropColumn('list_price_4');

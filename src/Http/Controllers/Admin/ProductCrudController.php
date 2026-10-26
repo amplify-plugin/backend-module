@@ -309,7 +309,11 @@ class ProductCrudController extends BackpackCustomCrudController
     {
         $this->crud->enableBulkActions();
         // Customizing Action Buttons
-        CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
+        if (config('amplify.pim.use_master_sku')) {
+            CRUD::modifyButton('clone', ['content' => 'crud::buttons.product_clone']);
+        } else {
+            $this->crud->denyAccess('clone');
+        }
         CRUD::modifyButton('show', ['content' => 'backend::buttons.product_preview']);
         CRUD::addButtonFromModelFunction('line', 'status_archive', 'statusArchive', 'end');
 
@@ -469,24 +473,25 @@ class ProductCrudController extends BackpackCustomCrudController
             }
         );
 
-        CRUD::addFilter(
-            [
-                'name' => 'has_sku',
-                'type' => 'dropdown',
-                'label' => 'Has SKU',
-            ],
-            function () {
-                return [
-                    '0' => 'No',
-                    '1' => 'Yes',
-                ];
-            },
-            function ($value) {
-                // if the filter is active
-                $this->crud->addClause('where', 'has_sku', '=', $value);
-            }
-        );
-
+        if (config('amplify.pim.use_master_sku')) {
+            CRUD::addFilter(
+                [
+                    'name' => 'has_sku',
+                    'type' => 'dropdown',
+                    'label' => 'Has SKU',
+                ],
+                function () {
+                    return [
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ];
+                },
+                function ($value) {
+                    // if the filter is active
+                    $this->crud->addClause('where', 'has_sku', '=', $value);
+                }
+            );
+        }
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',
@@ -640,6 +645,7 @@ class ProductCrudController extends BackpackCustomCrudController
         });
         $this->data['all_document_types'] = DocumentType::orderBy('name')->get();
         $this->data['show_order_quantity_config_tab'] = config('amplify.pim.use_minimum_order_quantity') && ! $this->crud->entry?->has_sku;
+        $this->data['use_master_sku'] = config('amplify.pim.use_master_sku', false);
 
         // dd($this->data, $this->data['productClassification'], $this->data['product']);
         $this->crud->setCreateView('backend::pages.product.create');

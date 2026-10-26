@@ -168,6 +168,37 @@
 
         <div class="form-group">
           <div>
+            <label>Use Master-SKU Relationship</label>
+            <div class="toggle-group">
+              <label class="toggle-pill">
+                <input
+                    type="radio"
+                    name="use_master_sku"
+                    :value="false"
+                    v-model="pimConfigurationData.use_master_sku"
+                    :class="{ 'is-invalid': $parent.validationErrors.use_master_sku }"
+                />
+                <span>No</span>
+              </label>
+              <label class="toggle-pill">
+                <input
+                    type="radio"
+                    name="use_master_sku"
+                    :value="true"
+                    v-model="pimConfigurationData.use_master_sku"
+                    :class="{ 'is-invalid': $parent.validationErrors.use_master_sku }"
+                />
+                <span>Yes</span>
+              </label>
+            </div>
+            <small v-if="$parent.validationErrors.use_master_sku" class="text-danger mt-2 d-block">{{
+                $parent.validationErrors.use_master_sku[0]
+              }}</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div>
             <label>Categorization Required</label>
             <div class="toggle-group">
               <label class="toggle-pill">
@@ -429,6 +460,7 @@ export default {
         auto_publish: this.$parent.coreConfigurationData.pim.auto_publish ?? false,
         required_fields: this.$parent.coreConfigurationData.pim.required_fields ?? false,
         use_classifications: this.$parent.coreConfigurationData.pim.use_classifications ?? false,
+        use_master_sku: this.$parent.coreConfigurationData.pim.use_master_sku ?? false,
         use_product_specific_detail_page:
           this.$parent.coreConfigurationData.pim.use_product_specific_detail_page ?? false,
         use_minimum_order_quantity: this.$parent.coreConfigurationData.pim.use_minimum_order_quantity ?? false,

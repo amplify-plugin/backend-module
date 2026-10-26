@@ -16,38 +16,9 @@
                 </button>
             </div>
         </div>
-        <div class="card mt-2" v-if="templateInfo">
-            <div class="card-header">
-                <h4 class="card-title">Template Detail</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <td>Template Name</td>
-                            <td>{{ templateInfo.name }}</td>
-                        </tr>
-                        <tr>
-                            <td>Author</td>
-                            <td>{{ templateInfo.author }}</td>
-                        </tr>
-                        <tr>
-                            <td>Preview</td>
-                            <td class="text-center">
-                                <img :src="templateInfo.template_banner" class="img-fluid"/>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <button type="button" class="btn btn-primary btn-block" @click="installTemplate" ref="install">
-                    Install
-                </button>
-            </div>
-        </div>
     </form>
 </template>
 <script>
-import saveActionMixin from "../../../mixin/saveAction.js";
 
 function updateProgress(value) {
     let progressBar = document.getElementById('progress-bar');
@@ -62,13 +33,11 @@ function updateBrowseLabel(text) {
 
 export default {
     name: "TemplateInstall",
-    mixins: [saveActionMixin],
     data() {
         return {
             backUrl: '/admin/theme',
-            chunkFileUploadUrl: '/admin/theme/chunk-upload',
-            getInstallationInfoUrl: '/admin/theme/installation-info',
-            installTemplateUrl: '/admin/theme/install-template',
+            chunkFileUploadUrl: '/admin/theme/upload',
+            getInstallationInfoUrl: '/admin/theme/install',
             templateInfo: null,
             uploader: {},
             filename: 'Browse files',
@@ -142,8 +111,14 @@ export default {
         },
         setUpInstallationProcess() {
             axios.get(this.getInstallationInfoUrl)
-                .then(res => {
-                    this.templateInfo = res.data;
+                .then(response => {
+
+                  new Noty({
+                    text:response.data.message,
+                    type: "success"
+                  }).show();
+
+                  window.location.replace(response.data.redirect_to);
                 })
                 .catch(err => {
                     updateProgress(0);
@@ -157,27 +132,6 @@ export default {
             this.$refs.upload.disabled = false;
             this.$refs.upload.textContent = "Upload";
         },
-        async installTemplate() {
-            this.$refs.install.disabled = true;
-            this.$refs.install.textContent = "Installing...";
-
-            await axios.post(this.installTemplateUrl)
-                .then(res => {
-                    new Noty({
-                        text: res.data.message,
-                        type: "success"
-                    }).show();
-                })
-                .catch(err => {
-                    new Noty({
-                        text: err.response.data.message,
-                        type: "danger"
-                    }).show();
-                });
-
-            this.$refs.install.disabled = false;
-            this.$refs.install.textContent = "Install";
-        }
     },
     watch: {
         "this.uploader": function (value) {

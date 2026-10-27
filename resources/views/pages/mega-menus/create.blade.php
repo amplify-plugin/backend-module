@@ -11,7 +11,7 @@
 @endphp
 
 @section('after_styles')
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix("css/backend.css", "vendor/backend") }}">
 @endsection
 
 @section('header')

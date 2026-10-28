@@ -75,7 +75,7 @@ class Category extends Model implements ContractsAuditable
             INNER JOIN category_tree ct
                 ON c.id = ct.parent_id
         )
-        SELECT id, category_code, category_name, image
+        SELECT id, category_code, category_name, image, category_slug
         FROM category_tree
         ORDER BY depth DESC
     SQL;
@@ -202,10 +202,5 @@ class Category extends Model implements ContractsAuditable
     protected static function booted(): void
     {
         static::addGlobalScope(new DatabaseScope);
-
-        static::saved(function (self $category) {
-            @Cache::forget('site-db-categories');
-            @Cache::forget('site-default-catalog');
-        });
     }
 }

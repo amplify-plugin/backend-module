@@ -141,6 +141,28 @@ class CategoryCrudController extends BackpackCustomCrudController
             }
         );
 
+        CRUD::addFilter(
+            [
+                'name' => 'depth',
+                'type' => 'dropdown',
+                'label' => 'Depth',
+            ],
+            function () {
+                return cache()->rememberForever('category.depth.options', function () {
+                    return Category::query()
+                        ->select('depth')
+                        ->distinct()
+                        ->orderBy('depth')
+                        ->pluck('depth', 'depth')
+                        ->mapWithKeys(fn ($label, $value) => [$value => 'Level '.$label])
+                        ->toArray();
+                });
+            },
+            function ($value) {
+                $this->crud->addClause('where', 'depth', '=', $value);
+            }
+        );
+
         $this->crud->addButtonFromModelFunction('line', 'show-clone_category-btn', 'showCloneCategoryBtn', 'ending');
 
         $this->crud->addButtonFromModelFunction('line', 'show-clone_category_and_create_catalog-btn', 'showCloneCategoryAndCreateCatalogBtn', 'ending');

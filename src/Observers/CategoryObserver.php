@@ -13,7 +13,9 @@ class CategoryObserver
      */
     public function created(Category $category)
     {
-        //
+        cache()->forget('category.depth.options');
+        cache()->forget('site-db-categories');
+        cache()->forget('site-default-catalog');
     }
 
     /**
@@ -23,7 +25,9 @@ class CategoryObserver
      */
     public function updated(Category $category)
     {
-        //
+        cache()->forget('category.depth.options');
+        cache()->forget('site-db-categories');
+        cache()->forget('site-default-catalog');
     }
 
     /**
@@ -49,7 +53,7 @@ class CategoryObserver
      */
     public function deleted(Category $category)
     {
-        //
+        cache()->forget('category.depth.options');
     }
 
     /**

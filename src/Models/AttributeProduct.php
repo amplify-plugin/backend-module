@@ -3,15 +3,13 @@
 namespace Amplify\System\Backend\Models;
 
 use Amplify\System\Backend\Traits\DynamicDBConnectionTrait;
-use App\Models\JsonException;
 use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class AttributeProduct extends Model implements Auditable
 {
-    use DynamicDBConnectionTrait, HasFactory, HasTranslations;
+    use DynamicDBConnectionTrait, HasTranslations;
     use \OwenIt\Auditing\Auditable;
 
     protected $table = 'attribute_product';
@@ -36,7 +34,7 @@ class AttributeProduct extends Model implements Auditable
     /**
      * @return string
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function getLocalAttributeValueAttribute()
     {
@@ -46,7 +44,7 @@ class AttributeProduct extends Model implements Auditable
     /**
      * @return string|null
      *
-     * @throws JsonException
+     * @throws \JsonException
      */
     private function getDataOfAvailableLocale($original_field_name)
     {

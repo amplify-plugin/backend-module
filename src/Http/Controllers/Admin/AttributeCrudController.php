@@ -5,10 +5,12 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\AttributeRequest;
 use Amplify\System\Backend\Models\Attribute;
+use Amplify\System\Backend\Models\AttributeProduct;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -26,6 +28,7 @@ class AttributeCrudController extends BackpackCustomCrudController
     use InlineCreateOperation;
     use ListOperation;
     use UpdateOperation;
+    use ShowOperation;
 
     /**
      * @var string[]
@@ -144,7 +147,27 @@ class AttributeCrudController extends BackpackCustomCrudController
 
     protected function setupShowOperation()
     {
-        $this->crud->set('show.setFromDb', false);
+        $id = $this->crud->getCurrentEntryId();
+
+        $entries = AttributeProduct::query()
+            ->where('attribute_id', '=', $id)
+            ->groupBy('attribute_value')
+            ->orderBy('sequence')
+            ->get()->toArray();
+
+        CRUD::addColumn([
+            'name' => 'id',
+            'type' => 'custom_html',
+            'value' => function ($model) {
+                if ($model->is_new === 1 && ! $model->is_updated) {
+                    return $model->id.' <sup class="badge text-danger px-0">New</sup>';
+                } elseif ($model->is_updated) {
+                    return $model->id.' <sup class="badge text-warning px-0">Updated</sup>';
+                } else {
+                    return $model->id;
+                }
+            },
+        ]);
 
         CRUD::addcolumn([
             'name' => 'name',
@@ -162,82 +185,51 @@ class AttributeCrudController extends BackpackCustomCrudController
         CRUD::addColumn([
             'name' => 'type',
             'label' => 'Type',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                return ucfirst($attribute->type ?? '');
-            },
+            'type' => 'select_from_array',
+            'options' => $this->types,
         ]);
 
         CRUD::addColumn([
             'name' => 'unit',
             'label' => 'Unit',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                return ucfirst($attribute->unit ?? '');
-            },
+            'type' => 'select_from_array',
+            'options' => $this->units,
         ]);
 
         CRUD::addColumn([
             'name' => 'has_range',
             'label' => 'Has Range',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $has_range = $attribute->has_range ?? false;
-
-                return "<i class='la la-".($has_range
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean',
         ]);
 
         CRUD::addColumn([
             'name' => 'use_as_filter',
             'label' => 'Use As Filter',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $use_as_filter = $attribute->use_as_filter ?? false;
-
-                return "<i class='la la-".($use_as_filter
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean',
         ]);
 
         CRUD::addColumn([
             'name' => 'searchable',
             'label' => 'Searchable',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $searchable = $attribute->searchable ?? false;
-
-                return "<i class='la la-".($searchable
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean',
         ]);
 
         CRUD::addColumn([
             'name' => 'tunable',
             'label' => 'Treat As Column',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $tunable = $attribute->tunable ?? false;
-
-                return "<i class='la la-".($tunable
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean'
         ]);
 
+
         CRUD::addcolumn([
-            'name' => 'is_new',
-            'label' => 'Is New',
-            'type' => 'custom_html',
-            'value' => function ($model) {
-                return $model->is_new === 1
-                    ? 'Yes'
-                    : 'No';
-            },
+            'name' => 'attribute_value',
+            'label' => 'Values',
+            'type' => 'table',
+            'value' => $entries,
+            'columns' => [
+                'sequence' => 'Sequence',
+                'attribute_value' => 'Value',
+            ],
         ]);
     }
 

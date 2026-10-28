@@ -47,12 +47,11 @@ class Attribute extends Model implements ContractsAuditable
     |--------------------------------------------------------------------------
     */
 
-    /*public function getFromValues($values, $key, $default = 0)
+    public function reorderValuesBtn($crud)
     {
-        $obj = json_decode($values, true);
-
-        return $obj[0][$key] ?? $default;
-    }*/
+        return '<a class="btn btn-sm btn-link" href="' . route('attribute.reorder', $this->id)
+            . '" data-toggle="tooltip" title="Reorder Values"><i class="la la-arrows"></i> Reorder Values</a>';
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -177,14 +176,6 @@ class Attribute extends Model implements ContractsAuditable
     {
         return $this->attributes['local_name'] = $this->getDataOfAvailableLocale('name');
     }
-
-    /*public function getLocalNameAttribute()
-    {
-        return $this->attributes['local_name'] = $this->getTranslation(
-            'name',
-            request()->locale ?? app()->getLocale()
-        );
-    }*/
 
     public function getMinAttribute(): string
     {

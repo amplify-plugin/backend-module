@@ -25,11 +25,10 @@
 
         <div class="form-group">
             <label>Template</label>
-            <select name="template_id" class="form-control" v-model="$parent.footer.template_id">
-                <option :value="t.id" v-for="(t, i) in $parent.templates"
-                        :key="i"
-                        :selected="t.id === $parent.footer.template_id">
-                    {{ t.label }}
+            <select name="template" class="form-control" v-model="$parent.footer.template">
+                <option :value="i" v-for="(t, i) in $parent.templates"
+                        :key="i" :selected="i === $parent.footer.template">
+                    {{ t }}
                 </option>
             </select>
         </div>

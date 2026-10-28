@@ -69,7 +69,7 @@
             </div>
             <!-- load the view from type and view_namespace attribute if set -->
 
-            <div v-if="$parent.productData.product_type == 'normal'" class="form-group col-sm-12">
+            <div v-if="$parent.productData.product_type == 'normal' && $parent.allowMasterSku" class="form-group col-sm-12">
                 <div class="row">
                     <div class="col-12 col-xl-3 col-xxl-2">
                         <div class="checkbox my-0 my-lg-2">

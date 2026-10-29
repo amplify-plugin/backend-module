@@ -1,5 +1,5 @@
 <template>
-    <file-manager v-bind:settings="settings"></file-manager>
+    <file-manager :settings="settings"></file-manager>
 </template>
 
 <script>
@@ -7,20 +7,23 @@ import allDisksMixin from '../../allDisks.mixin';
 
 export default {
     mixins: [allDisksMixin],
-    props: ['input_id', 'is_multiple'],
+    props: ['input_id', 'is_multiple', 'settings'],
     computed: {
-        settings() {
-            return {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    Authorization: `Bearer ${window.localStorage.getItem('user-token')}`,
-                },
-                baseUrl: window.location.origin + '/file-manager/',
-                windowsConfig: 2,
-            };
-        },
+        // settings() {
+        //     return {
+        //         headers: {
+        //             'X-Requested-With': 'XMLHttpRequest',
+        //             Authorization: `Bearer ${window.localStorage.getItem('user-token')}`,
+        //         },
+        //         baseUrl: window.location.origin + '/file-manager/',
+        //         windowsConfig: 2,
+        //     };
+        // },
     },
     mounted() {
+
+      console.log(this.settings);
+
         addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 this.getFileCallbackForMultiple()

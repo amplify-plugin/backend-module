@@ -1,0 +1,54 @@
+<?php
+
+namespace Amplify\System\Backend\Media\Events;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+
+class FileUpdate
+{
+    /**
+     * @var string
+     */
+    private $disk;
+
+    /**
+     * @var string
+     */
+    private $path;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
+
+    /**
+     * FileUpdate constructor.
+     */
+    public function __construct(Request $request)
+    {
+        $this->disk = $request->input('disk');
+        $this->path = $request->input('path');
+        $this->file = $request->file('file');
+    }
+
+    /**
+     * @return string
+     */
+    public function disk()
+    {
+        return $this->disk;
+    }
+
+    /**
+     * @return string
+     */
+    public function path()
+    {
+        if ($this->path) {
+            return $this->path.'/'.$this->file->getClientOriginalName();
+        }
+
+        return $this->file->getClientOriginalName();
+    }
+}

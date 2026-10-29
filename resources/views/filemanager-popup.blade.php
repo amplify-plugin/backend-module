@@ -15,6 +15,7 @@
     <body>
         <div id="app" style="height: 597px; overflow-y: scroll">
             <file-manager-popup
+                    :settings="@json(config('file-manager'))"
                 input_id="{{ $inputId }}"
             ></file-manager-popup>
         </div>

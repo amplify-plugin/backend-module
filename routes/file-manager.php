@@ -1,7 +1,8 @@
 <?php
 
-use Amplify\System\Media\Http\Controllers\FileManagerController;
-use Amplify\System\Media\Services\ConfigService\ConfigRepository;
+use Amplify\System\Backend\Media\Http\Controllers\FileManagerController;
+use Amplify\System\Backend\Media\Services\ConfigService\ConfigRepository;
+use Illuminate\Support\Facades\Route;
 
 $config = resolve(ConfigRepository::class);
 
@@ -18,36 +19,84 @@ if ($config->getAcl()) {
 Route::group([
     'middleware' => $middleware,
     'prefix' => $config->getRoutePrefix(),
-    'namespace' => 'Amplify\System\Media\Http\Controllers',
-    'controller' => FileManagerController::class,
-],
-    function () {
-        Route::get('initialize', 'initialize')->name('fm.initialize');
-        Route::get('content', 'content')->name('fm.content');
-        Route::get('tree', 'tree')->name('fm.tree');
-        Route::get('select-disk', 'selectDisk')->name('fm.select-disk');
-        Route::post('upload', 'upload')->name('fm.upload');
-        Route::post('upload-chunk', 'chunkUpload')->name('fm.upload-chunk');
-        Route::post('upload-chunk-finish', 'chunkUploadFinish')->name('fm.upload-chunk-finish');
-        Route::post('upload-abort', 'chunkAbort')->name('fm.upload-abort');
-        Route::post('delete', 'delete')->name('fm.delete');
-        Route::post('paste', 'paste')->name('fm.paste');
-        Route::post('rename', 'rename')->name('fm.rename');
-        Route::get('download', 'download')->name('fm.download');
-        Route::get('thumbnails', 'thumbnails')->name('fm.thumbnails');
-        Route::get('preview', 'preview')->name('fm.preview');
-        Route::get('url', 'url')->name('fm.url');
-        Route::post('create-directory', 'createDirectory')->name('fm.create-directory');
-        Route::post('create-file', 'createFile')->name('fm.create-file');
-        Route::post('update-file', 'updateFile')->name('fm.update-file');
-        Route::get('stream-file', 'streamFile')->name('fm.stream-file');
-        Route::post('zip', 'zip')->name('fm.zip');
-        Route::post('unzip', 'unzip')->name('fm.unzip');
-        // Route::get('properties', 'properties');
-        // Integration with editors
-        Route::get('ckeditor', 'ckeditor')->name('fm.ckeditor');
-        Route::get('tinymce', 'tinymce')->name('fm.tinymce');
-        Route::get('tinymce5', 'tinymce5')->name('fm.tinymce5');
-        Route::get('summernote', 'summernote')->name('fm.summernote');
-        Route::get('fm-button', 'fmButton')->name('fm.fm-button');
-    });
+], function () {
+
+    Route::get('initialize', [FileManagerController::class, 'initialize'])
+        ->name('fm.initialize');
+
+    Route::get('content', [FileManagerController::class, 'content'])
+        ->name('fm.content');
+
+    Route::get('tree', [FileManagerController::class, 'tree'])
+        ->name('fm.tree');
+
+    Route::get('select-disk', [FileManagerController::class, 'selectDisk'])
+        ->name('fm.select-disk');
+
+    Route::post('upload', [FileManagerController::class, 'upload'])
+        ->name('fm.upload');
+
+    Route::post('upload-chunk', [FileManagerController::class, 'chunkUpload'])
+        ->name('fm.upload-chunk');
+
+    Route::post('upload-chunk-finish', [FileManagerController::class, 'chunkUploadFinish'])
+        ->name('fm.upload-chunk-finish');
+
+    Route::post('upload-abort', [FileManagerController::class, 'chunkAbort'])
+        ->name('fm.upload-abort');
+
+    Route::post('delete', [FileManagerController::class, 'delete'])
+        ->name('fm.delete');
+
+    Route::post('paste', [FileManagerController::class, 'paste'])
+        ->name('fm.paste');
+
+    Route::post('rename', [FileManagerController::class, 'rename'])
+        ->name('fm.rename');
+
+    Route::get('download', [FileManagerController::class, 'download'])
+        ->name('fm.download');
+
+    Route::get('thumbnails', [FileManagerController::class, 'thumbnails'])
+        ->name('fm.thumbnails');
+
+    Route::get('preview', [FileManagerController::class, 'preview'])
+        ->name('fm.preview');
+
+    Route::get('url', [FileManagerController::class, 'url'])
+        ->name('fm.url');
+
+    Route::post('create-directory', [FileManagerController::class, 'createDirectory'])
+        ->name('fm.create-directory');
+
+    Route::post('create-file', [FileManagerController::class, 'createFile'])
+        ->name('fm.create-file');
+
+    Route::post('update-file', [FileManagerController::class, 'updateFile'])
+        ->name('fm.update-file');
+
+    Route::get('stream-file', [FileManagerController::class, 'streamFile'])
+        ->name('fm.stream-file');
+
+    Route::post('zip', [FileManagerController::class, 'zip'])
+        ->name('fm.zip');
+
+    Route::post('unzip', [FileManagerController::class, 'unzip'])
+        ->name('fm.unzip');
+
+    // Integration with editors
+    Route::get('ckeditor', [FileManagerController::class, 'ckeditor'])
+        ->name('fm.ckeditor');
+
+    Route::get('tinymce', [FileManagerController::class, 'tinymce'])
+        ->name('fm.tinymce');
+
+    Route::get('tinymce5', [FileManagerController::class, 'tinymce5'])
+        ->name('fm.tinymce5');
+
+    Route::get('summernote', [FileManagerController::class, 'summernote'])
+        ->name('fm.summernote');
+
+    Route::get('fm-button', [FileManagerController::class, 'fmButton'])
+        ->name('fm.fm-button');
+});

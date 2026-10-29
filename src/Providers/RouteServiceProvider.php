@@ -36,6 +36,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web', backpack_middleware(), 'admin_password_reset_required'])
                 ->prefix(config('backpack.base.route_prefix', 'backpack'))
                 ->group(__DIR__.'/../../routes/web.php');
+
+            Route::middleware(['web', backpack_middleware()])
+                ->group(__DIR__.'/../../routes/file-manager.php');
         });
     }
 }

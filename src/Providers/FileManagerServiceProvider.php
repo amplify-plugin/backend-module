@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Backend\Providers;
 
-use Amplify\System\Media\Http\Middleware\FileManagerACL;
-use Amplify\System\Media\Services\ACLService\ACLRepository;
-use Amplify\System\Media\Services\ConfigService\ConfigRepository;
+use Amplify\System\Backend\Media\Http\Middleware\FileManagerACL;
+use Amplify\System\Backend\Media\Services\ACLService\ACLRepository;
+use Amplify\System\Backend\Media\Services\ConfigService\ConfigRepository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 

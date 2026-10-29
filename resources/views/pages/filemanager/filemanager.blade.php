@@ -34,6 +34,9 @@
 @endsection
 
 @section('after_scripts')
+    <script>
+        window.LfmRoutePrefix = '{{ config('file-manager.routePrefix', 'file-manager') }}';
+    </script>
     <script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
 @endsection
 

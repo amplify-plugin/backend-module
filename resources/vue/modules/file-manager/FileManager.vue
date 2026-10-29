@@ -177,7 +177,12 @@ export default {
 
                 // create notification, if find message text
                 if (Object.prototype.hasOwnProperty.call(response.data, 'result')) {
-                    if (response.data.result.message) {
+                    // silent responses - chunk progress should not notify
+                    const silentMessages = ['chunkUploaded', 'aborted'];
+
+                    if (response.data.result.message
+                        && !silentMessages.includes(response.data.result.message)
+                    ) {
                         const message = {
                             status: response.data.result.status,
                             message: Object.prototype.hasOwnProperty.call(this.lang.response, response.data.result.message)

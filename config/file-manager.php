@@ -1,7 +1,7 @@
 <?php
 
-use Amplify\System\Media\Services\ACLService\ConfigACLRepository;
-use Amplify\System\Media\Services\ConfigService\DefaultConfigRepository;
+use Amplify\System\Backend\Media\Services\ACLService\ConfigACLRepository;
+use Amplify\System\Backend\Media\Services\ConfigService\DefaultConfigRepository;
 
 return [
 

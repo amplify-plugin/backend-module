@@ -43,12 +43,16 @@ export default {
         // laravel .env
         state.baseUrl = process.env.MIX_LFM_BASE_URL;
       } else {
+        // route prefix from the backend config (file-manager.php),
+        // injected into the page as window.LfmRoutePrefix
+        const routePrefix = window.LfmRoutePrefix || 'file-manager';
+
         let baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
         if (window.location.port.length) {
-          baseUrl += `:${window.location.port}/file-manager/`;
+          baseUrl += `:${window.location.port}/${routePrefix.replace(/^\/+|\/+$/g, '')}/`;
         } else {
-          baseUrl += '/file-manager/';
+          baseUrl += `/${routePrefix.replace(/^\/+|\/+$/g, '')}/`;
         }
 
         state.baseUrl = baseUrl;

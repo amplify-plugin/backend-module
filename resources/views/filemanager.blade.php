@@ -12,7 +12,7 @@
         <h2>File Manager </h2>
         <div class="row">
             <div class="col-md-12" id="fm-main-block" style="height: 597px; overflow:scroll">
-                <file-manager></file-manager>
+                <file-manager :settings="@json(config('file-manager'))"/>
             </div>
         </div>
     </div>

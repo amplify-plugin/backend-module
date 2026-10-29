@@ -9,7 +9,9 @@ class AlexusmaiFileManagerController extends Controller
 {
     public function index()
     {
-        return view('backend::pages.filemanager.filemanager');
+        return view('backend::pages.filemanager.filemanager', [
+            'title' => "File Manager",
+        ]);
     }
 
     public function popup($input_id, Request $request)

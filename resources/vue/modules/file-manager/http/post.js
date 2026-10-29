@@ -41,6 +41,34 @@ export default {
   },
 
   /**
+   * Upload a single file chunk
+   * @param data
+   * @param config
+   * @returns {AxiosPromise<any>}
+   */
+  uploadChunk(data, config) {
+    return HTTP.post('upload-chunk', data, config);
+  },
+
+  /**
+   * Finalize a chunked upload - assemble chunks and store to the disk
+   * @param data
+   * @returns {AxiosPromise<any>}
+   */
+  uploadChunkFinish(data) {
+    return HTTP.post('upload-chunk-finish', data);
+  },
+
+  /**
+   * Abort a chunked upload - remove stored chunks, server side
+   * @param uploadId
+   * @returns {AxiosPromise<any>}
+   */
+  uploadAbort(uploadId) {
+    return HTTP.post('upload-abort', { upload_id: uploadId });
+  },
+
+  /**
    * Delete selected items
    * @param data
    * @returns {*}

@@ -19,6 +19,7 @@ use Amplify\System\Backend\Observers\ProductObserver;
 use Amplify\System\Backend\Providers\AmplifyServiceProvider;
 use Amplify\System\Backend\Providers\RouteServiceProvider;
 use Amplify\System\Backend\Providers\SingletonServiceProvider;
+use Amplify\System\Backend\Providers\FileManagerServiceProvider;
 use Amplify\System\Backend\Traits\HasBackendMenu;
 use Backpack\CRUD\ViewNamespaces;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -38,12 +39,14 @@ class BackendServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/backend.php', 'amplify.backend');
         $this->mergeConfigFrom(__DIR__.'/../config/pim.php', 'amplify.pim');
+        $this->mergeConfigFrom(__DIR__.'/../config/file-manager.php', 'file-manager');
 
         $this->app->register(SingletonServiceProvider::class);
 
         $this->app->register(AmplifyServiceProvider::class);
 
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(FileManagerServiceProvider::class);
     }
 
     /**

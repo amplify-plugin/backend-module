@@ -276,6 +276,112 @@ export default {
   },
 
   /**
+   * Upload file or files in chunks
+   * @param getters
+   * @param commit
+   * @param dispatch
+   * @param files
+   * @param overwrite
+   * @returns {Promise}
+   */
+  uploadChunked({ getters, commit, dispatch }, { files, overwrite }) {
+    // directory where files will be uploaded
+    const selectedDirectory = getters.selectedDirectory;
+
+    // chunk size - 5 MB
+    const chunkSize = 5 * 1024 * 1024;
+
+    // calculate total bytes of all files
+    let totalBytes = 0;
+    let uploadedBytes = 0;
+    for (let i = 0; i < files.length; i += 1) {
+      totalBytes += files[i].size;
+    }
+
+    const updateProgress = () => {
+      commit('messages/setProgress', Math.round((uploadedBytes * 100) / totalBytes));
+    };
+
+    const uploadNextChunk = (file, uploadId, chunkIndex, totalChunks) => {
+      const start = chunkIndex * chunkSize;
+      const end = Math.min(start + chunkSize, file.size);
+
+      const data = new FormData();
+      data.append('disk', getters.selectedDisk);
+      data.append('path', selectedDirectory || '');
+      data.append('upload_id', uploadId);
+      data.append('chunk_index', chunkIndex);
+      data.append('chunk', file.slice(start, end));
+
+      return POST.uploadChunk(data).then(() => {
+        uploadedBytes += end - start;
+        updateProgress();
+
+        if (chunkIndex + 1 < totalChunks) {
+          // upload the next chunk sequentially
+          return uploadNextChunk(file, uploadId, chunkIndex + 1, totalChunks);
+        }
+
+        // all chunks uploaded - assemble the file, server side
+        return POST.uploadChunkFinish({
+          disk: getters.selectedDisk,
+          path: selectedDirectory || '',
+          upload_id: uploadId,
+          name: file.name,
+          total_chunks: totalChunks,
+          overwrite,
+        });
+      });
+    };
+
+    const uploadFile = (index) => {
+      if (index >= files.length) {
+        return Promise.resolve({
+          data: {
+            result: { status: 'success', message: 'uploaded' },
+          },
+        });
+      }
+
+      const file = files[index];
+      // total count of chunks for the file
+      const totalChunks = Math.max(1, Math.ceil(file.size / chunkSize));
+      // unique upload id for the file
+      const uploadId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${index}`;
+
+      return uploadNextChunk(file, uploadId, 0, totalChunks)
+        .then((response) => {
+          if (response.data.result.status !== 'success') {
+            // stop uploading the remaining files
+            return response;
+          }
+
+          // upload the next file
+          return uploadFile(index + 1);
+        });
+    };
+
+    return uploadFile(0).then((response) => {
+      // clear progress
+      commit('messages/clearProgress');
+
+      // if files uploaded successfully
+      if (
+        response.data.result.status === 'success'
+        && selectedDirectory === getters.selectedDirectory
+      ) {
+        // refresh content
+        dispatch('refreshManagers');
+      }
+
+      return response;
+    }).catch(() => {
+      // clear progress
+      commit('messages/clearProgress');
+    });
+  },
+
+  /**
    * Delete selected files and folders
    * @param state
    * @param getters

@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <title>File manager</title>
+<head>
+    <meta charset="utf-8">
+    <title>File manager</title>
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
-        <link href="{{ mix('css/backend.css', 'vendor/backend') }}" rel="stylesheet" type="text/css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/backend.css', 'vendor/backend') }}" rel="stylesheet" type="text/css">
 
-    </head>
-    <body>
-        <div id="app">
-            <file-manager-popup
-                input_id="{{ $inputId }}"
-                is_multiple="{{ $isMultiple }}"
-            ></file-manager-popup>
-        </div>
+</head>
+<body>
+<div id="app">
+    @php
+        $settings = [
+            'baseUrl' => url(config('file-manager.routePrefix')),
+            'widowsConfig' => 2, 'lang' => app()->getLocale()
+            ];
+    @endphp
 
-        <script>
-            window.LfmRoutePrefix = '{{ config('file-manager.routePrefix', 'file-manager') }}';
-        </script>
-        <script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
-    </body>
+    <file-manager-popup
+            :settings='@json($settings)'
+            input_id="{{ $inputId }}"
+            is_multiple="{{ $isMultiple }}"
+    />
+</div>
+
+<script src="{{mix("js/backend.js", "vendor/backend")}}"></script>
+</body>
 </html>
 

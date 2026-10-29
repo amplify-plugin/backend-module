@@ -145,6 +145,9 @@
                         <input
                             type="text"
                             name="image"
+                            data-init-function="bpFieldInitBrowseElement"
+                            data-elfinder-trigger-url="bpFieldInitBrowseElement"
+                            data-initialized="true"
                             v-model="$parent.category.image"
                             id="image"
                             class="form-control"
@@ -163,7 +166,7 @@
                                     canMultiple = false;
                                 "
                             >
-                                <i class="la la-cloud-upload"></i> Browse
+                                <i class="la la-cloud-upload"></i> Browse uploads
                             </button>
                             <button
                                 type="button"

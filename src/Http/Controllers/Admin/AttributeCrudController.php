@@ -4,17 +4,26 @@ namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\AttributeRequest;
+use Amplify\System\Backend\Exports\AttributeValueExport;
 use Amplify\System\Backend\Models\Attribute;
+use Amplify\System\Backend\Models\AttributeProduct;
+use Amplify\System\Backend\Traits\BulkExportOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Backpack\Pro\Http\Controllers\Operations\FetchOperation;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Exception;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Class AttributeCrudController
@@ -29,6 +38,7 @@ class AttributeCrudController extends BackpackCustomCrudController
     use InlineCreateOperation;
     use ListOperation;
     use UpdateOperation;
+    use BulkExportOperation;
 
     /**
      * @var string[]
@@ -65,8 +75,22 @@ class AttributeCrudController extends BackpackCustomCrudController
     public function setup()
     {
         CRUD::setModel(Attribute::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/attribute');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/attribute');
         CRUD::setEntityNameStrings('attribute', 'attributes');
+    }
+
+    protected function setupCustomRoutes($segment, $routeName, $controller)
+    {
+        Route::get($segment . '/{attribute}/reorder', [
+            'as' => $routeName . '.reorder',
+            'uses' => $controller . '@reorder',
+            'operation' => 'value-reorder',
+        ]);
+
+        Route::post($segment . '/{attribute}/reorder', [
+            'as' => $routeName . '.reorder',
+            'uses' => $controller . '@saveReorder'
+        ]);
     }
 
     /**
@@ -78,24 +102,20 @@ class AttributeCrudController extends BackpackCustomCrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->addButtonFromModelFunction('line', 'reorder-value', 'reorderValuesBtn', 'ending');
 
         CRUD::addColumn([
             'name' => 'id',
             'type' => 'custom_html',
             'value' => function ($model) {
-                if ($model->is_new === 1 && ! $model->is_updated) {
-                    return $model->id.' <sup class="badge text-danger px-0">New</sup>';
+                if ($model->is_new === 1 && !$model->is_updated) {
+                    return $model->id . ' <sup class="badge text-danger px-0">New</sup>';
                 } elseif ($model->is_updated) {
-                    return $model->id.' <sup class="badge text-warning px-0">Updated</sup>';
+                    return $model->id . ' <sup class="badge text-warning px-0">Updated</sup>';
                 } else {
                     return $model->id;
                 }
             },
-        ]);
-
-        CRUD::addColumn([
-            'name' => 'slug',
-            'label' => 'Slug',
         ]);
 
         CRUD::addColumn([
@@ -104,38 +124,27 @@ class AttributeCrudController extends BackpackCustomCrudController
         ]);
 
         CRUD::addColumn([
+            'name' => 'slug',
+            'label' => 'Slug',
+        ]);
+
+        CRUD::addColumn([
             'name' => 'type',
             'label' => 'Type',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                return ucfirst($attribute->type ?? '');
-            },
+            'type' => 'select_from_array',
+            'options' => $this->types,
         ]);
 
         CRUD::addColumn([
             'name' => 'use_as_filter',
             'label' => 'Use As Filter',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $use_as_filter = $attribute->use_as_filter ?? false;
-
-                return "<i class='la la-".($use_as_filter
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean',
         ]);
 
         CRUD::addColumn([
             'name' => 'searchable',
             'label' => 'Searchable',
-            'type' => 'custom_html',
-            'value' => function ($attribute) {
-                $searchable = $attribute->searchable ?? false;
-
-                return "<i class='la la-".($searchable
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
-            },
+            'type' => 'boolean',
         ]);
 
         /**
@@ -187,9 +196,9 @@ class AttributeCrudController extends BackpackCustomCrudController
             'value' => function ($attribute) {
                 $has_range = $attribute->has_range ?? false;
 
-                return "<i class='la la-".($has_range
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
+                return "<i class='la la-" . ($has_range
+                        ? 'check text-success'
+                        : 'times text-danger') . "'></i>";
             },
         ]);
 
@@ -200,9 +209,9 @@ class AttributeCrudController extends BackpackCustomCrudController
             'value' => function ($attribute) {
                 $use_as_filter = $attribute->use_as_filter ?? false;
 
-                return "<i class='la la-".($use_as_filter
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
+                return "<i class='la la-" . ($use_as_filter
+                        ? 'check text-success'
+                        : 'times text-danger') . "'></i>";
             },
         ]);
 
@@ -213,9 +222,9 @@ class AttributeCrudController extends BackpackCustomCrudController
             'value' => function ($attribute) {
                 $searchable = $attribute->searchable ?? false;
 
-                return "<i class='la la-".($searchable
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
+                return "<i class='la la-" . ($searchable
+                        ? 'check text-success'
+                        : 'times text-danger') . "'></i>";
             },
         ]);
 
@@ -226,9 +235,9 @@ class AttributeCrudController extends BackpackCustomCrudController
             'value' => function ($attribute) {
                 $tunable = $attribute->tunable ?? false;
 
-                return "<i class='la la-".($tunable
-                    ? 'check text-success'
-                    : 'times text-danger')."'></i>";
+                return "<i class='la la-" . ($tunable
+                        ? 'check text-success'
+                        : 'times text-danger') . "'></i>";
             },
         ]);
 
@@ -435,12 +444,129 @@ class AttributeCrudController extends BackpackCustomCrudController
                 $query->where('id', '!=', $id);
             })
             ->exists()) {
-            $slug = $baseSlug.'-'.$counter;
+            $slug = $baseSlug . '-' . $counter;
             $counter++;
         }
 
         return response()->json([
             'slug' => $slug,
         ]);
+    }
+
+    public function reorder(Attribute $attribute)
+    {
+        $entries = AttributeProduct::query()
+            ->select('id', 'sequence', 'attribute_value', 'attribute_id')
+            ->where('attribute_id', $attribute->getKey())
+            ->groupBy('attribute_value')
+            ->orderBy('sequence')
+            ->get();
+
+        $this->crud->setHeading('Attribute Values');
+        $this->crud->setSubheading('Reorder attribute values');
+
+        $this->crud->set('reorder.max_level', 1);
+
+        return view('backend::pages.attribute.reorder_value', [
+            'crud' => $this->crud,
+            'entries' => $entries,
+            'title' => 'Reorder Values',
+            'attribute' => $attribute,
+        ]);
+    }
+
+    public function saveReorder(Attribute $attribute, Request $request)
+    {
+        try {
+            $attributeValues = [];
+
+            foreach ($request->input('tree', []) as $sequence => $item) {
+
+                if (empty($item['item_id'])) {
+                    continue;
+                }
+
+                $attributeValues[$sequence] = $item['item_id'];
+            }
+
+            if (empty($attributeValues)) {
+                return back()->with('warning', 'Nothing to reorder.');
+            }
+
+            //Prepare Query
+
+            $cases = [];
+            $bindings = [];
+
+            foreach ($attributeValues as $sequence => $attributeValue) {
+                $cases[] = 'WHEN JSON_SEARCH(attribute_value, \'one\', ?) IS NOT NULL THEN ?';
+                $bindings[] = $attributeValue;
+                $bindings[] = $sequence;
+            }
+
+            // Single bulk query: rows are matched by attribute_id + attribute_value,
+            // so every attribute_product row sharing the same attribute value across
+            // different product ids receives the same sequence, keeping sequences
+            // unique per attribute (no duplicate sequence per attribute value).
+            $searches = implode(' OR ', array_fill(0, count($attributeValues),
+                'JSON_SEARCH(attribute_value, \'one\', ?) IS NOT NULL'));
+
+            //Used RAW Query for 1,01,41,345 rows can be a possibility
+            DB::update("
+            UPDATE attribute_product
+            SET sequence = CASE " . implode(' ', $cases) . " ELSE sequence END
+            WHERE attribute_id = ? AND ($searches)
+        ", array_merge($bindings, [$attribute->getKey()], array_values($attributeValues)));
+
+            $attribute->is_updated = true;
+            $attribute->save();
+
+            return back()->with('success', 'Attribute values reordered successfully.');
+        } catch (\Throwable $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
+    }
+
+    /**
+     * Export multiple entries in one go.
+     *
+     * @return BinaryFileResponse|RedirectResponse
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
+    public function bulkExport()
+    {
+        $this->crud->hasAccessOrFail('bulkExport');
+
+        /**
+         * @var int[] $entries ids of attributes
+         */
+        $entries = request()->input('entries', []);
+
+        if (empty($entries)) {
+            return back()->with('warning', 'No attributes selected for export.');
+        }
+
+        $rows = AttributeProduct::query()
+            ->select('attributes.name', 'attribute_product.attribute_value', 'attribute_product.sequence')
+            ->join('attributes', 'attributes.id', '=', 'attribute_product.attribute_id')
+            ->whereIn('attribute_id', $entries)
+            ->distinct()
+            ->orderBy('attributes.name')
+            ->orderBy('attribute_product.sequence')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'attribute_name' => $row->name,
+                    'attribute_value' => $row->attribute_value,
+                    'sequence' => $row->sequence,
+                ];
+            });
+
+        return Excel::download(
+            new AttributeValueExport($rows),
+            'attribute-values-'.now()->format('Y-m-d-His').'.xlsx',
+            \Maatwebsite\Excel\Excel::XLSX
+        );
     }
 }

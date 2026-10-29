@@ -42,7 +42,7 @@ class Category extends Model implements ContractsAuditable
 
     protected array $translatable = ['category_name'];
 
-    public function showCloneCategoryBtn(): string
+    public function showCloneCategoryBtn($crud): string
     {
         return '<a class="btn btn-sm btn-link" href="' . route('category.clone', $this->id)
             . '" data-toggle="tooltip" title="Create Classifcation"><i class="lar la-copy"></i> Create Classifcation</a>';

@@ -88,7 +88,7 @@ class AttributeCrudController extends BackpackCustomCrudController
         ]);
 
         Route::post($segment . '/{attribute}/reorder', [
-            'as' => $routeName . '.reorder',
+            'as' => $routeName . '.save-reorder',
             'uses' => $controller . '@saveReorder'
         ]);
     }

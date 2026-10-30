@@ -11,10 +11,6 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-    },
-    "require-dev": {
-    },
     "autoload": {
         "psr-4": {
             "Amplify\\System\\Backend\\": "./src/"

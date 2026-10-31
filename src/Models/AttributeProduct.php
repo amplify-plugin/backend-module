@@ -16,7 +16,7 @@ class AttributeProduct extends Model implements Auditable
 
     protected $guarded = [];
 
-    protected $translatable = ['attribute_value'];
+    protected $translatable = ['attribute_value', 'name'];
 
     protected $append = ['local_attribute_value'];
 

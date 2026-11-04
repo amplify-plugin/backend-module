@@ -19,6 +19,7 @@ use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\ProductClassification;
 use Amplify\System\Backend\Models\ProductImage;
 use Amplify\System\Backend\Models\SkuProduct;
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Backend\Traits\ProductTrait;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\ProductHelper;
@@ -46,6 +47,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use JsonException;
 use Prologue\Alerts\Facades\Alert;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Translatable\HasTranslations;
 use stdClass;
 
@@ -605,6 +607,59 @@ class ProductCrudController extends BackpackCustomCrudController
     }
 
     /**
+     * Which product editor tabs the current user may see.
+     *
+     * Uses the role permission records directly. can() cannot be used here
+     * because is_admin users pass every ability in Gate::before, so unchecking
+     * a tab on the role would have no effect.
+     * A role with none of these permissions still sees every tab.
+     *
+     * @return array<string, bool>
+     */
+    protected function productTabPermissions(): array
+    {
+        $map = [
+            'BasicInfo' => 'product.tab-basic-info',
+            'Attributes' => 'product.tab-attributes',
+            'Pricing' => 'product.tab-pricing',
+            'Media' => 'product.tab-media',
+            'Documents' => 'product.tab-documents',
+            'SEO' => 'product.tab-seo',
+            'FeaturesAndSpecifications' => 'product.tab-features-and-specifications',
+            'ExtraData' => 'product.tab-extra-data',
+            'SKUS' => 'product.tab-skus',
+            'Products' => 'product.tab-products',
+            'Options' => 'product.tab-options',
+        ];
+
+        $user = backpack_user();
+
+        if ($user === null) {
+            return array_fill_keys(array_keys($map), false);
+        }
+
+        if (config('permission.teams')) {
+            setPermissionsTeamId(User::SYSTEM_TEAM_ID);
+        }
+
+        $granted = [];
+
+        foreach ($map as $tab => $permission) {
+            try {
+                $granted[$tab] = $user->hasPermissionTo($permission);
+            } catch (PermissionDoesNotExist) {
+                $granted[$tab] = false;
+            }
+        }
+
+        if (! in_array(true, $granted, true)) {
+            return array_fill_keys(array_keys($map), true);
+        }
+
+        return $granted;
+    }
+
+    /**
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
@@ -644,6 +699,7 @@ class ProductCrudController extends BackpackCustomCrudController
         $this->data['all_document_types'] = DocumentType::orderBy('name')->get();
         $this->data['show_order_quantity_config_tab'] = config('amplify.pim.use_minimum_order_quantity') && ! $this->crud->entry?->has_sku;
         $this->data['use_master_sku'] = config('amplify.pim.use_master_sku', false);
+        $this->data['tab_permissions'] = $this->productTabPermissions();
 
         // dd($this->data, $this->data['productClassification'], $this->data['product']);
         $this->crud->setCreateView('backend::pages.product.create');

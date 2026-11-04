@@ -55,7 +55,7 @@
                     show_order_quantity_config_tab="{{ $show_order_quantity_config_tab }}"
                     can_publish="{{ backpack_user()->can(['product.publish']) }}"
                     customer_groups="{{ json_encode($customer_groups) }}"
-                    permissions="{{ base64_encode(backpack_user()->getAllPermissions()->sortBy('name')->pluck('name')->toJson()) }}"
+                    :tab_permissions="@js($tab_permissions ?? [])"
                     core_configs="{{ json_encode($core_configs) }}"
                     product_mandatory_fields="{{ json_encode($product_mandatory_fields) }}"
                     easy_ask_default_product_categories="{{ json_encode($easyAsk_default_product_categories) }}"

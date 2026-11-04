@@ -300,7 +300,8 @@ export default {
         'published_status',
         'model_codes',
         'unitOfMeasurements',
-        'useMasterSku'
+        'useMasterSku',
+        'tab_permissions',
     ],
 
     components: {
@@ -444,11 +445,37 @@ export default {
                 });
             }
 
-            return tabs;
+            return this.onlyPermittedTabs(tabs);
+        },
+
+        onlyPermittedTabs(tabs) {
+            return _.pickBy(tabs, (tab, name) => this.canShowTab(name));
+        },
+
+        canShowTab(name) {
+            const permissions = this.tab_permissions;
+
+            if (!permissions || typeof permissions !== 'object' || Array.isArray(permissions)) {
+                return true;
+            }
+
+            if (!Object.prototype.hasOwnProperty.call(permissions, name)) {
+                return true;
+            }
+
+            return permissions[name] === true || permissions[name] === 1 || permissions[name] === '1';
+        },
+
+        ensureActiveTab() {
+            const names = Object.keys(this.tabs);
+
+            if (!names.includes(this.activeTab)) {
+                this.activeTab = names[0] || '';
+            }
         },
 
         resolveActiveTab(requested) {
-            const tabNames = Object.keys(this.getAllTabs());
+            const tabNames = Object.keys(this.tabs);
             const requestedName = String(requested || '').trim();
 
             if (tabNames.includes(requestedName)) {
@@ -456,14 +483,15 @@ export default {
             }
 
             return (
-                tabNames.find((name) => name.toLowerCase() === requestedName.toLowerCase()) || 'BasicInfo'
+                tabNames.find((name) => name.toLowerCase() === requestedName.toLowerCase()) ||
+                tabNames[0] ||
+                ''
             );
         },
         init() {
+            const requestedTab = this.queryString.activeTab || this.queryString.activetab || this.active_tab;
             this.tabs = this.getAllTabs();
-            this.activeTab = this.resolveActiveTab(
-                this.queryString.activeTab || this.queryString.activetab || this.active_tab,
-            );
+            this.activeTab = this.resolveActiveTab(requestedTab);
             let customerGroups = JSON.parse(this.customer_groups);
             this.customer_group_price_list = customerGroups.map((ele) => {
                 return { ...ele, price: '' };
@@ -529,6 +557,7 @@ export default {
             this.fetchProductClassification();
             this.fetchCategory();
             this.onProductTypeChange(this.productData.product_type);
+            this.activeTab = this.resolveActiveTab(requestedTab);
             if (!_.isEmpty(this.productData.products_list)) {
                 this.productData.products_list = this.productData.products_list;
             }
@@ -1089,6 +1118,7 @@ export default {
             }
 
             this.reRenderTabs();
+            this.ensureActiveTab();
         },
 
         reRenderTabs() {
@@ -1096,6 +1126,10 @@ export default {
         },
 
         addTab(tab) {
+            if (!this.canShowTab(tab) || !this.otherTabs[tab]) {
+                return this;
+            }
+
             this.tabs[tab] = this.otherTabs[tab];
             return this;
         },
@@ -1117,6 +1151,7 @@ export default {
                 ? this.restoreDefaultTabs().addTab('SKUS').reRenderTabs()
                 : this.restoreDefaultTabs().reRenderTabs();
 
+            this.ensureActiveTab();
             this.getDynamicCurrentPreviousTabIds();
         },
 
@@ -1200,6 +1235,11 @@ export default {
             let isSwitchTab = false;
             for (const key in this.validationErrors) {
                 const field = this.allFields[key];
+
+                if (!field || !this.tabs[field.tab]) {
+                    continue;
+                }
+
                 this.tabs[field.tab].hasError = true;
 
                 if (!isSwitchTab) {
@@ -1207,6 +1247,8 @@ export default {
                     isSwitchTab = false;
                 }
             }
+
+            this.ensureActiveTab();
         },
     },
 

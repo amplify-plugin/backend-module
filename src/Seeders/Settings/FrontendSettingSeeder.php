@@ -152,6 +152,17 @@ class FrontendSettingSeeder extends Seeder
                 ],
             ],
             [
+                'option' => 'customer_message_admin_ids',
+                'value' => '[]',
+                'type' => 'json',
+                'field' => [
+                    'name' => 'value',
+                    'type' => 'select_multiple',
+                    'label' => 'Admins customers can message',
+                    'hint' => 'Leave empty to let customers message every internal user.',
+                ],
+            ],
+            [
                 'option' => 'show_parent_product_for_sku',
                 'value' => true,
                 'type' => 'bool',

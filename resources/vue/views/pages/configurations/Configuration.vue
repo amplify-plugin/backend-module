@@ -213,7 +213,8 @@ export default {
         'timezone',
         'catalogs',
         'document_types',
-        'permissions'
+        'permissions',
+        'message_admins'
     ],
     components: {
         SwitchTabs,
@@ -269,6 +270,7 @@ export default {
             dateTimes: JSON.parse(this.date_time_formats),
             dates: JSON.parse(this.date_formats),
             documentTypes: JSON.parse(this.document_types),
+            messageAdmins: JSON.parse(this.message_admins || '[]'),
             pageTypes: {},
         };
     },

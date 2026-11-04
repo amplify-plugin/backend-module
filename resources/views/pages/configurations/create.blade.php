@@ -38,6 +38,7 @@
         menu_groups="{{ json_encode($menuGroups) }}"
         dds_dates="{{ json_encode($dds_dates ?? []) }}"
         document_types="{{ json_encode($documentTypes ?? []) }}"
+        message_admins="{{ json_encode($messageAdmins ?? []) }}"
         timezone="{{ config('app.timezone') }}"
         :permissions="@js($permissions)"
     >

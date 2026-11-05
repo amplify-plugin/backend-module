@@ -413,6 +413,27 @@
                     $parent.validationErrors.site_primary_menu[0]
                 }}</small>
             </div>
+
+            <div class="form-group">
+                <label>Admins customers can message</label>
+                <div>
+                    <multiselect
+                        v-model="selectedMessageAdmins"
+                        :options="$parent.messageAdmins"
+                        :multiple="true"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :preserve-search="true"
+                        :hide-selected="true"
+                        label="name"
+                        track-by="id"
+                        placeholder="All internal users"
+                    ></multiselect>
+                    <small class="text-muted d-block mt-2">
+                        Leave this empty to let customers message every internal user. Choose names to limit who they can contact.
+                    </small>
+                </div>
+            </div>
         </fieldset>
 
         <div id="saveActions" class="form-group action-row">
@@ -434,15 +455,37 @@ export default {
     data() {
         return {
             pageData: [],
+            selectedMessageAdmins: [],
             coreConfigurationData: {
                 tab: 'frontend',
             },
         };
     },
 
+    watch: {
+        selectedMessageAdmins: {
+            deep: true,
+            handler(users) {
+                if (!this.coreConfigurationData) {
+                    return;
+                }
+                this.coreConfigurationData.customer_message_admin_ids = (users || [])
+                    .map((user) => Number(user.id))
+                    .filter((id) => id > 0);
+            },
+        },
+    },
+
     mounted() {
         this.coreConfigurationData = this.$parent.coreConfigurationData.frontend;
         this.coreConfigurationData.tab = 'frontend';
+        const selected = this.coreConfigurationData.customer_message_admin_ids;
+        const ids = Array.isArray(selected)
+            ? selected.map((id) => Number(id && id.id ? id.id : id)).filter((id) => id > 0)
+            : [];
+        this.coreConfigurationData.customer_message_admin_ids = ids;
+        const admins = this.$parent.messageAdmins || [];
+        this.selectedMessageAdmins = admins.filter((user) => ids.includes(Number(user.id)));
     },
 };
 </script>

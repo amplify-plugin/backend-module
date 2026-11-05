@@ -8,6 +8,7 @@ use Amplify\System\Backend\Models\Country;
 use Amplify\System\Backend\Models\DocumentType;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\SystemConfiguration;
+use Amplify\System\Backend\Models\User;
 use Amplify\System\Cms\Models\MenuGroup;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Helpers\UtilityHelper;
@@ -182,6 +183,14 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $this->data['menuGroups'] = MenuGroup::select('name', 'short_code')->get()->toArray();
 
         $this->data['documentTypes'] = DocumentType::select('name', 'id', 'media_type')->orderBy('name')->get();
+        $this->data['messageAdmins'] = User::query()
+            ->orderBy('name')
+            ->get(['id', 'name'])
+            ->map(fn (User $user) => [
+                'id' => (int) $user->id,
+                'name' => (string) $user->name,
+            ])
+            ->values();
         $this->data['availableLocales'] = [];
         //Tab vue component name => boolean
         $this->data['permissions'] = [
@@ -378,12 +387,25 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
         $inputs = $request->except([
             'excluded_page_types', 'tab', 'styles',
             'scripts', 'fallback_image_path', 'shop_page_prefix',
-            'product_page_prefix',
+            'product_page_prefix', 'customer_message_admin_ids',
         ]);
 
         foreach ($inputs as $key => $value) {
             $config[$key] = $value;
         }
+
+        $selected = $request->input('customer_message_admin_ids', []);
+        $selected = is_array($selected) ? $selected : [];
+        $config['customer_message_admin_ids'] = array_values(array_unique(array_filter(array_map(
+            function ($item) {
+                if (is_array($item)) {
+                    return (int) ($item['id'] ?? 0);
+                }
+
+                return (int) $item;
+            },
+            $selected
+        ), fn (int $id) => $id > 0)));
 
         return $config;
     }

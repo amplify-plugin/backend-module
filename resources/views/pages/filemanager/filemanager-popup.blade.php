@@ -8,8 +8,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
-        <link href="{{ mix("css/backend.css", "vendor/backend") }}" rel="stylesheet" type="text/css">
+        <link href="{{ mix('js/plugins/file-manager/css/file-manager.css', 'vendor/backend') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
 
     </head>
     <body>

@@ -38,6 +38,6 @@
 @endsection
 
 @section('after_scripts')
-    <script src="{{ asset("vendor/plupload/plupload.full.min.js") }}"></script>
+    <script src="{{ mix("js/forms/plupload.js", 'vendor/backend') }}"></script>
     <script src="{{ mix("js/backend.js", "vendor/backend") }}"></script>
 @endsection

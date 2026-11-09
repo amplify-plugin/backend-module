@@ -381,7 +381,7 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'product_page_prefix',
         ]);
 
-        $inputs['allowed_external_host'] = array_map(fn ($item) => parse_url($item, PHP_URL_HOST), array_values($inputs['allowed_external_host']));
+        $inputs['allowed_external_host'] = array_unique(array_map(fn ($item) => parse_url($item, PHP_URL_HOST), array_values($inputs['allowed_external_host'])));
 
         foreach ($inputs as $key => $value) {
             $config[$key] = $value;

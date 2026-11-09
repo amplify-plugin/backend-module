@@ -442,7 +442,7 @@ class CustomerOrderController extends Controller
                             }
                         }
 
-                        $erp_order_data = $order_data[''];
+                        $erp_order_data = $order_data;
                         $erp_order_data['order_type'] = 'O';
                         $apiResponse = $order->createOrderOrQuoteERP($erp_order_data);
 

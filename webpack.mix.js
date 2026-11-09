@@ -55,7 +55,6 @@ mix.options({
 }).setPublicPath('public')
     .sass('resources/scss/backend.scss', 'public/css/backend.css')
     .copyDirectory('resources/js', 'public/js/')
-    .copyDirectory('resources/css', 'public/css/')
     .copyDirectory('resources/img', 'public/img/')
     .js('resources/vue/app.js', 'public/js/backend.js')
     .copyDirectory('resources/ckeditor/assets', 'public/ckeditor')
@@ -79,4 +78,3 @@ mix.options({
             publicPath: '/vendor/backend/',
         }
     }).version();
-

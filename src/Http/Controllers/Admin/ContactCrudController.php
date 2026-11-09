@@ -688,7 +688,11 @@ class ContactCrudController extends BackpackCustomCrudController
         }
 
         // insert item in the db
-        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
+        $attributes = $this->crud->getStrippedSaveRequest($request);
+        if ($request->boolean('enabled')) {
+            $attributes['enabled_at'] = now();
+        }
+        $item = $this->crud->create($attributes);
 
         $this->data['entry'] = $this->crud->entry = $item;
 

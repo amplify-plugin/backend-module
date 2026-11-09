@@ -1,0 +1,1 @@
+<a href="{{ url($crud->route.'/'.$entry->getKey().'/viewreport') }}" class="btn btn-sm btn-link text-capitalize">View Report</a>

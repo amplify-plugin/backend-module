@@ -3,7 +3,6 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Models\Category;
 use Amplify\System\Backend\Models\Country;
 use Amplify\System\Backend\Models\DocumentType;
 use Amplify\System\Backend\Models\Product;
@@ -381,7 +380,33 @@ class SystemConfigurationCrudController extends BackpackCustomCrudController
             'product_page_prefix',
         ]);
 
-        $inputs['allowed_external_host'] = array_unique(array_map(fn ($item) => parse_url($item, PHP_URL_HOST), array_values($inputs['allowed_external_host'])));
+        $inputs['allowed_external_host'] = array_values(
+            array_unique(
+                array_filter(
+                    array_map(function ($item) {
+                        $item = trim($item);
+
+                        if (empty($item)) {
+                            return null;
+                        }
+
+                        // Extract hostname from a complete URL.
+                        if (filter_var($item, FILTER_VALIDATE_URL)) {
+                            return parse_url($item, PHP_URL_HOST);
+                        }
+
+                        // Accept only valid domain names.
+                        return filter_var($item, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)
+                        && str_contains($item, '.')
+                            ? $item
+                            : null;
+                    },
+                        $inputs['allowed_external_host'] ?? []
+                    ),
+                    fn($host) => !empty($host)
+                )
+            )
+        );
 
         foreach ($inputs as $key => $value) {
             $config[$key] = $value;

@@ -415,11 +415,42 @@
             </div>
         </fieldset>
 
-        <div id="saveActions" class="form-group action-row">
-            <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
-                <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                <span data-value="save_and_edit"> Save</span>
-            </button>
+    <fieldset class="settings-section mt-3">
+      <legend>
+        <i class="la la-external-link-square mr-2"></i>
+        External Link
+      </legend>
+      <div class="form-group">
+        <label>External Link Allowed Hosts</label>
+        <span class="text-muted d-block">Redirect URLs pointing to an allowed host will bypass the external link redirect popup.</span>
+        <ul class="list-group list-group-flush py-2">
+          <li class="d-flex gap-2 justify-content-between list-group-item px-0 py-2 w-100" style="gap: 1rem"
+              v-for="(host, index) in coreConfigurationData.allowed_external_host" :key="index">
+            <label :for="`url-${index}`" class="sr-only">Hostname</label>
+            <input class="form-control form-control-sm"
+                   :id="`url-${index}`"
+                   placeholder="Enter a url or hostname"
+                   type="text" required max="255" v-model="coreConfigurationData.allowed_external_host[index]"/>
+            <button
+                type="button"
+                role="button"
+                @click.prevent="() => coreConfigurationData.allowed_external_host.splice(index,1)"
+                class="btn btn-sm btn-danger">Remove</button>
+          </li>
+        </ul>
+        <button type="button" role="button"
+            @click.prevent="() => coreConfigurationData.allowed_external_host.push('')"
+            class="btn btn-sm btn-primary">
+          <b>Add More</b>
+        </button>
+      </div>
+    </fieldset>
+
+    <div id="saveActions" class="form-group action-row">
+      <button @click="$parent.saveCoreConfigInfo(coreConfigurationData)" type="button" class="btn btn-success">
+        <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+        <span data-value="save_and_edit"> Save</span>
+      </button>
 
             <button @click="$parent.saveAndAction()" type="button" class="btn btn-default">
                 <span class="la la-ban"></span> Cancel

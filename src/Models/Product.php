@@ -494,10 +494,6 @@ class Product extends Model implements ContractsAuditable
             ->withPivot(['attribute_value']);
     }
 
-    public function attributeValue(): BelongsToMany
-    {
-        return $this->belongsToMany(AttributeValue::class);
-    }
 
     public function option(): HasMany
     {

@@ -28,26 +28,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], function () {
     Route::get('force-reset-password/{user}', 'Auth\ForceUpdatePasswordController@edit')
-        ->name('admin.force-password.reset')->withoutMiddleware('admin_password_reset_required');
+        ->name('admin.force-password.reset')
+        ->withoutMiddleware('admin_password_reset_required');
 
     Route::post('force-reset-password/{user}', 'Auth\ForceUpdatePasswordController@update')
-        ->name('admin.force-password.update')->withoutMiddleware('admin_password_reset_required');
-
-    Route::get('logout', function () {
-        backpack_auth()->logout();
-        request()->session()->regenerateToken();
-
-        return redirect()->route('backpack.auth.login');
-    });
+        ->name('admin.force-password.update')
+        ->withoutMiddleware('admin_password_reset_required');
 
     // custom admin routes
     Route::crud('attribute', 'AttributeCrudController');
-    Route::crud('attributevalue', 'AttributeValueCrudController');
     Route::crud('category', 'CategoryCrudController');
     Route::crud('contact', 'ContactCrudController');
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('product', 'ProductCrudController');
-    Route::crud('custom-product', 'CustomProductCrudController');
+//    Route::crud('custom-product', 'CustomProductCrudController');
     Route::post('product/sku/remove/{parent_id}/{sku_id}', 'ProductCrudController@removeSku')->name('product.removeSku');
     Route::crud('classification', 'ClassificationCrudController');
     Route::post('product/bulk-archive', 'ProductCrudController@bulkArchive')->name('bulk-archive');
@@ -134,9 +128,9 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('customer-address', 'CustomerAddressCrudController');
     Route::crud('customer-role', 'Auth\CustomerRoleCrudController');
     Route::crud('customer-permission', 'Auth\CustomerPermissionCrudController');
-    Route::crud('user', 'Auth\UserCrudController');
-    Route::crud('role', 'Auth\RoleCrudController');
-    Route::crud('permission', 'Auth\PermissionCrudController');
+    Route::crud('user', 'UserCrudController');
+    Route::crud('role', 'RoleCrudController');
+    Route::crud('permission', 'PermissionCrudController');
 
     // ---- Reports ----
     Route::prefix('charts')->group(function () {

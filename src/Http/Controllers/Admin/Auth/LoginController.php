@@ -2,112 +2,33 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
-use Backpack\CRUD\app\Library\Auth\AuthenticatesUsers;
-use Illuminate\Contracts\Auth\StatefulGuard;
+use Amplify\System\Backend\Models\User;
+use Backpack\CRUD\app\Http\Controllers\Auth\LoginController as BackpackLoginController;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Response;
 use Prologue\Alerts\Facades\Alert;
 
-/**
- * @overwrite \Backpack\CRUD\app\Http\Controllers\Auth\LoginController
- */
-class LoginController extends Controller
+class LoginController extends BackpackLoginController
 {
-    protected ?string $loginPath = null;
-    protected ?string $redirectTo = null;
-    protected ?string $redirectAfterLogout = null;
-
-    protected $data = []; // the information we send to the view
-
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-    use AuthenticatesUsers {
-        logout as defaultLogout;
-    }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $guard = backpack_guard_name();
-
-        $this->middleware("guest:$guard", ['except' => 'logout']);
-
-        // ----------------------------------
-        // Use the admin prefix in all routes
-        // ----------------------------------
-
-        // If not logged in redirect here.
-        $this->loginPath ??= backpack_url('login');
-
-        // Redirect here after successful login.
-        $this->redirectTo ??= backpack_url('dashboard');
-
-        // Redirect here after logout.
-        $this->redirectAfterLogout ??= backpack_url('login');
-    }
-
-    /**
-     * Return custom username for authentication.
-     *
-     * @return string
-     */
-    public function username()
-    {
-        return backpack_authentication_column();
-    }
-
-    /**
-     * The user has logged out of the application.
-     *
      * @param Request $request
-     * @return mixed
-     */
-    protected function loggedOut(Request $request)
-    {
-        return redirect($this->redirectAfterLogout);
-    }
-
-    /**
-     * Get the guard to be used during logout.
-     *
-     * @return StatefulGuard
-     */
-    protected function guard()
-    {
-        return backpack_auth();
-    }
-
-    /**
-     * The after user has been authenticated.
-     *
-     * @overwrite Backpack\CRUD\app\Library\Auth\AuthenticatesUsers::authenticated
-     *
-     * @param  mixed  $user
-     * @return void|\Illuminate\Http\RedirectResponse
+     * @param User $user
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     protected function authenticated(Request $request, $user)
     {
-        if (! $user->enabled) {
-            auth(backpack_guard_name())->logout();
-            Alert::warning('This user is not permitted Login to system')->flash();
+        if (!$user->enabled) {
 
-            return redirect()->route('backpack.auth.login');
+            $response = $this->logout($request);
+
+            Alert::warning("Your account is suspended. Please contact your administrator.")->flash();
+
+            return $response;
         }
 
-        if ($user->password_reset_required == '1') {
-            return redirect()->route('admin.force-password.reset', $user);
-        }
+        return $request->wantsJson()
+            ? new Response('', 204)
+            : redirect()->intended($this->redirectPath());
     }
 }

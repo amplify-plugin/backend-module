@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
+namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Http\Requests\UserRequest;

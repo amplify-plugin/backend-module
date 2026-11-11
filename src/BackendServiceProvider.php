@@ -44,6 +44,11 @@ class BackendServiceProvider extends ServiceProvider
         $this->app->register(AmplifyServiceProvider::class);
 
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->bind(
+            \Backpack\CRUD\app\Http\Controllers\Auth\LoginController::class,
+            \Amplify\System\Backend\Http\Controllers\Admin\Auth\LoginController::class
+        );
     }
 
     /**

@@ -34,44 +34,6 @@ class UserCrudController extends BackpackCustomCrudController
 
     public function setupListOperation()
     {
-        CRUD::column('id');
-
-        CRUD::addColumns([
-            [
-                'name' => 'image',
-                'label' => 'Image',
-                'type' => 'image',
-                'width' => '60px',
-                'height' => '60px',
-                'border' => '2px solid #ed6816a1',
-                'border-radius' => '50% !imoprtant',
-            ],
-            [
-                'name' => 'name',
-                'label' => 'Name',
-                'type' => 'text',
-            ],
-            [
-                'name' => 'email',
-                'label' => 'Email',
-                'type' => 'email',
-            ],
-            [
-                'name' => 'enabled',
-                'type' => 'boolean',
-                'label' => 'Enabled',
-                'default' => true,
-            ],
-            [ // n-n relationship (with pivot table)
-                'label' => 'Role(s)', // Table column heading
-                'type' => 'select_multiple',
-                'name' => 'roles', // the method that defines the relationship in your Model
-                'entity' => 'roles', // the method that defines the relationship in your Model
-                'attribute' => 'name', // foreign key attribute that is shown to user
-                'model' => config('permission.models.role'), // foreign key model
-            ],
-        ]);
-
         CRUD::addFilter(
             [
                 'name' => 'role',
@@ -103,10 +65,56 @@ class UserCrudController extends BackpackCustomCrudController
                 });
             }
         );
+
+        CRUD::addColumns([
+            [
+                'name' => 'name',
+                'label' => 'Name',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'image',
+                'label' => 'Image',
+                'type' => 'image',
+                'width' => '60px',
+                'height' => '60px',
+                'border' => '2px solid #ed6816a1',
+                'border-radius' => '30px !important',
+            ],
+            [
+                'name' => 'type',
+                'label' => 'Type',
+                'type' => 'select_from_array',
+                'options' => User::USER_TYPES
+            ],
+            [
+                'name' => 'email',
+                'label' => 'Email',
+                'type' => 'email',
+            ],
+            [
+                'name' => 'enabled',
+                'type' => 'boolean',
+                'label' => 'Enabled',
+                'default' => true,
+            ],
+            [ // n-n relationship (with pivot table)
+                'label' => 'Role(s)', // Table column heading
+                'type' => 'select_multiple',
+                'name' => 'roles', // the method that defines the relationship in your Model
+                'entity' => 'roles', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => config('permission.models.role'), // foreign key model
+            ],
+        ]);
     }
 
     public function setupCreateOperation()
     {
+        CRUD::setCreateContentClass('col-md-12');
+
+        CRUD::setValidation(UserRequest::class);
+
         CRUD::addFields([
             [
                 'name' => 'password_reset_required',
@@ -160,19 +168,23 @@ class UserCrudController extends BackpackCustomCrudController
                 'name' => 'api_token',
                 'label' => 'API Token',
                 'type' => 'show_hide_token',
+                'attributes' => [
+                    'readonly' => 'readonly',
+                ],
             ],
             [
                 'name' => 'enabled',
-                'type' => 'checkbox',
+                'type' => 'radio',
                 'label' => 'Enabled?',
-                'value' => true,
+                'default' => '1',
+                'inline' => true,
+                'options' => [
+                    '1' => 'Yes',
+                    '0' => 'No',
+                ],
                 'hint' => 'Note: If disabled, user will be restricted to login to system.',
             ],
         ]);
-
-        CRUD::setCreateContentClass('col-md-12');
-
-        CRUD::setValidation(UserRequest::class);
     }
 
     public function setupUpdateOperation()

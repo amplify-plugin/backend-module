@@ -126,8 +126,8 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('threshold-range', 'ThresholdRangeCrudController');
     Route::crud('industry-classification', 'IndustryClassificationCrudController');
     Route::crud('customer-address', 'CustomerAddressCrudController');
-    Route::crud('customer-role', 'Auth\CustomerRoleCrudController');
-    Route::crud('customer-permission', 'Auth\CustomerPermissionCrudController');
+    Route::crud('customer-role', 'CustomerRoleCrudController');
+    Route::crud('customer-permission', 'CustomerPermissionCrudController');
     Route::crud('user', 'UserCrudController');
     Route::crud('role', 'RoleCrudController');
     Route::crud('permission', 'PermissionCrudController');
@@ -170,46 +170,82 @@ Route::group(['namespace' => 'Amplify\System\Backend\Http\Controllers\Admin'], f
     Route::crud('report-setting', 'Settings\ReportSettingController');
     Route::crud('export-setting', 'Settings\ExportSettingController');
     Route::crud('cart', 'CartCrudController');
-});
 
-Route::get('failed-job/{id}/retry', [FailedJobCrudController::class, 'retry']);
-/*
+    Route::get('failed-job/{id}/retry', [FailedJobCrudController::class, 'retry']);
+    /*
+    |--------------------------------------------------------------------------
+    | Site active/deactivate routes
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(SiteCrudController::class)->prefix('site')->group(function () {
+        Route::get('{id}/deactivate', 'deactivate');
+        Route::get('{id}/activate', 'activate');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Site cache clear
+    |--------------------------------------------------------------------------
+    */
+    Route::post('clear-cache', function (Request $request) {
+        try {
+
+            Artisan::call('optimize:clear');
+
+            Log::debug(Artisan::output());
+
+            Auth::guard(backpack_guard_name())->logout();
+
+            $request->session()->invalidate();
+
+            $request->session()->regenerateToken();
+
+            cacheAll();
+
+            return response()->json(['message' => 'Cache clear successfully. You may need to re-logged in.', 'success' => true]);
+
+        } catch (Exception $exception) {
+
+            return response()->json(['message' => $exception->getMessage(), 'success' => false]);
+        }
+    })->name('clear-cache.clear');
+
+    /*
 |--------------------------------------------------------------------------
-| Site active/deactivate routes
+| Product Crud routes
 |--------------------------------------------------------------------------
 */
-Route::controller(SiteCrudController::class)->prefix('site')->group(function () {
-    Route::get('{id}/deactivate', 'deactivate');
-    Route::get('{id}/activate', 'activate');
+    Route::controller(ProductCrudController::class)->prefix('product')->group(function () {
+        Route::post('upload_image', 'uploadImage');
+        Route::post('upload_document', 'uploadDocument');
+        Route::post('remove_image', 'removeImage');
+        Route::post('remove_document', 'removeDocument');
+        Route::post('sku/create', 'storeSKUProduct');
+        Route::post('sku/update', 'updateSKUProduct');
+        Route::group(['as' => 'product.'], function () {
+            Route::get(
+                'status-update/{product}/{status}/{previous_status}',
+                'statusUpdate'
+            )->name('status-update');
+            Route::get(
+                'remove-from-archive/{product}/{status}/{previous_status}',
+                'statusUpdate'
+            )->name('remove.archive');
+        });
+        Route::post('update-pivot-table', 'updatePivotTable');
+        Route::match(['POST', 'PUT'], 'custom/save', 'save');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Customer group related routes
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(CustomerGroupCrudController::class)->prefix('customer-group')->group(function () {
+        Route::post('add-customer-to-group', 'addCustomerToGroup');
+        Route::post('remove-customer-from-group', 'removeCustomerFromGroup');
+    });
 });
-
-/*
-|--------------------------------------------------------------------------
-| Site cache clear
-|--------------------------------------------------------------------------
-*/
-Route::post('clear-cache', function (Request $request) {
-    try {
-
-        Artisan::call('optimize:clear');
-
-        Log::debug(Artisan::output());
-
-        Auth::guard(backpack_guard_name())->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        cacheAll();
-
-        return response()->json(['message' => 'Cache clear successfully. You may need to re-logged in.', 'success' => true]);
-
-    } catch (Exception $exception) {
-
-        return response()->json(['message' => $exception->getMessage(), 'success' => false]);
-    }
-})->name('clear-cache.clear');
 
 /*
 |--------------------------------------------------------------------------
@@ -219,42 +255,6 @@ Route::post('clear-cache', function (Request $request) {
 Route::controller(ClassificationCrudController::class)->prefix('product-classification')->group(function () {
     Route::get('check-use-product/{product_classification}', 'checkUseInProducts');
     Route::post('update-pivot-table', 'updatePivotTable');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Product Crud routes
-|--------------------------------------------------------------------------
-*/
-Route::controller(ProductCrudController::class)->prefix('product')->group(function () {
-    Route::post('upload_image', 'uploadImage');
-    Route::post('upload_document', 'uploadDocument');
-    Route::post('remove_image', 'removeImage');
-    Route::post('remove_document', 'removeDocument');
-    Route::post('sku/create', 'storeSKUProduct');
-    Route::post('sku/update', 'updateSKUProduct');
-    Route::group(['as' => 'product.'], function () {
-        Route::get(
-            'status-update/{product}/{status}/{previous_status}',
-            'statusUpdate'
-        )->name('status-update');
-        Route::get(
-            'remove-from-archive/{product}/{status}/{previous_status}',
-            'statusUpdate'
-        )->name('remove.archive');
-    });
-    Route::post('update-pivot-table', 'updatePivotTable');
-    Route::match(['POST', 'PUT'], 'custom/save', 'save');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Customer group related routes
-|--------------------------------------------------------------------------
-*/
-Route::controller(CustomerGroupCrudController::class)->prefix('customer-group')->group(function () {
-    Route::post('add-customer-to-group', 'addCustomerToGroup');
-    Route::post('remove-customer-from-group', 'removeCustomerFromGroup');
 });
 
 /*

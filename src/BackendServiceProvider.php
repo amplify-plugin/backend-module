@@ -54,6 +54,11 @@ class BackendServiceProvider extends ServiceProvider
             \Backpack\CRUD\app\Http\Controllers\Auth\ForgotPasswordController::class,
             \Amplify\System\Backend\Http\Controllers\Admin\Auth\ForgotPasswordController::class
         );
+
+        $this->app->bind(
+            \Backpack\CRUD\app\Http\Controllers\MyAccountController::class,
+            \Amplify\System\Backend\Http\Controllers\Admin\Auth\MyAccountController::class
+        );
     }
 
     /**

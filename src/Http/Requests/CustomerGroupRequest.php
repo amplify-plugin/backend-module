@@ -24,27 +24,28 @@ class CustomerGroupRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [];
-        $rules['group_code'] = 'required|string|min:3|max:255';
+        $rules['group_code'] = 'required|string|min:3|max:255|unique:customer_groups,group_code,' . $this->input('id');
         $rules['group_name'] = 'required|string|min:3|max:255';
         $rules['group_pricing_type'] = 'required|string';
         $rules['category_id'] = 'nullable|integer|exists:categories,id';
         $rules['users'] = 'nullable|array';
         $rules['users.*'] = 'integer|exists:users,id';
-        if (request()->pricing_rules && request()->pricing_rules['flat_discount']) {
-            $rules['pricing_rules.flat_discount_pricing_rules.*.discount'] = 'required';
-            $rules['pricing_rules.flat_discount_pricing_rules.*.categories'] = 'required';
-        }
-        if (request()->pricing_rules && request()->pricing_rules['volume_discount']) {
-            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts'] = 'required';
-            $rules['pricing_rules.volume_discount_pricing_rules.*.categories'] = 'required';
-            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.min']      = 'required';
-            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.max']      = 'required';
-            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.discount'] = 'required';
-        }
-        if (request()->pricing_rules && request()->pricing_rules['order_value_discount']) {
-            $rules['pricing_rules.order_value_discount_pricing_rules'] = 'required';
-        }
+        $rules['customers'] = 'nullable|array';
+        $rules['customers.*'] = 'integer|exists:customers,id';
+//        if (request()->pricing_rules && request()->pricing_rules['flat_discount']) {
+//            $rules['pricing_rules.flat_discount_pricing_rules.*.discount'] = 'required';
+//            $rules['pricing_rules.flat_discount_pricing_rules.*.categories'] = 'required';
+//        }
+//        if (request()->pricing_rules && request()->pricing_rules['volume_discount']) {
+//            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts'] = 'required';
+//            $rules['pricing_rules.volume_discount_pricing_rules.*.categories'] = 'required';
+//            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.min']      = 'required';
+//            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.max']      = 'required';
+//            //            $rules['pricing_rules.volume_discount_pricing_rules.*.discounts.*.discount'] = 'required';
+//        }
+//        if (request()->pricing_rules && request()->pricing_rules['order_value_discount']) {
+//            $rules['pricing_rules.order_value_discount_pricing_rules'] = 'required';
+//        }
 
         return $rules;
     }

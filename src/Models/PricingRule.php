@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Backend\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class PricingRule extends Model implements Auditable
 {
-    use HasFactory;
+    use CrudTrait;
     use \OwenIt\Auditing\Auditable;
 
     protected $table = 'pricing_rules';

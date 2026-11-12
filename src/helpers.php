@@ -35,7 +35,7 @@ if (!function_exists('backend_permissions')) {
             'catalog' => 'l,c,u,d',
             'category' => 'l,c,u,d,ro',
             'classification' => 'l,c,u,d,ro',
-            'product' => 'l,c,u,d,remove-sku,publish,unpublish,add-image-to-products',
+            'product' => 'l,c,u,d,remove-sku,publish,unpublish,add-image-to-products,tab-basic-info,tab-attributes,tab-pricing,tab-media,tab-documents,tab-seo,tab-features-and-specifications,tab-extra-data,tab-skus,tab-products,tab-options',
             'attribute' => 'l,c,u,d',
             'option' => 'l,c,u,d',
             'document-type' => 'l,c,u,d',

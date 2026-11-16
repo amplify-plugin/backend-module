@@ -233,11 +233,10 @@ class SynchronizationCrudController extends BackpackCustomCrudController
     {
         $status = null;
         try {
-            if ($request->has('selection') && $request->input('selection') == 'selected') {
-                $productSyncList = array_values($request->entries);
-                $status = 'selected';
-            } elseif ($request->has('selection') && $request->input('selection') == 'all') {
+            if ($request->filled('selection')) {
                 $productSyncList = [0 => 'all'];
+            } else if ($request->filled('entries')) {
+                $productSyncList = array_values($request->input('entries'));
             }
 
             if (!empty($productSyncList)) {

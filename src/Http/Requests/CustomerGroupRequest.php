@@ -3,6 +3,7 @@
 namespace Amplify\System\Backend\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerGroupRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class CustomerGroupRequest extends FormRequest
      */
     public function rules()
     {
-        $rules['group_code'] = 'required|string|min:3|max:255|unique:customer_groups,group_code,' . $this->input('id');
+        $rules['group_code'] = 'required|string|min:3|max:255|unique:customer_groups,group_code,' . $this->route('id');
         $rules['group_name'] = 'required|string|min:3|max:255';
         $rules['group_pricing_type'] = 'required|string';
         $rules['category_id'] = 'nullable|integer|exists:categories,id';

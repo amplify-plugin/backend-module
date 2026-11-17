@@ -152,6 +152,8 @@ if (!function_exists('backend_permissions')) {
             'event' => 'l,c,u,d',
             'event-type' => 'l,c,u,d',
 
+            //System
+            'system' => 'cache-clear',
 
             //OLD Permission Unused
             /*            'system-config' => 'u,cache-clear',

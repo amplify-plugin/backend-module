@@ -183,7 +183,7 @@ class Category extends Model implements ContractsAuditable
                         return '';
                     }
 
-                    $value = preg_replace('/[^a-zA-Z0-9-]+/', $separator, $value);
+                    $value = preg_replace('/[^a-zA-Z0-9-.]+/', $separator, $value);
                     $value = preg_replace("/{$separator}+/", $separator, $value);
 
                     return trim(trim($value, $separator));

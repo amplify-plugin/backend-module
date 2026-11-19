@@ -20,14 +20,19 @@
 <script>
 export default {
     name: "SwitchTabs",
-  computed : {
-    hasNavigation() {
-      return Object
-          .values(this.$parent.permissions)
-          .filter(Boolean)
-          .length > 1;
-    }
-  }
+    computed: {
+        hasNavigation() {
+            const permissions = this.$parent && this.$parent.permissions;
+
+            if (permissions && typeof permissions === 'object' && !Array.isArray(permissions)) {
+                return Object.values(permissions).filter(Boolean).length > 1;
+            }
+
+            const tabs = (this.$parent && this.$parent.tabs) || {};
+
+            return Object.keys(tabs).length > 1;
+        },
+    },
 }
 </script>
 <style scoped>

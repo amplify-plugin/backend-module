@@ -30,7 +30,7 @@ class RoleStoreCrudRequest extends FormRequest
             'name' => [
                 'required','string', 'max:255',
                 Rule::unique(config('permission.table_names.roles', 'roles'), 'name')
-                    ->where(fn ($query) => $query->where('guard_name', User::AUTH_GUARD))
+                    ->where(fn ($query) => $query->where('guard_name', backpack_guard_name()))
             ]
         ];
     }

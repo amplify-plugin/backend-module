@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
             'password_reset_required' => 'nullable|boolean',
             'roles' => ['nullable', 'array', 'min:1'],
             'roles.*' => ['integer', Rule::exists('roles', 'id')->where(function ($query) {
-                $query->where('guard_name', User::AUTH_GUARD);
+                $query->where('guard_name', backpack_guard_name());
             })],
             'permissions' => 'nullable',
             'type' => 'string|nullable',

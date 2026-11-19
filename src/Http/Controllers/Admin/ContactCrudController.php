@@ -1119,7 +1119,7 @@ class ContactCrudController extends BackpackCustomCrudController
             return redirect()->back()->with('message', 'This contact is disabled. Impersonating is not allowed.');
         }
 
-        $initiatedBy = Auth::guard(User::AUTH_GUARD)->user();
+        $initiatedBy = Auth::guard(backpack_guard_name())->user();
 
         Auth::guard(Contact::AUTH_GUARD)->logout();
 

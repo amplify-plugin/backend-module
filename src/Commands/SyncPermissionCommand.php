@@ -35,20 +35,20 @@ class SyncPermissionCommand extends Command
 
             $this->aliases = config('permission.seeder.aliases', []);
 
-            $this->insertOrIgnorePermission('backend', User::AUTH_GUARD);
+            $this->insertOrIgnorePermission('backend', backpack_guard_name());
 
             $roleHasPermissionTable = config('permission.table_names.role_has_permissions');
 
             $permissionTable = config('permission.table_names.permissions');
 
             if ($role = Role::whereName('Super Admin')
-                ->whereGuardName(User::AUTH_GUARD)
+                ->whereGuardName(backpack_guard_name())
                 ->whereTeamId(User::SYSTEM_TEAM_ID)
                 ->first()) {
                 DB::statement("
     INSERT IGNORE INTO {$roleHasPermissionTable} (`permission_id`, `role_id`)
     SELECT `id`, {$role->id}
-    FROM {$permissionTable} WHERE guard_name = '" . User::AUTH_GUARD . "'");
+    FROM {$permissionTable} WHERE guard_name = '" . backpack_guard_name() . "'");
             }
 
             if (config('amplify.basic.is_permission_system_enabled', false) == true) {

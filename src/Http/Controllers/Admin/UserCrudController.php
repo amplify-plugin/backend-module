@@ -41,7 +41,7 @@ class UserCrudController extends BackpackCustomCrudController
                 'label' => 'Role',
             ],
             Role::where('team_id', '=', getPermissionsTeamId())
-                ->where('guard_name', '=', User::AUTH_GUARD)
+                ->where('guard_name', '=', backpack_guard_name())
                 ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
@@ -154,7 +154,7 @@ class UserCrudController extends BackpackCustomCrudController
                 'type' => 'select2_multiple',
                 'name' => 'roles',
                 'options' => function () {
-                    return Role::where('guard_name', '=', User::AUTH_GUARD)->get();
+                    return Role::where('guard_name', '=', backpack_guard_name())->get();
                 },
             ],
             [

@@ -38,7 +38,7 @@ class RoleCrudController extends BackpackCustomCrudController
     public function setup()
     {
         $this->permission_model = Permission::class;
-        $this->guard_name = User::AUTH_GUARD;
+        $this->guard_name = backpack_guard_name();
 
         CRUD::setModel(Role::class);
         CRUD::setEntityNameStrings('role', 'roles');
@@ -95,7 +95,7 @@ class RoleCrudController extends BackpackCustomCrudController
             [
                 'name' => 'guard_name',
                 'type' => 'hidden',
-                'value' => 'web',
+                'value' => backpack_guard_name(),
             ],
             [
                 'name' => 'team_id',
@@ -108,7 +108,7 @@ class RoleCrudController extends BackpackCustomCrudController
                 'name' => 'permissions',
                 'model' => $this->permission_model,
                 'options' => function () {
-                    return $this->permission_model::where('guard_name', 'web')->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
+                    return $this->permission_model::where('guard_name', backpack_guard_name())->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
                 },
             ],
         ]);

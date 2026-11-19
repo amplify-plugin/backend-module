@@ -33,7 +33,7 @@ class PermissionCrudController extends BackpackCustomCrudController
         $this->crud->setRoute(backpack_url('permission'));
         $this->crud->setEntityNameStrings('permission', 'permissions');
 
-        $this->guard_name = User::AUTH_GUARD;
+        $this->guard_name = backpack_guard_name();
 
         $this->crud->addBaseClause('where', 'guard_name', $this->guard_name);
 

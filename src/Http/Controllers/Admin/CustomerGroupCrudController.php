@@ -7,27 +7,15 @@ use Amplify\System\Backend\Http\Requests\CustomerGroupRequest;
 use Amplify\System\Backend\Models\Category;
 use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Backend\Models\CustomerGroup;
-use Amplify\System\Backend\Models\FlatDiscount;
-use Amplify\System\Backend\Models\OrderValueDiscount;
-use Amplify\System\Backend\Models\OrderValueDiscountDetail;
-use Amplify\System\Backend\Models\PricingRule;
 use Amplify\System\Backend\Models\User;
-use Amplify\System\Backend\Models\VolumeDiscount;
-use Amplify\System\Backend\Models\VolumeDiscountDetail;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 /**
  * Class CustomerGroupCrudController

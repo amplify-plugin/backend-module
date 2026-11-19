@@ -10,6 +10,12 @@ use Prologue\Alerts\Facades\Alert;
 
 class LoginController extends BackpackLoginController
 {
+    public function __construct()
+    {
+        $this->redirectTo = '/admin/dashboard';
+
+        parent::__construct();
+    }
 
     /**
      * @param Request $request

@@ -3,16 +3,16 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin;
 
 use Amplify\System\Abstracts\BackpackCustomCrudController;
-use Amplify\System\Backend\Http\Requests\AttributeRequest;
 use Amplify\System\Backend\Exports\AttributeValueExport;
+use Amplify\System\Backend\Http\Requests\AttributeRequest;
 use Amplify\System\Backend\Models\Attribute;
 use Amplify\System\Backend\Models\AttributeProduct;
 use Amplify\System\Backend\Traits\BulkExportOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\InlineCreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;

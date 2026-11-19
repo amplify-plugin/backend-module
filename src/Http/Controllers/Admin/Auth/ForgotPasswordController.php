@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
-use Illuminate\Http\Request;
 use Backpack\CRUD\app\Http\Controllers\Auth\ForgotPasswordController as BackpackForgotPasswordController;
+use Illuminate\Http\Request;
 
 class ForgotPasswordController extends BackpackForgotPasswordController
 {

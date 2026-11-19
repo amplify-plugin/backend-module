@@ -3,8 +3,8 @@
 namespace Amplify\System\Backend\Http\Controllers\Admin\Auth;
 
 use Alert;
-use Backpack\CRUD\app\Http\Requests\AccountInfoRequest;
 use Backpack\CRUD\app\Http\Controllers\MyAccountController as BackpackMyAccountController;
+use Backpack\CRUD\app\Http\Requests\AccountInfoRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class MyAccountController extends BackpackMyAccountController

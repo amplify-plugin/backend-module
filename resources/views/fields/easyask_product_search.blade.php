@@ -23,8 +23,8 @@
         data-dependencies="{{ isset($field['dependencies'])?json_encode(Arr::wrap($field['dependencies'])): json_encode([]) }}"
         data-placeholder="{{ $field['placeholder'] }}"
         data-minimum-input-length="{{ $field['minimum_input_length'] }}"
-        data-data-source="{{ route('sayt.search') }}"
-        data-method="{{ 'GET' }}"
+        data-data-source="{{ backpack_url('product/fetch/easy-ask-products') }}"
+        data-method="{{ 'POST' }}"
         data-field-attribute="{{ 'Product_Name' }}"
         data-connected-entity-key-name="{{ $connected_entity_key_name }}"
         data-include-all-form-fields="{{ isset($field['include_all_form_fields']) ? ($field['include_all_form_fields'] ? 'true' : 'false') : 'false' }}"
@@ -99,6 +99,7 @@
     <script>
     function bpFieldInitEasyAskProductSearchElement(element) {
         var form = element.closest('form');
+        var catPath = '{{ \Amplify\System\Sayt\Facade\Sayt::getDefaultCatPath() }}/-';
         var $placeholder = element.attr('data-placeholder');
         var $minimumInputLength = element.attr('data-minimum-input-length');
         var $dataSource = element.attr('data-data-source');
@@ -112,7 +113,7 @@
         var $isFieldInline = element.data('field-is-inline');
         var $fieldCleanName = element.attr('data-repeatable-input-name') ?? element.attr('name');
 
-        // do not initialise select2s that have already been initialised
+        // do not initialize select2 that have already been initialized
         if ($(element).hasClass("select2-hidden-accessible"))
         {
             return;
@@ -133,8 +134,7 @@
                 data: function (params) {
                     if ($includeAllFormFields) {
                         return {
-                            q: params.term, // search term
-                            search: '1',
+                            site_search: catPath + params.term, // search term
                             per_page: '{{ getPaginationLengths()[0] }}',
                             page: params.page, // pagination
                             form: form.serializeArray(), // all other form inputs
@@ -146,7 +146,7 @@
                         };
                     } else {
                         return {
-                            q: params.term, // search term
+                            site_search: catPath + params.term, // search term
                             search: '1',
                             per_page: '{{ getPaginationLengths()[0] }}',
                             page: params.page, // pagination
@@ -160,9 +160,9 @@
                     //otherwise we returned one or more entries unpaginated.
                     let paginate = false;
 
-                    if (data.data) {
+                    if (data.products) {
                         paginate = data.next_page_url !== null;
-                        data = data.data;
+                        data = data.products.items;
                     }
 
                     return {
